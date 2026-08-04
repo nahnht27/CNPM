@@ -2,8 +2,6 @@
 
 Nền tảng kết nối cộng đồng nhiếp ảnh phim với các dịch vụ phòng tối và phòng chụp.
 
----
-
 ## I. Tổng quan dự án
 
 ### Mục tiêu
@@ -22,8 +20,6 @@ Phạm vi dự án bao gồm các chức năng chính:
 * Hỗ trợ tương tác cộng đồng thông qua chia sẻ bài viết, kinh nghiệm, kỹ thuật nhiếp ảnh phim và thông tin workshop
 * Hỗ trợ AI cho gợi ý dịch vụ và cải thiện ảnh phim
 
----
-
 ## II. Các main-flow chính
 
 * Đăng ký / đăng nhập người dùng
@@ -36,12 +32,8 @@ Phạm vi dự án bao gồm các chức năng chính:
 * Đăng bài chia sẻ kinh nghiệm, kỹ thuật nhiếp ảnh phim và thông tin workshop cộng đồng
 * Hỗ trợ AI cho gợi ý không gian, thiết bị, tìm kiếm thông minh và cải thiện chất lượng ảnh phim số hóa
 
----
-
 ## III. Công nghệ triển khai
 
-
----
 
 ## IV. Các tasks chính
 
@@ -54,11 +46,9 @@ Phạm vi dự án bao gồm các chức năng chính:
 * Tích hợp AI hỗ trợ gợi ý không gian, thiết bị và tìm kiếm thông minh
 * Kiểm thử chức năng, kiểm thử tích hợp và tối ưu hiệu năng hệ thống
 * Triển khai hệ thống và xây dựng tài liệu SRS / báo cáo Capstone
----
 
 ## V. Cấu trúc dự án
 
-```
 
 
 
