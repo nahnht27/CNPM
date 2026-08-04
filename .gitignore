@@ -156,6 +156,17 @@ vite.config.ts.timestamp-*
 *.fls
 *.config
 *.log
+*.dvi
+*.ps
+*.xdv
+*.nav
+*.snm
+*.vrb
+*.idx
+*.ilg
+*.ind
+*.bcf
+*.run.xml
 
 # macOS / editor noise
 .DS_Store
