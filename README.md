@@ -38,7 +38,7 @@ Phạm vi dự án bao gồm các chức năng chính:
 ## IV. Các tasks chính
 
 * Phân tích yêu cầu hệ thống và xác định các nghiệp vụ chính
-* * Xây dựng các sơ đồ phân tích thiết kế hệ thống, bao gồm **Feature Decomposition Diagram (FDD), Use Case Diagram, Activity Diagram, Sequence Diagram và Database Diagram (ERD)**
+* Xây dựng các sơ đồ phân tích thiết kế hệ thống, bao gồm **Feature Decomposition Diagram (FDD), Use Case Diagram, Activity Diagram, Sequence Diagram và Database Diagram (ERD)**
 * Thiết kế kiến trúc phần mềm, cơ sở dữ liệu và API backend
 * Phát triển ứng dụng Flutter cho nhiếp ảnh gia
 * Phát triển cổng web cho nhà cung cấp dịch vụ và quản trị viên
