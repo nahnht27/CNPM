@@ -68,7 +68,23 @@
 \title{\Huge \textbf{BÁO CÁO ĐỒ ÁN CÔNG NGHỆ PHẦN MỀM} \\ \huge Nền tảng kết nối cộng đồng nhiếp ảnh phim với các dịch vụ phòng tối và phòng chụp}
 % Author
 \author{\textsc{Nhóm: [Tên nhóm]}}
-
+% =========================
+% Đánh số Chapter và Section
+% =========================
+\renewcommand{\thechapter}{\Roman{chapter}}
+\renewcommand{\thesection}{\arabic{section}}
+% =========================
+% Chỉnh Chapter
+% =========================
+\makeatletter
+\renewcommand{\@makechapterhead}[1]{%
+	\vspace*{50\p@}%
+	{\parindent \z@ \raggedright
+		\normalfont
+		\huge\bfseries \thechapter.\ #1\par\nobreak
+		\vskip 40\p@
+}}
+\makeatother
 \begin{document}
 
 \frontmatter
