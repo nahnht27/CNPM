@@ -21,6 +21,10 @@ from api.controllers.service_package_controller import bp as service_package_bp
 from api.controllers.service_provider_controller import bp as service_provider_bp
 from api.controllers.workshop_controller import bp as workshop_bp
 
+from api.controllers.report_controller import bp as report_bp
+from api.controllers.amenity_controller import bp as amenity_bp
+from api.controllers.ai_configuration_controller import bp as ai_configuration_bp
+
 from api.middleware import middleware
 from api.responses import success_response
 from infrastructure.databases import init_db
@@ -50,6 +54,9 @@ def create_app():
     app.register_blueprint(service_package_bp)
     app.register_blueprint(service_provider_bp)
     app.register_blueprint(workshop_bp) 
+    app.register_blueprint(report_bp)      
+    app.register_blueprint(amenity_bp)   
+    app.register_blueprint(ai_configuration_bp) 
     # register_routes(app)
      # Thêm Swagger UI blueprint
     SWAGGER_URL = '/docs'
