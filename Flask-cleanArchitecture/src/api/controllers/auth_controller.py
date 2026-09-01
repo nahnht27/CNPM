@@ -88,7 +88,7 @@ def login():
     user = auth_service.login(username, password)
 
     if not user:
-        return jsonify({'error': 'Invalid credentials'}), 401
+        return jsonify({'error': 'Thông tin đăng nhập không chính xác.'}), 401
 
     payload = {
         'user_id': user.id,

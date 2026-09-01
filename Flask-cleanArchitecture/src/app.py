@@ -1,7 +1,7 @@
 import traceback
 
 from flask import Flask, jsonify
-# from api.routes import register_routes
+from flask_cors import CORS
 from api.swagger import spec
 from api.controllers.auth_controller import auth_bp as auth_bp
 
@@ -26,11 +26,9 @@ from api.controllers.amenity_controller import bp as amenity_bp
 from api.controllers.ai_configuration_controller import bp as ai_configuration_bp
 
 from api.middleware import middleware
-from api.responses import success_response
 from infrastructure.databases import init_db
 from config import Config
 from flasgger import Swagger
-from config import SwaggerConfig
 from flask_swagger_ui import get_swaggerui_blueprint
 
 
@@ -38,7 +36,8 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
     Swagger(app)
-    # Đăng ký blueprint trước
+
+    # Register blueprints
     app.register_blueprint(auth_bp)
     app.register_blueprint(booking_bp)
     app.register_blueprint(category_bp)
@@ -54,35 +53,36 @@ def create_app():
     app.register_blueprint(role_bp)
     app.register_blueprint(service_package_bp)
     app.register_blueprint(service_provider_bp)
-    app.register_blueprint(workshop_bp) 
-    app.register_blueprint(report_bp)      
-    app.register_blueprint(amenity_bp)   
-    app.register_blueprint(ai_configuration_bp) 
-    # register_routes(app)
-     # Thêm Swagger UI blueprint
-    SWAGGER_URL = '/docs'
-    API_URL = '/swagger.json'
-    swaggerui_blueprint = get_swaggerui_blueprint(
-        SWAGGER_URL,
-        API_URL,
-        config={'app_name': "Film Photography Service Platform API"}
+    app.register_blueprint(workshop_bp)
+    app.register_blueprint(report_bp)
+    app.register_blueprint(amenity_bp)
+    app.register_blueprint(ai_configuration_bp)
+
+    # Custom middleware
+    middleware(app)
+
+    # CORS for the local frontend (Live Server)
+    CORS(
+        app,
+        resources={r"/*": {
+            "origins": [
+                "http://127.0.0.1:5500",
+                "http://localhost:5500",
+            ]
+        }},
+        methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        allow_headers=["Content-Type", "Authorization", "Accept"],
+        supports_credentials=False,
     )
-    app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
-
-
-    try: 
+    try:
         init_db(app)
     except Exception:
         traceback.print_exc()
 
-    # Register middleware
-    middleware(app)
-
-    # Register routes
+    # Build OpenAPI/Swagger paths
     with app.test_request_context():
         for rule in app.url_map.iter_rules():
-
             if rule.endpoint in (
                 "static",
                 "swagger.static",
@@ -92,24 +92,28 @@ def create_app():
 
             try:
                 view_func = app.view_functions[rule.endpoint]
-
-                print(
-                    f"Adding path: {rule.rule} -> {view_func}"
-                )
-
+                print(f"Adding path: {rule.rule} -> {view_func}")
                 spec.path(view=view_func)
-
             except Exception as e:
                 print(f"Skip {rule.rule}: {e}")
-            
+
     @app.route("/swagger.json")
     def swagger_json():
         return jsonify(spec.to_dict())
 
+    # Swagger UI
+    SWAGGER_URL = "/docs"
+    API_URL = "/swagger.json"
+    swaggerui_blueprint = get_swaggerui_blueprint(
+        SWAGGER_URL,
+        API_URL,
+        config={"app_name": "Film Photography Service Platform API"},
+    )
+    app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
+
     return app
-# Run the application
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     app = create_app()
-    app.run(host='0.0.0.0', port=9999, debug=True)
-
+    app.run(host="0.0.0.0", port=9999, debug=True)
