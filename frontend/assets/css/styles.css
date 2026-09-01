@@ -292,7 +292,7 @@ button,input,select{
 .photo-1{
   width:220px;
   height:220px;
-  right:22px;
+  right:-220px;
   top:22px;
   background-image:url("../images/1.jpe");
 }
@@ -300,23 +300,23 @@ button,input,select{
 .photo-2{
   width:200px;
   height:200px;
-  left:26px;
-  top:58px;
+  left:226px;
+  top:-30px;
   background-image:url("../images/2.webp");
 }
 
 .photo-3{
   width:310px;
   height:310px;
-  left:120px;
-  bottom:-40px;
+  left:220px;
+  bottom:-45px;
   background-image:url("../images/3.png");
 }
 
 .photo-4{
   width:118px;
   height:118px;
-  right:48px;
+  right:-200px;
   bottom:44px;
   background-image:url("../images/4.jpe");
 }
@@ -531,6 +531,22 @@ button,input,select{
   .studio-grid{
     grid-template-columns:1fr;
   }
+}
+
+.search-input{
+  width:100%;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:var(--text);
+  font-size:12px;
+  font-weight:600;
+  padding:0;
+}
+
+.search-input::placeholder{
+  color:#777;
+  opacity:1;
 }
 
 /* =========================

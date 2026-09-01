@@ -43,27 +43,41 @@
             </p>
 
             <div class="search-box">
-              <div class="search-item">
-                <div class="search-icon">⌖</div>
-                <div class="search-text">
-                  <div class="search-label">Vị trí của bạn</div>
-                  <div class="search-value">Bình Thạnh</div>
-                </div>
-              </div>
 
-              <div class="search-item">
-                <div class="search-icon">⌕</div>
-                <div class="search-text">
-                  <div class="search-label">Bạn đang tìm gì?</div>
-                  <div class="search-value">Phòng Phim</div>
-                </div>
-              </div>
+  <!-- Vị trí -->
+  <div class="search-item">
+    <div class="search-icon">⌖</div>
+    <div class="search-text">
+      <div class="search-label">Vị trí của bạn</div>
+      <input
+        type="text"
+        id="locationInput"
+        class="search-input"
+        placeholder="Bình Thạnh"
+      >
+    </div>
+  </div>
 
-              <button class="search-btn" type="button"
-              onclick="window.location.href='photographer/search.html'">Search</button>
-            </div>
+  <!-- Tìm kiếm -->
+  <div class="search-item">
+    <div class="search-icon">⌕</div>
+    <div class="search-text">
+      <div class="search-label">Bạn đang tìm gì?</div>
+      <input
+        type="text"
+        id="searchInput"
+        class="search-input"
+        placeholder="Darkroom, studio"
+      >
+    </div>
+  </div>
+
+  <button class="search-btn" type="button" onclick="searchServices()">
+    Search
+  </button>
+
+</div>
           </div>
-        </div>
 
         <div class="hero-art">
           <div class="hero-dot dot-a"></div>
@@ -185,6 +199,25 @@
   </div>
 </footer>
 
+<script>
+function searchServices() {
+  const location = document.getElementById("locationInput").value.trim();
+  const keyword = document.getElementById("searchInput").value.trim();
+
+  const params = new URLSearchParams();
+
+  if (location) {
+    params.set("location", location);
+  }
+
+  if (keyword) {
+    params.set("keyword", keyword);
+  }
+
+  window.location.href =
+    "photographer/search.html?" + params.toString();
+}
+</script>
 
 </body>
 </html>
