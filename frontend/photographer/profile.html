@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photographer - Profile | FilmSpace</title>
+
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/photographer-profile.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="mainNavbar">
+    <div class="navbar-container container">
+      <a class="logo" href="home.html" aria-label="FilmSpace">FilmSpace</a>
+
+      <div class="menu" aria-label="Photographer navigation">
+        <a href="home.html">Home</a>
+        <a href="search.html">Search</a>
+        <a href="booking.html">Bookings</a>
+        <a href="workshops.html">Workshops</a>
+        <a href="profile.html" class="active">Profile</a>
+      </div>
+
+      <div class="nav-actions">
+        <span class="photographer-nav-name" id="navPhotographerName">Photographer</span>
+        <button type="button" class="photographer-logout" onclick="logout()">Đăng xuất</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="profile-page">
+    <section class="profile-header">
+      <div class="container">
+        <div class="profile-heading">
+          <div>
+            <span class="profile-kicker">PHOTOGRAPHER PROFILE</span>
+            <h1>Hồ sơ cá nhân</h1>
+            <p>Quản lý thông tin cá nhân và hồ sơ của bạn.</p>
+          </div>
+          <button type="button" class="edit-profile-btn" id="editBtn" onclick="enableEdit()">
+            Chỉnh sửa hồ sơ
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="profile-content">
+      <div class="container">
+        <div class="profile-layout">
+
+          <!-- PROFILE SUMMARY -->
+          <aside class="profile-card profile-summary-card">
+            <div class="avatar" id="avatar">P</div>
+            <h2 id="profileDisplayName">Photographer</h2>
+            <span class="role-badge">Photographer</span>
+            <p class="profile-username" id="profileUsername">@photographer</p>
+
+            <div class="summary-divider"></div>
+
+            <div class="summary-item">
+              <span>Thành viên từ</span>
+              <strong>2026</strong>
+            </div>
+        
+          </aside>
+
+          <!-- PROFILE FORM -->
+          <section class="profile-card profile-form-card">
+            <div class="card-title-row">
+              <div>
+                <h2>Thông tin cá nhân</h2>
+                <p>Cập nhật thông tin để hồ sơ của bạn luôn chính xác.</p>
+              </div>
+            </div>
+
+            <div id="profileMessage" class="profile-message"></div>
+
+            <form id="profileForm">
+              <div class="form-grid">
+                <div class="profile-field">
+                  <label for="fullName">Họ và tên</label>
+                  <input id="fullName" type="text" placeholder="Nhập họ và tên" disabled>
+                </div>
+
+                <div class="profile-field">
+                  <label for="username">Tên đăng nhập</label>
+                  <input id="username" type="text" placeholder="Username" disabled>
+                </div>
+
+                <div class="profile-field">
+                  <label for="email">Email</label>
+                  <input id="email" type="email" placeholder="example@email.com" disabled>
+                </div>
+
+                <div class="profile-field">
+                  <label for="phone">Số điện thoại</label>
+                  <input id="phone" type="tel" placeholder="Nhập số điện thoại" disabled>
+                </div>
+
+                <div class="profile-field full-width">
+                  <label for="location">Địa điểm</label>
+                  <input id="location" type="text" placeholder="TP. Hồ Chí Minh" disabled>
+                </div>
+
+                <div class="profile-field full-width">
+                  <label for="bio">Giới thiệu</label>
+                  <textarea id="bio" rows="5" placeholder="Viết một vài dòng giới thiệu về bạn..." disabled></textarea>
+                </div>
+              </div>
+
+              <div class="form-actions" id="formActions">
+                <button type="button" class="cancel-btn" onclick="cancelEdit()">Hủy</button>
+                <button type="submit" class="save-btn">Lưu thay đổi</button>
+              </div>
+            </form>
+          </section>
+        </div>
+
+        <!-- ACCOUNT -->
+        <section class="profile-card account-card">
+          <div class="card-title-row">
+            <div>
+              <h2>Tài khoản</h2>
+              <p>Các thiết lập liên quan đến tài khoản FilmSpace.</p>
+            </div>
+          </div>
+
+          <div class="account-actions">
+            <a href="history.html" class="account-action">
+              <div class="account-icon">◷</div>
+              <div>
+                <strong>Lịch sử booking</strong>
+                <span>Xem lại các dịch vụ bạn đã đặt.</span>
+              </div>
+              <span class="account-arrow">→</span>
+            </a>
+
+            <button type="button" class="account-action danger-action" onclick="logout()">
+              <div class="account-icon">↪</div>
+              <div>
+                <strong>Đăng xuất</strong>
+                <span>Đăng xuất khỏi tài khoản hiện tại.</span>
+              </div>
+              <span class="account-arrow">→</span>
+            </button>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-logo">Photography<span>Platform</span></div>
+          <p>Kết nối các nhiếp ảnh gia phim với các phòng tối và studio đáng tin cậy.</p>
+        </div>
+
+        <div class="footer-menu">
+          <a href="home.html">Home</a>
+          <a href="search.html">Search</a>
+          <a href="booking.html">Bookings</a>
+          <a href="workshops.html">Workshops</a>
+          <a href="profile.html">Profile</a>
+        </div>
+      </div>
+
+      <hr class="footer-line">
+
+      <div class="footer-bottom">
+        <span>Copyright © 2026 Photography Platform. All rights reserved.</span>
+        <div class="footer-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let originalData = {};
+
+    function getStorage() {
+      return localStorage.getItem("auth_token")
+        ? localStorage
+        : sessionStorage;
+    }
+
+    function getUserData() {
+      const storage = getStorage();
+      return {
+        storage,
+        token: storage.getItem("auth_token"),
+        username: storage.getItem("username") || "",
+        fullName: storage.getItem("full_name") || "",
+        email: storage.getItem("email") || "",
+        phone: storage.getItem("phone") || "",
+        location: storage.getItem("location") || "",
+        bio: storage.getItem("bio") || ""
+      };
+    }
+
+    function loadProfile() {
+      const user = getUserData();
+
+      if (!user.token) {
+        window.location.href = "../auth.html";
+        return;
+      }
+
+      const displayName = user.fullName || user.username || "Photographer";
+
+      document.getElementById("navPhotographerName").textContent = displayName;
+      document.getElementById("profileDisplayName").textContent = displayName;
+      document.getElementById("profileUsername").textContent = user.username ? "@" + user.username : "@photographer";
+      document.getElementById("avatar").textContent = displayName.charAt(0).toUpperCase();
+
+      document.getElementById("fullName").value = user.fullName;
+      document.getElementById("username").value = user.username;
+      document.getElementById("email").value = user.email;
+      document.getElementById("phone").value = user.phone;
+      document.getElementById("location").value = user.location;
+      document.getElementById("bio").value = user.bio;
+
+      saveOriginalData();
+    }
+
+    function saveOriginalData() {
+      originalData = {
+        fullName: document.getElementById("fullName").value,
+        username: document.getElementById("username").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        location: document.getElementById("location").value,
+        bio: document.getElementById("bio").value
+      };
+    }
+
+    function enableEdit() {
+      document.querySelectorAll("#profileForm input, #profileForm textarea").forEach(field => {
+        if (field.id !== "username") field.disabled = false;
+      });
+
+      document.getElementById("formActions").classList.add("show");
+      document.getElementById("editBtn").style.display = "none";
+      document.getElementById("fullName").focus();
+    }
+
+    function cancelEdit() {
+      document.getElementById("fullName").value = originalData.fullName;
+      document.getElementById("username").value = originalData.username;
+      document.getElementById("email").value = originalData.email;
+      document.getElementById("phone").value = originalData.phone;
+      document.getElementById("location").value = originalData.location;
+      document.getElementById("bio").value = originalData.bio;
+
+      document.querySelectorAll("#profileForm input, #profileForm textarea").forEach(field => {
+        field.disabled = true;
+      });
+
+      document.getElementById("formActions").classList.remove("show");
+      document.getElementById("editBtn").style.display = "inline-flex";
+      showMessage("");
+    }
+
+    document.getElementById("profileForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const storage = getStorage();
+      const fullName = document.getElementById("fullName").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const location = document.getElementById("location").value.trim();
+      const bio = document.getElementById("bio").value.trim();
+
+      storage.setItem("full_name", fullName);
+      storage.setItem("email", email);
+      storage.setItem("phone", phone);
+      storage.setItem("location", location);
+      storage.setItem("bio", bio);
+
+      document.getElementById("navPhotographerName").textContent = fullName || originalData.username || "Photographer";
+      document.getElementById("profileDisplayName").textContent = fullName || originalData.username || "Photographer";
+      document.getElementById("avatar").textContent = (fullName || originalData.username || "P").charAt(0).toUpperCase();
+
+      saveOriginalData();
+      cancelEdit();
+      showMessage("Đã lưu thông tin hồ sơ thành công.", "success");
+    });
+
+    function showMessage(text, type = "success") {
+      const box = document.getElementById("profileMessage");
+      box.textContent = text;
+      box.className = text ? "profile-message " + type : "profile-message";
+    }
+
+    function logout() {
+      localStorage.removeItem("auth_token");
+      localStorage.removeItem("username");
+      localStorage.removeItem("full_name");
+      localStorage.removeItem("email");
+      localStorage.removeItem("phone");
+      localStorage.removeItem("location");
+      localStorage.removeItem("bio");
+
+      sessionStorage.removeItem("auth_token");
+      sessionStorage.removeItem("username");
+      sessionStorage.removeItem("full_name");
+      sessionStorage.removeItem("email");
+      sessionStorage.removeItem("phone");
+      sessionStorage.removeItem("location");
+      sessionStorage.removeItem("bio");
+
+      window.location.href = "../auth.html";
+    }
+
+    loadProfile();
+  </script>
+</body>
+</html>
