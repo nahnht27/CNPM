@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Photographer - Home | FilmSpace</title>
+
+  <!-- CSS dùng chung của project -->
+  <link rel="stylesheet" href="../assets/css/styles.css">
+
+  <!-- CSS riêng cho Photographer Home -->
+  <link rel="stylesheet" href="../assets/css/photographer-home.css">
+</head>
+
+<body>
+
+  <!-- =====================================================
+       NAVBAR
+       Giữ đúng layout navbar hiện tại của project
+       ===================================================== -->
+  <nav class="navbar" id="mainNavbar">
+
+    <div class="navbar-container container">
+
+      <!-- Logo -->
+      <a
+        class="logo"
+        href="home.html"
+        aria-label="FilmSpace"
+      >
+        FilmSpace
+      </a>
+
+
+      <!-- Photographer Navigation -->
+      <div class="menu" aria-label="Photographer navigation">
+
+        <a
+          href="home.html"
+          class="active"
+        >
+          Home
+        </a>
+
+        <a href="search.html">
+          Search
+        </a>
+
+        <a href="booking.html">
+          Bookings
+        </a>
+
+        <a href="workshops.html">
+          Workshops
+        </a>
+
+        <a href="profile.html">
+          Profile
+        </a>
+
+      </div>
+
+
+      <!-- User -->
+      <div class="nav-actions">
+
+        <span
+          class="photographer-nav-name"
+          id="navPhotographerName"
+        >
+          Photographer
+        </span>
+
+        <button
+          type="button"
+          class="photographer-logout"
+          onclick="logout()"
+        >
+          Đăng xuất
+        </button>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+
+  <!-- =====================================================
+       MAIN CONTENT
+       ===================================================== -->
+  <main class="photographer-page">
+
+
+    <!-- ===================================================
+         WELCOME
+         =================================================== -->
+    <section class="photographer-welcome">
+
+      <div class="container">
+
+        <div class="welcome-card">
+
+          <div class="welcome-content">
+
+            <div class="welcome-kicker">
+              PHOTOGRAPHER DASHBOARD
+            </div>
+
+            <h1>
+              Xin chào,
+              <span id="photographerName">
+                Photographer
+              </span>
+              👋
+            </h1>
+
+            <p>
+              Khám phá studio, darkroom và các workshop
+              dành cho cộng đồng film photography.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         QUICK SEARCH
+         =================================================== -->
+    <section class="dashboard-section quick-search-section">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <div>
+            <h2>Search nhanh</h2>
+
+            <p>
+              Tìm studio, darkroom hoặc workshop phù hợp với bạn.
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="dashboard-search-box">
+
+          <div class="dashboard-search-input">
+
+            <span class="dashboard-search-icon">
+              ⌕
+            </span>
+
+            <input
+              type="text"
+              id="quickSearchInput"
+              placeholder="Darkroom, studio, workshop..."
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <button
+            type="button"
+            class="dashboard-search-btn"
+            onclick="quickSearch()"
+          >
+            Search
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         TOP STUDIOS / DARKROOM
+         =================================================== -->
+    <section class="dashboard-section">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <div>
+
+            <h2>
+              Top Studios / Darkroom nổi bật
+            </h2>
+
+            <p>
+              Những địa điểm được photographer quan tâm.
+            </p>
+
+          </div>
+
+
+          <a
+            href="search.html"
+            class="view-all-link"
+          >
+            View all
+          </a>
+
+        </div>
+
+
+        <div class="photographer-studio-grid">
+
+
+          <!-- ================= STUDIO 1 ================= -->
+          <article class="photographer-studio-card">
+
+            <div class="photographer-studio-image">
+
+              <img
+                src="../assets/images/1.jpe"
+                alt="Studio Lumi"
+              >
+
+              <button
+                type="button"
+                class="favorite-btn"
+                aria-label="Favorite Studio Lumi"
+              >
+                ♡
+              </button>
+
+            </div>
+
+
+            <div class="photographer-studio-info">
+
+              <span class="service-type">
+                Studio
+              </span>
+
+              <h3>
+                Studio Lumi
+              </h3>
+
+              <p class="studio-location">
+                📍 Bình Thạnh
+              </p>
+
+
+              <div class="studio-meta">
+
+                <span>
+                  ★ 4.9
+                </span>
+
+                <span>
+                  300.000 VND / giờ
+                </span>
+
+              </div>
+
+
+              <a
+                href="search.html"
+                class="book-btn"
+              >
+                View details
+              </a>
+
+            </div>
+
+          </article>
+
+
+          <!-- ================= DARKROOM 2 ================= -->
+          <article class="photographer-studio-card">
+
+            <div class="photographer-studio-image">
+
+              <img
+                src="../assets/images/2.webp"
+                alt="Film House Darkroom"
+              >
+
+              <button
+                type="button"
+                class="favorite-btn"
+                aria-label="Favorite Film House Darkroom"
+              >
+                ♡
+              </button>
+
+            </div>
+
+
+            <div class="photographer-studio-info">
+
+              <span class="service-type darkroom-type">
+                Darkroom
+              </span>
+
+              <h3>
+                Film House Darkroom
+              </h3>
+
+              <p class="studio-location">
+                📍 Thủ Đức
+              </p>
+
+
+              <div class="studio-meta">
+
+                <span>
+                  ★ 4.8
+                </span>
+
+                <span>
+                  150.000 VND / giờ
+                </span>
+
+              </div>
+
+
+              <a
+                href="search.html"
+                class="book-btn"
+              >
+                View details
+              </a>
+
+            </div>
+
+          </article>
+
+
+          <!-- ================= STUDIO 3 ================= -->
+          <article class="photographer-studio-card">
+
+            <div class="photographer-studio-image">
+
+              <img
+                src="../assets/images/3.png"
+                alt="Analog Space"
+              >
+
+              <button
+                type="button"
+                class="favorite-btn"
+                aria-label="Favorite Analog Space"
+              >
+                ♡
+              </button>
+
+            </div>
+
+
+            <div class="photographer-studio-info">
+
+              <span class="service-type">
+                Studio
+              </span>
+
+              <h3>
+                Analog Space
+              </h3>
+
+              <p class="studio-location">
+                📍 Quận 3
+              </p>
+
+
+              <div class="studio-meta">
+
+                <span>
+                  ★ 4.9
+                </span>
+
+                <span>
+                  450.000 VND / giờ
+                </span>
+
+              </div>
+
+
+              <a
+                href="search.html"
+                class="book-btn"
+              >
+                View details
+              </a>
+
+            </div>
+
+          </article>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         BOOKING GẦN NHẤT
+         =================================================== -->
+    <section class="dashboard-section">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <div>
+
+            <h2>
+              Booking gần nhất
+            </h2>
+
+            <p>
+              Lịch đặt dịch vụ sắp tới của bạn.
+            </p>
+
+          </div>
+
+
+          <a
+            href="booking.html"
+            class="view-all-link"
+          >
+            View all
+          </a>
+
+        </div>
+
+
+        <div class="upcoming-booking-card">
+
+
+          <!-- Image -->
+          <div class="upcoming-booking-image">
+
+            <img
+              src="../assets/images/4.jpe"
+              alt="Upcoming booking"
+            >
+
+          </div>
+
+
+          <!-- Information -->
+          <div class="upcoming-booking-content">
+
+            <div class="booking-header">
+
+              <div>
+
+                <span class="booking-status">
+                  Upcoming
+                </span>
+
+                <h3>
+                  Film Lab VN
+                </h3>
+
+              </div>
+
+            </div>
+
+
+            <div class="booking-info-grid">
+
+              <div class="booking-info-item">
+
+                <span class="booking-label">
+                  Date
+                </span>
+
+                <strong>
+                  25 Sep 2026
+                </strong>
+
+              </div>
+
+
+              <div class="booking-info-item">
+
+                <span class="booking-label">
+                  Time
+                </span>
+
+                <strong>
+                  09:00 - 12:00
+                </strong>
+
+              </div>
+
+
+              <div class="booking-info-item">
+
+                <span class="booking-label">
+                  Service
+                </span>
+
+                <strong>
+                  Film Developing
+                </strong>
+
+              </div>
+
+            </div>
+
+
+            <div class="booking-footer">
+
+              <span class="booking-location">
+                📍 Phú Nhuận, TP. Hồ Chí Minh
+              </span>
+
+              <a
+                href="booking.html"
+                class="booking-detail-btn"
+              >
+                View details
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         QUICK ACTIONS
+         =================================================== -->
+    <section class="dashboard-section">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <div>
+
+            <h2>
+              Quick Actions
+            </h2>
+
+            <p>
+              Truy cập nhanh các chức năng thường dùng.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="quick-actions-grid">
+
+
+          <!-- Booking History -->
+          <a
+            href="history.html"
+            class="quick-action-card"
+          >
+
+            <div class="quick-action-icon">
+              ◷
+            </div>
+
+            <div class="quick-action-content">
+
+              <h3>
+                Lịch sử booking
+              </h3>
+
+              <p>
+                Xem các booking đã thực hiện.
+              </p>
+
+            </div>
+
+            <span class="quick-action-arrow">
+              →
+            </span>
+
+          </a>
+
+
+          <!-- Workshops -->
+          <a
+            href="workshops.html"
+            class="quick-action-card"
+          >
+
+            <div class="quick-action-icon workshop-icon">
+              ◉
+            </div>
+
+            <div class="quick-action-content">
+
+              <h3>
+                Featured Workshops
+              </h3>
+
+              <p>
+                Workshop đang và sắp diễn ra.
+              </p>
+
+            </div>
+
+            <span class="quick-action-arrow">
+              →
+            </span>
+
+          </a>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         FEATURED WORKSHOPS
+         =================================================== -->
+    <section class="dashboard-section workshops-section">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <div>
+
+            <h2>
+              Featured Workshops
+            </h2>
+
+            <p>
+              Workshop nổi bật dành cho film photographer.
+            </p>
+
+          </div>
+
+
+          <a
+            href="workshops.html"
+            class="view-all-link"
+          >
+            View all
+          </a>
+
+        </div>
+
+
+        <div class="workshop-grid">
+
+
+          <!-- Workshop 1 -->
+          <article class="workshop-card">
+
+            <div class="workshop-image">
+
+              <img
+                src="../assets/images/2.webp"
+                alt="Film developing workshop"
+              >
+
+            </div>
+
+
+            <div class="workshop-content">
+
+              <span class="workshop-status">
+                Upcoming
+              </span>
+
+              <h3>
+                Kỹ thuật tráng film B&W cơ bản
+              </h3>
+
+              <p>
+                📅 27 Sep 2026
+              </p>
+
+              <p>
+                📍 Film House Darkroom
+              </p>
+
+            </div>
+
+          </article>
+
+
+          <!-- Workshop 2 -->
+          <article class="workshop-card">
+
+            <div class="workshop-image">
+
+              <img
+                src="../assets/images/5.jpg"
+                alt="Film photography workshop"
+              >
+
+            </div>
+
+
+            <div class="workshop-content">
+
+              <span class="workshop-status">
+                Upcoming
+              </span>
+
+              <h3>
+                Film Photography cho người mới
+              </h3>
+
+              <p>
+                📅 03 Oct 2026
+              </p>
+
+              <p>
+                📍 Analog Space
+              </p>
+
+            </div>
+
+          </article>
+
+
+          <!-- Workshop 3 -->
+          <article class="workshop-card">
+
+            <div class="workshop-image">
+
+              <img
+                src="../assets/images/6.jpg"
+                alt="Film scanning workshop"
+              >
+
+            </div>
+
+
+            <div class="workshop-content">
+
+              <span class="workshop-status">
+                Upcoming
+              </span>
+
+              <h3>
+                Scan & số hóa film
+              </h3>
+
+              <p>
+                📅 10 Oct 2026
+              </p>
+
+              <p>
+                📍 Film Lab VN
+              </p>
+
+            </div>
+
+          </article>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- =====================================================
+       FOOTER
+       Giữ đúng layout footer hiện tại của project
+       ===================================================== -->
+  <footer class="footer">
+
+    <div class="container">
+
+      <div class="footer-top">
+
+        <div class="footer-brand">
+
+          <div class="footer-logo">
+            Photography<span>Platform</span>
+          </div>
+
+          <p>
+            Kết nối các nhiếp ảnh gia phim với các phòng tối
+            và studio đáng tin cậy.
+          </p>
+
+        </div>
+
+
+        <div class="footer-menu">
+
+          <a href="home.html">
+            Home
+          </a>
+
+          <a href="search.html">
+            Search
+          </a>
+
+          <a href="booking.html">
+            Bookings
+          </a>
+
+          <a href="workshops.html">
+            Workshops
+          </a>
+
+          <a href="profile.html">
+            Profile
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <hr class="footer-line">
+
+
+      <div class="footer-bottom">
+
+        <span>
+          Copyright © 2026 Photography Platform.
+          All rights reserved.
+        </span>
+
+
+        <div class="footer-links">
+
+          <a href="#">
+            Privacy Policy
+          </a>
+
+          <a href="#">
+            Terms of Use
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+       ===================================================== -->
+  <script>
+
+    /* =====================================================
+       Lấy thông tin user đang đăng nhập
+       ===================================================== */
+    function getLoggedInUser() {
+
+      const token =
+        localStorage.getItem("auth_token") ||
+        sessionStorage.getItem("auth_token");
+
+      const username =
+        localStorage.getItem("username") ||
+        sessionStorage.getItem("username");
+
+      const fullName =
+        localStorage.getItem("full_name") ||
+        sessionStorage.getItem("full_name");
+
+      return {
+        token: token,
+        username: username,
+        fullName: fullName
+      };
+    }
+
+
+    /* =====================================================
+       Hiển thị tên Photographer
+       ===================================================== */
+    function loadPhotographerInfo() {
+
+      const user = getLoggedInUser();
+
+      /*
+       * Nếu chưa đăng nhập thì quay về trang login.
+       */
+      if (!user.token) {
+        window.location.href = "../auth.html";
+        return;
+      }
+
+
+      /*
+       * Ưu tiên FullName.
+       * Nếu backend chưa trả FullName thì dùng Username.
+       */
+      const displayName =
+        user.fullName ||
+        user.username ||
+        "Photographer";
+
+
+      /*
+       * Tên ở phần:
+       * Xin chào, [Tên]
+       */
+      const nameElement =
+        document.getElementById("photographerName");
+
+      if (nameElement) {
+        nameElement.textContent = displayName;
+      }
+
+
+      /*
+       * Tên ở Navbar
+       */
+      const navNameElement =
+        document.getElementById("navPhotographerName");
+
+      if (navNameElement) {
+        navNameElement.textContent = displayName;
+      }
+
+    }
+
+
+    /* =====================================================
+       Quick Search
+       ===================================================== */
+    function quickSearch() {
+
+      const input =
+        document.getElementById("quickSearchInput");
+
+      const keyword =
+        input.value.trim();
+
+
+      if (!keyword) {
+        window.location.href = "search.html";
+        return;
+      }
+
+
+      const params =
+        new URLSearchParams();
+
+      params.set("keyword", keyword);
+
+
+      window.location.href =
+        "search.html?" + params.toString();
+
+    }
+
+
+    /* =====================================================
+       Enter để Search
+       ===================================================== */
+    document
+      .getElementById("quickSearchInput")
+      .addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter") {
+          quickSearch();
+        }
+
+      });
+
+
+    /* =====================================================
+       Logout
+       ===================================================== */
+    function logout() {
+
+      localStorage.removeItem("auth_token");
+      localStorage.removeItem("username");
+      localStorage.removeItem("full_name");
+
+      sessionStorage.removeItem("auth_token");
+      sessionStorage.removeItem("username");
+      sessionStorage.removeItem("full_name");
+
+
+      window.location.href = "../auth.html";
+
+    }
+
+
+    /* =====================================================
+       Load page
+       ===================================================== */
+    loadPhotographerInfo();
+
+  </script>
+
+</body>
+</html>

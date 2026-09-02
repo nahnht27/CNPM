@@ -454,10 +454,22 @@
       }
 
       if (data.token) {
-        const storage = remember ? localStorage : sessionStorage;
-        storage.setItem("auth_token", data.token);
-        storage.setItem("username", data.username || username);
-      }
+  const storage = remember ? localStorage : sessionStorage;
+
+  storage.setItem("auth_token", data.token);
+
+  storage.setItem(
+    "username",
+    data.username || username
+  );
+
+  if (data.full_name) {
+    storage.setItem(
+      "full_name",
+      data.full_name
+    );
+  }
+}
 
       showMessage("Đăng nhập thành công.", "success");
 
