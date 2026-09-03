@@ -3,14 +3,547 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login & Register - Photography Platform</title>
-  <link rel="stylesheet" href="assets/css/styles.css">
+  <title>FilmSpace - Đăng nhập / Đăng ký</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --text:#26283b;
+      --muted:#6f7284;
+      --pink:#ff1584;
+      --pink-dark:#e60f75;
+      --line:#e9e9ef;
+      --soft:#fff1f8;
+      --white:#fff;
+      --error:#dc3545;
+      --success:#198754;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:'Inter',Arial,sans-serif;
+      color:var(--text);
+      background:var(--white);
+    }
+
+    .auth-wrapper{
+      min-height:100vh;
+      display:flex;
+    }
+
+    .auth-side{
+      width:50%;
+      min-height:100vh;
+      position:relative;
+      overflow:hidden;
+      background:#f4f5f8;
+    }
+
+    .auth-side img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .auth-side::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(20,22,40,.14));
+      pointer-events:none;
+    }
+
+    .brand{
+      position:absolute;
+      z-index:2;
+      top:38px;
+      left:50%;
+      transform:translateX(-50%);
+      font-size:24px;
+      font-weight:800;
+      color:#1e2031;
+      letter-spacing:-.6px;
+    }
+
+    .brand span{color:var(--pink)}
+
+    .auth-content{
+      width:50%;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:48px 34px;
+    }
+
+    .form-container{
+      width:min(440px,100%);
+    }
+
+    .form-container h1{
+      margin:0 0 10px;
+      font-size:40px;
+      line-height:1.1;
+      letter-spacing:-1.2px;
+    }
+
+    .sub-title{
+      margin:0 0 30px;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.5;
+    }
+
+    .sub-title a{
+      color:var(--pink);
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .form-group{
+      margin-bottom:22px;
+    }
+
+    .form-group label{
+      display:block;
+      margin-bottom:8px;
+      color:var(--muted);
+      font-size:11px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.25px;
+    }
+
+    .form-group input,
+    .form-group select{
+      width:100%;
+      border:0;
+      border-bottom:1px solid var(--line);
+      background:transparent;
+      outline:none;
+      padding:11px 0;
+      color:var(--text);
+      font-size:15px;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus{
+      border-bottom-color:var(--pink);
+    }
+
+    .password-wrap{
+      position:relative;
+    }
+
+    .password-wrap input{
+      padding-right:38px;
+    }
+
+    .toggle-password{
+      position:absolute;
+      right:0;
+      top:50%;
+      transform:translateY(-50%);
+      border:0;
+      background:transparent;
+      color:var(--muted);
+      cursor:pointer;
+      font-size:17px;
+      padding:4px;
+    }
+
+    .form-options{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      margin:4px 0 28px;
+    }
+
+    .remember{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .remember input{
+      width:16px;
+      height:16px;
+      accent-color:var(--pink);
+    }
+
+    .forgot{
+      color:var(--text);
+      font-size:13px;
+      font-weight:600;
+    }
+
+    .policy-row{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      margin:4px 0 28px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .policy-row input{
+      width:17px;
+      height:17px;
+      margin-top:2px;
+      accent-color:var(--pink);
+    }
+
+    .policy-row strong{
+      color:var(--text);
+    }
+
+    .btn-submit{
+      width:100%;
+      padding:15px 18px;
+      border:0;
+      border-radius:7px;
+      background:var(--pink);
+      color:#fff;
+      font-size:15px;
+      font-weight:700;
+      cursor:pointer;
+      transition:.18s ease;
+    }
+
+    .btn-submit:hover{background:var(--pink-dark)}
+
+    .switch-form{
+      text-align:center;
+      margin-top:18px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .switch-form a{
+      color:var(--pink);
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .message{
+      display:none;
+      margin-bottom:20px;
+      padding:11px 13px;
+      border-radius:7px;
+      font-size:13px;
+      border:1px solid transparent;
+    }
+
+    .message.error{
+      display:block;
+      color:var(--error);
+      background:#fff6f7;
+      border-color:#f1bcc2;
+    }
+
+    .message.success{
+      display:block;
+      color:var(--success);
+      background:#f4fbf7;
+      border-color:#bfe5d0;
+    }
+
+    .hidden{display:none}
+
+    @media(max-width:800px){
+      .auth-wrapper{flex-direction:column}
+      .auth-side{
+        width:100%;
+        min-height:300px;
+        height:300px;
+      }
+      .auth-content{
+        width:100%;
+        min-height:auto;
+        padding:44px 22px 54px;
+      }
+      .form-container h1{font-size:34px}
+    }
+  </style>
 </head>
 <body>
-  <main class="container" style="padding:60px 0;">
-    <h1>Login / Register</h1>
-    <p>This page is reserved for the Authentication task.</p>
-    <a class="register-btn" href="index.html" style="display:inline-block;margin-top:20px;">Back to Home</a>
+
+<div class="auth-wrapper">
+  <aside class="auth-side">
+    <img src="assets/images/5.jpg" alt="Film photography">
+    <div class="brand">Film<span>Space</span></div>
+  </aside>
+
+  <main class="auth-content">
+    <div class="form-container">
+
+      <div id="message" class="message"></div>
+
+      <!-- LOGIN -->
+      <section id="loginSection">
+        <h1>Đăng nhập</h1>
+        <p class="sub-title">
+  Chưa có tài khoản? <a href="javascript:showRegister()">Đăng ký ngay</a>
+</p>
+
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="loginUsername">Tên đăng nhập</label>
+            <input id="loginUsername" type="text" placeholder="Nhập tên đăng nhập" required>
+          </div>
+
+          <div class="form-group">
+            <label for="loginPassword">Mật khẩu</label>
+            <div class="password-wrap">
+              <input id="loginPassword" type="password" placeholder="Nhập mật khẩu" required>
+              <button type="button" class="toggle-password" onclick="togglePassword('loginPassword', this)">◉</button>
+            </div>
+          </div>
+
+          <div class="form-options">
+            <label class="remember">
+              <input type="checkbox" id="rememberMe">
+              Ghi nhớ đăng nhập
+            </label>
+            <a class="forgot" href="forgot-password.html">Quên mật khẩu?</a>
+          </div>
+
+          <button class="btn-submit" type="submit">Đăng nhập</button>
+        </form>
+
+        <div class="switch-form">
+  Chưa có tài khoản? <a onclick="showRegister()">Đăng ký</a>
+</div>
+      </section>
+
+      <!-- REGISTER -->
+      <section id="registerSection" class="hidden">
+        <h1>Đăng ký</h1>
+        <p class="sub-title">
+  Đã có tài khoản? <a href="javascript:showLogin()">Đăng nhập</a>
+</p>
+
+        <form id="registerForm">
+          <div class="form-group">
+            <label for="registerUsername">Tên đăng nhập</label>
+            <input id="registerUsername" type="text" placeholder="Nhập tên đăng nhập" required>
+          </div>
+
+          <div class="form-group">
+            <label for="registerEmail">Email</label>
+            <input id="registerEmail" type="email" placeholder="Nhập email" required>
+          </div>
+
+          <div class="form-group">
+  <label for="registerRole">Vai trò</label>
+  <select id="registerRole" required>
+    <option value="" disabled selected>Chọn vai trò</option>
+    <option value="2">Photographer</option>
+    <option value="3">Service Provider</option>
+  </select>
+</div>
+
+          <div class="form-group">
+            <label for="registerPassword">Mật khẩu</label>
+            <div class="password-wrap">
+              <input id="registerPassword" type="password" placeholder="Tạo mật khẩu" required>
+              <button type="button" class="toggle-password" onclick="togglePassword('registerPassword', this)">◉</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="registerConfirm">Xác nhận mật khẩu</label>
+            <div class="password-wrap">
+              <input id="registerConfirm" type="password" placeholder="Nhập lại mật khẩu" required>
+              <button type="button" class="toggle-password" onclick="togglePassword('registerConfirm', this)">◉</button>
+            </div>
+          </div>
+
+          <label class="policy-row">
+            <input type="checkbox" id="policy" required>
+            <span>Tôi đồng ý với <strong>Chính sách bảo mật</strong> và <strong>Điều khoản sử dụng</strong>.</span>
+          </label>
+
+          <button class="btn-submit" type="submit">Tạo tài khoản</button>
+        </form>
+
+        <div class="switch-form">
+          Đã có tài khoản? <a onclick="showLogin()">Đăng nhập</a>
+        </div>
+      </section>
+
+    </div>
   </main>
+</div>
+
+<script>
+  const API_BASE_URL = "http://127.0.0.1:9999";
+
+  const messageBox = document.getElementById("message");
+  const loginSection = document.getElementById("loginSection");
+  const registerSection = document.getElementById("registerSection");
+
+  function showMessage(text, type = "error") {
+    messageBox.textContent = text;
+    messageBox.className = `message ${type}`;
+  }
+
+  function clearMessage() {
+    messageBox.textContent = "";
+    messageBox.className = "message";
+  }
+
+  function showLogin() {
+    clearMessage();
+    loginSection.classList.remove("hidden");
+    registerSection.classList.add("hidden");
+  }
+
+  function showRegister() {
+    clearMessage();
+    registerSection.classList.remove("hidden");
+    loginSection.classList.add("hidden");
+  }
+
+  function togglePassword(inputId, button) {
+    const input = document.getElementById(inputId);
+    input.type = input.type === "password" ? "text" : "password";
+    button.textContent = input.type === "password" ? "◉" : "○";
+  }
+
+  async function parseResponse(response) {
+    const text = await response.text();
+    try {
+      return text ? JSON.parse(text) : {};
+    } catch {
+      return { message: text || "Có lỗi xảy ra." };
+    }
+  }
+
+  document.getElementById("loginForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    clearMessage();
+
+    const username = document.getElementById("loginUsername").value.trim();
+    const password = document.getElementById("loginPassword").value;
+    const remember = document.getElementById("rememberMe").checked;
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await parseResponse(response);
+
+      if (!response.ok) {
+        showMessage(data.message || data.error || "Thông tin đăng nhập không chính xác.");
+        return;
+      }
+
+      if (data.token) {
+  const storage = remember ? localStorage : sessionStorage;
+
+  storage.setItem("auth_token", data.token);
+  storage.setItem("user_id", data.user_id);
+  storage.setItem("role_id", data.role_id);
+
+  storage.setItem(
+    "username",
+    data.username || username
+  );
+
+  if (data.full_name) {
+    storage.setItem(
+      "full_name",
+      data.full_name
+    );
+  }
+}
+
+      showMessage("Đăng nhập thành công.", "success");
+
+      setTimeout(() => {
+  const roleId = Number(data.role_id);
+
+  if (roleId === 1) {
+    window.location.href = "admin/dashboard.html";
+  } else if (roleId === 2) {
+    window.location.href = "photographer/home.html";
+  } else if (roleId === 3) {
+    window.location.href = "provider/dashboard.html";
+  } else {
+    showMessage("Vai trò tài khoản không hợp lệ.");
+  }
+}, 3000);
+    } catch (error) {
+      showMessage("Không thể kết nối đến Backend. Hãy kiểm tra Flask đang chạy.");
+    }
+  });
+
+  document.getElementById("registerForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    clearMessage();
+
+    const username = document.getElementById("registerUsername").value.trim();
+    const email = document.getElementById("registerEmail").value.trim();
+    const role = document.getElementById("registerRole").value;
+    const password = document.getElementById("registerPassword").value;
+    const confirmPassword = document.getElementById("registerConfirm").value;
+
+    if (password !== confirmPassword) {
+      showMessage("Mật khẩu xác nhận không khớp.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/signup`, {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+  username: username,
+  email: email,
+  password: password,
+  passwordconfirm: confirmPassword,
+  role_id: role
+})
+      });
+
+      const data = await parseResponse(response);
+
+      if (!response.ok) {
+        showMessage(data.message || data.error || "Đăng ký thất bại.");
+        return;
+      }
+
+      showMessage("Đăng ký thành công. Bạn có thể đăng nhập.", "success");
+      document.getElementById("registerForm").reset();
+
+      setTimeout(() => {
+        showLogin();
+        document.getElementById("loginUsername").value = username;
+      }, 3000);
+    } catch (error) {
+      showMessage("Không thể kết nối đến Backend. Hãy kiểm tra Flask đang chạy.");
+    }
+  });
+</script>
+
 </body>
 </html>
