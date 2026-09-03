@@ -6,7 +6,13 @@ class AuthService:
     def __init__(self, repository: IAuthRepository):
         self.repository = repository
 
-    def register(self, username: str, password: str, email: str) -> Optional[Auth]:
+    def register(
+    self,
+    username: str,
+    password: str,
+    email: str,
+    role_id: int
+) -> Optional[Auth]: 
         # Check if user already exists
         if self.repository.check_exist(username):
             return None  # User already exists
@@ -14,7 +20,9 @@ class AuthService:
             username=username,
             password=password,
             passwordcomfirm=password,
-            email=email)
+            email=email,
+            role_id=role_id
+        )
         return self.repository.register(auth)
     def login(self, username: str, password: str) -> Optional[Auth]:
         auth = Auth( 
@@ -22,6 +30,7 @@ class AuthService:
                     password=password,
                     passwordcomfirm=password,
                     email="",
+                    role_id=None
                     )
         return self.repository.login(auth)
     def remember_password(self) -> Optional[Auth]:

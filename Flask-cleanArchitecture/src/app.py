@@ -4,6 +4,7 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 from api.swagger import spec
 from api.controllers.auth_controller import auth_bp as auth_bp
+from api.controllers.user_controller import user_bp
 
 from api.controllers.booking_controller import bp as booking_bp
 from api.controllers.category_controller import bp as category_bp
@@ -39,6 +40,7 @@ def create_app():
 
     # Register blueprints
     app.register_blueprint(auth_bp)
+    app.register_blueprint(user_bp)
     app.register_blueprint(booking_bp)
     app.register_blueprint(category_bp)
     app.register_blueprint(complaint_bp)

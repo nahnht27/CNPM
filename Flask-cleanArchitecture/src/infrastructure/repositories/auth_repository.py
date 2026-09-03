@@ -24,24 +24,18 @@ class AuthRepository(IAuthRepository):
     # LOGIN - DÙNG BẢNG Users
     # =========================
     def login(self, auth: Auth) -> Optional[Auth]:
-
-        selected_user = (
-            self.session.query(UserModel)
-            .filter_by(username=auth.username)
-            .first()
-        )
-
+        selected_user = self.session.query(UserModel).filter_by(
+        username=auth.username
+    ).first()
         if not selected_user:
             return None
-
         if not check_password_hash(
-            selected_user.password_hash,
-            auth.password
-        ):
+        selected_user.password_hash,
+        auth.password
+    ):
             return None
-
         auth.id = selected_user.ID
-
+        auth.role_id = selected_user.role_id
         return auth
 
     # =========================
@@ -53,7 +47,7 @@ class AuthRepository(IAuthRepository):
             # Lấy RoleID của Photographer
             role = (
                 self.session.query(RoleModel)
-                .filter_by(name="Photographer")
+                .filter_by(ID=auth.role_id)
                 .first()
             )
 
