@@ -292,8 +292,8 @@
       <section id="loginSection">
         <h1>Đăng nhập</h1>
         <p class="sub-title">
-          Chưa có tài khoản? <a onclick="showRegister()">Đăng ký ngay</a>
-        </p>
+  Chưa có tài khoản? <a href="javascript:showRegister()">Đăng ký ngay</a>
+</p>
 
         <form id="loginForm">
           <div class="form-group">
@@ -321,16 +321,16 @@
         </form>
 
         <div class="switch-form">
-          Chưa có tài khoản? <a onclick="showRegister()">Đăng ký</a>
-        </div>
+  Đã có tài khoản? <a onclick="showLogin()">Đăng nhập</a>
+</div>
       </section>
 
       <!-- REGISTER -->
       <section id="registerSection" class="hidden">
         <h1>Đăng ký</h1>
         <p class="sub-title">
-          Đã có tài khoản? <a onclick="showLogin()">Đăng nhập</a>
-        </p>
+  Đã có tài khoản? <a href="javascript:showLogin()">Đăng nhập</a>
+</p>
 
         <form id="registerForm">
           <div class="form-group">
@@ -344,12 +344,13 @@
           </div>
 
           <div class="form-group">
-            <label for="registerRole">Vai trò</label>
-            <select id="registerRole" required>
-              <option value="photographer">Photographer</option>
-              <option value="service_provider">Service Provider</option>
-            </select>
-          </div>
+  <label for="registerRole">Vai trò</label>
+  <select id="registerRole" required>
+    <option value="" disabled selected>Chọn vai trò</option>
+    <option value="PG">Photographer</option>
+    <option value="SP">Service Provider</option>
+  </select>
+</div>
 
           <div class="form-group">
             <label for="registerPassword">Mật khẩu</label>
@@ -457,6 +458,7 @@
   const storage = remember ? localStorage : sessionStorage;
 
   storage.setItem("auth_token", data.token);
+  storage.setItem("user_id", data.user_id);
 
   storage.setItem(
     "username",
@@ -507,7 +509,8 @@
   username: username,
   email: email,
   password: password,
-  passwordconfirm: confirmPassword
+  passwordconfirm: confirmPassword,
+  role: role
 })
       });
 

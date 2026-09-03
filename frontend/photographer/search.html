@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search - Photographer | FilmSpace</title>
+
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/photographer-home.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="mainNavbar">
+    <div class="navbar-container container">
+
+      <a class="logo" href="home.html" aria-label="FilmSpace">FilmSpace</a>
+
+      <div class="menu" aria-label="Photographer navigation">
+        <a href="home.html">Home</a>
+        <a href="search.html" class="active">Search</a>
+        <a href="booking.html">Bookings</a>
+        <a href="workshops.html">Workshops</a>
+        <a href="profile.html">Profile</a>
+      </div>
+
+      <div class="nav-actions">
+        <span class="photographer-nav-name" id="navPhotographerName">Photographer</span>
+        <button type="button" class="photographer-logout" onclick="logout()">Đăng xuất</button>
+      </div>
+
+    </div>
+  </nav>
+
+  <main class="photographer-search-page">
+
+    <!-- PAGE HEADER -->
+    <section class="search-hero">
+      <div class="container">
+        <span class="search-kicker">PHOTOGRAPHER</span>
+        <h1>Tìm Studio & Darkroom</h1>
+        <p>Khám phá những địa điểm phù hợp cho buổi chụp và xử lý film của bạn.</p>
+
+        <div class="main-search-box">
+          <span class="search-icon">⌕</span>
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Tìm studio, darkroom..."
+            autocomplete="off"
+          >
+          <button type="button" onclick="filterSpaces()">Search</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEARCH AREA -->
+    <section class="search-content">
+      <div class="container">
+
+        <div class="search-toolbar">
+
+          <div class="filter-group">
+            <label for="typeFilter">Loại dịch vụ</label>
+            <select id="typeFilter" onchange="filterSpaces()">
+              <option value="all">Tất cả</option>
+              <option value="studio">Studio</option>
+              <option value="darkroom">Darkroom</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="locationFilter">Khu vực</label>
+            <select id="locationFilter" onchange="filterSpaces()">
+              <option value="all">Tất cả khu vực</option>
+              <option value="binh-thanh">Bình Thạnh</option>
+              <option value="thu-duc">Thủ Đức</option>
+              <option value="quan-3">Quận 3</option>
+              <option value="phu-nhuan">Phú Nhuận</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="ratingFilter">Rating</label>
+            <select id="ratingFilter" onchange="filterSpaces()">
+              <option value="0">Tất cả</option>
+              <option value="4.9">4.9+</option>
+              <option value="4.8">4.8+</option>
+              <option value="4.5">4.5+</option>
+            </select>
+          </div>
+
+          <button class="clear-filter" type="button" onclick="clearFilters()">
+            Xóa bộ lọc
+          </button>
+
+        </div>
+
+        <div class="results-heading">
+          <div>
+            <h2>Studio & Darkroom</h2>
+            <p id="resultCount">4 địa điểm</p>
+          </div>
+        </div>
+
+        <div class="space-grid" id="spaceGrid">
+
+          <article class="space-card"
+            data-type="studio"
+            data-location="binh-thanh"
+            data-rating="4.9"
+            data-name="Studio Lumi">
+
+            <div class="space-image">
+              <img src="../assets/images/1.jpe" alt="Studio Lumi">
+              <span class="space-badge">Studio</span>
+              <button class="favorite-btn" type="button" aria-label="Yêu thích">♡</button>
+            </div>
+
+            <div class="space-info">
+              <h3>Studio Lumi</h3>
+              <p class="location">📍 Bình Thạnh</p>
+
+              <div class="space-meta">
+                <span>★ 4.9</span>
+                <span>300.000 VND / hour</span>
+              </div>
+
+              <p class="description">
+                Không gian chụp film tối giản, phù hợp portrait và product photography.
+              </p>
+
+              <a href="space-detail.html" class="detail-btn">View details</a>
+            </div>
+          </article>
+
+          <article class="space-card"
+            data-type="darkroom"
+            data-location="thu-duc"
+            data-rating="4.8"
+            data-name="Film House Darkroom">
+
+            <div class="space-image">
+              <img src="../assets/images/2.webp" alt="Film House Darkroom">
+              <span class="space-badge darkroom">Darkroom</span>
+              <button class="favorite-btn" type="button" aria-label="Yêu thích">♡</button>
+            </div>
+
+            <div class="space-info">
+              <h3>Film House Darkroom</h3>
+              <p class="location">📍 Thủ Đức</p>
+
+              <div class="space-meta">
+                <span>★ 4.8</span>
+                <span>150.000 VND / session</span>
+              </div>
+
+              <p class="description">
+                Darkroom dành cho tráng film và các buổi thực hành film photography.
+              </p>
+
+              <a href="space-detail.html" class="detail-btn">View details</a>
+            </div>
+          </article>
+
+          <article class="space-card"
+            data-type="studio"
+            data-location="quan-3"
+            data-rating="4.9"
+            data-name="Analog Space">
+
+            <div class="space-image">
+              <img src="../assets/images/3.png" alt="Analog Space">
+              <span class="space-badge">Studio</span>
+              <button class="favorite-btn" type="button" aria-label="Yêu thích">♡</button>
+            </div>
+
+            <div class="space-info">
+              <h3>Analog Space</h3>
+              <p class="location">📍 Quận 3</p>
+
+              <div class="space-meta">
+                <span>★ 4.9</span>
+                <span>450.000 VND / hour</span>
+              </div>
+
+              <p class="description">
+                Studio phong cách analog, phù hợp các bộ ảnh creative và editorial.
+              </p>
+
+              <a href="space-detail.html" class="detail-btn">View details</a>
+            </div>
+          </article>
+
+          <article class="space-card"
+            data-type="darkroom"
+            data-location="phu-nhuan"
+            data-rating="4.7"
+            data-name="Film Lab VN">
+
+            <div class="space-image">
+              <img src="../assets/images/4.jpe" alt="Film Lab VN">
+              <span class="space-badge darkroom">Darkroom</span>
+              <button class="favorite-btn" type="button" aria-label="Yêu thích">♡</button>
+            </div>
+
+            <div class="space-info">
+              <h3>Film Lab VN</h3>
+              <p class="location">📍 Phú Nhuận</p>
+
+              <div class="space-meta">
+                <span>★ 4.7</span>
+                <span>120.000 VND / session</span>
+              </div>
+
+              <p class="description">
+                Dịch vụ tráng và scan film, phù hợp cho photographer cần xử lý film nhanh.
+              </p>
+
+              <a href="space-detail.html" class="detail-btn">View details</a>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="no-results" id="noResults">
+          <div class="no-results-icon">⌕</div>
+          <h3>Không tìm thấy địa điểm</h3>
+          <p>Thử thay đổi từ khóa hoặc bộ lọc của bạn.</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+
+        <div class="footer-brand">
+          <div class="footer-logo">Photography<span>Platform</span></div>
+          <p>Kết nối các nhiếp ảnh gia phim với các phòng tối và studio đáng tin cậy.</p>
+        </div>
+
+        <div class="footer-menu">
+          <a href="home.html">Home</a>
+          <a href="search.html">Search</a>
+          <a href="booking.html">Bookings</a>
+          <a href="workshops.html">Workshops</a>
+          <a href="profile.html">Profile</a>
+        </div>
+
+      </div>
+
+      <hr class="footer-line">
+
+      <div class="footer-bottom">
+        <span>Copyright © 2026 Photography Platform. All rights reserved.</span>
+
+        <div class="footer-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function getLoggedInUser() {
+      const token =
+        localStorage.getItem("auth_token") ||
+        sessionStorage.getItem("auth_token");
+
+      const username =
+        localStorage.getItem("username") ||
+        sessionStorage.getItem("username");
+
+      const fullName =
+        localStorage.getItem("full_name") ||
+        sessionStorage.getItem("full_name");
+
+      return { token, username, fullName };
+    }
+
+    function loadPhotographerInfo() {
+      const user = getLoggedInUser();
+
+      if (!user.token) {
+        window.location.href = "../auth.html";
+        return;
+      }
+
+      const displayName = user.fullName || user.username || "Photographer";
+      const navName = document.getElementById("navPhotographerName");
+
+      if (navName) {
+        navName.textContent = displayName;
+      }
+    }
+
+    function filterSpaces() {
+      const keyword = document.getElementById("searchInput").value
+        .trim()
+        .toLowerCase();
+
+      const type = document.getElementById("typeFilter").value;
+      const location = document.getElementById("locationFilter").value;
+      const minRating = Number(document.getElementById("ratingFilter").value);
+
+      const cards = document.querySelectorAll(".space-card");
+      let count = 0;
+
+      cards.forEach(card => {
+        const name = card.dataset.name.toLowerCase();
+        const cardType = card.dataset.type;
+        const cardLocation = card.dataset.location;
+        const rating = Number(card.dataset.rating);
+
+        const matchesKeyword = !keyword || name.includes(keyword);
+        const matchesType = type === "all" || cardType === type;
+        const matchesLocation = location === "all" || cardLocation === location;
+        const matchesRating = rating >= minRating;
+
+        const visible =
+          matchesKeyword &&
+          matchesType &&
+          matchesLocation &&
+          matchesRating;
+
+        card.style.display = visible ? "" : "none";
+
+        if (visible) count++;
+      });
+
+      document.getElementById("resultCount").textContent =
+        count + (count === 1 ? " địa điểm" : " địa điểm");
+
+      document.getElementById("noResults").classList.toggle(
+        "show",
+        count === 0
+      );
+    }
+
+    function clearFilters() {
+      document.getElementById("searchInput").value = "";
+      document.getElementById("typeFilter").value = "all";
+      document.getElementById("locationFilter").value = "all";
+      document.getElementById("ratingFilter").value = "0";
+      filterSpaces();
+    }
+
+    document.getElementById("searchInput").addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        filterSpaces();
+      }
+    });
+
+    function logout() {
+      localStorage.removeItem("auth_token");
+      localStorage.removeItem("username");
+      localStorage.removeItem("full_name");
+
+      sessionStorage.removeItem("auth_token");
+      sessionStorage.removeItem("username");
+      sessionStorage.removeItem("full_name");
+
+      window.location.href = "../auth.html";
+    }
+
+    loadPhotographerInfo();
+  </script>
+
+</body>
+</html>
