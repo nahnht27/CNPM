@@ -41,4 +41,12 @@ class AuthService:
         self.repository.un_look_account(course_id)
     def check_exist(self, username: str) -> bool:
         return self.repository.check_exist(username)
-    
+
+    def get_by_email(self, email: str):
+        return self.repository.get_by_email(email)
+
+    def update_password(self, user_id: int, password_hash: str) -> bool:
+        return self.repository.update_password(
+        user_id,
+        password_hash
+    )

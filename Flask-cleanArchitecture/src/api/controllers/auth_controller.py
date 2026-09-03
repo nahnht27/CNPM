@@ -1,5 +1,14 @@
+import email
+from unittest import result
+
 from flask import Blueprint, request, jsonify, current_app
 from datetime import datetime, timedelta
+
+import random
+import time
+
+from email_service import send_reset_otp
+from werkzeug.security import generate_password_hash
 
 from api.schemas.auth import (
     RigisterUserRequestSchema,
@@ -19,6 +28,7 @@ auth_service = AuthService(AuthRepository())
 
 register_request = RigisterUserRequestSchema()
 register_response = RigisterUserResponseSchema()
+reset_store = {}
 
 
 @auth_bp.route('/check_router', methods=['GET'])
@@ -105,6 +115,226 @@ def login():
         'role_id': user.role_id
     }), 200
 
+@auth_bp.route('/forgot-password', methods=['POST'])
+def forgot_password():
+
+    data = request.get_json() or {}
+
+    email = (
+        data.get('email') or ''
+    ).strip().lower()
+
+    if not email:
+        return jsonify({
+            'message': 'Vui lòng nhập email.'
+        }), 400
+
+    user = auth_service.get_by_email(email)
+
+    if not user:
+        return jsonify({
+            'message': 'Email không tồn tại.'
+        }), 404
+
+    otp = str(
+        random.randint(100000, 999999)
+    )
+
+    reset_store[email] = {
+        'otp': otp,
+        'expires_at': time.time() + 300,
+        'verified': False
+    }
+
+    if not send_reset_otp(email, otp):
+
+        reset_store.pop(email, None)
+
+        return jsonify({
+            'message': (
+                'Không thể gửi mã OTP. '
+                'Hãy kiểm tra cấu hình email.'
+            )
+        }), 500
+
+    return jsonify({
+        'message':
+            'Mã OTP đã được gửi đến email của bạn.'
+    }), 200
+
+
+@auth_bp.route('/verify-reset-code', methods=['POST'])
+def verify_reset_code():
+
+    data = request.get_json() or {}
+
+    email = (
+        data.get('email') or ''
+    ).strip().lower()
+
+    otp = str(
+        data.get('otp') or ''
+    ).strip()
+
+    record = reset_store.get(email)
+
+    if not record:
+        return jsonify({
+            'message': (
+                'Phiên đặt lại mật khẩu '
+                'không tồn tại. '
+                'Vui lòng yêu cầu mã mới.'
+            )
+        }), 400
+
+    if time.time() > record['expires_at']:
+
+        reset_store.pop(email, None)
+
+        return jsonify({
+            'message': 'Mã OTP đã hết hạn.'
+        }), 400
+
+    if otp != record['otp']:
+
+        return jsonify({
+            'message': 'Mã OTP không chính xác.'
+        }), 400
+
+    record['verified'] = True
+
+    return jsonify({
+        'message':
+            'Xác thực OTP thành công.'
+    }), 200
+
+
+@auth_bp.route('/resend-reset-code', methods=['POST'])
+def resend_reset_code():
+
+    data = request.get_json() or {}
+
+    email = (
+        data.get('email') or ''
+    ).strip().lower()
+
+    if not email:
+        return jsonify({
+            'message': 'Vui lòng nhập email.'
+        }), 400
+
+    user = auth_service.get_by_email(email)
+
+    if not user:
+        return jsonify({
+            'message': 'Email không tồn tại.'
+        }), 404
+
+    otp = str(
+        random.randint(100000, 999999)
+    )
+
+    reset_store[email] = {
+        'otp': otp,
+        'expires_at': time.time() + 300,
+        'verified': False
+    }
+
+    if not send_reset_otp(email, otp):
+
+        return jsonify({
+            'message':
+                'Không thể gửi lại mã OTP.'
+        }), 500
+
+    return jsonify({
+        'message':
+            'Mã OTP mới đã được gửi.'
+    }), 200
+
+
+@auth_bp.route('/reset-password', methods=['POST'])
+def reset_password():
+
+    data = request.get_json() or {}
+
+    email = (
+        data.get('email') or ''
+    ).strip().lower()
+
+    password = (
+        data.get('password') or ''
+    )
+
+    passwordconfirm = (
+        data.get('passwordconfirm') or ''
+    )
+
+    record = reset_store.get(email)
+
+    if not record or not record.get('verified'):
+
+        return jsonify({
+            'message':
+                'Bạn chưa xác thực mã OTP.'
+        }), 400
+
+    if time.time() > record['expires_at']:
+
+        reset_store.pop(email, None)
+
+        return jsonify({
+            'message':
+                'Phiên đặt lại mật khẩu đã hết hạn.'
+        }), 400
+
+    if len(password) < 6:
+
+        return jsonify({
+            'message':
+                'Mật khẩu phải có ít nhất 6 ký tự.'
+        }), 400
+
+    if password != passwordconfirm:
+
+        return jsonify({
+            'message':
+                'Mật khẩu xác nhận không khớp.'
+        }), 400
+
+    user = auth_service.get_by_email(email)
+
+    if not user:
+
+        return jsonify({
+            'message':
+                'Email không tồn tại.'
+        }), 404
+
+    print("DEBUG 1 - USER:", user)
+    print("DEBUG 2 - USER ID:", user.ID)
+    password_hash = generate_password_hash(password)
+    print("DEBUG 3 - HASH CREATED")
+    result = auth_service.update_password(
+    user.ID,
+    password_hash
+)
+    print("DEBUG 4 - UPDATE RESULT:", result)
+    if not result:
+        return jsonify({
+        'message': 'Không thể cập nhật mật khẩu.'
+    }), 500
+    reset_store.pop(email, None)
+    return jsonify({
+    'message': 'Đổi mật khẩu thành công.'
+}), 200
+
+    reset_store.pop(email, None)
+
+    return jsonify({
+        'message':
+            'Đổi mật khẩu thành công.'
+    }), 200
 
 @auth_bp.route('/signup', methods=['POST'])
 def register():
