@@ -5,8 +5,7 @@ from api.schemas.creative_space import (
     CreativeSpaceRequestSchema,
     CreativeSpaceResponseSchema
 )
-from datetime import datetime
-from infrastructure.databases.mssql import session
+from infrastructure.databases.postgres import session
 
 bp = Blueprint('creative_space', __name__, url_prefix='/creative-spaces')
 
@@ -74,7 +73,7 @@ def get_space(space_id):
                   message:
                     type: string
     """
-    item = creative_space_service.get_space(space_id)
+    item = creative_space_service.get_space_detail(space_id)
 
     if not item:
         return jsonify({'message': 'Space not found'}), 404
