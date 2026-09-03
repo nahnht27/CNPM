@@ -3,19 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Photographer - Profile | FilmSpace</title>
+
+  <title id="pageTitle">Profile | FilmSpace</title>
 
   <link rel="stylesheet" href="../assets/css/styles.css">
   <link rel="stylesheet" href="../assets/css/photographer-profile.css">
 </head>
+
 <body>
 
   <!-- NAVBAR -->
   <nav class="navbar" id="mainNavbar">
     <div class="navbar-container container">
-      <a class="logo" href="home.html" aria-label="FilmSpace">FilmSpace</a>
 
-      <div class="menu" aria-label="Photographer navigation">
+      <a
+        class="logo"
+        href="home.html"
+        aria-label="FilmSpace"
+      >
+        FilmSpace
+      </a>
+
+      <div class="menu" aria-label="User navigation">
         <a href="home.html">Home</a>
         <a href="search.html">Search</a>
         <a href="booking.html">Bookings</a>
@@ -24,444 +33,1446 @@
       </div>
 
       <div class="nav-actions">
-        <span class="photographer-nav-name" id="navPhotographerName">Photographer</span>
-        <button type="button" class="photographer-logout" onclick="logout()">Đăng xuất</button>
+
+        <span
+          class="photographer-nav-name"
+          id="navPhotographerName"
+        >
+          User
+        </span>
+
+        <button
+          type="button"
+          class="photographer-logout"
+          onclick="logout()"
+        >
+          Đăng xuất
+        </button>
+
       </div>
+
     </div>
   </nav>
 
+
   <!-- MAIN -->
   <main class="profile-page">
+
+    <!-- PROFILE HEADER -->
     <section class="profile-header">
+
       <div class="container">
+
         <div class="profile-heading">
+
           <div>
-            <span class="profile-kicker">PHOTOGRAPHER PROFILE</span>
-            <h1>Hồ sơ cá nhân</h1>
-            <p>Quản lý thông tin cá nhân và hồ sơ của bạn.</p>
+
+            <!-- ROLE SẼ ĐƯỢC ĐỔI BẰNG JAVASCRIPT -->
+            <span
+              class="profile-kicker"
+              id="profileKicker"
+            >
+              PROFILE
+            </span>
+
+            <h1>
+              Hồ sơ cá nhân
+            </h1>
+
+            <p>
+              Quản lý thông tin cá nhân và hồ sơ của bạn.
+            </p>
+
           </div>
-          <button type="button" class="edit-profile-btn" id="editBtn" onclick="enableEdit()">
+
+
+          <button
+            type="button"
+            class="edit-profile-btn"
+            id="editBtn"
+            onclick="enableEdit()"
+          >
             Chỉnh sửa hồ sơ
           </button>
+
         </div>
+
       </div>
+
     </section>
 
+
+    <!-- PROFILE CONTENT -->
     <section class="profile-content">
+
       <div class="container">
+
         <div class="profile-layout">
+
 
           <!-- PROFILE SUMMARY -->
           <aside class="profile-card profile-summary-card">
-            <div class="avatar" id="avatar">P</div>
-            <h2 id="profileDisplayName">Photographer</h2>
-            <span class="role-badge">Photographer</span>
-            <p class="profile-username" id="profileUsername">@photographer</p>
+
+            <div
+              class="avatar"
+              id="avatar"
+            >
+              U
+            </div>
+
+
+            <h2 id="profileDisplayName">
+              User
+            </h2>
+
+
+            <!-- ROLE SẼ ĐƯỢC ĐỔI BẰNG JAVASCRIPT -->
+            <span
+              class="role-badge"
+              id="roleBadge"
+            >
+              User
+            </span>
+
+
+            <p
+              class="profile-username"
+              id="profileUsername"
+            >
+              @user
+            </p>
+
 
             <div class="summary-divider"></div>
 
+
             <div class="summary-item">
-              <span>Thành viên từ</span>
-              <strong>2026</strong>
+
+              <span>
+                Thành viên từ
+              </span>
+
+              <strong>
+                2026
+              </strong>
+
             </div>
-        
+
           </aside>
+
 
           <!-- PROFILE FORM -->
           <section class="profile-card profile-form-card">
+
             <div class="card-title-row">
+
               <div>
-                <h2>Thông tin cá nhân</h2>
-                <p>Cập nhật thông tin để hồ sơ của bạn luôn chính xác.</p>
+
+                <h2>
+                  Thông tin cá nhân
+                </h2>
+
+                <p>
+                  Cập nhật thông tin để hồ sơ của bạn luôn chính xác.
+                </p>
+
               </div>
+
             </div>
 
-            <div id="profileMessage" class="profile-message"></div>
+
+            <div
+              id="profileMessage"
+              class="profile-message"
+            ></div>
+
 
             <form id="profileForm">
+
               <div class="form-grid">
+
+
+                <!-- FULL NAME -->
                 <div class="profile-field">
-                  <label for="fullName">Họ và tên</label>
-                  <input id="fullName" type="text" placeholder="Nhập họ và tên" disabled>
+
+                  <label for="fullName">
+                    Họ và tên
+                  </label>
+
+                  <input
+                    id="fullName"
+                    type="text"
+                    placeholder="Nhập họ và tên"
+                    disabled
+                  >
+
                 </div>
 
+
+                <!-- USERNAME -->
                 <div class="profile-field">
-                  <label for="username">Tên đăng nhập</label>
-                  <input id="username" type="text" placeholder="Username" disabled>
+
+                  <label for="username">
+                    Tên đăng nhập
+                  </label>
+
+                  <input
+                    id="username"
+                    type="text"
+                    placeholder="Username"
+                    disabled
+                  >
+
                 </div>
 
+
+                <!-- EMAIL -->
                 <div class="profile-field">
-                  <label for="email">Email</label>
-                  <input id="email" type="email" placeholder="example@email.com" disabled>
+
+                  <label for="email">
+                    Email
+                  </label>
+
+                  <input
+                    id="email"
+                    type="email"
+                    placeholder="example@email.com"
+                    disabled
+                  >
+
                 </div>
 
+
+                <!-- PHONE -->
                 <div class="profile-field">
-                  <label for="phone">Số điện thoại</label>
-                  <input id="phone" type="tel" placeholder="Nhập số điện thoại" disabled>
+
+                  <label for="phone">
+                    Số điện thoại
+                  </label>
+
+                  <input
+                    id="phone"
+                    type="tel"
+                    placeholder="Nhập số điện thoại"
+                    disabled
+                  >
+
                 </div>
 
+
+                <!-- LOCATION -->
                 <div class="profile-field full-width">
-                  <label for="location">Địa điểm</label>
-                  <input id="location" type="text" placeholder="TP. Hồ Chí Minh" disabled>
+
+                  <label for="location">
+                    Địa điểm
+                  </label>
+
+                  <input
+                    id="location"
+                    type="text"
+                    placeholder="TP. Hồ Chí Minh"
+                    disabled
+                  >
+
                 </div>
 
+
+                <!-- BIO -->
                 <div class="profile-field full-width">
-                  <label for="bio">Giới thiệu</label>
-                  <textarea id="bio" rows="5" placeholder="Viết một vài dòng giới thiệu về bạn..." disabled></textarea>
+
+                  <label for="bio">
+                    Giới thiệu
+                  </label>
+
+                  <textarea
+                    id="bio"
+                    rows="5"
+                    placeholder="Viết một vài dòng giới thiệu về bạn..."
+                    disabled
+                  ></textarea>
+
                 </div>
+
               </div>
 
-              <div class="form-actions" id="formActions">
-                <button type="button" class="cancel-btn" onclick="cancelEdit()">Hủy</button>
-                <button type="submit" class="save-btn">Lưu thay đổi</button>
+
+              <!-- FORM ACTIONS -->
+              <div
+                class="form-actions"
+                id="formActions"
+              >
+
+                <button
+                  type="button"
+                  class="cancel-btn"
+                  onclick="cancelEdit()"
+                >
+                  Hủy
+                </button>
+
+                <button
+                  type="submit"
+                  class="save-btn"
+                >
+                  Lưu thay đổi
+                </button>
+
               </div>
+
             </form>
+
           </section>
+
         </div>
+
 
         <!-- ACCOUNT -->
         <section class="profile-card account-card">
+
           <div class="card-title-row">
+
             <div>
-              <h2>Tài khoản</h2>
-              <p>Các thiết lập liên quan đến tài khoản FilmSpace.</p>
+
+              <h2>
+                Tài khoản
+              </h2>
+
+              <p>
+                Các thiết lập liên quan đến tài khoản FilmSpace.
+              </p>
+
             </div>
+
           </div>
+
 
           <div class="account-actions">
-            <a href="history.html" class="account-action">
-              <div class="account-icon">◷</div>
-              <div>
-                <strong>Lịch sử booking</strong>
-                <span>Xem lại các dịch vụ bạn đã đặt.</span>
+
+
+            <!-- BOOKING HISTORY -->
+            <a
+              href="history.html"
+              class="account-action"
+            >
+
+              <div class="account-icon">
+                ◷
               </div>
-              <span class="account-arrow">→</span>
+
+              <div>
+
+                <strong>
+                  Lịch sử booking
+                </strong>
+
+                <span>
+                  Xem lại các dịch vụ bạn đã đặt.
+                </span>
+
+              </div>
+
+              <span class="account-arrow">
+                →
+              </span>
+
             </a>
 
-            <button type="button" class="account-action danger-action" onclick="logout()">
-              <div class="account-icon">↪</div>
-              <div>
-                <strong>Đăng xuất</strong>
-                <span>Đăng xuất khỏi tài khoản hiện tại.</span>
+
+            <!-- LOGOUT -->
+            <button
+              type="button"
+              class="account-action danger-action"
+              onclick="logout()"
+            >
+
+              <div class="account-icon">
+                ↪
               </div>
-              <span class="account-arrow">→</span>
+
+              <div>
+
+                <strong>
+                  Đăng xuất
+                </strong>
+
+                <span>
+                  Đăng xuất khỏi tài khoản hiện tại.
+                </span>
+
+              </div>
+
+              <span class="account-arrow">
+                →
+              </span>
+
             </button>
+
           </div>
+
         </section>
+
       </div>
+
     </section>
+
   </main>
+
 
   <!-- FOOTER -->
   <footer class="footer">
+
     <div class="container">
+
       <div class="footer-top">
+
         <div class="footer-brand">
-          <div class="footer-logo">Photography<span>Platform</span></div>
-          <p>Kết nối các nhiếp ảnh gia phim với các phòng tối và studio đáng tin cậy.</p>
+
+          <div class="footer-logo">
+            Photography<span>Platform</span>
+          </div>
+
+          <p>
+            Kết nối các nhiếp ảnh gia phim với các phòng tối
+            và studio đáng tin cậy.
+          </p>
+
         </div>
 
+
         <div class="footer-menu">
-          <a href="home.html">Home</a>
-          <a href="search.html">Search</a>
-          <a href="booking.html">Bookings</a>
-          <a href="workshops.html">Workshops</a>
-          <a href="profile.html">Profile</a>
+
+          <a href="home.html">
+            Home
+          </a>
+
+          <a href="search.html">
+            Search
+          </a>
+
+          <a href="booking.html">
+            Bookings
+          </a>
+
+          <a href="workshops.html">
+            Workshops
+          </a>
+
+          <a href="profile.html">
+            Profile
+          </a>
+
         </div>
+
       </div>
+
 
       <hr class="footer-line">
 
+
       <div class="footer-bottom">
-        <span>Copyright © 2026 Photography Platform. All rights reserved.</span>
+
+        <span>
+          Copyright © 2026 Photography Platform.
+          All rights reserved.
+        </span>
+
         <div class="footer-links">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Use</a>
+
+          <a href="#">
+            Privacy Policy
+          </a>
+
+          <a href="#">
+            Terms of Use
+          </a>
+
         </div>
+
       </div>
+
     </div>
+
   </footer>
 
+
+  <!-- JAVASCRIPT -->
   <script>
-  const API_BASE_URL = "http://127.0.0.1:9999";
 
-  let originalData = {};
+    const API_BASE_URL = "http://127.0.0.1:9999";
 
-  function getStorage() {
-    return localStorage.getItem("auth_token")
-      ? localStorage
-      : sessionStorage;
-  }
+    let originalData = {};
 
-  function getUserData() {
-    const storage = getStorage();
 
-    return {
-      storage,
-      token: storage.getItem("auth_token"),
-      userId: storage.getItem("user_id"),
-      username: storage.getItem("username") || "",
-      fullName: storage.getItem("full_name") || "",
-      email: storage.getItem("email") || "",
-      phone: storage.getItem("phone") || "",
-      location: storage.getItem("location") || "",
-      bio: storage.getItem("bio") || ""
-    };
-  }
+    /* =====================================================
+       LẤY STORAGE ĐANG ĐĂNG NHẬP
+       ===================================================== */
 
-  async function loadProfile() {
-    const user = getUserData();
+    function getStorage() {
 
-    if (!user.token || !user.userId) {
-      window.location.href = "../auth.html";
-      return;
-    }
-
-    try {
-      const response = await fetch(
-        `${API_BASE_URL}/users/${user.userId}`,
-        {
-          method: "GET",
-          headers: {
-            "Accept": "application/json",
-            "Authorization": `Bearer ${user.token}`
-          }
-        }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        showMessage(data.message || "Không thể tải thông tin hồ sơ.", "error");
-        return;
+      if (localStorage.getItem("auth_token")) {
+        return localStorage;
       }
 
-      // Lưu dữ liệu Backend vào storage
-      user.storage.setItem("username", data.username || "");
-      user.storage.setItem("full_name", data.full_name || "");
-      user.storage.setItem("email", data.email || "");
-      user.storage.setItem("phone", data.phone || "");
-
-      // Hiển thị dữ liệu từ Backend
-      document.getElementById("username").value = data.username || "";
-      document.getElementById("fullName").value = data.full_name || "";
-      document.getElementById("email").value = data.email || "";
-      document.getElementById("phone").value = data.phone || "";
-
-      // location và bio chưa có trong Backend
-      document.getElementById("location").value =
-        user.storage.getItem("location") || "";
-
-      document.getElementById("bio").value =
-        user.storage.getItem("bio") || "";
-
-      updateProfileDisplay(
-        data.full_name || data.username || "Photographer",
-        data.username
-      );
-
-      saveOriginalData();
-
-    } catch (error) {
-      console.error(error);
-      showMessage(
-        "Không thể kết nối đến Backend. Hãy kiểm tra Flask đang chạy.",
-        "error"
-      );
+      return sessionStorage;
     }
-  }
 
-  function updateProfileDisplay(fullName, username) {
-    const displayName = fullName || username || "Photographer";
 
-    document.getElementById("navPhotographerName").textContent =
-      displayName;
+    /* =====================================================
+       LẤY USER DATA
+       ===================================================== */
 
-    document.getElementById("profileDisplayName").textContent =
-      displayName;
+    function getUserData() {
 
-    document.getElementById("profileUsername").textContent =
-      username ? "@" + username : "@photographer";
+      const storage = getStorage();
 
-    document.getElementById("avatar").textContent =
-      displayName.charAt(0).toUpperCase();
-  }
+      return {
 
-  function saveOriginalData() {
-    originalData = {
-      fullName: document.getElementById("fullName").value,
-      username: document.getElementById("username").value,
-      email: document.getElementById("email").value,
-      phone: document.getElementById("phone").value,
-      location: document.getElementById("location").value,
-      bio: document.getElementById("bio").value
-    };
-  }
+        storage: storage,
 
-  function enableEdit() {
-    document.querySelectorAll(
-      "#profileForm input, #profileForm textarea"
-    ).forEach(field => {
-      if (field.id !== "username") {
-        field.disabled = false;
+        token:
+          storage.getItem("auth_token"),
+
+        userId:
+          storage.getItem("user_id"),
+
+        username:
+          storage.getItem("username") || "",
+
+        fullName:
+          storage.getItem("full_name") || "",
+
+        email:
+          storage.getItem("email") || "",
+
+        phone:
+          storage.getItem("phone") || "",
+
+        location:
+          storage.getItem("location") || "",
+
+        bio:
+          storage.getItem("bio") || ""
+
+      };
+
+    }
+
+
+    /* =====================================================
+       CHUYỂN ROLE ID → TÊN ROLE
+       ===================================================== */
+
+    function getRoleName(roleId) {
+
+      const role = Number(roleId);
+
+      if (role === 1) {
+        return "Admin";
       }
-    });
 
-    document.getElementById("formActions").classList.add("show");
-    document.getElementById("editBtn").style.display = "none";
-    document.getElementById("fullName").focus();
-  }
+      if (role === 2) {
+        return "Photographer";
+      }
 
-  function cancelEdit() {
-    document.getElementById("fullName").value = originalData.fullName;
-    document.getElementById("username").value = originalData.username;
-    document.getElementById("email").value = originalData.email;
-    document.getElementById("phone").value = originalData.phone;
-    document.getElementById("location").value = originalData.location;
-    document.getElementById("bio").value = originalData.bio;
+      if (role === 3) {
+        return "Service Provider";
+      }
 
-    document.querySelectorAll(
-      "#profileForm input, #profileForm textarea"
-    ).forEach(field => {
-      field.disabled = true;
-    });
+      return "User";
 
-    document.getElementById("formActions").classList.remove("show");
-    document.getElementById("editBtn").style.display = "inline-flex";
-  }
+    }
 
-  document.getElementById("profileForm").addEventListener(
-    "submit",
-    async function(event) {
-      event.preventDefault();
+
+    /* =====================================================
+       LOAD PROFILE
+       ===================================================== */
+
+    async function loadProfile() {
 
       const user = getUserData();
 
+
+      /*
+       * Nếu chưa đăng nhập
+       */
       if (!user.token || !user.userId) {
+
         window.location.href = "../auth.html";
+
         return;
+
       }
 
-      const fullName =
-        document.getElementById("fullName").value.trim();
-
-      const email =
-        document.getElementById("email").value.trim();
-
-      const phone =
-        document.getElementById("phone").value.trim();
-
-      const location =
-        document.getElementById("location").value.trim();
-
-      const bio =
-        document.getElementById("bio").value.trim();
 
       try {
+
         const response = await fetch(
+
           `${API_BASE_URL}/users/${user.userId}`,
+
           {
-            method: "PUT",
+
+            method: "GET",
+
             headers: {
+
               "Accept": "application/json",
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${user.token}`
-            },
-            body: JSON.stringify({
-              full_name: fullName,
-              email: email,
-              phone: phone
-            })
+
+              "Authorization":
+                `Bearer ${user.token}`
+
+            }
+
           }
+
         );
+
 
         const data = await response.json();
 
+
+        console.log(
+          "PROFILE DATA:",
+          data
+        );
+
+
         if (!response.ok) {
+
           showMessage(
-            data.message || "Cập nhật hồ sơ thất bại.",
+
+            data.message ||
+            "Không thể tải thông tin hồ sơ.",
+
             "error"
+
           );
+
           return;
+
         }
 
-        // Lưu dữ liệu Backend
+
+        /* =================================================
+           ROLE
+           ================================================= */
+
+        const roleName =
+          getRoleName(data.role_id);
+
+
+        /*
+         * Profile title
+         *
+         * role 2:
+         * PHOTOGRAPHER PROFILE
+         *
+         * role 3:
+         * SERVICE PROVIDER PROFILE
+         */
+
+        const profileKicker =
+          document.getElementById(
+            "profileKicker"
+          );
+
+        if (profileKicker) {
+
+          profileKicker.textContent =
+            roleName.toUpperCase() +
+            " PROFILE";
+
+        }
+
+
+        /*
+         * Browser title
+         */
+
+        const pageTitle =
+          document.getElementById(
+            "pageTitle"
+          );
+
+        if (pageTitle) {
+
+          pageTitle.textContent =
+            `${roleName} - Profile | FilmSpace`;
+
+        }
+
+
+        /*
+         * Role badge
+         */
+
+        const roleBadge =
+          document.getElementById(
+            "roleBadge"
+          );
+
+        if (roleBadge) {
+
+          roleBadge.textContent =
+            roleName;
+
+        }
+
+
+        /* =================================================
+           LƯU DATA BACKEND
+           ================================================= */
+
+        user.storage.setItem(
+          "username",
+          data.username || ""
+        );
+
         user.storage.setItem(
           "full_name",
-          data.full_name || fullName
+          data.full_name || ""
         );
 
         user.storage.setItem(
           "email",
-          data.email || email
+          data.email || ""
         );
 
         user.storage.setItem(
           "phone",
-          data.phone || phone
+          data.phone || ""
         );
 
-        // location + bio vẫn lưu local vì Backend chưa có 2 field này
-        user.storage.setItem("location", location);
-        user.storage.setItem("bio", bio);
+
+        /*
+         * Nếu muốn lưu role_id vào storage
+         */
+
+        user.storage.setItem(
+          "role_id",
+          data.role_id ?? ""
+        );
+
+
+        /* =================================================
+           HIỂN THỊ FORM
+           ================================================= */
+
+        document.getElementById(
+          "username"
+        ).value =
+          data.username || "";
+
+
+        document.getElementById(
+          "fullName"
+        ).value =
+          data.full_name || "";
+
+
+        document.getElementById(
+          "email"
+        ).value =
+          data.email || "";
+
+
+        document.getElementById(
+          "phone"
+        ).value =
+          data.phone || "";
+
+
+        /*
+         * Location và bio hiện vẫn localStorage
+         */
+
+        document.getElementById(
+          "location"
+        ).value =
+          user.storage.getItem(
+            "location"
+          ) || "";
+
+
+        document.getElementById(
+          "bio"
+        ).value =
+          user.storage.getItem(
+            "bio"
+          ) || "";
+
+
+        /* =================================================
+           UPDATE PROFILE DISPLAY
+           ================================================= */
 
         updateProfileDisplay(
-          data.full_name || fullName,
-          data.username || user.username
+
+          data.full_name ||
+          data.username ||
+          "User",
+
+          data.username
+
         );
+
+
+        /*
+         * Lưu dữ liệu gốc
+         */
 
         saveOriginalData();
-        cancelEdit();
 
-        showMessage(
-          "Đã lưu thông tin hồ sơ thành công.",
-          "success"
-        );
 
       } catch (error) {
-        console.error(error);
+
+        console.error(
+          "LOAD PROFILE ERROR:",
+          error
+        );
 
         showMessage(
-          "Không thể kết nối đến Backend.",
+
+          "Không thể kết nối đến Backend. Hãy kiểm tra Flask đang chạy.",
+
           "error"
+
         );
+
       }
+
     }
-  );
 
-  function showMessage(text, type = "success") {
-    const box = document.getElementById("profileMessage");
 
-    box.textContent = text;
-    box.className =
-      text
-        ? "profile-message " + type
-        : "profile-message";
-  }
+    /* =====================================================
+       UPDATE PROFILE DISPLAY
+       ===================================================== */
 
-  function logout() {
-    localStorage.removeItem("auth_token");
-    localStorage.removeItem("user_id");
-    localStorage.removeItem("username");
-    localStorage.removeItem("full_name");
-    localStorage.removeItem("email");
-    localStorage.removeItem("phone");
-    localStorage.removeItem("location");
-    localStorage.removeItem("bio");
+    function updateProfileDisplay(
+      fullName,
+      username
+    ) {
 
-    sessionStorage.removeItem("auth_token");
-    sessionStorage.removeItem("user_id");
-    sessionStorage.removeItem("username");
-    sessionStorage.removeItem("full_name");
-    sessionStorage.removeItem("email");
-    sessionStorage.removeItem("phone");
-    sessionStorage.removeItem("location");
-    sessionStorage.removeItem("bio");
+      const displayName =
+        fullName ||
+        username ||
+        "User";
 
-    window.location.href = "../auth.html";
-  }
 
-  loadProfile();
-</script>
+      /*
+       * Navbar
+       */
+
+      const navName =
+        document.getElementById(
+          "navPhotographerName"
+        );
+
+      if (navName) {
+
+        navName.textContent =
+          displayName;
+
+      }
+
+
+      /*
+       * Profile name
+       */
+
+      const profileName =
+        document.getElementById(
+          "profileDisplayName"
+        );
+
+      if (profileName) {
+
+        profileName.textContent =
+          displayName;
+
+      }
+
+
+      /*
+       * Username
+       */
+
+      const profileUsername =
+        document.getElementById(
+          "profileUsername"
+        );
+
+      if (profileUsername) {
+
+        profileUsername.textContent =
+          username
+            ? "@" + username
+            : "@user";
+
+      }
+
+
+      /*
+       * Avatar
+       */
+
+      const avatar =
+        document.getElementById(
+          "avatar"
+        );
+
+      if (avatar) {
+
+        avatar.textContent =
+          displayName
+            .charAt(0)
+            .toUpperCase();
+
+      }
+
+    }
+
+
+    /* =====================================================
+       SAVE ORIGINAL DATA
+       ===================================================== */
+
+    function saveOriginalData() {
+
+      originalData = {
+
+        fullName:
+          document.getElementById(
+            "fullName"
+          ).value,
+
+        username:
+          document.getElementById(
+            "username"
+          ).value,
+
+        email:
+          document.getElementById(
+            "email"
+          ).value,
+
+        phone:
+          document.getElementById(
+            "phone"
+          ).value,
+
+        location:
+          document.getElementById(
+            "location"
+          ).value,
+
+        bio:
+          document.getElementById(
+            "bio"
+          ).value
+
+      };
+
+    }
+
+
+    /* =====================================================
+       ENABLE EDIT
+       ===================================================== */
+
+    function enableEdit() {
+
+      document
+        .querySelectorAll(
+          "#profileForm input, #profileForm textarea"
+        )
+        .forEach(field => {
+
+          /*
+           * Username không cho sửa
+           */
+
+          if (
+            field.id !== "username"
+          ) {
+
+            field.disabled = false;
+
+          }
+
+        });
+
+
+      document
+        .getElementById(
+          "formActions"
+        )
+        .classList
+        .add("show");
+
+
+      document
+        .getElementById(
+          "editBtn"
+        )
+        .style
+        .display = "none";
+
+
+      document
+        .getElementById(
+          "fullName"
+        )
+        .focus();
+
+    }
+
+
+    /* =====================================================
+       CANCEL EDIT
+       ===================================================== */
+
+    function cancelEdit() {
+
+      document
+        .getElementById(
+          "fullName"
+        )
+        .value =
+          originalData.fullName;
+
+
+      document
+        .getElementById(
+          "username"
+        )
+        .value =
+          originalData.username;
+
+
+      document
+        .getElementById(
+          "email"
+        )
+        .value =
+          originalData.email;
+
+
+      document
+        .getElementById(
+          "phone"
+        )
+        .value =
+          originalData.phone;
+
+
+      document
+        .getElementById(
+          "location"
+        )
+        .value =
+          originalData.location;
+
+
+      document
+        .getElementById(
+          "bio"
+        )
+        .value =
+          originalData.bio;
+
+
+      document
+        .querySelectorAll(
+          "#profileForm input, #profileForm textarea"
+        )
+        .forEach(field => {
+
+          field.disabled = true;
+
+        });
+
+
+      document
+        .getElementById(
+          "formActions"
+        )
+        .classList
+        .remove("show");
+
+
+      document
+        .getElementById(
+          "editBtn"
+        )
+        .style
+        .display =
+          "inline-flex";
+
+    }
+
+
+    /* =====================================================
+       SUBMIT PROFILE
+       ===================================================== */
+
+    document
+      .getElementById(
+        "profileForm"
+      )
+      .addEventListener(
+        "submit",
+        async function(event) {
+
+          event.preventDefault();
+
+
+          const user =
+            getUserData();
+
+
+          if (
+            !user.token ||
+            !user.userId
+          ) {
+
+            window.location.href =
+              "../auth.html";
+
+            return;
+
+          }
+
+
+          const fullName =
+            document
+              .getElementById(
+                "fullName"
+              )
+              .value
+              .trim();
+
+
+          const email =
+            document
+              .getElementById(
+                "email"
+              )
+              .value
+              .trim();
+
+
+          const phone =
+            document
+              .getElementById(
+                "phone"
+              )
+              .value
+              .trim();
+
+
+          const location =
+            document
+              .getElementById(
+                "location"
+              )
+              .value
+              .trim();
+
+
+          const bio =
+            document
+              .getElementById(
+                "bio"
+              )
+              .value
+              .trim();
+
+
+          try {
+
+            const response =
+              await fetch(
+
+                `${API_BASE_URL}/users/${user.userId}`,
+
+                {
+
+                  method: "PUT",
+
+                  headers: {
+
+                    "Accept":
+                      "application/json",
+
+                    "Content-Type":
+                      "application/json",
+
+                    "Authorization":
+                      `Bearer ${user.token}`
+
+                  },
+
+                  body: JSON.stringify({
+
+                    full_name:
+                      fullName,
+
+                    email:
+                      email,
+
+                    phone:
+                      phone
+
+                  })
+
+                }
+
+              );
+
+
+            const data =
+              await response.json();
+
+
+            if (!response.ok) {
+
+              showMessage(
+
+                data.message ||
+                "Cập nhật hồ sơ thất bại.",
+
+                "error"
+
+              );
+
+              return;
+
+            }
+
+
+            /* =================================================
+               LƯU DATA BACKEND
+               ================================================= */
+
+            user.storage.setItem(
+
+              "full_name",
+
+              data.full_name ||
+              fullName
+
+            );
+
+
+            user.storage.setItem(
+
+              "email",
+
+              data.email ||
+              email
+
+            );
+
+
+            user.storage.setItem(
+
+              "phone",
+
+              data.phone ||
+              phone
+
+            );
+
+
+            /* =================================================
+               LOCATION + BIO
+               ================================================= */
+
+            user.storage.setItem(
+              "location",
+              location
+            );
+
+
+            user.storage.setItem(
+              "bio",
+              bio
+            );
+
+
+            /* =================================================
+               UPDATE DISPLAY
+               ================================================= */
+
+            updateProfileDisplay(
+
+              data.full_name ||
+              fullName,
+
+              data.username ||
+              user.username
+
+            );
+
+
+            saveOriginalData();
+
+            cancelEdit();
+
+
+            showMessage(
+
+              "Đã lưu thông tin hồ sơ thành công.",
+
+              "success"
+
+            );
+
+
+          } catch (error) {
+
+            console.error(
+              "UPDATE PROFILE ERROR:",
+              error
+            );
+
+
+            showMessage(
+
+              "Không thể kết nối đến Backend.",
+
+              "error"
+
+            );
+
+          }
+
+        }
+
+      );
+
+
+    /* =====================================================
+       SHOW MESSAGE
+       ===================================================== */
+
+    function showMessage(
+      text,
+      type = "success"
+    ) {
+
+      const box =
+        document.getElementById(
+          "profileMessage"
+        );
+
+
+      box.textContent =
+        text;
+
+
+      box.className =
+        text
+          ? "profile-message " + type
+          : "profile-message";
+
+    }
+
+
+    /* =====================================================
+       LOGOUT
+       ===================================================== */
+
+    function logout() {
+
+      localStorage.removeItem(
+        "auth_token"
+      );
+
+      localStorage.removeItem(
+        "user_id"
+      );
+
+      localStorage.removeItem(
+        "username"
+      );
+
+      localStorage.removeItem(
+        "full_name"
+      );
+
+      localStorage.removeItem(
+        "email"
+      );
+
+      localStorage.removeItem(
+        "phone"
+      );
+
+      localStorage.removeItem(
+        "role_id"
+      );
+
+      localStorage.removeItem(
+        "location"
+      );
+
+      localStorage.removeItem(
+        "bio"
+      );
+
+
+      sessionStorage.removeItem(
+        "auth_token"
+      );
+
+      sessionStorage.removeItem(
+        "user_id"
+      );
+
+      sessionStorage.removeItem(
+        "username"
+      );
+
+      sessionStorage.removeItem(
+        "full_name"
+      );
+
+      sessionStorage.removeItem(
+        "email"
+      );
+
+      sessionStorage.removeItem(
+        "phone"
+      );
+
+      sessionStorage.removeItem(
+        "role_id"
+      );
+
+      sessionStorage.removeItem(
+        "location"
+      );
+
+      sessionStorage.removeItem(
+        "bio"
+      );
+
+
+      window.location.href =
+        "../auth.html";
+
+    }
+
+
+    /* =====================================================
+       LOAD PAGE
+       ===================================================== */
+
+    loadProfile();
+
+  </script>
+
 </body>
 </html>

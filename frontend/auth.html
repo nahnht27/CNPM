@@ -321,7 +321,7 @@
         </form>
 
         <div class="switch-form">
-  Đã có tài khoản? <a onclick="showLogin()">Đăng nhập</a>
+  Chưa có tài khoản? <a onclick="showRegister()">Đăng ký</a>
 </div>
       </section>
 
@@ -347,8 +347,8 @@
   <label for="registerRole">Vai trò</label>
   <select id="registerRole" required>
     <option value="" disabled selected>Chọn vai trò</option>
-    <option value="PG">Photographer</option>
-    <option value="SP">Service Provider</option>
+    <option value="2">Photographer</option>
+    <option value="3">Service Provider</option>
   </select>
 </div>
 
@@ -459,6 +459,7 @@
 
   storage.setItem("auth_token", data.token);
   storage.setItem("user_id", data.user_id);
+  storage.setItem("role_id", data.role_id);
 
   storage.setItem(
     "username",
@@ -476,8 +477,18 @@
       showMessage("Đăng nhập thành công.", "success");
 
       setTimeout(() => {
-        window.location.href = "photographer/home.html";
-      }, 3000);
+  const roleId = Number(data.role_id);
+
+  if (roleId === 1) {
+    window.location.href = "admin/dashboard.html";
+  } else if (roleId === 2) {
+    window.location.href = "photographer/home.html";
+  } else if (roleId === 3) {
+    window.location.href = "provider/dashboard.html";
+  } else {
+    showMessage("Vai trò tài khoản không hợp lệ.");
+  }
+}, 3000);
     } catch (error) {
       showMessage("Không thể kết nối đến Backend. Hãy kiểm tra Flask đang chạy.");
     }
@@ -510,7 +521,7 @@
   email: email,
   password: password,
   passwordconfirm: confirmPassword,
-  role: role
+  role_id: role
 })
       });
 
