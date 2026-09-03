@@ -1,6 +1,8 @@
 from typing import List
 
+
 class CreativeSpaceService:
+
     def __init__(self, repository):
         self.repository = repository
 
@@ -9,6 +11,9 @@ class CreativeSpaceService:
 
     def get_space(self, id: int):
         return self.repository.get_by_id(id)
+
+    def get_space_detail(self, id: int):
+        return self.repository.get_detail(id)
 
     def list_spaces(self) -> List:
         return self.repository.list()

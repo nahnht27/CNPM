@@ -1,0 +1,1420 @@
+/* =========================================================
+   PHOTOGRAPHER HOME
+   FilmSpace
+   ========================================================= */
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.photographer-page {
+  background: var(--bg);
+  min-height: calc(100vh - 74px);
+}
+
+
+/* =========================================================
+   NAVBAR
+   Override nhẹ cho Photographer
+   Vẫn sử dụng layout navbar gốc
+   ========================================================= */
+
+.photographer-nav-name {
+  max-width: 150px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.photographer-logout {
+  border: 0;
+
+  background: transparent;
+
+  color: #66697b;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  padding: 10px 0;
+}
+
+.photographer-logout:hover {
+  color: var(--pink);
+}
+
+
+/* =========================================================
+   WELCOME
+   ========================================================= */
+
+.photographer-welcome {
+  padding: 32px 0 22px;
+}
+
+.welcome-card {
+  position: relative;
+
+  min-height: 220px;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      120deg,
+      #fff4fa 0%,
+      #ffffff 48%,
+      #f5f6fb 100%
+    );
+
+  border: 1px solid var(--line);
+
+  border-radius: 10px;
+
+  box-shadow: var(--shadow);
+
+  display: flex;
+  align-items: center;
+}
+
+.welcome-card::before {
+  content: "";
+
+  position: absolute;
+
+  width: 260px;
+  height: 260px;
+
+  border-radius: 50%;
+
+  right: -60px;
+  top: -100px;
+
+  border: 1px solid rgba(255, 21, 132, .15);
+}
+
+.welcome-card::after {
+  content: "";
+
+  position: absolute;
+
+  width: 170px;
+  height: 170px;
+
+  border-radius: 50%;
+
+  right: 120px;
+  bottom: -100px;
+
+  border: 1px solid rgba(133, 155, 172, .25);
+}
+
+.welcome-content {
+  position: relative;
+
+  z-index: 2;
+
+  padding: 40px 48px;
+}
+
+.welcome-kicker {
+  margin-bottom: 10px;
+
+  color: var(--pink);
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: .7px;
+
+  text-transform: uppercase;
+}
+
+.welcome-content h1 {
+  margin: 0;
+
+  color: var(--text);
+
+  font-size: 38px;
+  line-height: 1.15;
+
+  letter-spacing: -1.2px;
+}
+
+.welcome-content h1 span {
+  color: var(--pink);
+}
+
+.welcome-content p {
+  margin: 14px 0 0;
+
+  max-width: 620px;
+
+  color: var(--muted);
+
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+
+/* =========================================================
+   COMMON DASHBOARD SECTION
+   ========================================================= */
+
+.dashboard-section {
+  padding: 22px 0;
+}
+
+.section-heading {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: flex-end;
+
+  gap: 20px;
+
+  margin-bottom: 20px;
+}
+
+.section-heading h2 {
+  margin: 0 0 6px;
+
+  color: var(--text);
+
+  font-size: 25px;
+
+  letter-spacing: -.5px;
+}
+
+.section-heading p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 12px;
+}
+
+.view-all-link {
+  flex-shrink: 0;
+
+  color: var(--pink);
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.view-all-link:hover {
+  color: var(--pink-dark);
+}
+
+
+/* =========================================================
+   QUICK SEARCH
+   ========================================================= */
+
+.quick-search-section {
+  padding-top: 18px;
+}
+
+.dashboard-search-box {
+  width: 100%;
+
+  display: flex;
+
+  background: var(--white);
+
+  border: 1px solid var(--line);
+
+  border-radius: 9px;
+
+  box-shadow: var(--shadow);
+
+  overflow: hidden;
+}
+
+.dashboard-search-input {
+  flex: 1;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 17px 20px;
+}
+
+.dashboard-search-icon {
+  width: 34px;
+  height: 34px;
+
+  display: grid;
+  place-items: center;
+
+  flex: 0 0 auto;
+
+  border-radius: 50%;
+
+  background: #fff1f8;
+
+  color: var(--pink);
+
+  font-size: 18px;
+}
+
+.dashboard-search-input input {
+  width: 100%;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+
+  color: var(--text);
+
+  font-size: 13px;
+}
+
+.dashboard-search-input input::placeholder {
+  color: #9a9cab;
+}
+
+.dashboard-search-btn {
+  min-width: 125px;
+
+  border: 0;
+
+  background: var(--pink);
+
+  color: #fff;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition: .18s ease;
+}
+
+.dashboard-search-btn:hover {
+  background: var(--pink-dark);
+}
+
+
+/* =========================================================
+   STUDIO / DARKROOM
+   ========================================================= */
+
+.photographer-studio-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 20px;
+}
+
+.photographer-studio-card {
+  background: var(--white);
+
+  border: 1px solid var(--line);
+
+  border-radius: 10px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 8px 24px rgba(40, 42, 67, .06);
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.photographer-studio-card:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 14px 30px rgba(40, 42, 67, .10);
+}
+
+.photographer-studio-image {
+  height: 210px;
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+.photographer-studio-image img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  transition: transform .3s ease;
+}
+
+.photographer-studio-card:hover
+.photographer-studio-image img {
+  transform: scale(1.04);
+}
+
+.favorite-btn {
+  position: absolute;
+
+  top: 12px;
+  right: 12px;
+
+  width: 34px;
+  height: 34px;
+
+  border: 0;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, .95);
+
+  color: var(--text);
+
+  font-size: 18px;
+
+  cursor: pointer;
+}
+
+.favorite-btn:hover {
+  color: var(--pink);
+}
+
+.photographer-studio-info {
+  padding: 17px;
+}
+
+.service-type {
+  display: inline-block;
+
+  margin-bottom: 9px;
+
+  padding: 5px 9px;
+
+  border-radius: 5px;
+
+  background: #fff1f8;
+
+  color: var(--pink);
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.darkroom-type {
+  background: #eef4f7;
+
+  color: #657f91;
+}
+
+.photographer-studio-info h3 {
+  margin: 0 0 7px;
+
+  color: var(--text);
+
+  font-size: 16px;
+}
+
+.studio-location {
+  margin: 0 0 14px;
+
+  color: var(--muted);
+
+  font-size: 11px;
+}
+
+.studio-meta {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  margin-bottom: 15px;
+
+  color: #4d5062;
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.book-btn {
+  display: block;
+
+  width: 100%;
+
+  padding: 11px;
+
+  border-radius: 5px;
+
+  background: var(--pink);
+
+  color: #fff;
+
+  text-align: center;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  transition: .18s ease;
+}
+
+.book-btn:hover {
+  background: var(--pink-dark);
+}
+
+
+/* =========================================================
+   UPCOMING BOOKING
+   ========================================================= */
+
+.upcoming-booking-card {
+  display: grid;
+
+  grid-template-columns: 260px 1fr;
+
+  background: var(--white);
+
+  border: 1px solid var(--line);
+
+  border-radius: 10px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 8px 24px rgba(40, 42, 67, .06);
+}
+
+.upcoming-booking-image {
+  min-height: 205px;
+
+  overflow: hidden;
+}
+
+.upcoming-booking-image img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+}
+
+.upcoming-booking-content {
+  display: flex;
+
+  flex-direction: column;
+
+  padding: 24px;
+}
+
+.booking-header {
+  display: flex;
+
+  justify-content: space-between;
+}
+
+.booking-status {
+  display: inline-block;
+
+  margin-bottom: 8px;
+
+  padding: 5px 9px;
+
+  border-radius: 5px;
+
+  background: #fff1f8;
+
+  color: var(--pink);
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.upcoming-booking-content h3 {
+  margin: 0;
+
+  color: var(--text);
+
+  font-size: 20px;
+}
+
+.booking-info-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 20px;
+
+  margin-top: 25px;
+}
+
+.booking-info-item {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.booking-label {
+  color: #9698a7;
+
+  font-size: 10px;
+
+  text-transform: uppercase;
+
+  letter-spacing: .3px;
+}
+
+.booking-info-item strong {
+  color: #46495b;
+
+  font-size: 12px;
+}
+
+.booking-footer {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 20px;
+
+  margin-top: auto;
+  padding-top: 22px;
+}
+
+.booking-location {
+  color: var(--muted);
+
+  font-size: 11px;
+}
+
+.booking-detail-btn {
+  flex-shrink: 0;
+
+  padding: 10px 16px;
+
+  border: 1px solid var(--pink);
+
+  border-radius: 5px;
+
+  color: var(--pink);
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.booking-detail-btn:hover {
+  background: #fff1f8;
+}
+
+
+/* =========================================================
+   QUICK ACTIONS
+   ========================================================= */
+
+.quick-actions-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 20px;
+}
+
+.quick-action-card {
+  display: flex;
+
+  align-items: center;
+
+  gap: 16px;
+
+  position: relative;
+
+  padding: 22px;
+
+  background: var(--white);
+
+  border: 1px solid var(--line);
+
+  border-radius: 10px;
+
+  box-shadow:
+    0 8px 24px rgba(40, 42, 67, .05);
+
+  transition:
+    transform .2s ease,
+    border-color .2s ease;
+}
+
+.quick-action-card:hover {
+  transform: translateY(-3px);
+
+  border-color: #f4b6d4;
+}
+
+.quick-action-icon {
+  width: 50px;
+  height: 50px;
+
+  display: grid;
+  place-items: center;
+
+  flex: 0 0 auto;
+
+  border-radius: 9px;
+
+  background: #fff1f8;
+
+  color: var(--pink);
+
+  font-size: 22px;
+}
+
+.workshop-icon {
+  background: #eef4f7;
+
+  color: #657f91;
+}
+
+.quick-action-content {
+  min-width: 0;
+}
+
+.quick-action-content h3 {
+  margin: 0 0 6px;
+
+  color: var(--text);
+
+  font-size: 15px;
+}
+
+.quick-action-content p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 11px;
+
+  line-height: 1.5;
+}
+
+.quick-action-arrow {
+  margin-left: auto;
+
+  color: var(--pink);
+
+  font-size: 19px;
+}
+
+
+/* =========================================================
+   FEATURED WORKSHOPS
+   ========================================================= */
+
+.workshops-section {
+  padding-bottom: 55px;
+}
+
+.workshop-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 20px;
+}
+
+.workshop-card {
+  display: grid;
+
+  grid-template-columns: 120px 1fr;
+
+  gap: 15px;
+
+  padding: 13px;
+
+  background: var(--white);
+
+  border: 1px solid var(--line);
+
+  border-radius: 10px;
+
+  box-shadow:
+    0 8px 24px rgba(40, 42, 67, .05);
+}
+
+.workshop-image {
+  height: 130px;
+
+  overflow: hidden;
+
+  border-radius: 7px;
+}
+
+.workshop-image img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+}
+
+.workshop-content {
+  padding: 4px 2px;
+}
+
+.workshop-status {
+  display: inline-block;
+
+  margin-bottom: 8px;
+
+  padding: 4px 7px;
+
+  border-radius: 4px;
+
+  background: #fff1f8;
+
+  color: var(--pink);
+
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.workshop-content h3 {
+  margin: 0 0 12px;
+
+  color: var(--text);
+
+  font-size: 13px;
+
+  line-height: 1.4;
+}
+
+.workshop-content p {
+  margin: 5px 0;
+
+  color: var(--muted);
+
+  font-size: 10px;
+}
+
+/* =========================================================
+   PHOTOGRAPHER SEARCH
+   ========================================================= */
+
+.photographer-search-page {
+  background: #f7f8fb;
+  min-height: calc(100vh - 74px);
+}
+
+/* HERO */
+.search-hero {
+  padding: 56px 0 48px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--line);
+}
+
+.search-kicker {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: var(--pink);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+.search-hero h1 {
+  margin: 0;
+  color: var(--text);
+  font-size: 38px;
+  line-height: 1.15;
+  letter-spacing: -1px;
+}
+
+.search-hero p {
+  margin: 12px 0 28px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* MAIN SEARCH */
+.main-search-box {
+  display: flex;
+  align-items: center;
+  width: min(760px, 100%);
+  min-height: 54px;
+  padding: 5px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: #fff;
+  box-shadow: 0 8px 28px rgba(40, 42, 67, .06);
+}
+
+.search-icon {
+  padding: 0 13px;
+  color: var(--muted);
+  font-size: 23px;
+}
+
+.main-search-box input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.main-search-box input::placeholder {
+  color: #9a9dad;
+}
+
+.main-search-box button {
+  border: 0;
+  border-radius: 6px;
+  padding: 13px 24px;
+  background: var(--pink);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .18s ease;
+}
+
+.main-search-box button:hover {
+  background: var(--pink-dark);
+}
+
+/* CONTENT */
+.search-content {
+  padding: 38px 0 54px;
+}
+
+.search-toolbar {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 36px;
+  padding: 18px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.filter-group {
+  min-width: 170px;
+}
+
+.filter-group label {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+}
+
+.filter-group select {
+  width: 100%;
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  outline: 0;
+  background: #fff;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.filter-group select:focus {
+  border-color: var(--pink);
+}
+
+.clear-filter {
+  height: 42px;
+  margin-left: auto;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.clear-filter:hover {
+  color: var(--pink);
+  border-color: var(--pink);
+}
+
+/* RESULTS HEADING */
+.results-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.results-heading h2 {
+  margin: 0 0 5px;
+  color: var(--text);
+  font-size: 22px;
+  letter-spacing: -.4px;
+}
+
+.results-heading p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* CARDS */
+.space-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.space-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(40, 42, 67, .05);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.space-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 32px rgba(40, 42, 67, .09);
+}
+
+.space-image {
+  position: relative;
+  height: 210px;
+  overflow: hidden;
+  background: #eef0f4;
+}
+
+.space-image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform .25s ease;
+}
+
+.space-card:hover .space-image img {
+  transform: scale(1.03);
+}
+
+.space-badge {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  padding: 6px 9px;
+  border-radius: 5px;
+  background: #fff;
+  color: var(--pink);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.space-badge.darkroom {
+  color: #5d7080;
+}
+
+.favorite-btn {
+  position: absolute;
+  right: 13px;
+  top: 13px;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .94);
+  color: #55586b;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.favorite-btn:hover {
+  color: var(--pink);
+}
+
+.space-info {
+  padding: 18px;
+}
+
+.space-info h3 {
+  margin: 0 0 7px;
+  color: var(--text);
+  font-size: 18px;
+  letter-spacing: -.3px;
+}
+
+.location {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.space-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.space-meta span:first-child {
+  color: #d28b19;
+}
+
+.description {
+  min-height: 38px;
+  margin: 13px 0 17px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.detail-btn {
+  display: block;
+  padding: 11px 14px;
+  border: 1px solid var(--pink);
+  border-radius: 6px;
+  color: var(--pink);
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  transition: .18s ease;
+}
+
+.detail-btn:hover {
+  background: var(--pink);
+  color: #fff;
+}
+
+/* NO RESULTS */
+.no-results {
+  display: none;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.no-results.show {
+  display: block;
+}
+
+.no-results-icon {
+  margin-bottom: 10px;
+  color: #a1a4b1;
+  font-size: 34px;
+}
+
+.no-results h3 {
+  margin: 0 0 7px;
+  color: var(--text);
+  font-size: 18px;
+}
+
+.no-results p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* NAVBAR ADDITIONS */
+.photographer-nav-name {
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.photographer-logout {
+  border: 0;
+  padding: 10px 14px;
+  border-radius: 5px;
+  background: #f3f3f6;
+  color: #55586b;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.photographer-logout:hover {
+  background: #ececf1;
+  color: var(--pink);
+}
+
+/* RESPONSIVE */
+@media (max-width: 1000px) {
+  .space-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .search-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .filter-group {
+    flex: 1;
+  }
+
+  .clear-filter {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .search-hero {
+    padding: 40px 0;
+  }
+
+  .search-hero h1 {
+    font-size: 30px;
+  }
+
+  .main-search-box {
+    flex-wrap: wrap;
+    padding: 8px;
+  }
+
+  .search-icon {
+    padding-left: 8px;
+  }
+
+  .main-search-box input {
+    min-height: 38px;
+  }
+
+  .main-search-box button {
+    width: 100%;
+  }
+
+  .space-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .search-toolbar {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .filter-group {
+    width: 100%;
+  }
+
+  .clear-filter {
+    width: 100%;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1050px) {
+
+  .menu {
+    gap: 18px;
+  }
+
+  .photographer-nav-name {
+    max-width: 100px;
+  }
+
+  .photographer-studio-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .workshop-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+}
+
+
+@media (max-width: 850px) {
+
+  .navbar-container {
+    gap: 15px;
+  }
+
+  .menu {
+    gap: 12px;
+  }
+
+  .menu a {
+    font-size: 11px;
+  }
+
+  .nav-actions {
+    gap: 10px;
+  }
+
+  .photographer-nav-name {
+    display: none;
+  }
+
+  .welcome-content {
+    padding: 35px;
+  }
+
+  .welcome-content h1 {
+    font-size: 32px;
+  }
+
+  .upcoming-booking-card {
+    grid-template-columns: 1fr;
+  }
+
+  .upcoming-booking-image {
+    height: 220px;
+    min-height: 0;
+  }
+
+}
+
+
+@media (max-width: 700px) {
+
+  .container {
+    width: min(100% - 28px, 1180px);
+  }
+
+  .navbar {
+    height: 64px;
+  }
+
+  .logo {
+    font-size: 19px;
+  }
+
+  .menu {
+    display: none;
+  }
+
+  .photographer-welcome {
+    padding-top: 20px;
+  }
+
+  .welcome-card {
+    min-height: 190px;
+  }
+
+  .welcome-content {
+    padding: 30px;
+  }
+
+  .welcome-content h1 {
+    font-size: 28px;
+  }
+
+  .welcome-content p {
+    font-size: 12px;
+  }
+
+  .section-heading {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 8px;
+  }
+
+  .section-heading h2 {
+    font-size: 22px;
+  }
+
+  .dashboard-search-box {
+    flex-direction: column;
+  }
+
+  .dashboard-search-btn {
+    min-height: 48px;
+  }
+
+  .photographer-studio-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-footer {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .quick-actions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .workshop-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+@media (max-width: 450px) {
+
+  .welcome-content {
+    padding: 25px;
+  }
+
+  .welcome-content h1 {
+    font-size: 25px;
+  }
+
+  .photographer-studio-image {
+    height: 190px;
+  }
+
+  .upcoming-booking-content {
+    padding: 20px;
+  }
+
+  .quick-action-card {
+    padding: 18px;
+  }
+
+}
