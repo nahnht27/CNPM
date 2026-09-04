@@ -1,350 +1,790 @@
 \chapter{YÊU CẦU PHẦN MỀM}
-\section{Tổng quan chức năng hệ thống}
+\section{Tổng quan}
 
-\subsection{Luồng màn hình}
-Hệ thống cung cấp các luồng màn hình tương ứng với từng vai trò người dùng, bao gồm Photographer, Service Provider và Administrator. Các luồng màn hình hỗ trợ người dùng thực hiện các chức năng từ đăng nhập, tìm kiếm, đặt chỗ, quản lý dịch vụ đến quản trị hệ thống.
-\begin{itemize}
-    \item Photographer: Đăng nhập/Đăng ký $\rightarrow$ Trang chủ $\rightarrow$ Tìm kiếm $\rightarrow$ Kết quả tìm kiếm $\rightarrow$ Chi tiết dịch vụ $\rightarrow$ Chọn dịch vụ/phòng $\rightarrow$ Chọn ngày - giờ $\rightarrow$ Chọn thiết bị $\rightarrow$ Xác nhận đặt.
-    
-    \item Service Provider: Đăng nhập $\rightarrow$ Dashboard $\rightarrow$ Quản lý không gian/thiết bị/gói dịch vụ $\rightarrow$ Quản lý đặt chỗ $\rightarrow$ Quản lý phiên dịch vụ $\rightarrow$ Báo cáo.
-    
-    \item Administrator: Đăng nhập $\rightarrow$ Dashboard Admin $\rightarrow$ Quản lý người dùng/nhà cung cấp $\rightarrow$ Kiểm duyệt $\rightarrow$ Giao dịch/Khiếu nại $\rightarrow$ Cấu hình AI $\rightarrow$ Báo cáo.
-\end{itemize}
-\subsection{Mô tả màn hình}
+Nền tảng kết nối cộng đồng nhiếp ảnh phim với các dịch vụ phòng tối và phòng
+chụp là một hệ thống được thiết kế để kết nối Photographer với Service Provider
+cung cấp phòng tối, phòng chụp, thiết bị và các dịch vụ hỗ trợ.
 
-\subsubsection{Nhóm màn hình dùng chung}
+Hệ thống cho phép người dùng tìm kiếm, so sánh và đặt không gian, thiết bị và
+gói dịch vụ. Service Provider có thể quản lý không gian, tài nguyên, lịch đặt
+chỗ và các gói dịch vụ trên cùng một nền tảng.
 
-\begin{table}[H]
-    \centering
-    \begin{tabular}{|c|p{3cm}|p{4cm}|p{6cm}|}
-        \hline
-        \textbf{\#} & \textbf{Feature} & \textbf{Screen} & \textbf{Description} \\
-        \hline
-        1 & Authentication & Đăng nhập &
-        Cho phép Photographer, Service Provider và Administrator xác thực để truy cập hệ thống. \\
-        \hline
-        2 & Authentication & Đăng ký &
-        Cho phép Photographer và Service Provider tạo tài khoản mới trên nền tảng. \\
-        \hline
-        3 & Authentication & Đăng xuất &
-        Kết thúc phiên làm việc. \\
-        \hline
-        4 & Khác & Thông báo &
-        Hiển thị danh sách thông báo hệ thống. \\
-        \hline
-    \end{tabular}
-    \caption{Nhóm màn hình dùng chung}
-    \label{tab:common-screen-descriptions}
-\end{table}
+Hệ thống cũng hỗ trợ các hoạt động cộng đồng như chia sẻ bài viết, hướng dẫn,
+đánh giá thiết bị, workshop và thảo luận. AI được tích hợp để hỗ trợ đề xuất
+không gian, thiết bị và gói dịch vụ, hỏi-đáp.
 
-\subsubsection{Nhóm màn hình Photographer}
+Sơ đồ ngữ cảnh bên dưới mô tả các actor và các hệ thống bên ngoài tương tác với
+hệ thống trong Release 1.0, bao gồm Photographer, Service Provider,
+Administrator và AI Assistant.
 
-\begin{table}[H]
-    \centering
-    \begin{tabular}{|c|p{3cm}|p{4cm}|p{6cm}|}
-        \hline
-        \textbf{\#} & \textbf{Feature} & \textbf{Screen} & \textbf{Description} \\
-        \hline
-        6 & Dashboard & Trang chủ &
-        Hiển thị tổng quan, gợi ý dịch vụ nổi bật và lối tắt đến các chức năng chính. \\
-        \hline
-        7 & Tìm kiếm & Tìm kiếm &
-        Nhập từ khóa để tìm phòng tối/studio/thiết bị. \\
-        \hline
-        8 & Tìm kiếm & Lọc/sắp xếp &
-        Lọc và sắp xếp kết quả theo giá, vị trí, loại dịch vụ. \\
-        \hline
-        9 & Tìm kiếm & Kết quả tìm kiếm &
-        Hiển thị danh sách phù hợp với tiêu chí tìm kiếm. \\
-        \hline
-        10 & Tìm kiếm & Chi tiết dịch vụ &
-        Hiển thị thông tin chi tiết một phòng tối/studio/thiết bị. \\
-        \hline
-        11 & Đặt chỗ & Chọn dịch vụ/phòng &
-        Chọn đặt lẻ phòng hoặc combo phòng kèm dịch vụ. \\
-        \hline
-        12 & Đặt chỗ & Chọn ngày - giờ &
-        Chọn thời gian sử dụng dịch vụ. \\
-        \hline
-        13 & Đặt chỗ & Chọn thiết bị &
-        Chọn thêm thiết bị đi kèm. \\
-        \hline
-        14 & Đặt chỗ & Xác nhận đặt &
-        Tóm tắt đơn đặt chỗ trước khi thanh toán. \\
-        \hline
-        15 & Thanh toán & Thanh toán &
-        Hiển thị mã QR (VietQR), xác nhận trạng thái thanh toán. \\
-        \hline
-        16 & Đặt chỗ & Check-in &
-        Xác nhận bắt đầu sử dụng dịch vụ. \\
-        \hline
-        17 & Đặt chỗ & Check-out &
-        Xác nhận kết thúc sử dụng dịch vụ. \\
-        \hline
-        18 & Đặt chỗ & Hủy/đổi lịch &
-        Hủy hoặc thay đổi lịch đặt chỗ đã xác nhận. \\
-        \hline
-        19 & Lịch sử đặt chỗ & Lịch sử đặt chỗ &
-        Danh sách các đơn đặt chỗ đã thực hiện. \\
-        \hline
-        20 & Lịch sử đặt chỗ & Chi tiết booking &
-        Thông tin chi tiết một đơn đặt chỗ. \\
-        \hline
-        21 & Lịch sử đặt chỗ & Chi tiết hóa đơn &
-        Thông tin hóa đơn tương ứng. \\
-        \hline
-        22 & Hồ sơ & Tài khoản &
-        Màn hình trung tâm quản lý tài khoản Photographer. \\
-        \hline
-        23 & Hồ sơ & Hồ sơ cá nhân &
-        Xem và cập nhật thông tin cá nhân. \\
-        \hline
-        24 & Workshop & Danh sách workshop &
-        Danh sách các workshop đang mở. \\
-        \hline
-        25 & Workshop & Chi tiết workshop &
-        Thông tin chi tiết một workshop. \\
-        \hline
-        26 & Workshop & Đăng ký workshop &
-        Đăng ký tham gia workshop. \\
-        \hline
-        27 & Đánh giá & Đánh giá &
-        Đánh giá, nhận xét dịch vụ đã sử dụng. \\
-        \hline
-        28 & Trợ lý AI & Đặt câu hỏi / Tìm kiếm / Nhận gợi ý / Xem phản hồi &
-        Tương tác với trợ lý AI (Photographer). \\
-        \hline
-    \end{tabular}
-    \caption{Nhóm màn hình Photographer}
-    \label{tab:photographer-screen-descriptions}
-\end{table}
+\section{Yêu cầu người dùng}
 
-\subsubsection{Nhóm màn hình Service Provider}
-
-\begin{table}[H]
-    \centering
-    \begin{tabular}{|c|p{3cm}|p{4cm}|p{6cm}|}
-        \hline
-        \textbf{\#} & \textbf{Feature} & \textbf{Screen} & \textbf{Description} \\
-        \hline
-        29 & Dashboard & Provider Dashboard &
-        Tổng quan hoạt động kinh doanh. \\
-        \hline
-        30 & Quản lý không gian & Danh sách không gian &
-        Danh sách phòng tối/studio do Provider quản lý. \\
-        \hline
-        31 & Quản lý không gian & Thêm mới / Chi tiết / Cập nhật không gian &
-        CRUD thông tin không gian. \\
-        \hline
-        32 & Quản lý thiết bị & Danh sách thiết bị &
-        Danh sách thiết bị do Provider quản lý. \\
-        \hline
-        33 & Quản lý thiết bị & Thêm mới / Chi tiết / Cập nhật thiết bị / Cập nhật giá &
-        CRUD thiết bị và giá. \\
-        \hline
-        34 & Quản lý gói dịch vụ & Danh sách gói dịch vụ &
-        Danh sách gói dịch vụ Provider cung cấp. \\
-        \hline
-        35 & Quản lý gói dịch vụ & Thêm mới / Cập nhật / Cập nhật giá-khuyến mãi / Kích hoạt-Vô hiệu hóa &
-        Quản lý toàn diện vòng đời gói dịch vụ. \\
-        \hline
-        36 & Quản lý đặt chỗ & Danh sách booking &
-        Đơn đặt chỗ gửi đến Provider. \\
-        \hline
-        37 & Quản lý đặt chỗ & Chi tiết booking / Phê duyệt-từ chối &
-        Xem chi tiết, phê duyệt/từ chối đặt chỗ. \\
-        \hline
-        38 & Quản lý phiên dịch vụ & Danh sách phiên dịch vụ &
-        Các phiên sử dụng dịch vụ đang diễn ra/đã hoàn tất. \\
-        \hline
-        39 & Quản lý phiên dịch vụ & Chi tiết phiên dịch vụ (Check-in/out, dịch vụ phát sinh, xuất hóa đơn) &
-        Theo dõi check-in/check-out, ghi nhận dịch vụ phát sinh và xuất hóa đơn. \\
-        \hline
-        40 & Cộng đồng & Quản lý bài viết (Danh sách/Tạo mới/Chỉnh sửa/Xóa) &
-        Đăng bài chia sẻ kiến thức, đánh giá thiết bị. \\
-        \hline
-        41 & Workshop & Bài viết Workshop / Chi tiết &
-        Tạo và quản lý nội dung workshop. \\
-        \hline
-        42 & Hồ sơ & Hồ sơ Provider (Thông tin chi tiết, Giấy phép, Tài khoản thanh toán) &
-        Xem/cập nhật hồ sơ doanh nghiệp. \\
-        \hline
-        43 & Cấu hình & Cấu hình giá \& Giờ hoạt động &
-        Thiết lập giá chung và giờ hoạt động. \\
-        \hline
-        44 & Bảo trì & Lập lịch bảo trì / Theo dõi trạng thái &
-        Lên lịch bảo trì, theo dõi trạng thái. \\
-        \hline
-        45 & Báo cáo & Doanh thu / Thống kê tổng hợp / Xuất báo cáo &
-        Dashboard doanh thu, xuất báo cáo. \\
-        \hline
-        46 & Trợ lý AI & Đặt câu hỏi / Tìm kiếm / Nhận gợi ý / Xem phản hồi &
-        Tương tác với trợ lý AI (Provider). \\
-        \hline
-    \end{tabular}
-    \caption{Nhóm màn hình Service Provider}
-    \label{tab:provider-screen-descriptions}
-\end{table}
-
-\subsubsection{Nhóm màn hình Administrator}
-\begin{table}[H]
-    \centering
-    \begin{tabular}{|c|p{3cm}|p{4cm}|p{6cm}|}
-        \hline
-        \textbf{\#} & \textbf{Feature} & \textbf{Screen} & \textbf{Description} \\
-        \hline
-        47 & Dashboard Admin & Dashboard &
-        Tổng quan hoạt động toàn hệ thống. \\
-        \hline
-        48 & Quản lý người dùng & Danh sách người dùng / Chi tiết / Khóa-mở khóa &
-        Xem, khóa/mở khóa tài khoản Photographer. \\
-        \hline
-        49 & Quản lý nhà cung cấp & Danh sách nhà cung cấp / Chi tiết / Khóa-mở khóa &
-        Xem, khóa/mở khóa tài khoản Provider. \\
-        \hline
-        50 & Quản lý nhà cung cấp & Duyệt đăng ký &
-        Phê duyệt/từ chối hồ sơ Provider. \\
-        \hline
-        51 & Kiểm duyệt & Kiểm duyệt bài viết &
-        Xem và xử lý nội dung bị báo cáo. \\
-        \hline
-        52 & Giao dịch & Danh sách giao dịch &
-        Theo dõi các giao dịch trong hệ thống. \\
-        \hline
-        53 & Khiếu nại & Danh sách khiếu nại &
-        Tiếp nhận và xử lý khiếu nại, tranh chấp. \\
-        \hline
-        54 & Cấu hình AI & Cấu hình AI &
-        Quản lý cấu hình và dịch vụ AI. \\
-        \hline
-        55 & Báo cáo & Báo cáo hệ thống &
-        Xem báo cáo và thống kê toàn hệ thống. \\
-        \hline
-    \end{tabular}
-    \caption{Nhóm màn hình Administrator}
-    \label{tab:administrator-screen-descriptions}
-\end{table}
-\subsection{Phân quyền màn hình}
-\begin{table}[H]
-    \centering
-    \begin{tabular}{|c|c|c|c|c|}
-        \hline
-        \textbf{Screen} & \textbf{Photographer} & \textbf{Service Provider} & \textbf{Administrator} & \textbf{Public} \\
-        \hline
-        Đăng nhập & Có & Có & Có & Không \\
-        \hline
-        Đăng ký & Có & Có & Không & Không \\
-        \hline
-        Trang chủ & Có & Có & Có & Có \\
-        \hline
-        Tìm kiếm & Có & Không & Không & Có \\
-        \hline
-        Chi tiết dịch vụ & Có & Có & Có & Có \\
-        \hline
-        Đặt chỗ & Có & Không & Không & Không \\
-        \hline
-        Quản lý không gian & Không & Có & Không & Không \\
-        \hline
-        Quản lý thiết bị & Không & Có & Không & Không \\
-        \hline
-        Quản lý người dùng & Không & Không & Có & Không \\
-        \hline
-        Quản lý nhà cung cấp & Không & Không & Có & Không \\
-        \hline
-        Báo cáo hệ thống & Không & Có & Có & Không \\
-        \hline
-    \end{tabular}
-    \caption{Phân quyền màn hình}
-    \label{tab:screen-authorization}
-\end{table}
-\subsection{Non-Screen Function}
+\subsection{Actors}
 
 \begin{table}[H]
 \centering
-\begin{tabular}{|c|p{3cm}|p{6cm}|}
+\begin{tabular}{|c|p{3cm}|p{9cm}|}
 \hline
-\textbf{\#} & \textbf{Feature} & \textbf{Non-Screen Function} \\
+\textbf{\#} & \textbf{Actor} & \textbf{Description} \\
 \hline
-
-1 & Authentication & Xác thực tài khoản: Kiểm tra thông tin đăng nhập và xác thực người dùng trước khi truy cập hệ thống. \\
+1 & Photographer &
+Người dùng chính của hệ thống, có thể quản lý hồ sơ cá nhân, tìm kiếm và so
+sánh darkroom, studio, thiết bị và gói dịch vụ; thực hiện đặt chỗ, thanh toán,
+xem lịch sử đặt chỗ, đánh giá và tham gia các hoạt động cộng đồng. \\
 \hline
-
-2 & Authentication & Phân quyền người dùng: Xác định quyền truy cập dựa trên vai trò Photographer, Service Provider và Administrator. \\
+2 & Service Provider &
+Quản lý các darkroom, studio, thiết bị và tài nguyên của mình. Có thể quản lý
+thông tin không gian, tình trạng và lịch sử dụng tài nguyên, gói dịch vụ, giá,
+đặt chỗ, bảo trì và theo dõi hoạt động kinh doanh. \\
 \hline
-
-3 & Authentication & Quản lý phiên đăng nhập: Tạo, duy trì và kết thúc phiên đăng nhập của người dùng. \\
+3 & Administrator &
+Quản lý và giám sát toàn bộ hệ thống, bao gồm quản lý người dùng và Service
+Provider, phê duyệt đăng ký, quản lý nội dung, theo dõi giao dịch, xử lý khiếu
+nại và quản lý cấu hình hệ thống. \\
 \hline
-
-4 & Authentication & Mã hóa mật khẩu: Mã hóa và bảo vệ mật khẩu người dùng trong hệ thống. \\
+4 & AI Assistant &
+Hỗ trợ Photographer và Service Provider thông qua đề xuất không gian, thiết bị
+và gói dịch vụ, trả lời câu hỏi và tìm kiếm thông tin trong kho kiến thức. \\
 \hline
-
-5 & Booking & Kiểm tra tình trạng sẵn có: Kiểm tra không gian, thiết bị và thời gian có còn khả dụng trước khi tạo booking. \\
-\hline
-
-6 & Booking & Kiểm tra xung đột lịch: Kiểm tra và ngăn chặn các booking bị trùng thời gian hoặc tài nguyên. \\
-\hline
-
-7 & Booking & Tính tổng chi phí: Tự động tính chi phí dựa trên không gian, thời gian, thiết bị và gói dịch vụ được chọn. \\
-\hline
-
-8 & Payment & Xác nhận thanh toán: Kiểm tra và cập nhật trạng thái thanh toán của booking. \\
-\hline
-
-9 & Payment & Tạo hóa đơn: Tự động tạo thông tin hóa đơn sau khi giao dịch được xác nhận. \\
-\hline
-
-10 & Booking & Cập nhật trạng thái booking: Tự động cập nhật trạng thái booking theo quá trình đặt, phê duyệt, thanh toán, hủy hoặc hoàn tất. \\
-\hline
-
-11 & Service Session & Quản lý trạng thái phiên: Cập nhật trạng thái phiên dịch vụ dựa trên check-in, check-out và kết thúc sử dụng. \\
-\hline
-
-12 & Service Session & Ghi nhận dịch vụ phát sinh: Ghi nhận và cập nhật các dịch vụ phát sinh trong quá trình sử dụng. \\
-\hline
-
-13 & Provider & Kiểm tra giấy phép: Kiểm tra thông tin và giấy phép của Service Provider trong quá trình đăng ký. \\
-\hline
-
-14 & Provider & Phê duyệt Service Provider: Cập nhật trạng thái tài khoản Provider sau khi Administrator xác minh thông tin. \\
-\hline
-
-15 & Space \& Equipment & Kiểm tra trạng thái tài nguyên: Kiểm tra trạng thái hoạt động, vô hiệu hóa hoặc bảo trì của space/equipment. \\
-\hline
-
-16 & Maintenance & Cập nhật trạng thái bảo trì: Tự động cập nhật trạng thái tài nguyên theo lịch bảo trì. \\
-\hline
-
-17 & Community & Kiểm duyệt nội dung: Kiểm tra và xử lý bài viết trước hoặc sau khi được đăng công khai theo quy định hệ thống. \\
-\hline
-
-18 & Community & Xử lý nội dung vi phạm: Xử lý nội dung bị báo cáo vi phạm và cập nhật trạng thái nội dung. \\
-\hline
-
-19 & Workshop & Kiểm tra đăng ký workshop: Kiểm tra điều kiện và số lượng chỗ còn lại trước khi đăng ký workshop. \\
-\hline
-
-20 & Review & Kiểm tra quyền đánh giá: Kiểm tra Photographer đã sử dụng dịch vụ tương ứng trước khi cho phép đánh giá. \\
-\hline
-
-21 & Notification & Gửi thông báo hệ thống: Tạo và gửi thông báo khi xảy ra các sự kiện như booking, thanh toán, phê duyệt hoặc thay đổi trạng thái. \\
-\hline
-
-22 & AI & Xử lý yêu cầu AI: Tiếp nhận và xử lý câu hỏi hoặc yêu cầu tìm kiếm từ người dùng thông qua AI Assistant. \\
-\hline
-
-23 & AI & Tạo gợi ý dịch vụ: Phân tích yêu cầu của người dùng và trả về các gợi ý dịch vụ phù hợp. \\
-\hline
-
-24 & Report & Tổng hợp dữ liệu báo cáo: Tổng hợp dữ liệu doanh thu và thống kê theo phạm vi quyền của Provider hoặc Administrator. \\
-\hline
-
-25 & Transaction & Xử lý hoàn tiền: Cập nhật giao dịch và trạng thái hoàn tiền khi Administrator thực hiện refund. \\
-\hline
-
-26 & Complaint & Cập nhật trạng thái khiếu nại: Quản lý trạng thái và kết quả xử lý khiếu nại/tranh chấp. \\
-\hline
-
 \end{tabular}
-\caption{Non-Screen Function}
-\label{tab:non-screen-function}
+\caption{Actors}
+\label{tab:actors}
 \end{table}
+
+\subsection{Use Cases}
+
+\subsubsection{Diagram(s)}
+
+% Chèn sơ đồ Use Case tại đây nếu đã có file ảnh
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=\textwidth]{images/usecase.png}
+%     \caption{Use Case Diagram}
+%     \label{fig:usecase}
+% \end{figure}
+
+\subsubsection{Descriptions}
+
+\begin{longtable}{|c|p{3cm}|p{3.5cm}|p{6cm}|}
+\hline
+\textbf{ID} & \textbf{Actors} & \textbf{Use Case} & \textbf{Description} \\
+\hline
+UC01 & Photographer, Service Provider &
+Đăng nhập &
+Xác thực để truy cập hệ thống. \\
+\hline
+UC02 & Photographer &
+Đăng ký &
+Tạo tài khoản mới trên nền tảng. \\
+\hline
+UC03 & Service Provider &
+Đăng ký &
+Tạo tài khoản mới, chờ Admin phê duyệt trước khi kích hoạt. \\
+\hline
+UC04 & Photographer &
+Quản lý hồ sơ &
+Xem và cập nhật thông tin cá nhân. \\
+\hline
+UC05 & Service Provider &
+Quản lý hồ sơ doanh nghiệp &
+Cập nhật thông tin doanh nghiệp, giấy phép. \\
+\hline
+UC06 & Photographer &
+Tìm kiếm và xem thông tin &
+Tìm kiếm, lọc và xem chi tiết phòng tối/studio/thiết bị. \\
+\hline
+UC07 & Photographer &
+Đặt phòng và thiết bị &
+Chọn dịch vụ, ngày giờ và xác nhận đặt chỗ. \\
+\hline
+UC08 & Photographer &
+Thanh toán &
+Thực hiện thanh toán qua QR chuyển khoản cho đơn đặt chỗ. \\
+\hline
+UC09 & Photographer &
+Check-in &
+Xác nhận bắt đầu sử dụng dịch vụ tại địa điểm đã đặt. \\
+\hline
+UC10 & Photographer &
+Check-out &
+Xác nhận kết thúc sử dụng dịch vụ. \\
+\hline
+UC11 & Photographer &
+Hủy/Đổi lịch &
+Hủy hoặc thay đổi lịch đặt chỗ đã xác nhận. \\
+\hline
+UC12 & Photographer &
+Xem lịch sử đặt &
+Xem danh sách và chi tiết các lần đặt chỗ trước đó. \\
+\hline
+UC13 & Photographer &
+Mua gói dịch vụ &
+Chọn và mua gói dịch vụ combo phòng kèm dịch vụ. \\
+\hline
+UC14 & Photographer &
+Đánh giá &
+Đánh giá, nhận xét dịch vụ sau khi sử dụng. \\
+\hline
+UC15 & Photographer &
+Đăng ký workshop &
+Xem và đăng ký tham gia workshop. \\
+\hline
+UC16 & Photographer &
+Sử dụng trợ lý AI &
+Đặt câu hỏi, tìm kiếm và nhận gợi ý từ trợ lý AI. \\
+\hline
+UC17 & Service Provider &
+Quản lý không gian sáng tạo &
+Thêm, sửa, xóa thông tin phòng tối/studio. \\
+\hline
+UC18 & Service Provider &
+Quản lý thiết bị &
+Thêm, sửa, xóa thiết bị và vật tư cho thuê. \\
+\hline
+UC19 & Service Provider &
+Quản lý dịch vụ &
+Tạo và cập nhật các gói dịch vụ cung cấp. \\
+\hline
+UC20 & Service Provider &
+Quản lý giá và khuyến mãi &
+Thiết lập giá và chương trình khuyến mãi. \\
+\hline
+UC21 & Service Provider &
+Phân bổ tài nguyên &
+Sắp xếp phòng/thiết bị cho các đơn đặt chỗ. \\
+\hline
+UC22 & Service Provider &
+Xử lý yêu cầu đặt chỗ &
+Phê duyệt hoặc từ chối yêu cầu đặt chỗ từ Photographer. \\
+\hline
+UC23 & Service Provider &
+Quản lý phiên dịch vụ &
+Theo dõi check-in/check-out, ghi nhận dịch vụ phát sinh, xuất hóa đơn. \\
+\hline
+UC24 & Service Provider &
+Xem báo cáo doanh thu &
+Xem bảng thống kê doanh thu qua dashboard. \\
+\hline
+UC25 & Service Provider &
+Tổ chức workshop &
+Tạo và quản lý sự kiện workshop. \\
+\hline
+UC26 & Service Provider &
+Đăng bài chia sẻ cộng đồng &
+Đăng, chỉnh sửa, xóa bài viết chia sẻ kiến thức và đánh giá thiết bị. \\
+\hline
+UC27 & Administrator &
+Quản lý người dùng &
+Xem, khóa/mở khóa tài khoản người dùng. \\
+\hline
+UC28 & Administrator &
+Quản lý nhà cung cấp &
+Xem, khóa/mở khóa tài khoản nhà cung cấp dịch vụ. \\
+\hline
+UC29 & Administrator &
+Phê duyệt đăng ký &
+Xác minh thông tin/giấy phép và duyệt đăng ký nhà cung cấp. \\
+\hline
+UC30 & Administrator &
+Kiểm duyệt nội dung &
+Duyệt/từ chối bài viết cộng đồng, xử lý nội dung vi phạm. \\
+\hline
+UC31 & Administrator &
+Giám sát giao dịch \& xử lý khiếu nại &
+Theo dõi giao dịch, xử lý khiếu nại/tranh chấp. \\
+\hline
+UC32 & Administrator &
+Xử lý hoàn tiền \& sự cố giao dịch &
+Xử lý hoàn tiền thủ công và sự cố phát sinh. \\
+\hline
+UC33 & Administrator &
+Quản lý danh mục/Nội dung &
+Quản lý danh mục dịch vụ và nội dung nền tảng. \\
+\hline
+UC34 & Administrator &
+Cấu hình dịch vụ AI \& nền tảng &
+Cấu hình tham số AI và cấu hình chung hệ thống. \\
+\hline
+UC35 & Administrator &
+Xem báo cáo hệ thống &
+Xem báo cáo và thống kê toàn hệ thống. \\
+\hline
+\end{longtable}
+
+\section{Yêu cầu chức năng}
+
+\subsection{Tổng quan chức năng hệ thống}
+
+\subsubsection{Luồng màn hình}
+
+Hệ thống cung cấp các luồng màn hình tương ứng với các vai trò Photographer,
+Service Provider và Administrator.
+
+\subsubsection{Mô tả màn hình}
+
+\subsubsection{Nhóm màn hình dùng chung}
+
+\begin{longtable}{|c|p{3cm}|p{4cm}|p{6cm}|}
+\hline
+\textbf{\#} & \textbf{Feature} & \textbf{Screen} & \textbf{Description} \\
+\hline
+1 & Authentication & Đăng nhập &
+Cho phép Photographer, Service Provider và Administrator xác thực để truy cập hệ thống. \\
+\hline
+2 & Authentication & Đăng ký &
+Cho phép Photographer và Service Provider tạo tài khoản mới trên nền tảng. \\
+\hline
+3 & Authentication & Đăng xuất &
+Kết thúc phiên làm việc. \\
+\hline
+4 & Khác & Thông báo &
+Hiển thị danh sách thông báo hệ thống. \\
+\hline
+\end{longtable}
+
+\subsubsection{Nhóm màn hình Photographer}
+
+\begin{longtable}{|c|p{3cm}|p{4cm}|p{6cm}|}
+\hline
+\textbf{\#} & \textbf{Feature} & \textbf{Screen} & \textbf{Description} \\
+\hline
+6 & Dashboard & Trang chủ &
+Hiển thị tổng quan, gợi ý dịch vụ nổi bật và lối tắt đến các chức năng chính. \\
+\hline
+7 & Tìm kiếm & Tìm kiếm &
+Nhập từ khóa để tìm phòng tối/studio/thiết bị. \\
+\hline
+8 & Tìm kiếm & Lọc/sắp xếp &
+Lọc và sắp xếp kết quả theo giá, vị trí, loại dịch vụ. \\
+\hline
+9 & Tìm kiếm & Kết quả tìm kiếm &
+Hiển thị danh sách phù hợp với tiêu chí tìm kiếm. \\
+\hline
+10 & Tìm kiếm & Chi tiết dịch vụ &
+Hiển thị thông tin chi tiết một phòng tối/studio/thiết bị. \\
+\hline
+11 & Đặt chỗ & Chọn dịch vụ/phòng &
+Chọn đặt lẻ phòng hoặc combo phòng kèm dịch vụ. \\
+\hline
+12 & Đặt chỗ & Chọn ngày - giờ &
+Chọn thời gian sử dụng dịch vụ. \\
+\hline
+13 & Đặt chỗ & Chọn thiết bị &
+Chọn thêm thiết bị đi kèm. \\
+\hline
+14 & Đặt chỗ & Xác nhận đặt &
+Tóm tắt đơn đặt chỗ trước khi thanh toán. \\
+\hline
+15 & Thanh toán & Thanh toán &
+Hiển thị mã QR (VietQR), xác nhận trạng thái thanh toán. \\
+\hline
+16 & Đặt chỗ & Check-in &
+Xác nhận bắt đầu sử dụng dịch vụ. \\
+\hline
+17 & Đặt chỗ & Check-out &
+Xác nhận kết thúc sử dụng dịch vụ. \\
+\hline
+18 & Đặt chỗ & Hủy/đổi lịch &
+Hủy hoặc thay đổi lịch đặt chỗ đã xác nhận. \\
+\hline
+19 & Lịch sử đặt chỗ & Lịch sử đặt chỗ &
+Danh sách các đơn đặt chỗ đã thực hiện. \\
+\hline
+20 & Lịch sử đặt chỗ & Chi tiết booking &
+Thông tin chi tiết một đơn đặt chỗ. \\
+\hline
+21 & Lịch sử đặt chỗ & Chi tiết hóa đơn &
+Thông tin hóa đơn tương ứng. \\
+\hline
+22 & Hồ sơ & Tài khoản &
+Màn hình trung tâm quản lý tài khoản Photographer. \\
+\hline
+23 & Hồ sơ & Hồ sơ cá nhân &
+Xem và cập nhật thông tin cá nhân. \\
+\hline
+24 & Workshop & Danh sách workshop &
+Danh sách các workshop đang mở. \\
+\hline
+25 & Workshop & Chi tiết workshop &
+Thông tin chi tiết một workshop. \\
+\hline
+26 & Workshop & Đăng ký workshop &
+Đăng ký tham gia workshop. \\
+\hline
+27 & Đánh giá & Đánh giá &
+Đánh giá, nhận xét dịch vụ đã sử dụng. \\
+\hline
+28 & Trợ lý AI & Đặt câu hỏi / Tìm kiếm / Nhận gợi ý / Xem phản hồi &
+Tương tác với trợ lý AI (Photographer). \\
+\hline
+\end{longtable}
+
+\subsubsection{Nhóm màn hình Service Provider}
+
+\begin{longtable}{|c|p{3cm}|p{5cm}|p{5cm}|}
+\hline
+\textbf{\#} & \textbf{Feature} & \textbf{Screen} & \textbf{Description} \\
+\hline
+29 & Dashboard & Provider Dashboard &
+Tổng quan hoạt động kinh doanh. \\
+\hline
+30 & Quản lý không gian & Danh sách không gian &
+Danh sách phòng tối/studio do Provider quản lý. \\
+\hline
+31 & Quản lý không gian & Thêm mới / Chi tiết / Cập nhật không gian &
+CRUD thông tin không gian. \\
+\hline
+32 & Quản lý thiết bị & Danh sách thiết bị &
+Danh sách thiết bị do Provider quản lý. \\
+\hline
+33 & Quản lý thiết bị & Thêm mới / Chi tiết / Cập nhật thiết bị / Cập nhật giá &
+CRUD thiết bị và giá. \\
+\hline
+34 & Quản lý gói dịch vụ & Danh sách gói dịch vụ &
+Danh sách gói dịch vụ Provider cung cấp. \\
+\hline
+35 & Quản lý gói dịch vụ &
+Thêm mới / Cập nhật / Cập nhật giá-khuyến mãi / Kích hoạt-Vô hiệu hóa &
+Quản lý toàn diện vòng đời gói dịch vụ. \\
+\hline
+36 & Quản lý đặt chỗ & Danh sách booking &
+Đơn đặt chỗ gửi đến Provider. \\
+\hline
+37 & Quản lý đặt chỗ & Chi tiết booking / Phê duyệt-từ chối &
+Xem chi tiết, phê duyệt/từ chối đặt chỗ. \\
+\hline
+38 & Quản lý phiên dịch vụ & Danh sách phiên dịch vụ &
+Các phiên sử dụng dịch vụ đang diễn ra/đã hoàn tất. \\
+\hline
+39 & Quản lý phiên dịch vụ &
+Chi tiết phiên dịch vụ (Check-in/out, dịch vụ phát sinh, xuất hóa đơn) &
+Theo dõi check-in/check-out, ghi nhận dịch vụ phát sinh và xuất hóa đơn. \\
+\hline
+40 & Cộng đồng & Quản lý bài viết (Danh sách/Tạo mới/Chỉnh sửa/Xóa) &
+Đăng bài chia sẻ kiến thức, đánh giá thiết bị. \\
+\hline
+41 & Workshop & Bài viết Workshop / Chi tiết &
+Tạo và quản lý nội dung workshop. \\
+\hline
+42 & Hồ sơ &
+Hồ sơ Provider (Thông tin chi tiết, Giấy phép, Tài khoản thanh toán) &
+Xem/cập nhật hồ sơ doanh nghiệp. \\
+\hline
+43 & Cấu hình & Cấu hình giá \& Giờ hoạt động &
+Thiết lập giá chung và giờ hoạt động. \\
+\hline
+44 & Bảo trì & Lập lịch bảo trì / Theo dõi trạng thái &
+Lên lịch bảo trì, theo dõi trạng thái. \\
+\hline
+45 & Báo cáo & Doanh thu / Thống kê tổng hợp / Xuất báo cáo &
+Dashboard doanh thu, xuất báo cáo. \\
+\hline
+46 & Trợ lý AI & Đặt câu hỏi / Tìm kiếm / Nhận gợi ý / Xem phản hồi &
+Tương tác trợ lý AI (Provider). \\
+\hline
+\end{longtable}
+% ============================================================
+% 3.2 Authentication
+% ============================================================
+
+\subsection{Authentication}
+
+Authentication chịu trách nhiệm xác thực danh tính người dùng trước khi cho phép truy cập
+vào nền tảng. Module này cung cấp các chức năng đăng ký, đăng nhập và đăng xuất cho
+Photographer, Service Provider và Administrator. Hệ thống kiểm tra thông tin đăng nhập,
+xác minh trạng thái tài khoản, quản lý phiên đăng nhập và đảm bảo mỗi người dùng chỉ
+được truy cập các chức năng phù hợp với vai trò và quyền của mình.
+
+\subsubsection{Login}
+
+\textbf{Vai trò:} Photographer, Service Provider, Administrator
+
+\textbf{Chức năng:} Đăng nhập
+
+Người dùng nhập thông tin tài khoản để đăng nhập vào hệ thống.
+
+\textbf{Mô tả chức năng:}
+\begin{itemize}
+    \item \textbf{Mục đích:} Xác thực người dùng và cung cấp quyền truy cập vào hệ thống theo vai trò của từng người dùng.
+    \item \textbf{Xử lý dữ liệu:} Xác thực thông tin đăng nhập và kiểm tra trạng thái tài khoản của người dùng.
+\end{itemize}
+
+\textbf{Chi tiết chức năng:}
+\begin{itemize}
+    \item Nếu đăng nhập thành công, hệ thống chuyển người dùng đến Dashboard tương ứng với vai trò.
+    \item Nếu thông tin đăng nhập không hợp lệ, hệ thống hiển thị thông báo lỗi.
+    \item Nếu tài khoản bị khóa hoặc vô hiệu hóa, hệ thống từ chối quyền truy cập và hiển thị thông báo phù hợp.
+\end{itemize}
+
+\subsubsection{Register}
+
+\subsubsection{Logout}
+
+
+% ============================================================
+% 3.3 Photographer Management
+% ============================================================
+
+\subsection{Photographer Management}
+
+Photographer Management chịu trách nhiệm quản lý thông tin tài khoản và hồ sơ cá nhân
+của Photographer trên nền tảng. Module cho phép Photographer xem và cập nhật các
+thông tin cá nhân liên quan đến tài khoản, giúp đảm bảo thông tin người dùng được lưu trữ
+và quản lý đầy đủ trong hệ thống.
+
+\subsubsection{Manage Photographer Profile}
+
+
+% ============================================================
+% 3.4 Service Search and Discovery
+% ============================================================
+
+\subsection{Service Search and Discovery}
+
+Service Search and Discovery chịu trách nhiệm hỗ trợ Photographer tìm kiếm và khám phá
+các dịch vụ phòng tối, studio và thiết bị trên nền tảng. Module cung cấp chức năng tìm
+kiếm theo từ khóa, lọc và sắp xếp kết quả theo các tiêu chí phù hợp, đồng thời cho phép
+Photographer xem thông tin chi tiết của từng dịch vụ.
+
+\subsubsection{Search Services}
+
+\subsubsection{Filter and Sort Services}
+
+\subsubsection{View Service Details}
+
+
+% ============================================================
+% 3.5 Reservation Management
+% ============================================================
+
+\subsection{Reservation Management}
+
+Reservation Management chịu trách nhiệm quản lý quá trình đặt chỗ và sử dụng dịch vụ
+của Photographer. Module hỗ trợ lựa chọn không gian, ngày giờ, thiết bị đi kèm và xác nhận
+booking. Ngoài ra, module cho phép Photographer thực hiện check-in, check-out và hủy
+hoặc thay đổi lịch đặt chỗ theo quy định của hệ thống.
+
+\subsubsection{Select Service/Space}
+
+\subsubsection{Select Date and Time}
+
+\subsubsection{Select Equipment}
+
+\subsubsection{Confirm Booking}
+
+\subsubsection{Cancel/Reschedule Booking}
+
+\subsubsection{Check-in/Check-out}
+
+
+% ============================================================
+% 3.6 Payment and Booking Management
+% ============================================================
+
+\subsection{Payment and Booking Management}
+
+Payment and Booking Management chịu trách nhiệm quản lý thanh toán và thông tin đặt
+chỗ của Photographer. Module hỗ trợ thực hiện thanh toán, theo dõi lịch sử booking, xem
+chi tiết booking và xem thông tin hóa đơn tương ứng. Hệ thống cập nhật trạng thái booking
+và thanh toán dựa trên kết quả xử lý giao dịch.
+
+\subsubsection{Make Payment}
+
+\subsubsection{View Booking History}
+
+\subsubsection{View Booking Details}
+
+\subsubsection{View Invoice}
+
+
+% ============================================================
+% 3.7 Workshop Management
+% ============================================================
+
+\subsection{Workshop Management}
+
+Workshop Management chịu trách nhiệm quản lý và hỗ trợ Photographer tham gia các
+workshop được tổ chức trên nền tảng. Module cho phép Photographer xem danh sách
+workshop, xem thông tin chi tiết và đăng ký tham gia các workshop phù hợp.
+
+\subsubsection{View Workshops}
+
+\subsubsection{View Workshop Details}
+
+\subsubsection{Register for Workshop}
+
+
+% ============================================================
+% 3.8 Review Management
+% ============================================================
+
+\subsection{Review Management}
+
+Review Management chịu trách nhiệm quản lý việc đánh giá các dịch vụ mà Photographer
+đã sử dụng. Module cho phép Photographer gửi đánh giá và nhận xét về chất lượng dịch vụ,
+qua đó cung cấp phản hồi cho Service Provider và hỗ trợ cộng đồng tham khảo chất lượng
+dịch vụ.
+
+\subsubsection{Submit Review}
+
+
+% ============================================================
+% 3.9 AI Assistant
+% ============================================================
+
+\subsection{AI Assistant}
+
+AI Assistant cung cấp các chức năng hỗ trợ người dùng thông qua trí tuệ nhân tạo. Module
+cho phép Photographer và Service Provider đặt câu hỏi, tìm kiếm dịch vụ, nhận các gợi ý
+phù hợp và xem phản hồi từ trợ lý AI. Hệ thống xử lý yêu cầu của người dùng và cung cấp
+thông tin hoặc đề xuất dựa trên nội dung được yêu cầu.
+
+\subsubsection{Ask AI Question}
+
+\subsubsection{Search Services with AI}
+
+\subsubsection{Receive AI Recommendations}
+
+\subsubsection{View AI Response}
+% ============================================================
+% 3.10 Service Provider Management
+% ============================================================
+
+\subsection{Service Provider Management}
+
+Service Provider Management chịu trách nhiệm hỗ trợ Service Provider quản lý các hoạt
+động cung cấp dịch vụ trên nền tảng. Module bao gồm quản lý không gian, thiết bị, gói dịch
+vụ, booking, phiên dịch vụ, bài viết cộng đồng và workshop. Ngoài ra, Service Provider
+có thể quản lý hồ sơ, cấu hình giá và giờ hoạt động, lập lịch bảo trì và theo dõi báo cáo doanh
+thu của mình.
+
+\subsubsection{Manage Spaces}
+
+\subsubsection{Manage Equipment}
+
+\subsubsection{Manage Service Packages}
+
+\subsubsection{Manage Provider Bookings}
+
+\subsubsection{Manage Service Sessions}
+
+\subsubsection{Manage Community Posts}
+
+\subsubsection{Manage Workshops}
+
+\subsubsection{Manage Provider Profile}
+
+\subsubsection{Configure Prices and Operating Hours}
+
+\subsubsection{Manage Maintenance}
+
+\subsubsection{View Provider Reports}
+
+
+% ============================================================
+% 3.11 Administrator Management
+% ============================================================
+
+\subsection{Administrator Management}
+
+Administrator Management chịu trách nhiệm quản lý và giám sát các hoạt động của toàn
+bộ nền tảng. Module cho phép Administrator quản lý tài khoản Photographer và Service
+Provider, duyệt đăng ký nhà cung cấp, kiểm duyệt nội dung, giám sát giao dịch, xử lý khiếu
+nại và tranh chấp, thực hiện hoàn tiền và quản lý workshop. Administrator cũng có quyền
+theo dõi và xuất các báo cáo thống kê của toàn hệ thống.
+
+\subsubsection{Manage Users}
+
+\subsubsection{Manage Service Providers}
+
+\subsubsection{Approve Service Provider Registration}
+
+\subsubsection{Moderate Community Posts}
+
+\subsubsection{Handle Reported Content}
+
+\subsubsection{Monitor Transactions}
+
+\subsubsection{Handle Complaints and Disputes}
+
+\subsubsection{Process Refunds and Transaction Issues}
+
+\subsubsection{Manage Workshops}
+
+\subsubsection{View System Reports}
+
+
+% ============================================================
+% 3.12 Notification Management
+% ============================================================
+
+\subsection{Notification Management}
+
+Notification Management chịu trách nhiệm quản lý và cung cấp các thông báo liên quan
+đến hoạt động của hệ thống. Module gửi và hiển thị thông báo đến Photographer, Service
+Provider và Administrator khi xảy ra các sự kiện cần được cập nhật như booking, thanh
+toán, phê duyệt, thay đổi trạng thái hoặc các hoạt động quản lý khác.
+
+\subsubsection{View Notifications}
+
+
+% ============================================================
+% 4. Non-Functional Requirements
+% ============================================================
+
+\section{Yêu cầu phi chức năng}
+
+\subsection{External Interfaces}
+
+Phần External Interfaces mô tả các giao diện mà hệ thống sử dụng để giao tiếp với người
+dùng, thiết bị và các hệ thống bên ngoài. Đối với nền tảng của nhóm, các giao diện bên
+ngoài chủ yếu bao gồm giao diện người dùng, giao diện thanh toán và giao diện dịch vụ AI.
+
+\begin{itemize}
+    \item \textbf{User Interface:} Hệ thống cung cấp giao diện web cho Photographer,
+    Service Provider và Administrator để thực hiện các chức năng theo vai trò được phân quyền.
+
+    \item \textbf{Payment Interface:} Hệ thống hỗ trợ thanh toán thông qua VietQR/chuyển khoản
+    ngân hàng, cho phép người dùng thực hiện thanh toán và hệ thống cập nhật trạng thái giao dịch.
+
+    \item \textbf{AI Interface:} Hệ thống kết nối với dịch vụ AI để xử lý câu hỏi, tìm kiếm dịch vụ
+    và cung cấp các gợi ý phù hợp cho người dùng.
+
+    \item \textbf{Notification Interface:} Hệ thống cung cấp cơ chế gửi và hiển thị thông báo
+    liên quan đến booking, thanh toán, phê duyệt và các sự kiện của hệ thống.
+\end{itemize}
+
+\subsection{Quality Attributes}
+
+
+% ============================================================
+% 5. Requirement Appendix
+% ============================================================
+
+\section{Requirement Appendix}
+
+Phần này tổng hợp các business rules, system requirements, application messages và các
+yêu cầu bổ sung nhằm hỗ trợ cho các đặc tả chức năng và phi chức năng đã trình bày ở các
+phần trước.
+
+\subsection{Business Rules}
+
+\begin{longtable}{|c|p{11cm}|}
+\hline
+\textbf{ID} & \textbf{Rule Definition} \\
+\hline
+BR01 & Mỗi Photographer chỉ được tạo một tài khoản trên hệ thống. \\
+\hline
+BR02 & Mỗi Service Provider phải được Administrator xác minh và phê duyệt trước khi cung cấp dịch vụ trên nền tảng. \\
+\hline
+BR03 & Photographer chỉ có thể đặt các không gian, thiết bị và gói dịch vụ đang ở trạng thái khả dụng. \\
+\hline
+BR04 & Một tài nguyên không được phép có nhiều booking bị trùng thời gian. \\
+\hline
+BR05 & Photographer phải hoàn tất thanh toán theo yêu cầu trước khi booking được xác nhận sử dụng dịch vụ. \\
+\hline
+BR06 & Photographer chỉ được đánh giá các dịch vụ mà mình đã sử dụng. \\
+\hline
+BR07 & Service Provider chỉ được quản lý không gian, thiết bị, gói dịch vụ và booking thuộc phạm vi của mình. \\
+\hline
+BR08 & Administrator có toàn quyền quản lý người dùng, Service Provider, nội dung, giao dịch, khiếu nại và các hoạt động quản trị hệ thống. \\
+\hline
+BR09 & Chỉ Administrator mới có quyền phê duyệt hoặc từ chối đăng ký Service Provider. \\
+\hline
+BR10 & Nội dung cộng đồng phải được xử lý theo cơ chế kiểm duyệt của hệ thống trước khi được hiển thị công khai khi áp dụng. \\
+\hline
+BR11 & Chỉ người dùng đã xác thực mới được truy cập các chức năng yêu cầu đăng nhập và dữ liệu cá nhân. \\
+\hline
+BR12 & Trạng thái booking phải được cập nhật theo từng giai đoạn của quá trình đặt chỗ, thanh toán, phê duyệt và sử dụng dịch vụ. \\
+\hline
+BR13 & Việc check-in và check-out chỉ được thực hiện đối với booking hợp lệ và đúng phiên sử dụng dịch vụ. \\
+\hline
+BR14 & Service Provider chỉ được ghi nhận dịch vụ phát sinh trong phạm vi phiên dịch vụ tương ứng. \\
+\hline
+BR15 & Administrator có quyền xử lý hoàn tiền và các sự cố liên quan đến giao dịch theo chính sách của hệ thống. \\
+\hline
+BR16 & Báo cáo doanh thu của Service Provider chỉ được hiển thị dữ liệu thuộc Service Provider đó, trong khi Administrator có quyền xem báo cáo thống kê toàn hệ thống. \\
+\hline
+BR17 & Một Photographer không được đăng ký cùng một workshop nhiều lần. \\
+\hline
+BR18 & Số lượng Photographer đăng ký workshop không được vượt quá sức chứa của workshop. \\
+\hline
+BR19 & Thông báo phải được gửi đến đúng người dùng dựa trên vai trò và sự kiện phát sinh trong hệ thống. \\
+\hline
+BR20 & Các chức năng và dữ liệu của hệ thống phải được kiểm soát theo quyền của Photographer, Service Provider và Administrator. \\
+\hline
+\end{longtable}
+
+
+% ============================================================
+% 5.2 Common Requirements
+% ============================================================
+
+\subsection{Common Requirements}
+
+\subsubsection{Authentication and Authorization}
+
+Hệ thống phải áp dụng cơ chế phân quyền dựa trên vai trò (RBAC) để đảm bảo
+Photographer, Service Provider và Administrator chỉ được truy cập các chức năng
+phù hợp với quyền hạn của mình.
+
+\subsubsection{Data Privacy}
+
+Hệ thống phải bảo vệ thông tin cá nhân, thông tin tài khoản, dữ liệu booking và giao dịch,
+đảm bảo dữ liệu không bị truy cập hoặc tiết lộ cho người dùng không có quyền.
+
+\subsubsection{Scalability}
+
+Hệ thống phải có khả năng mở rộng để đáp ứng sự gia tăng về số lượng Photographer,
+Service Provider, dịch vụ, booking và giao dịch mà không làm ảnh hưởng đáng kể đến
+hiệu năng hệ thống.
+
+\subsubsection{Data Integrity}
+
+Hệ thống phải đảm bảo tính chính xác và nhất quán của dữ liệu, đặc biệt đối với thông tin
+booking, trạng thái thanh toán, hóa đơn và tình trạng khả dụng của không gian và thiết bị.
+
+\subsubsection{Auditability}
+
+Các hoạt động quan trọng của hệ thống như quản lý tài khoản, booking, giao dịch, hoàn tiền
+và kiểm duyệt nội dung cần được ghi nhận để phục vụ việc theo dõi và quản lý.
+
+
+% ============================================================
+% 5.3 Application Messages List
+% ============================================================
+
+\subsection{Application Messages List}
+
+\begin{longtable}{|c|p{5cm}|p{6cm}|}
+\hline
+\textbf{ID} & \textbf{Message} & \textbf{Mô tả} \\
+\hline
+MSG01 & Thông tin đăng nhập không chính xác. & Hiển thị khi đăng nhập thất bại. \\
+\hline
+MSG02 & Đăng ký tài khoản thành công. & Hiển thị khi đăng ký thành công. \\
+\hline
+MSG03 & Email đã được sử dụng. & Hiển thị khi email đã tồn tại. \\
+\hline
+MSG04 & Tài khoản của bạn đã bị vô hiệu hóa. & Hiển thị khi tài khoản bị khóa. \\
+\hline
+MSG05 & Đặt chỗ thành công. & Hiển thị khi booking được tạo thành công. \\
+\hline
+MSG06 & Khung giờ đã được đặt. Vui lòng chọn thời gian khác. & Khi thời gian không còn khả dụng. \\
+\hline
+MSG07 & Thanh toán thành công. & Khi thanh toán được xác nhận. \\
+\hline
+MSG08 & Thanh toán thất bại. Vui lòng thử lại. & Khi giao dịch không thành công. \\
+\hline
+MSG09 & Hủy đặt chỗ thành công. & Khi booking được hủy. \\
+\hline
+MSG10 & Bạn không có quyền thực hiện thao tác này. & Khi người dùng không đủ quyền. \\
+\hline
+\end{longtable}
+
+
+% ============================================================
+% 5.4 Other Requirements
+% ============================================================
+
+\subsection{Other Requirements}
