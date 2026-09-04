@@ -5,11 +5,13 @@ class Auth:
         password: str,
         passwordcomfirm: str,
         email: str,
-        role_id: int = None
+        role_id: int = None,
+        provider_id: int = None
     ):
         self.username = username
         self.password = password
         self.passwordcomfirm = passwordcomfirm
         self.email = email
         self.role_id = role_id
+        self.provider_id = provider_id
         self.id = None
