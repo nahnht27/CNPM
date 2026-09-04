@@ -23,9 +23,16 @@ def list_packages():
     List service packages
     ---
     get:
-      summary: Lấy danh sách gói dịch vụ
+      summary: Lấy danh sách gói dịch vụ (Có hỗ trợ lọc theo space_id)
       tags:
         - ServicePackage
+      parameters:
+        - name: space_id
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: ID của Không gian để lọc các dịch vụ liên quan
       responses:
         200:
           description: Danh sách gói dịch vụ
@@ -36,7 +43,13 @@ def list_packages():
                 items:
                   $ref: '#/components/schemas/ServicePackageResponse'
     """
-    items = service_package_service.list_packages()
+    # Lấy space_id từ query parameter (ví dụ: /service-packages?space_id=1)
+    space_id = request.args.get('space_id', type=int)
+
+    if space_id:
+        items = service_package_service.get_packages_by_space(space_id)
+    else:
+        items = service_package_service.list_packages()
 
     return jsonify(response_schema.dump(items, many=True)), 200
 

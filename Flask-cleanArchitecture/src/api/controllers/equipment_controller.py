@@ -1,15 +1,27 @@
+import traceback
 from flask import Blueprint, request, jsonify
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, scoped_session
+
 from services.equipment_service import EquipmentService
 from infrastructure.repositories.equipment_repository import EquipmentRepository
 from api.schemas.equipment import EquipmentRequestSchema, EquipmentResponseSchema
-from infrastructure.databases.mssql import session
+from config import DevelopmentConfig
 
 bp = Blueprint('equipment', __name__, url_prefix='/equipment')
 
-equipment_service = EquipmentService(EquipmentRepository(session))
+# Tự khởi tạo Engine và Scoped Session riêng cho module Equipment
+# Giải quyết triệt để lỗi Concurrent Session mà KHÔNG CẦN sửa file mssql.py hay postgres.py chung
+engine = create_engine(DevelopmentConfig.DATABASE_URI, pool_pre_ping=True)
+SessionLocal = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
 request_schema = EquipmentRequestSchema()
 response_schema = EquipmentResponseSchema()
+
+
+def get_equipment_service(db_session):
+    """Khởi tạo service với db session riêng cho từng request."""
+    return EquipmentService(EquipmentRepository(db_session))
 
 
 @bp.route('/', methods=['GET'])
@@ -21,6 +33,13 @@ def list_equipment():
       summary: Lấy danh sách thiết bị
       tags:
         - Equipment
+      parameters:
+        - name: space_id
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Lọc thiết bị theo ID không gian
       responses:
         200:
           description: Danh sách thiết bị
@@ -31,9 +50,28 @@ def list_equipment():
                 items:
                   $ref: '#/components/schemas/EquipmentResponse'
     """
-    items = equipment_service.list_equipment()
+    db_session = SessionLocal()
+    try:
+        service = get_equipment_service(db_session)
+        space_id = request.args.get('space_id', type=int)
 
-    return jsonify(response_schema.dump(items, many=True)), 200
+        if space_id and hasattr(service, 'list_by_space'):
+            items = service.list_by_space(space_id)
+        elif space_id and hasattr(service, 'list_equipment'):
+            items = service.list_equipment(space_id=space_id)
+        else:
+            items = service.list_equipment()
+
+        return jsonify(response_schema.dump(items, many=True)), 200
+
+    except Exception as e:
+        print("\n================ [EQUIPMENT LOG ERROR] ================")
+        traceback.print_exc()
+        print("=======================================================\n")
+        return jsonify({'message': 'Internal Server Error', 'error': str(e)}), 500
+    finally:
+        db_session.close()
+        SessionLocal.remove()
 
 
 @bp.route('/<int:eq_id>', methods=['GET'])
@@ -68,12 +106,24 @@ def get_equipment(eq_id):
                   message:
                     type: string
     """
-    item = equipment_service.get_equipment(eq_id)
+    db_session = SessionLocal()
+    try:
+        service = get_equipment_service(db_session)
+        item = service.get_equipment(eq_id)
 
-    if not item:
-        return jsonify({'message': 'Equipment not found'}), 404
+        if not item:
+            return jsonify({'message': 'Equipment not found'}), 404
 
-    return jsonify(response_schema.dump(item)), 200
+        return jsonify(response_schema.dump(item)), 200
+
+    except Exception as e:
+        print("\n================ [EQUIPMENT LOG ERROR] ================")
+        traceback.print_exc()
+        print("=======================================================\n")
+        return jsonify({'message': 'Internal Server Error', 'error': str(e)}), 500
+    finally:
+        db_session.close()
+        SessionLocal.remove()
 
 
 @bp.route('/', methods=['POST'])
@@ -101,16 +151,29 @@ def create_equipment():
         400:
           description: Dữ liệu không hợp lệ
     """
-    data = request.get_json()
+    db_session = SessionLocal()
+    try:
+        data = request.get_json()
+        errors = request_schema.validate(data)
 
-    errors = request_schema.validate(data)
+        if errors:
+            return jsonify(errors), 400
 
-    if errors:
-        return jsonify(errors), 400
+        service = get_equipment_service(db_session)
+        item = service.create_equipment(**data)
+        db_session.commit()
 
-    item = equipment_service.create_equipment(**data)
+        return jsonify(response_schema.dump(item)), 201
 
-    return jsonify(response_schema.dump(item)), 201
+    except Exception as e:
+        db_session.rollback()
+        print("\n================ [EQUIPMENT LOG ERROR] ================")
+        traceback.print_exc()
+        print("=======================================================\n")
+        return jsonify({'message': 'Internal Server Error', 'error': str(e)}), 500
+    finally:
+        db_session.close()
+        SessionLocal.remove()
 
 
 @bp.route('/<int:eq_id>', methods=['PUT'])
@@ -144,16 +207,29 @@ def update_equipment(eq_id):
         400:
           description: Dữ liệu không hợp lệ
     """
-    data = request.get_json()
+    db_session = SessionLocal()
+    try:
+        data = request.get_json()
+        errors = request_schema.validate(data)
 
-    errors = request_schema.validate(data)
+        if errors:
+            return jsonify(errors), 400
 
-    if errors:
-        return jsonify(errors), 400
+        service = get_equipment_service(db_session)
+        item = service.update_equipment(eq_id, **data)
+        db_session.commit()
 
-    item = equipment_service.update_equipment(eq_id, **data)
+        return jsonify(response_schema.dump(item)), 200
 
-    return jsonify(response_schema.dump(item)), 200
+    except Exception as e:
+        db_session.rollback()
+        print("\n================ [EQUIPMENT LOG ERROR] ================")
+        traceback.print_exc()
+        print("=======================================================\n")
+        return jsonify({'message': 'Internal Server Error', 'error': str(e)}), 500
+    finally:
+        db_session.close()
+        SessionLocal.remove()
 
 
 @bp.route('/<int:eq_id>', methods=['DELETE'])
@@ -175,6 +251,20 @@ def delete_equipment(eq_id):
         204:
           description: Đã xóa thành công
     """
-    equipment_service.delete_equipment(eq_id)
+    db_session = SessionLocal()
+    try:
+        service = get_equipment_service(db_session)
+        service.delete_equipment(eq_id)
+        db_session.commit()
 
-    return '', 204
+        return '', 204
+
+    except Exception as e:
+        db_session.rollback()
+        print("\n================ [EQUIPMENT LOG ERROR] ================")
+        traceback.print_exc()
+        print("=======================================================\n")
+        return jsonify({'message': 'Internal Server Error', 'error': str(e)}), 500
+    finally:
+        db_session.close()
+        SessionLocal.remove()
