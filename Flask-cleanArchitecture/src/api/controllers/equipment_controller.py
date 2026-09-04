@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from services.equipment_service import EquipmentService
 from infrastructure.repositories.equipment_repository import EquipmentRepository
 from api.schemas.equipment import EquipmentRequestSchema, EquipmentResponseSchema
-from infrastructure.databases.mssql import session
+from infrastructure.databases.postgres import session
 
 bp = Blueprint('equipment', __name__, url_prefix='/equipment')
 

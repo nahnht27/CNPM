@@ -1,8 +1,10 @@
+from xml.parsers.expat import errors
+
 from flask import Blueprint, request, jsonify
 from services.report_service import ReportService
 from infrastructure.repositories.report_repository import ReportRepository
 from api.schemas.report import RevenueReportRequestSchema, RevenueReportResponseSchema
-from infrastructure.databases.mssql import session
+from infrastructure.databases.postgres import session
 
 bp = Blueprint('report', __name__, url_prefix='/reports')
 
@@ -49,11 +51,13 @@ def get_provider_revenue_report():
     if provider_id is None:
         return jsonify({'message': 'provider_id is required'}), 400
 
-    errors = request_schema.validate(request.args)
-    if errors:
-        return jsonify(errors), 400
-
-    data = request_schema.load(request.args)
+    report_data = {
+    'from_date': request.args.get('from_date'),
+    'to_date': request.args.get('to_date')
+    }
+    errors = request_schema.validate(report_data)
+    if errors:return jsonify(errors), 400
+    data = request_schema.load(report_data)
     report = report_service.get_revenue_report(
         from_date=data['from_date'],
         to_date=data['to_date'],
@@ -90,11 +94,13 @@ def get_system_revenue_report():
         400:
           description: Thiếu tham số bắt buộc
     """
-    errors = request_schema.validate(request.args)
-    if errors:
-        return jsonify(errors), 400
-
-    data = request_schema.load(request.args)
+    report_data = {
+    'from_date': request.args.get('from_date'),
+    'to_date': request.args.get('to_date')
+    }
+    errors = request_schema.validate(report_data) 
+    if errors:return jsonify(errors), 400
+    data = request_schema.load(report_data)
     report = report_service.get_revenue_report(
         from_date=data['from_date'],
         to_date=data['to_date'],
