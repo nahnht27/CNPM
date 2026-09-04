@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from services.booking_service import BookingService
 from infrastructure.repositories.booking_repository import BookingRepository
 from api.schemas.booking import BookingRequestSchema, BookingResponseSchema
-from infrastructure.databases.mssql import session
+from infrastructure.databases.postgres import session
 
 bp = Blueprint('booking', __name__, url_prefix='/bookings')
 
@@ -21,6 +21,12 @@ def list_bookings():
       summary: Lấy danh sách booking
       tags:
         - Booking
+      parameters:
+        - name: photographer_id
+          in: query
+          required: false
+          schema:
+            type: integer
       responses:
         200:
           description: Danh sách booking
@@ -31,7 +37,15 @@ def list_bookings():
                 items:
                   $ref: '#/components/schemas/BookingResponse'
     """
+    photographer_id = request.args.get('photographer_id', type=int)
+    
+    # Lấy toàn bộ danh sách booking từ service có sẵn
     items = booking_service.list_bookings()
+    
+    # Lọc danh sách theo photographer_id nếu có
+    if photographer_id:
+        items = [b for b in items if getattr(b, 'photographer_id', None) == photographer_id]
+        
     return jsonify(response_schema.dump(items, many=True)), 200
 
 
@@ -98,11 +112,19 @@ def create_booking():
         400:
           description: Dữ liệu không hợp lệ
     """
-    data = request.get_json()
+    data = request.get_json() or {}
+    
+    # 1. Kiểm tra lỗi validate
     errors = request_schema.validate(data)
     if errors:
         return jsonify(errors), 400
-    item = booking_service.create_booking(**data)
+        
+    # 2. Dùng load() để lấy cleaned data (đã có load_default=0.0 từ Schema)
+    cleaned_data = request_schema.load(data)
+    
+    # 3. Truyền cleaned_data vào Service
+    item = booking_service.create_booking(**cleaned_data)
+    
     return jsonify(response_schema.dump(item)), 201
 
 
@@ -137,11 +159,19 @@ def update_booking(booking_id):
         400:
           description: Dữ liệu không hợp lệ
     """
-    data = request.get_json()
-    errors = request_schema.validate(data)
+    data = request.get_json() or {}
+    
+    # partial=True cho phép cập nhật từng phần
+    errors = request_schema.validate(data, partial=True)
     if errors:
         return jsonify(errors), 400
-    item = booking_service.update_booking(booking_id, **data)
+
+    cleaned_data = request_schema.load(data, partial=True)
+    item = booking_service.update_booking(booking_id, **cleaned_data)
+    
+    if not item:
+        return jsonify({'message': 'Booking not found'}), 404
+
     return jsonify(response_schema.dump(item)), 200
 
 

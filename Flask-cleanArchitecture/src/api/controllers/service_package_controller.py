@@ -15,6 +15,7 @@ service_package_service = ServicePackageService(
 
 request_schema = ServicePackageRequestSchema()
 response_schema = ServicePackageResponseSchema()
+response_list_schema = ServicePackageResponseSchema(many=True)
 
 
 @bp.route('/', methods=['GET'])
@@ -51,7 +52,8 @@ def list_packages():
     else:
         items = service_package_service.list_packages()
 
-    return jsonify(response_schema.dump(items, many=True)), 200
+    # Dùng response_list_schema thay vì response_schema.dump(..., many=True)
+    return jsonify(response_list_schema.dump(items)), 200
 
 
 @bp.route('/<int:pkg_id>', methods=['GET'])
