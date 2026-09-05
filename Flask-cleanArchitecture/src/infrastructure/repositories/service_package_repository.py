@@ -1,7 +1,6 @@
 from typing import List, Optional
 from infrastructure.databases.factory_database import FactoryDatabase as db_factory
 from infrastructure.models.service_package_model import ServicePackageModel
-from sqlalchemy import text
 
 class ServicePackageRepository:
     def __init__(self, session=None):
@@ -26,34 +25,6 @@ class ServicePackageRepository:
 
     def list(self) -> List[ServicePackageModel]:
         return self.session.query(ServicePackageModel).all()
-
-    def list_by_space(self, space_id: int) -> List[dict]:
-        """Truy vấn các gói dịch vụ thuộc về một Space cụ thể qua bảng PackageDetails"""
-        query = text("""
-            SELECT 
-                sp."PackageID", 
-                sp."ProviderID", 
-                sp."PackageName", 
-                sp."Description", 
-                sp."Price", 
-                sp."Status", 
-                sp."CreatedAt",
-                pd."ReferenceID" AS "SpaceID"
-            FROM "ServicePackages" sp
-            JOIN "PackageDetails" pd 
-                ON sp."PackageID" = pd."PackageID" AND pd."ItemType" = 'space'
-            WHERE pd."ReferenceID" = :space_id AND sp."Status" = 'active'
-        """)
-        
-        results = self.session.execute(query, {"space_id": space_id}).fetchall()
-        
-        output = []
-        for row in results:
-            item = dict(row._mapping)
-            item['space_id'] = item.get('SpaceID')
-            output.append(item)
-            
-        return output
 
     def update(self, data) -> ServicePackageModel:
         m = self.session.query(ServicePackageModel).filter_by(id=data.get('id')).first()
