@@ -552,19 +552,31 @@
     );
   }
 
-  function getSpaceImage(space) {
-    if (!space) return "../assets/images/1.jpg";
+    function getSpaceImage(space) {
+      if (!space) return "";
 
-    return (
-      space.image_url ||
-      space.ImageUrl ||
-      space.image ||
-      space.Image ||
-      space.space_image ||
-      space.SpaceImage ||
-      "../assets/images/1.jpg"
-    );
-  }
+      let image =
+        space.image_url ||
+        space.ImageUrl ||
+        space.image ||
+        space.Image ||
+        space.space_image ||
+        space.SpaceImage ||
+        "";
+
+      if (!image) return "";
+
+      // DB đang lưu dạng: /assets/images/12.jpe
+      // booking.html nằm trong photographer/
+      // nên cần đi lên 1 cấp: ../assets/images/12.jpe
+      image = image.replace(/^\/+/, "");
+
+      if (image.startsWith("assets/")) {
+        return `../${image}`;
+      }
+
+      return image;
+    }
 
   /* -----------------------------------------------------
     1. Tải danh mục từ Flask Backend & Lọc trùng Equipment
@@ -895,19 +907,8 @@
         ? getItemName(spaceObj, "Không gian Studio")
         : `Không gian #${spaceId || ''}`;
 
-      // LẤY ĐỊA CHỈ TỪ DATABASE
-      const spaceAddress =
-        spaceObj?.address ||
-        spaceObj?.Address ||
-        "Chưa cập nhật địa chỉ";
-
-      // LẤY HÌNH ẢNH TỪ DATABASE
-      const spaceImage =
-        spaceObj?.image_url ||
-        spaceObj?.ImageUrl ||
-        spaceObj?.image ||
-        spaceObj?.Image ||
-        "";
+      const spaceAddress = getSpaceAddress(spaceObj);
+      const spaceImage = getSpaceImage(spaceObj);
 
       const card = document.createElement("article");
       card.className = "booking-card";
@@ -985,7 +986,9 @@
   }
 
   function openDetail(id) {
-  const b = myBookings.find(x => (x.id || x.booking_id || x.BookingID) === id);
+  const b = myBookings.find(
+    x => String(x.id || x.booking_id || x.BookingID) === String(id)
+  );
   if (!b) return;
 
   const { dateStr, timeStr } = formatBookingTime(b);
