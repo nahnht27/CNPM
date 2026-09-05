@@ -42,14 +42,8 @@ def list_equipment():
                   $ref: '#/components/schemas/EquipmentResponse'
     """
     space_id = request.args.get('space_id', type=int)
-
-    if space_id:
-        items = equipment_service.list_by_space(space_id)
-    else:
-        items = equipment_service.list_equipment()
-
+    items = equipment_service.list_equipment(space_id=space_id)
     return jsonify(response_list_schema.dump(items)), 200
-
 
 @bp.route('/<int:eq_id>', methods=['GET'])
 def get_equipment(eq_id):
