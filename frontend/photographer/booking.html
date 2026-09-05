@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đặt chỗ & Quản lý Booking | FilmSpace</title>
+
+  <!-- CSS dùng chung của project -->
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/photographer-home.css">
+
+  <style>
+    .booking-container {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      margin-top: 24px;
+      margin-bottom: 48px;
+    } 
+
+    .booking-section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--text, #26283b);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .booking-form-card {
+      background: var(--white, #ffffff);
+      border: 1px solid var(--line, #e9e9ef);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: var(--shadow, 0 16px 40px rgba(40,42,67,.08));
+    }
+
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--muted, #6f7284);
+    }
+
+    .form-group select,
+    .form-group input {
+      padding: 10px 12px;
+      border: 1px solid var(--line, #e9e9ef);
+      border-radius: 6px;
+      font-size: 0.9rem;
+      outline: none;
+      background: var(--bg, #f7f8fb);
+      color: var(--text, #26283b);
+      transition: border-color 0.2s;
+    }
+
+    .form-group select:focus,
+    .form-group input:focus {
+      border-color: var(--pink, #ff1584);
+      background: #fff;
+    }
+
+    .booking-summary-box {
+      background: var(--bg, #f7f8fb);
+      border: 1px dashed var(--blue, #859bac);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .booking-summary-info {
+      font-size: 0.9rem;
+      color: var(--muted, #6f7284);
+      line-height: 1.5;
+    }
+
+    .booking-summary-price {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--pink, #ff1584);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--pink, #ff1584);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background: var(--pink-dark, #e60f75);
+    }
+
+    .btn-secondary {
+      background: #e2e8f0;
+      color: #334155;
+    }
+
+    .btn-secondary:hover {
+      background: #cbd5e1;
+    }
+
+    .btn-ghost-danger {
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+    }
+
+    .btn-ghost-danger:hover {
+      background: #fee2e2;
+    }
+
+    .booking-tabs {
+      display: flex;
+      gap: 8px;
+      border-bottom: 2px solid var(--line, #e9e9ef);
+      padding-bottom: 8px;
+      overflow-x: auto;
+    }
+
+    .booking-tab {
+      padding: 8px 16px;
+      border: none;
+      background: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--muted, #6f7284);
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .booking-tab.active {
+      background: #fff1f8;
+      color: var(--pink, #ff1584);
+    }
+
+    .booking-tab .tab-count {
+      background: var(--line, #e9e9ef);
+      color: var(--text, #26283b);
+      font-size: 0.75rem;
+      padding: 2px 6px;
+      border-radius: 10px;
+      margin-left: 4px;
+    }
+
+    .booking-tab.active .tab-count {
+      background: var(--pink, #ff1584);
+      color: #ffffff;
+    }
+
+    .booking-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .booking-card {
+      display: flex;
+      background: var(--white, #ffffff);
+      border: 1px solid var(--line, #e9e9ef);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(40,42,67,.04);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .booking-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow, 0 16px 40px rgba(40,42,67,.08));
+    }
+
+    .booking-card-image {
+      width: 180px;
+      min-width: 180px;
+      background: #f3f4f6;
+    }
+
+    .booking-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .booking-card-body {
+      padding: 16px 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .booking-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .status-badge {
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 4px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .status-pending { background: #fef3c7; color: #92400e; }
+    .status-confirmed { background: #dbeafe; color: #1e40af; }
+    .status-checked_in { background: #e0e7ff; color: #3730a3; }
+    .status-completed { background: #dcfce7; color: #166534; }
+    .status-cancelled { background: #fee2e2; color: #991b1b; }
+
+    .booking-card-actions {
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      border-left: 1px solid var(--line, #e9e9ef);
+      min-width: 180px;
+    }
+
+    .booking-card-price {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text, #26283b);
+      margin-bottom: 12px;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(38, 40, 59, 0.6);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .overlay.open { display: flex; }
+
+    .modal {
+      background: var(--white, #ffffff);
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      padding: 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.25rem;
+      cursor: pointer;
+      color: var(--muted, #6f7284);
+    }
+
+    .toast-stack {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 1100;
+    }
+
+    .toast {
+      background: #10b981;
+      color: #ffffff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .toast.error { background: #ef4444; }
+
+    @media (max-width: 768px) {
+      .booking-card { flex-direction: column; }
+      .booking-card-image { width: 100%; height: 160px; }
+      .booking-card-actions {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        border-left: none;
+        border-top: 1px solid var(--line, #e9e9ef);
+      }
+      .booking-card-price { margin-bottom: 0; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <!-- =====================================================
+     NAVBAR
+     Đồng bộ với photographer/home.html
+     ===================================================== -->
+  <nav class="navbar" id="mainNavbar">
+
+    <div class="navbar-container container">
+
+      <!-- Logo -->
+      <a
+        class="logo"
+        href="home.html"
+        aria-label="FilmSpace"
+      >
+        FilmSpace
+      </a>
+
+
+      <!-- Photographer Navigation -->
+      <div class="menu" aria-label="Photographer navigation">
+
+        <a href="home.html">
+          Home
+        </a>
+
+        <a href="search.html">
+          Search
+        </a>
+
+        <a
+          href="booking.html"
+          class="active"
+        >
+          Bookings
+        </a>
+
+        <a href="workshops.html">
+          Workshops
+        </a>
+
+        <a href="profile.html">
+          Profile
+        </a>
+
+      </div>
+
+
+      <!-- User -->
+      <div class="nav-actions">
+
+        <span
+          class="photographer-nav-name"
+          id="navPhotographerName"
+        >
+          Photographer
+        </span>
+
+        <button
+          type="button"
+          class="photographer-logout"
+          onclick="logout()"
+        >
+          Đăng xuất
+        </button>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="container">
+    <div class="booking-container">
+
+      <div>
+        <h1 style="font-size: 28px; margin: 0 0 6px;">Đặt chỗ & Quản lý Lịch</h1>
+        <p style="margin: 0; color: var(--muted); font-size: 13px;">Lựa chọn không gian, gói dịch vụ, thiết bị và theo dõi các lượt đặt chỗ của bạn.</p>
+      </div>
+
+      <!-- FORM TẠO BOOKING MỚI -->
+      <section class="booking-form-card">
+        <div class="booking-section-title">📌 Đặt không gian & Dịch vụ mới</div>
+
+        <form id="createBookingForm">
+          <div class="form-grid-3">
+
+            <div class="form-group">
+              <label for="selectSpace">Địa điểm / Không gian</label>
+              <select id="selectSpace" onchange="onSpaceSelectChange()" required>
+                <option value="">-- Đang tải không gian... --</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="selectService">Gói Dịch vụ hỗ trợ</label>
+              <select id="selectService" onchange="updateBookingSummary()">
+                <option value="">-- Chọn dịch vụ --</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="selectEquipment">Gói Thiết bị đi kèm</label>
+              <select id="selectEquipment" onchange="updateBookingSummary()">
+                <option value="">-- Chọn thiết bị (Tùy chọn) --</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="bookingDate">Ngày sử dụng</label>
+              <input type="date" id="bookingDate" required onchange="updateBookingSummary()">
+            </div>
+
+            <div class="form-group">
+              <label for="bookingTime">Giờ bắt đầu</label>
+              <select id="bookingTime" onchange="updateBookingSummary()">
+                <option value="07:00">07:00</option>
+                <option value="08:00">08:00</option>
+                <option value="09:00" selected>09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+                <option value="18:00">18:00</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="bookingDuration">Thời lượng (Giờ)</label>
+              <select id="bookingDuration" onchange="updateBookingSummary()">
+                <option value="1">1 Giờ</option>
+                <option value="2" selected>2 Giờ</option>
+                <option value="3">3 Giờ</option>
+                <option value="4">4 Giờ</option>
+                <option value="5">5 Giờ</option>
+                <option value="6">6 Giờ</option>
+                <option value="7">7 Giờ</option>
+                <option value="8">8 Giờ (Cả ngày)</option>
+              </select>
+            </div>
+
+          </div>
+
+          <div class="booking-summary-box">
+            <div class="booking-summary-info" id="summaryInfo">Vui lòng chọn không gian để xem chi tiết chi phí.</div>
+            <div class="booking-summary-price" id="summaryPrice">0 VND</div>
+            <button type="submit" class="btn btn-primary" id="btnSubmitBooking">Xác nhận Đặt chỗ</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- DANH SÁCH BOOKING -->
+      <section>
+        <div class="booking-section-title">📋 Danh sách Đặt chỗ của tôi (<span id="totalBookingCount">0</span>)</div>
+
+        <div class="booking-tabs" id="bookingTabs">
+          <button type="button" class="booking-tab active" data-status="all">Tất cả <span class="tab-count" id="countAll">0</span></button>
+          <button type="button" class="booking-tab" data-status="pending">Chờ xử lý <span class="tab-count" id="countPending">0</span></button>
+          <button type="button" class="booking-tab" data-status="confirmed">Sắp tới <span class="tab-count" id="countConfirmed">0</span></button>
+          <button type="button" class="booking-tab" data-status="checked_in">Đang diễn ra <span class="tab-count" id="countCheckedIn">0</span></button>
+          <button type="button" class="booking-tab" data-status="completed">Hoàn tất <span class="tab-count" id="countCompleted">0</span></button>
+          <button type="button" class="booking-tab" data-status="cancelled">Đã hủy <span class="tab-count" id="countCancelled">0</span></button>
+        </div>
+
+        <div class="booking-list" id="bookingList" style="margin-top: 16px;"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- MODAL CHI TIẾT -->
+  <div class="overlay" id="detailOverlay">
+    <div class="modal">
+      <div class="modal-head">
+        <div>
+          <h2 id="detailTitle" style="margin: 0 0 4px; font-size: 1.1rem;">Chi tiết đặt chỗ</h2>
+          <div style="font-size: 0.8rem; color: var(--muted);" id="detailSubtitle">Mã: —</div>
+        </div>
+        <button type="button" class="modal-close" onclick="closeModal('detailOverlay')">✕</button>
+      </div>
+      <div style="margin-bottom: 20px; font-size: 0.9rem; line-height: 1.6;" id="detailBodyContent"></div>
+      <div style="display: flex; gap: 8px; justify-content: flex-end;" id="detailActions"></div>
+    </div>
+  </div>
+
+  <div class="toast-stack" id="toastStack"></div>
+
+  <script src="../api/api.js"></script>
+
+<script>
+  let fetchedSpaces = [];
+  let fetchedServices = [];
+  let fetchedEquipments = [];
+  let myBookings = [];
+  let activeTab = "all";
+
+  function getApiBaseUrl() {
+    return typeof API_BASE_URL !== 'undefined' ? API_BASE_URL : "http://127.0.0.1:9999";
+  }
+
+  function getAuthToken() {
+    const token = localStorage.getItem("token") || sessionStorage.getItem("token") || 
+                  localStorage.getItem("auth_token") || sessionStorage.getItem("auth_token");
+    
+    if (!token || token === "null" || token === "undefined") {
+      return ""; 
+    }
+    return token.startsWith("Bearer ") ? token : `Bearer ${token}`;
+  }
+
+  /* -----------------------------------------------------
+    0. Khôi phục hiển thị tên Photographer ở Navbar & Logout
+    ----------------------------------------------------- */
+  function loadPhotographerInfo() {
+    const token = getAuthToken();
+    if (!token) {
+      window.location.href = "../auth.html";
+      return;
+    }
+
+    const username = localStorage.getItem("username") || sessionStorage.getItem("username");
+    const fullName = localStorage.getItem("full_name") || sessionStorage.getItem("full_name");
+    const displayName = fullName || username || "Photographer";
+
+    const navNameElement = document.getElementById("navPhotographerName");
+    if (navNameElement) {
+      navNameElement.textContent = displayName;
+    }
+  }
+
+  function logout() {
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.href = "../auth.html";
+  }
+
+  function parsePrice(val) {
+    if (val === null || val === undefined) return 0;
+    if (typeof val === 'number') return val;
+    const cleaned = String(val).replace(/[^0-9.]/g, '');
+    const num = Number(cleaned);
+    return isNaN(num) ? 0 : num;
+  }
+
+  function getItemName(item, defaultVal = "Dịch vụ/Thiết bị") {
+    if (!item) return defaultVal;
+    return item.name || item.equipment_name || item.package_name || item.service_name || 
+           item.SpaceName || item.EquipmentName || item.PackageName || item.title || defaultVal;
+  }
+
+  function getItemPrice(item) {
+    if (!item) return 0;
+    const rawPrice = item.price ?? item.rental_price ?? item.package_price ?? 
+                      item.base_price ?? item.price_per_hour ?? item.BasePrice ?? item.RentalPrice ?? 0;
+    return parsePrice(rawPrice);
+  }
+
+    function getSpaceAddress(space) {
+    if (!space) return "Chưa cập nhật địa chỉ";
+
+    return (
+      space.address ||
+      space.Address ||
+      space.business_address ||
+      space.BusinessAddress ||
+      "Chưa cập nhật địa chỉ"
+    );
+  }
+
+    function getSpaceImage(space) {
+      if (!space) return "";
+
+      let image =
+        space.image_url ||
+        space.ImageUrl ||
+        space.image ||
+        space.Image ||
+        space.space_image ||
+        space.SpaceImage ||
+        "";
+
+      if (!image) return "";
+      image = image.replace(/^\/+/, "");
+
+      if (image.startsWith("assets/")) {
+        return `../${image}`;
+      }
+
+      return image;
+    }
+
+  /* -----------------------------------------------------
+    1. Tải danh mục từ Flask Backend & Lọc trùng Equipment
+    ----------------------------------------------------- */
+  async function loadCatalogData() {
+    const baseUrl = getApiBaseUrl().replace(/\/+$/, "");
+
+    const fetchSafe = async (url) => {
+      try {
+        const res = await window.fetch(url, {
+          headers: { "Authorization": getAuthToken() }
+        });
+        if (!res.ok) return [];
+        const data = await res.json();
+        return Array.isArray(data) ? data : [];
+      } catch (e) {
+        console.warn(`Lỗi fetch ${url}:`, e);
+        return [];
+      }
+    };
+
+    fetchedSpaces = await fetchSafe(`${baseUrl}/creative-spaces/`);
+    populateSpacesSelect();
+  }
+
+  function populateSpacesSelect() {
+    const spaceSelect = document.getElementById("selectSpace");
+    if (!spaceSelect) return;
+
+    if (!fetchedSpaces || fetchedSpaces.length === 0) {
+      spaceSelect.innerHTML = `<option value="">Không tìm thấy không gian</option>`;
+      return;
+    }
+
+    spaceSelect.innerHTML = `<option value="">-- Chọn không gian --</option>` + 
+      fetchedSpaces.map(s => {
+        const id = s.id || s.SpaceID || s.space_id;
+        const name = getItemName(s, "Không gian Studio");
+        const displayPrice = getItemPrice(s);
+
+        return `<option value="${id}">${name} (${displayPrice.toLocaleString('vi-VN')}đ/h)</option>`;
+      }).join("");
+
+    if (fetchedSpaces.length > 0) {
+      spaceSelect.selectedIndex = 1;
+      onSpaceSelectChange();
+    }
+  }
+
+  async function onSpaceSelectChange() {
+    const spaceId = document.getElementById("selectSpace").value;
+    const baseUrl = getApiBaseUrl().replace(/\/+$/, "");
+
+    const fetchSafe = async (url) => {
+      try {
+        const res = await window.fetch(url, {
+          headers: { "Authorization": getAuthToken() }
+        });
+        if (!res.ok) return [];
+        const data = await res.json();
+        return Array.isArray(data) ? data : [];
+      } catch (e) {
+        console.warn(`Lỗi fetch ${url}:`, e);
+        return [];
+      }
+    };
+
+    if (!spaceId) {
+      fetchedServices = [];
+      fetchedEquipments = [];
+    } else {
+      fetchedServices = await fetchSafe(`${baseUrl}/service-packages/?space_id=${spaceId}`);
+      fetchedEquipments = await fetchSafe(`${baseUrl}/equipment/?space_id=${spaceId}`);
+    }
+
+    const serviceSelect = document.getElementById("selectService");
+    const equipSelect = document.getElementById("selectEquipment");
+
+    // Render danh sách Gói Dịch Vụ (đã lọc theo space từ backend, không cần lọc thêm ở đây)
+    if (fetchedServices.length > 0) {
+      serviceSelect.innerHTML = `<option value="" data-price="0">Không chọn dịch vụ (0đ)</option>` +
+        fetchedServices.map(sv => {
+          const id = sv.id;
+          const name = getItemName(sv, "Gói dịch vụ");
+          const price = getItemPrice(sv);
+          return `<option value="${id}" data-price="${price}">${name} (+${price.toLocaleString('vi-VN')}đ)</option>`;
+        }).join("");
+    } else {
+      serviceSelect.innerHTML = `<option value="" data-price="0">Không có gói dịch vụ cho không gian này</option>`;
+    }
+
+    // Render danh sách Thiết bị (đã lọc theo space từ backend — không còn cần bộ lọc trùng tên nữa
+    // vì mỗi space giờ chỉ trả về đúng thiết bị của nó, không lẫn thiết bị từ space khác)
+    if (fetchedEquipments.length > 0) {
+      equipSelect.innerHTML = `<option value="" data-price="0">Không chọn thiết bị thêm (0đ)</option>` +
+        fetchedEquipments.map(eq => {
+          const id = eq.id;
+          const name = getItemName(eq, "Thiết bị Studio");
+          const price = getItemPrice(eq);
+          return `<option value="${id}" data-price="${price}">${name} (+${price.toLocaleString('vi-VN')}đ/lần)</option>`;
+        }).join("");
+    } else {
+      equipSelect.innerHTML = `<option value="" data-price="0">Không có thiết bị cho không gian này</option>`;
+    }
+
+    updateBookingSummary();
+  }
+
+  function updateBookingSummary() {
+    const spaceId = document.getElementById("selectSpace").value;
+    const space = fetchedSpaces.find(s => String(s.id || s.SpaceID || s.space_id) === String(spaceId));
+    const duration = Number(document.getElementById("bookingDuration").value || 1);
+
+    const serviceSelect = document.getElementById("selectService");
+    const equipSelect = document.getElementById("selectEquipment");
+
+    const servicePrice = parsePrice(serviceSelect.options[serviceSelect.selectedIndex]?.dataset?.price);
+    const equipPrice = parsePrice(equipSelect.options[equipSelect.selectedIndex]?.dataset?.price);
+
+    if (!space) {
+      document.getElementById("summaryInfo").textContent = "Vui lòng chọn không gian để xem chi tiết chi phí.";
+      document.getElementById("summaryPrice").textContent = "0 VND";
+      return;
+    }
+
+    const spacePrice = getItemPrice(space);
+    const hourlyTotal = spacePrice * duration;
+    const grandTotal = hourlyTotal + servicePrice + equipPrice;
+
+    const spaceName = getItemName(space, "Không gian");
+    document.getElementById("summaryInfo").innerHTML = `
+      <strong>${spaceName}</strong> (${duration} giờ)<br>
+      <small>Thuê phòng: ${hourlyTotal.toLocaleString('vi-VN')}đ | Dịch vụ & Thiết bị: ${(servicePrice + equipPrice).toLocaleString('vi-VN')}đ</small>
+    `;
+    document.getElementById("summaryPrice").textContent = grandTotal.toLocaleString("vi-VN") + " VND";
+  }
+
+  async function fetchMyBookings() {
+    try {
+      const baseUrl = getApiBaseUrl().replace(/\/+$/, "");
+
+      // Không truyền photographer_id ở frontend.
+      // Giữ nguyên cách lấy danh sách booking như trước.
+      const response = await window.fetch(`${baseUrl}/bookings/`, {
+        headers: {
+          "Authorization": getAuthToken()
+        }
+      });
+
+      if (!response.ok) {
+        console.error(
+          "Không lấy được danh sách booking:",
+          response.status,
+          await response.text()
+        );
+
+        myBookings = [];
+        renderAll();
+        return;
+      }
+
+      const data = await response.json();
+
+      myBookings = Array.isArray(data) ? data : [];
+
+      console.log("Danh sách booking:", myBookings);
+
+      renderAll();
+
+    } catch (err) {
+      console.error("Lỗi tải danh sách booking:", err);
+
+      myBookings = [];
+      renderAll();
+    }
+  }
+
+  async function handleCreateBooking(event) {
+    if (event) event.preventDefault();
+
+    const spaceId = document.getElementById("selectSpace").value;
+    const bookingDate = document.getElementById("bookingDate").value;
+    const startTimeStr = document.getElementById("bookingTime").value;
+    const duration = Number(document.getElementById("bookingDuration").value);
+
+    if (!spaceId) return showToast("Vui lòng chọn không gian hợp lệ", "error");
+    if (!bookingDate) return showToast("Vui lòng chọn ngày sử dụng", "error");
+
+    const space = fetchedSpaces.find(s => String(s.id || s.SpaceID || s.space_id) === String(spaceId));
+    const spacePrice = getItemPrice(space);
+
+    const serviceSelect = document.getElementById("selectService");
+    const equipSelect = document.getElementById("selectEquipment");
+
+    const servicePrice = parsePrice(serviceSelect.options[serviceSelect.selectedIndex]?.dataset?.price);
+    const equipPrice = parsePrice(equipSelect.options[equipSelect.selectedIndex]?.dataset?.price);
+
+    const calculatedTotalPrice = (spacePrice * duration) + servicePrice + equipPrice;
+
+    const startDateTime = new Date(`${bookingDate}T${startTimeStr}:00`);
+    const endDateTime = new Date(startDateTime.getTime() + duration * 60 * 60 * 1000);
+
+    const formatIsoLocal = (d) => {
+      const pad = (n) => String(n).padStart(2, '0');
+      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    };
+
+    const userStr = localStorage.getItem("user") || sessionStorage.getItem("user");
+    let photographerId = 1;
+    if (userStr) {
+      try {
+        const u = JSON.parse(userStr);
+        photographerId = u.photographer_id || u.PhotographerID || u.id || 1;
+      } catch(e) {}
+    }
+
+    const payload = {
+      photographer_id: parseInt(photographerId, 10),
+      space_id: parseInt(spaceId, 10),
+      start_time: formatIsoLocal(startDateTime),
+      end_time: formatIsoLocal(endDateTime),
+      total_price: calculatedTotalPrice
+    };
+
+    const btnSubmit = document.getElementById("btnSubmitBooking");
+    if (btnSubmit) btnSubmit.disabled = true;
+
+    try {
+      const baseUrl = getApiBaseUrl().replace(/\/+$/, "");
+      const response = await window.fetch(`${baseUrl}/bookings/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": getAuthToken()
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok || response.status === 201) {
+        showToast("Xác nhận đặt chỗ thành công!");
+        await fetchMyBookings();
+      } else {
+        const errData = await response.json().catch(() => ({}));
+        console.error("Lỗi từ Flask Backend:", errData);
+        showToast(errData.message || errData.error || "Lỗi máy chủ khi tạo booking (500)", "error");
+      }
+    } catch (err) {
+      showToast("Lỗi kết nối máy chủ Flask", "error");
+    } finally {
+      if (btnSubmit) btnSubmit.disabled = false;
+    }
+  }
+
+  /*3. Render Giao diện & Tabs */
+  function normalizeStatus(status) {
+    if (!status) return "pending";
+    return String(status).toLowerCase().trim();
+  }
+
+  function renderCounts() {
+    const counts = { all: myBookings.length, pending: 0, confirmed: 0, checked_in: 0, completed: 0, cancelled: 0 };
+    myBookings.forEach(b => { 
+      const st = normalizeStatus(b.status || b.Status);
+      if (counts[st] !== undefined) counts[st]++; 
+    });
+
+    if (document.getElementById("totalBookingCount")) document.getElementById("totalBookingCount").textContent = counts.all;
+    if (document.getElementById("countAll")) document.getElementById("countAll").textContent = counts.all;
+    if (document.getElementById("countPending")) document.getElementById("countPending").textContent = counts.pending;
+    if (document.getElementById("countConfirmed")) document.getElementById("countConfirmed").textContent = counts.confirmed;
+    if (document.getElementById("countCheckedIn")) document.getElementById("countCheckedIn").textContent = counts.checked_in;
+    if (document.getElementById("countCompleted")) document.getElementById("countCompleted").textContent = counts.completed;
+    if (document.getElementById("countCancelled")) document.getElementById("countCancelled").textContent = counts.cancelled;
+  }
+
+  function formatBookingTime(b) {
+    const startStr = b.start_time || b.StartTime || '';
+    if (startStr.includes('T')) {
+      const parts = startStr.split('T');
+      return { dateStr: parts[0], timeStr: parts[1].substring(0, 5) };
+    } else if (startStr.includes(' ')) {
+      const parts = startStr.split(' ');
+      return { dateStr: parts[0], timeStr: parts[1].substring(0, 5) };
+    }
+    return { dateStr: startStr || 'N/A', timeStr: '09:00' };
+  }
+
+  function renderList() {
+    const list = document.getElementById("bookingList");
+    if (!list) return;
+    list.innerHTML = "";
+
+    let filtered = activeTab === "all" 
+      ? [...myBookings]
+      : myBookings.filter(b => normalizeStatus(b.status || b.Status) === activeTab);
+
+    filtered.sort((a, b) => {
+      const idA = Number(a.id || a.booking_id || a.BookingID || 0);
+      const idB = Number(b.id || b.booking_id || b.BookingID || 0);
+      return idB - idA;
+    });
+
+    const countElem = document.querySelector(".my-bookings-title-count") || document.getElementById("bookingCount");
+    if (countElem) {
+      countElem.innerText = `( ${filtered.length} )`;
+    }
+
+    if (filtered.length === 0) {
+      list.innerHTML = `<div style="text-align: center; padding: 40px; color: var(--muted); background: #fff; border-radius: 8px;">Chưa có booking nào trong danh mục này.</div>`;
+      return;
+    }
+
+    filtered.forEach(b => {
+      const bId = b.id || b.booking_id || b.BookingID;
+      const statusVal = b.status || b.Status;
+      const normStatus = normalizeStatus(statusVal);
+      const { dateStr, timeStr } = formatBookingTime(b);
+      const priceVal = Number(b.total_price || b.TotalPrice || b.totalPrice || 0);
+
+      // Tìm thông tin space từ dữ liệu đã lấy từ API /creative-spaces/
+      const spaceId = b.space_id || b.SpaceID || b.spaceId;
+
+      const spaceObj = fetchedSpaces.find(
+        s => String(s.id || s.SpaceID || s.space_id) === String(spaceId)
+      );
+
+      const spaceName = spaceObj
+        ? getItemName(spaceObj, "Không gian Studio")
+        : `Không gian #${spaceId || ''}`;
+
+      const spaceAddress = getSpaceAddress(spaceObj);
+      const spaceImage = getSpaceImage(spaceObj);
+
+      const card = document.createElement("article");
+      card.className = "booking-card";
+
+      card.innerHTML = `
+        <div class="booking-card-image">
+          ${
+            spaceImage
+              ? `<img 
+                  src="${spaceImage}" 
+                  alt="${spaceName}"
+                  onerror="this.style.display='none'"
+                >`
+              : `<div style="
+                  height: 100%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: var(--muted);
+                ">
+                  Chưa có hình ảnh
+                </div>`
+          }
+        </div>
+
+        <div class="booking-card-body">
+          <div class="booking-card-top">
+            <span class="status-badge status-${normStatus}">
+              ${getStatusLabel(statusVal)}
+            </span>
+
+            <span style="font-size: 0.8rem; color: var(--muted);">
+              #BK-${bId}
+            </span>
+          </div>
+
+          <h3 style="font-size: 1.05rem; margin: 0 0 6px;">
+            ${spaceName}
+          </h3>
+
+          <div style="font-size: 0.85rem; color: var(--muted);">
+            📍 ${spaceAddress}<br>
+            📅 ${dateStr} | ⏱ ${timeStr}
+          </div>
+        </div>
+
+        <div class="booking-card-actions">
+          <div class="booking-card-price">
+            ${priceVal.toLocaleString('vi-VN')} VND
+          </div>
+
+          <button
+            type="button"
+            class="btn btn-secondary"
+            onclick="openDetail(${bId})"
+          >
+            Chi tiết
+          </button>
+        </div>
+      `;
+
+      list.appendChild(card);
+    });
+  }
+
+  function getStatusLabel(s) {
+    const st = normalizeStatus(s);
+    const map = { pending: "Chờ xử lý", confirmed: "Sắp tới", checked_in: "Đang diễn ra", completed: "Hoàn tất", cancelled: "Đã hủy" };
+    return map[st] || s;
+  }
+
+  function renderAll() {
+    renderCounts();
+    renderList();
+  }
+
+  function openDetail(id) {
+  const b = myBookings.find(
+    x => String(x.id || x.booking_id || x.BookingID) === String(id)
+  );
+  if (!b) return;
+
+  const { dateStr, timeStr } = formatBookingTime(b);
+  const bId = b.id || b.booking_id || b.BookingID;
+  const statusVal = b.status || b.Status;
+  const priceVal = Number(b.total_price || b.TotalPrice || 0);
+
+  const spaceObj = fetchedSpaces.find(s => String(s.id || s.SpaceID || s.space_id) === String(b.space_id || b.SpaceID));
+  const spaceName = spaceObj ? getItemName(spaceObj, "Không gian Studio") : `Không gian #${b.space_id || b.SpaceID}`;
+  const spaceAddress = getSpaceAddress(spaceObj);
+  const spaceImage = getSpaceImage(spaceObj);
+
+  document.getElementById("detailSubtitle").textContent = "Mã booking: #BK-" + bId;
+  document.getElementById("detailBodyContent").innerHTML = `
+    ${
+      spaceImage
+        ? `
+          <div style="margin-bottom: 16px;">
+            <img
+              src="${spaceImage}"
+              alt="${spaceName}"
+              style="
+                width: 100%;
+                max-height: 220px;
+                object-fit: cover;
+                border-radius: 10px;
+              "
+              onerror="this.style.display='none'"
+            >
+          </div>
+        `
+        : ""
+    }
+
+    <p style="margin: 4px 0;">
+      <strong>Không gian:</strong> ${spaceName}
+    </p>
+
+    <p style="margin: 4px 0;">
+      <strong>Địa chỉ:</strong> ${spaceAddress}
+    </p>
+
+    <p style="margin: 4px 0;">
+      <strong>Thời gian:</strong> ${dateStr} (${timeStr})
+    </p>
+
+    <p style="margin: 4px 0;">
+      <strong>Trạng thái:</strong> ${getStatusLabel(statusVal)}
+    </p>
+
+    <p style="margin: 12px 0 0; font-size: 1.1rem; color: var(--pink);">
+      <strong>Tổng thanh toán:</strong>
+      ${priceVal.toLocaleString('vi-VN')} VND
+    </p>
+  `;
+
+  const actions = document.getElementById("detailActions");
+  actions.innerHTML = "";
+  const st = normalizeStatus(statusVal);
+
+  // --- HÀNH ĐỘNG CỦA PHOTOGRAPHER ---
+  if (st === "pending") {
+    // Đang chờ Studio duyệt -> Photographer chỉ có quyền Hủy yêu cầu đặt
+    actions.innerHTML = `
+      <button class="btn btn-ghost-danger" onclick="updateBookingStatus(${bId}, 'cancelled')">Hủy yêu cầu đặt chỗ</button>
+    `;
+  } else if (st === "confirmed") {
+    // Studio đã duyệt -> Đến ngày chụp Photographer có thể bấm Check-in hoặc Hủy lịch
+    actions.innerHTML = `
+      <button class="btn btn-ghost-danger" onclick="updateBookingStatus(${bId}, 'cancelled')">Hủy đặt chỗ</button>
+      <button class="btn btn-primary" onclick="updateBookingStatus(${bId}, 'checked_in')">Tôi đã đến Studio (Check-in)</button>
+    `;
+  } else if (st === "checked_in") {
+    // Đang chụp -> Bấm xong buổi chụp
+    actions.innerHTML = `
+      <button class="btn btn-primary" onclick="updateBookingStatus(${bId}, 'completed')">Kết thúc buổi chụp</button>
+    `;
+  }
+
+  document.getElementById("detailOverlay").classList.add("open");
+}
+
+  async function updateBookingStatus(id, newStatus) {
+    const b = myBookings.find(x => (x.id || x.booking_id || x.BookingID) === id);
+    if (!b) return;
+
+    const payload = {
+      photographer_id: b.photographer_id || b.PhotographerID,
+      space_id: b.space_id || b.SpaceID,
+      package_id: b.package_id || b.PackageID || null,
+      start_time: b.start_time || b.StartTime,
+      end_time: b.end_time || b.EndTime,
+      status: newStatus,
+      total_price: b.total_price || b.TotalPrice
+    };
+
+    try {
+      const baseUrl = getApiBaseUrl().replace(/\/+$/, "");
+      const response = await window.fetch(`${baseUrl}/bookings/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": getAuthToken()
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        showToast("Cập nhật trạng thái thành công!");
+        closeModal("detailOverlay");
+        await fetchMyBookings();
+      } else {
+        const errData = await response.json().catch(() => ({}));
+        showToast(errData.message || "Không thể cập nhật trạng thái", "error");
+      }
+    } catch (err) {
+      showToast("Lỗi kết nối máy chủ Flask", "error");
+    }
+  }
+
+  function closeModal(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove("open");
+  }
+
+  function showToast(message, type = "success") {
+    const stack = document.getElementById("toastStack");
+    if (!stack) return;
+    const toast = document.createElement("div");
+    toast.className = `toast ${type === "error" ? "error" : ""}`;
+    toast.textContent = message;
+    stack.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    loadPhotographerInfo(); // Hiển thị tên đăng nhập ở Navbar
+
+    const dateInput = document.getElementById("bookingDate");
+    if (dateInput) {
+      dateInput.value = new Date().toISOString().split("T")[0];
+    }
+
+    document.querySelectorAll(".booking-tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".booking-tab").forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+        activeTab = tab.dataset.status;
+        renderList();
+      });
+    });
+
+    const form = document.getElementById("createBookingForm");
+    if (form) {
+      form.addEventListener("submit", handleCreateBooking);
+    }
+
+    loadCatalogData();
+    fetchMyBookings();
+  });
+</script>

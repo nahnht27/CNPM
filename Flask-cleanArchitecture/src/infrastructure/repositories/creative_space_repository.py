@@ -87,8 +87,41 @@ class CreativeSpaceRepository:
             ]
         }
 
-    def list(self) -> List[CreativeSpaceModel]:
-        return self.session.query(CreativeSpaceModel).all()
+    def list(self) -> List:
+        spaces = (
+            self.session
+            .query(CreativeSpaceModel)
+            .all()
+        )
+
+        result = []
+
+        for space in spaces:
+            image = (
+                self.session
+                .query(SpaceImageModel)
+                .filter_by(space_id=space.id)
+                .first()
+            )
+
+            result.append({
+                'id': space.id,
+                'provider_id': space.provider_id,
+                'name': space.name,
+                'category_id': space.category_id,
+                'description': space.description,
+                'size_sqm': space.size_sqm,
+                'max_capacity': space.max_capacity,
+                'operating_hours': space.operating_hours,
+                'pricing_model': space.pricing_model,
+                'base_price': space.base_price,
+                'status': space.status,
+                'address': space.address,
+                'image_url': image.image_url if image else None,
+                'created_at': space.created_at
+            })
+
+        return result
 
     def update(self, data) -> CreativeSpaceModel:
         m = (
