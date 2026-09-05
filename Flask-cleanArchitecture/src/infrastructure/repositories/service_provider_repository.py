@@ -4,7 +4,8 @@ from infrastructure.models.service_provider_model import ServiceProviderModel
 
 class ServiceProviderRepository:
     def __init__(self, session=None):
-        self.session = session or db_factory.get_database('POSTGREE').session
+        # Đổi thành 'MSSQL' nếu toàn bộ hệ thống của bạn dùng SQL Server
+        self.session = session or db_factory.get_database('MSSQL').session
 
     def add(self, data) -> ServiceProviderModel:
         m = ServiceProviderModel(
@@ -32,7 +33,7 @@ class ServiceProviderRepository:
     def update(self, data) -> ServiceProviderModel:
         m = self.session.query(ServiceProviderModel).filter_by(id=data.get('id')).first()
         if not m:
-            raise ValueError('Not found')
+            raise ValueError('ServiceProvider not found')
         for k, v in data.items():
             if hasattr(m, k) and k != 'id':
                 setattr(m, k, v)

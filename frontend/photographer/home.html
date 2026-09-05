@@ -1,0 +1,1341 @@
+<!DOCTYPE html> 
+<html lang="vi"> 
+<head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+ 
+  <title>Photographer - Home | FilmSpace</title> 
+ 
+  <!-- CSS dùng chung của project --> 
+  <link rel="stylesheet" href="../assets/css/styles.css"> 
+ 
+  <!-- CSS riêng cho Photographer Home --> 
+  <link rel="stylesheet" href="../assets/css/photographer-home.css"> 
+</head> 
+ 
+<body> 
+ 
+  <!-- ===================================================== 
+       NAVBAR 
+       Giữ đúng layout navbar hiện tại của project 
+       ===================================================== --> 
+  <nav class="navbar" id="mainNavbar"> 
+ 
+    <div class="navbar-container container"> 
+ 
+      <!-- Logo --> 
+      <a 
+        class="logo" 
+        href="home.html" 
+        aria-label="FilmSpace" 
+      > 
+        FilmSpace 
+      </a> 
+ 
+ 
+      <!-- Photographer Navigation --> 
+      <div class="menu" aria-label="Photographer navigation"> 
+ 
+        <a 
+          href="home.html" 
+          class="active" 
+        > 
+          Home 
+        </a> 
+ 
+        <a href="search.html"> 
+          Search 
+        </a> 
+ 
+        <a href="booking.html"> 
+          Bookings 
+        </a> 
+ 
+        <a href="workshops.html"> 
+          Workshops 
+        </a> 
+ 
+        <a href="profile.html"> 
+          Profile 
+        </a> 
+ 
+      </div> 
+ 
+ 
+      <!-- User --> 
+      <div class="nav-actions"> 
+ 
+        <span 
+          class="photographer-nav-name" 
+          id="navPhotographerName" 
+        > 
+          Photographer 
+        </span> 
+ 
+        <button 
+          type="button" 
+          class="photographer-logout" 
+          onclick="logout()" 
+        > 
+          Đăng xuất 
+        </button> 
+ 
+      </div> 
+ 
+    </div> 
+ 
+  </nav> 
+ 
+ 
+  <!-- ===================================================== 
+       MAIN CONTENT 
+       ===================================================== --> 
+  <main class="photographer-page"> 
+ 
+ 
+    <!-- =================================================== 
+         WELCOME 
+         =================================================== --> 
+    <section class="photographer-welcome"> 
+ 
+      <div class="container"> 
+ 
+        <div class="welcome-card"> 
+ 
+          <div class="welcome-content"> 
+ 
+            <div class="welcome-kicker"> 
+              PHOTOGRAPHER DASHBOARD 
+            </div> 
+ 
+            <h1> 
+              Xin chào, 
+              <span id="photographerName"> 
+                Photographer 
+              </span> 
+              👋 
+            </h1> 
+ 
+            <p> 
+              Khám phá studio, darkroom và các workshop 
+              dành cho cộng đồng film photography. 
+            </p> 
+ 
+          </div> 
+ 
+        </div> 
+ 
+      </div> 
+ 
+    </section> 
+ 
+ 
+    <!-- =================================================== 
+         QUICK SEARCH 
+         =================================================== --> 
+    <section class="dashboard-section quick-search-section"> 
+ 
+      <div class="container"> 
+ 
+        <div class="section-heading"> 
+ 
+          <div> 
+            <h2>Search nhanh</h2> 
+ 
+            <p> 
+              Tìm studio, darkroom hoặc workshop phù hợp với bạn. 
+            </p> 
+          </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="dashboard-search-box"> 
+ 
+          <div class="dashboard-search-input"> 
+ 
+            <span class="dashboard-search-icon"> 
+              ⌕ 
+            </span> 
+ 
+            <input 
+              type="text" 
+              id="quickSearchInput" 
+              placeholder="Darkroom, studio, workshop..." 
+              autocomplete="off" 
+            > 
+ 
+          </div> 
+ 
+ 
+          <button 
+            type="button" 
+            class="dashboard-search-btn" 
+            onclick="quickSearch()" 
+          > 
+            Search 
+          </button> 
+ 
+        </div> 
+ 
+      </div> 
+ 
+    </section> 
+ 
+ 
+    <!-- =================================================== 
+         TOP STUDIOS / DARKROOM 
+         =================================================== --> 
+    <section class="dashboard-section"> 
+ 
+      <div class="container"> 
+ 
+        <div class="section-heading"> 
+ 
+          <div> 
+ 
+            <h2> 
+              Top Studios / Darkroom nổi bật 
+            </h2> 
+ 
+            <p> 
+              Những địa điểm được photographer quan tâm. 
+            </p> 
+ 
+          </div> 
+ 
+ 
+          <a 
+            href="search.html" 
+            class="view-all-link" 
+          > 
+            View all 
+          </a> 
+ 
+        </div> 
+ 
+ 
+        <div class="photographer-studio-grid" id="homeSpaceGrid">
+          <!-- Dữ liệu sẽ được load từ Backend -->
+        </div>
+
+        <p id="homeSpaceLoading" style="text-align: center; display: none;">
+          Đang tải dữ liệu...
+        </p>
+
+        <p id="homeSpaceEmpty" style="text-align: center; display: none;">
+          Chưa có địa điểm nào.
+        </p>
+
+        <p id="homeSpaceError" style="text-align: center; display: none;">
+          Không thể tải dữ liệu từ Backend.
+        </p>
+ 
+ 
+    </section> 
+ 
+ 
+    <!-- =================================================== 
+         BOOKING GẦN NHẤT 
+         =================================================== --> 
+    <section class="dashboard-section"> 
+ 
+      <div class="container"> 
+ 
+        <div class="section-heading"> 
+ 
+          <div> 
+ 
+            <h2> 
+              Booking gần nhất 
+            </h2> 
+ 
+            <p> 
+              Lịch đặt dịch vụ sắp tới của bạn. 
+            </p> 
+ 
+          </div> 
+ 
+ 
+          <a 
+            href="booking.html" 
+            class="view-all-link" 
+          > 
+            View all 
+          </a> 
+ 
+        </div> 
+ 
+ 
+        <div class="upcoming-booking-card" id="homeUpcomingBooking">
+          <div class="upcoming-booking-content">
+            <div style="text-align: center; width: 100%;">
+              Đang tải booking...
+            </div>
+          </div>
+        </div>
+
+ 
+ 
+    </section> 
+ 
+ 
+    <!-- =================================================== 
+         QUICK ACTIONS 
+         =================================================== --> 
+    <section class="dashboard-section"> 
+ 
+      <div class="container"> 
+ 
+        <div class="section-heading"> 
+ 
+          <div> 
+ 
+            <h2> 
+              Quick Actions 
+            </h2> 
+ 
+            <p> 
+              Truy cập nhanh các chức năng thường dùng. 
+            </p> 
+ 
+          </div> 
+ 
+        </div> 
+ 
+ 
+        <div class="quick-actions-grid"> 
+ 
+ 
+          <!-- Booking History --> 
+          <a 
+            href="history.html" 
+            class="quick-action-card" 
+          > 
+ 
+            <div class="quick-action-icon"> 
+              ◷ 
+            </div> 
+ 
+            <div class="quick-action-content"> 
+ 
+              <h3> 
+                Lịch sử booking 
+              </h3> 
+ 
+              <p> 
+                Xem các booking đã thực hiện. 
+              </p> 
+ 
+            </div> 
+ 
+            <span class="quick-action-arrow"> 
+              → 
+            </span> 
+ 
+          </a> 
+ 
+ 
+          <!-- Workshops --> 
+          <a 
+            href="workshops.html" 
+            class="quick-action-card" 
+          > 
+ 
+            <div class="quick-action-icon workshop-icon"> 
+              ◉ 
+            </div> 
+ 
+            <div class="quick-action-content"> 
+ 
+              <h3> 
+                Featured Workshops 
+              </h3> 
+ 
+              <p> 
+                Workshop đang và sắp diễn ra. 
+              </p> 
+ 
+            </div> 
+ 
+            <span class="quick-action-arrow"> 
+              → 
+            </span> 
+ 
+          </a> 
+ 
+ 
+        </div> 
+ 
+      </div> 
+ 
+    </section> 
+ 
+ 
+    <!-- =================================================== 
+         FEATURED WORKSHOPS 
+         =================================================== --> 
+    <section class="dashboard-section workshops-section"> 
+ 
+      <div class="container"> 
+ 
+        <div class="section-heading"> 
+ 
+          <div> 
+ 
+            <h2> 
+              Featured Workshops 
+            </h2> 
+ 
+            <p> 
+              Workshop nổi bật dành cho film photographer. 
+            </p> 
+ 
+          </div> 
+ 
+ 
+          <a 
+            href="workshops.html" 
+            class="view-all-link" 
+          > 
+            View all 
+          </a> 
+ 
+        </div> 
+ 
+ 
+        <div class="workshop-grid" id="homeWorkshopGrid">
+          <!-- Dữ liệu workshop sẽ được load từ Backend -->
+        </div>
+
+        <p id="homeWorkshopLoading" style="text-align: center; display: none;">
+          Đang tải workshop...
+        </p>
+
+        <p id="homeWorkshopEmpty" style="text-align: center; display: none;">
+          Chưa có workshop sắp diễn ra.
+        </p>
+
+        <p id="homeWorkshopError" style="text-align: center; display: none;">
+          Không thể tải workshop từ Backend.
+        </p>
+
+ 
+ 
+    </section> 
+ 
+ 
+  </main> 
+ 
+ 
+  <!-- ===================================================== 
+       FOOTER 
+       Giữ đúng layout footer hiện tại của project 
+       ===================================================== --> 
+  <footer class="footer"> 
+ 
+    <div class="container"> 
+ 
+      <div class="footer-top"> 
+ 
+        <div class="footer-brand"> 
+ 
+          <div class="footer-logo"> 
+            Photography<span>Platform</span> 
+          </div> 
+ 
+          <p> 
+            Kết nối các nhiếp ảnh gia phim với các phòng tối 
+            và studio đáng tin cậy. 
+          </p> 
+ 
+        </div> 
+ 
+ 
+        <div class="footer-menu"> 
+ 
+          <a href="home.html"> 
+            Home 
+          </a> 
+ 
+          <a href="search.html"> 
+            Search 
+          </a> 
+ 
+          <a href="booking.html"> 
+            Bookings 
+          </a> 
+ 
+          <a href="workshops.html"> 
+            Workshops 
+          </a> 
+ 
+          <a href="profile.html"> 
+            Profile 
+          </a> 
+ 
+        </div> 
+ 
+      </div> 
+ 
+ 
+      <hr class="footer-line"> 
+ 
+ 
+      <div class="footer-bottom"> 
+ 
+        <span> 
+          Copyright © 2026 Photography Platform. 
+          All rights reserved. 
+        </span> 
+ 
+ 
+        <div class="footer-links"> 
+ 
+          <a href="#"> 
+            Privacy Policy 
+          </a> 
+ 
+          <a href="#"> 
+            Terms of Use 
+          </a> 
+ 
+        </div> 
+ 
+      </div> 
+ 
+    </div> 
+ 
+  </footer> 
+ 
+ 
+  <!-- ===================================================== 
+       JAVASCRIPT 
+       ===================================================== --> 
+  <script>
+
+    const API_BASE_URL = "http://127.0.0.1:9999";
+
+    let homeSpaces = [];
+
+
+    /* =====================================================
+       USER LOGIN
+       ===================================================== */
+    function getLoggedInUser() {
+
+      const storage =
+        localStorage.getItem("auth_token")
+          ? localStorage
+          : sessionStorage;
+
+      return {
+        token: storage.getItem("auth_token"),
+        userId: storage.getItem("user_id"),
+        username: storage.getItem("username"),
+        fullName: storage.getItem("full_name")
+      };
+
+    }
+
+
+    function loadPhotographerInfo() {
+
+      const user = getLoggedInUser();
+
+      if (!user.token) {
+        window.location.href = "../auth.html";
+        return false;
+      }
+
+      const displayName =
+        user.fullName ||
+        user.username ||
+        "Photographer";
+
+      const nameElement =
+        document.getElementById("photographerName");
+
+      if (nameElement) {
+        nameElement.textContent = displayName;
+      }
+
+      const navNameElement =
+        document.getElementById("navPhotographerName");
+
+      if (navNameElement) {
+        navNameElement.textContent = displayName;
+      }
+
+      return true;
+
+    }
+
+
+    /* =====================================================
+       QUICK SEARCH
+       ===================================================== */
+    function quickSearch() {
+
+      const input =
+        document.getElementById("quickSearchInput");
+
+      const keyword =
+        input.value.trim();
+
+      if (!keyword) {
+        window.location.href = "search.html";
+        return;
+      }
+
+      const params =
+        new URLSearchParams();
+
+      params.set("keyword", keyword);
+
+      window.location.href =
+        "search.html?" + params.toString();
+
+    }
+
+
+    document
+      .getElementById("quickSearchInput")
+      .addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter") {
+          event.preventDefault();
+          quickSearch();
+        }
+
+      });
+
+
+    /* =====================================================
+       CREATIVE SPACES
+       Cùng API với Search
+       ===================================================== */
+    async function loadHomeSpaces() {
+
+      const grid =
+        document.getElementById("homeSpaceGrid");
+
+      const loading =
+        document.getElementById("homeSpaceLoading");
+
+      const empty =
+        document.getElementById("homeSpaceEmpty");
+
+      const error =
+        document.getElementById("homeSpaceError");
+
+      try {
+
+        loading.style.display = "block";
+        empty.style.display = "none";
+        error.style.display = "none";
+
+        const response =
+          await fetch(`${API_BASE_URL}/creative-spaces/`);
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        homeSpaces =
+          Array.isArray(data) ? data : [];
+
+        loading.style.display = "none";
+
+        if (homeSpaces.length === 0) {
+          grid.innerHTML = "";
+          empty.style.display = "block";
+          return;
+        }
+
+        renderHomeSpaces(
+          homeSpaces.slice(0, 3)
+        );
+
+      } catch (errorObject) {
+
+        console.error(
+          "LOAD HOME SPACES ERROR:",
+          errorObject
+        );
+
+        loading.style.display = "none";
+        error.style.display = "block";
+
+      }
+
+    }
+
+
+    function renderHomeSpaces(spaces) {
+
+      const grid =
+        document.getElementById("homeSpaceGrid");
+
+      grid.innerHTML = "";
+
+      spaces.forEach(space => {
+
+        const card =
+          document.createElement("article");
+
+        card.className =
+          "photographer-studio-card";
+
+        const type =
+          getHomeSpaceType(space);
+
+        const typeName =
+          type === "darkroom"
+            ? "Darkroom"
+            : "Studio";
+
+        const typeClass =
+          type === "darkroom"
+            ? "darkroom-type"
+            : "";
+
+        const imageUrl =
+          getHomeSpaceImage(space);
+
+        const price =
+          formatHomePrice(space.base_price);
+
+        const pricingModel =
+          formatHomePricingModel(space.pricing_model);
+
+        card.innerHTML = `
+
+          <div class="photographer-studio-image">
+
+            <img
+              src="${escapeHtml(imageUrl)}"
+              alt="${escapeHtml(space.name || "Creative Space") }"
+              onerror="this.src='../assets/images/1.jpe'"
+            >
+
+          </div>
+
+          <div class="photographer-studio-info">
+
+            <span class="service-type ${typeClass}">
+              ${escapeHtml(typeName)}
+            </span>
+
+            <h3>
+              ${escapeHtml(space.name || "Chưa cập nhật")}
+            </h3>
+
+            <p class="studio-location">
+              📍 ${escapeHtml(space.address || "Chưa cập nhật địa điểm")}
+            </p>
+
+            <div class="studio-meta">
+              <span>
+                ${escapeHtml(price)}${escapeHtml(pricingModel)}
+              </span>
+            </div>
+
+            <a
+              href="space-detail.html?id=${encodeURIComponent(space.id)}"
+              class="book-btn"
+            >
+              View details
+            </a>
+
+          </div>
+
+        `;
+
+        grid.appendChild(card);
+
+      });
+
+    }
+
+
+    function getHomeSpaceType(space) {
+
+      const categoryName =
+        String(space.category_name || "").toLowerCase();
+
+      if (categoryName.includes("darkroom")) {
+        return "darkroom";
+      }
+
+      return "studio";
+
+    }
+
+
+    const LOCAL_SPACE_IMAGES = [
+  "../assets/images/12.jpe",
+  "../assets/images/10.jpg",
+  "../assets/images/9.jpe",
+  "../assets/images/11.jpg",
+  "../assets/images/8.jpe",
+  "../assets/images/13.jpe"
+];
+
+
+function getHomeSpaceImage(space) {
+
+  const spaceId =
+    Number(space.id);
+
+
+  if (
+    Number.isInteger(spaceId) &&
+    spaceId >= 1 &&
+    spaceId <= LOCAL_SPACE_IMAGES.length
+  ) {
+
+    return LOCAL_SPACE_IMAGES[
+      spaceId - 1
+    ];
+
+  }
+
+
+  return LOCAL_SPACE_IMAGES[0];
+
+}
+
+
+    function formatHomePrice(price) {
+
+      if (
+        price === null ||
+        price === undefined ||
+        price === ""
+      ) {
+        return "Chưa cập nhật";
+      }
+
+      const number = Number(price);
+
+      if (Number.isNaN(number)) {
+        return String(price);
+      }
+
+      return new Intl.NumberFormat("vi-VN").format(number) + " VND";
+
+    }
+
+
+    function formatHomePricingModel(model) {
+
+      const value =
+        String(model || "").toLowerCase();
+
+      if (value.includes("hour") || value.includes("gio")) {
+        return " / giờ";
+      }
+
+      if (value.includes("session") || value.includes("buoi")) {
+        return " / buổi";
+      }
+
+      if (value.includes("day") || value.includes("ngay")) {
+        return " / ngày";
+      }
+
+      return "";
+
+    }
+
+
+    /* =====================================================
+       UPCOMING BOOKING
+       ===================================================== */
+    async function loadUpcomingBooking() {
+
+      const user =
+        getLoggedInUser();
+
+      if (!user.userId) {
+        renderNoUpcomingBooking(
+          "Không tìm thấy thông tin photographer."
+        );
+        return;
+      }
+
+      try {
+
+        const response =
+          await fetch(
+            `${API_BASE_URL}/bookings/?photographer_id=${encodeURIComponent(user.userId)}`,
+            {
+              headers: {
+                "Authorization": `Bearer ${user.token}`
+              }
+            }
+          );
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data =
+          await response.json();
+
+        const now =
+          new Date();
+
+        const upcoming =
+          (Array.isArray(data) ? data : [])
+            .filter(booking => {
+
+              const startTime =
+                new Date(booking.start_time);
+
+              const status =
+                String(booking.status || "")
+                  .toLowerCase();
+
+              return (
+                !Number.isNaN(startTime.getTime()) &&
+                startTime >= now &&
+                status !== "cancelled" &&
+                status !== "completed"
+              );
+
+            })
+            .sort(
+              (a, b) =>
+                new Date(a.start_time) -
+                new Date(b.start_time)
+            );
+
+        if (upcoming.length === 0) {
+          renderNoUpcomingBooking(
+            "Bạn chưa có booking sắp tới."
+          );
+          return;
+        }
+
+        renderUpcomingBooking(
+          upcoming[0]
+        );
+
+      } catch (errorObject) {
+
+        console.error(
+          "LOAD UPCOMING BOOKING ERROR:",
+          errorObject
+        );
+
+        renderNoUpcomingBooking(
+          "Không thể tải booking từ Backend."
+        );
+
+      }
+
+    }
+
+
+    function renderUpcomingBooking(booking) {
+
+      const container =
+        document.getElementById("homeUpcomingBooking");
+
+      const space =
+        homeSpaces.find(
+          item =>
+            Number(item.id) ===
+            Number(booking.space_id)
+        );
+
+      const start =
+        new Date(booking.start_time);
+
+      const end =
+        new Date(booking.end_time);
+
+      const spaceName =
+        space?.name ||
+        `Space #${booking.space_id}`;
+
+      const address =
+        space?.address ||
+        "Chưa cập nhật địa điểm";
+
+      const imageUrl =
+        getHomeSpaceImage(space || {});
+
+      container.innerHTML = `
+
+        <div class="upcoming-booking-image">
+
+          <img
+            src="${escapeHtml(imageUrl)}"
+            alt="${escapeHtml(spaceName)}"
+            onerror="this.src='../assets/images/4.jpe'"
+          >
+
+        </div>
+
+        <div class="upcoming-booking-content">
+
+          <div class="booking-header">
+
+            <div>
+
+              <span class="booking-status">
+                ${escapeHtml(formatBookingStatus(booking.status))}
+              </span>
+
+              <h3>
+                ${escapeHtml(spaceName)}
+              </h3>
+
+            </div>
+
+          </div>
+
+          <div class="booking-info-grid">
+
+            <div class="booking-info-item">
+              <span class="booking-label">Date</span>
+              <strong>${escapeHtml(formatDate(start))}</strong>
+            </div>
+
+            <div class="booking-info-item">
+              <span class="booking-label">Time</span>
+              <strong>${escapeHtml(formatTimeRange(start, end))}</strong>
+            </div>
+
+            <div class="booking-info-item">
+              <span class="booking-label">Booking</span>
+              <strong>#${escapeHtml(booking.id)}</strong>
+            </div>
+
+          </div>
+
+          <div class="booking-footer">
+
+            <span class="booking-location">
+              📍 ${escapeHtml(address)}
+            </span>
+
+            <a
+              href="booking.html"
+              class="booking-detail-btn"
+            >
+              View details
+            </a>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }
+
+
+    function renderNoUpcomingBooking(message) {
+
+      const container =
+        document.getElementById("homeUpcomingBooking");
+
+      container.innerHTML = `
+        <div class="upcoming-booking-content">
+          <div style="text-align: center; width: 100%;">
+            ${escapeHtml(message)}
+          </div>
+        </div>
+      `;
+
+    }
+
+
+    function formatBookingStatus(status) {
+
+      const value =
+        String(status || "").toLowerCase();
+
+      const statusMap = {
+        pending: "Pending",
+        confirmed: "Confirmed",
+        checked_in: "Checked in",
+        completed: "Completed",
+        cancelled: "Cancelled"
+      };
+
+      return (
+        statusMap[value] ||
+        status ||
+        "Upcoming"
+      );
+
+    }
+
+
+    /* =====================================================
+       WORKSHOPS
+       ===================================================== */
+    async function loadHomeWorkshops() {
+
+      const grid =
+        document.getElementById("homeWorkshopGrid");
+
+      const loading =
+        document.getElementById("homeWorkshopLoading");
+
+      const empty =
+        document.getElementById("homeWorkshopEmpty");
+
+      const error =
+        document.getElementById("homeWorkshopError");
+
+      try {
+
+        loading.style.display = "block";
+        empty.style.display = "none";
+        error.style.display = "none";
+
+        const response =
+          await fetch(`${API_BASE_URL}/workshops/`);
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data =
+          await response.json();
+
+        const now =
+          new Date();
+
+        const upcoming =
+          (Array.isArray(data) ? data : [])
+            .filter(workshop => {
+
+              const startTime =
+                new Date(workshop.start_time);
+
+              const status =
+                String(workshop.status || "")
+                  .toLowerCase();
+
+              return (
+                !Number.isNaN(startTime.getTime()) &&
+                startTime >= now &&
+                status !== "cancelled"
+              );
+
+            })
+            .sort(
+              (a, b) =>
+                new Date(a.start_time) -
+                new Date(b.start_time)
+            )
+            .slice(0, 3);
+
+        loading.style.display = "none";
+
+        if (upcoming.length === 0) {
+          grid.innerHTML = "";
+          empty.style.display = "block";
+          return;
+        }
+
+        renderHomeWorkshops(upcoming);
+
+      } catch (errorObject) {
+
+        console.error(
+          "LOAD HOME WORKSHOPS ERROR:",
+          errorObject
+        );
+
+        loading.style.display = "none";
+        error.style.display = "block";
+
+      }
+
+    }
+
+
+    const HOME_WORKSHOP_IMAGES = [
+      "../assets/images/2.webp",
+      "../assets/images/5.jpg",
+      "../assets/images/6.jpg"
+    ];
+
+
+    function renderHomeWorkshops(workshops) {
+
+      const grid =
+        document.getElementById("homeWorkshopGrid");
+
+      grid.innerHTML = "";
+
+      workshops.forEach((workshop, index) => {
+
+        const card =
+          document.createElement("article");
+
+        card.className = "workshop-card";
+
+        const status =
+          String(workshop.status || "")
+            .toLowerCase();
+
+        const statusText =
+          status === "open"
+            ? "Open"
+            : status === "full"
+              ? "Full"
+              : "Upcoming";
+
+        const start =
+          new Date(workshop.start_time);
+
+        const imageUrl =
+          HOME_WORKSHOP_IMAGES[
+            index % HOME_WORKSHOP_IMAGES.length
+          ];
+
+        card.innerHTML = `
+
+          <div class="workshop-image">
+
+            <img
+              src="${escapeHtml(imageUrl)}"
+              alt="${escapeHtml(workshop.title || "Workshop") }"
+              onerror="this.src='../assets/images/2.webp'"
+            >
+
+          </div>
+
+          <div class="workshop-content">
+
+            <span class="workshop-status">
+              ${escapeHtml(statusText)}
+            </span>
+
+            <h3>
+              ${escapeHtml(workshop.title || "Chưa cập nhật")}
+            </h3>
+
+            <p>
+              📅 ${escapeHtml(formatDate(start))}
+            </p>
+
+            <p>
+              📍 ${escapeHtml(workshop.location || "Chưa cập nhật địa điểm")}
+            </p>
+
+          </div>
+
+        `;
+
+        grid.appendChild(card);
+
+      });
+
+    }
+
+
+    function formatDate(date) {
+
+      if (!date || Number.isNaN(date.getTime())) {
+        return "Chưa cập nhật";
+      }
+
+      return date.toLocaleDateString(
+        "en-GB",
+        {
+          day: "2-digit",
+          month: "short",
+          year: "numeric"
+        }
+      );
+
+    }
+
+
+    function formatTime(date) {
+
+      if (!date || Number.isNaN(date.getTime())) {
+        return "--:--";
+      }
+
+      return date.toLocaleTimeString(
+        "en-GB",
+        {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false
+        }
+      );
+
+    }
+
+
+    function formatTimeRange(start, end) {
+      return `${formatTime(start)} - ${formatTime(end)}`;
+    }
+
+
+    function escapeHtml(value) {
+
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    function logout() {
+
+      localStorage.removeItem("auth_token");
+      localStorage.removeItem("user_id");
+      localStorage.removeItem("role_id");
+      localStorage.removeItem("provider_id");
+      localStorage.removeItem("username");
+      localStorage.removeItem("full_name");
+
+      sessionStorage.removeItem("auth_token");
+      sessionStorage.removeItem("user_id");
+      sessionStorage.removeItem("role_id");
+      sessionStorage.removeItem("provider_id");
+      sessionStorage.removeItem("username");
+      sessionStorage.removeItem("full_name");
+
+      window.location.href = "../auth.html";
+
+    }
+
+
+    async function initializeHome() {
+
+      if (!loadPhotographerInfo()) {
+        return;
+      }
+
+      await loadHomeSpaces();
+      await loadUpcomingBooking();
+      await loadHomeWorkshops();
+
+    }
+
+
+    initializeHome();
+
+  </script> 
+ 
+</body> 
+</html>

@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search - Photographer | FilmSpace</title>
+
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/photographer-home.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="mainNavbar">
+    <div class="navbar-container container">
+
+      <a class="logo" href="home.html" aria-label="FilmSpace">
+        FilmSpace
+      </a>
+
+      <div class="menu" aria-label="Photographer navigation">
+        <a href="home.html">Home</a>
+        <a href="search.html" class="active">Search</a>
+        <a href="booking.html">Bookings</a>
+        <a href="workshops.html">Workshops</a>
+        <a href="profile.html">Profile</a>
+      </div>
+
+      <div class="nav-actions">
+        <span
+          class="photographer-nav-name"
+          id="navPhotographerName"
+        >
+          Photographer
+        </span>
+
+        <button
+          type="button"
+          class="photographer-logout"
+          onclick="logout()"
+        >
+          Đăng xuất
+        </button>
+      </div>
+
+    </div>
+  </nav>
+
+
+  <!-- MAIN -->
+  <main class="photographer-search-page">
+
+    <!-- SEARCH HERO -->
+    <section class="search-hero">
+      <div class="container">
+
+        <span class="search-kicker">
+          PHOTOGRAPHER
+        </span>
+
+        <h1>
+          Tìm Studio & Darkroom
+        </h1>
+
+        <p>
+          Khám phá những địa điểm phù hợp cho buổi chụp và xử lý film của bạn.
+        </p>
+
+
+        <!-- SEARCH BOX -->
+        <div class="main-search-box">
+
+          <span class="search-icon">
+            ⌕
+          </span>
+
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Tìm studio, darkroom..."
+            autocomplete="off"
+          >
+
+          <button
+            type="button"
+            onclick="searchSpaces()"
+          >
+            Search
+          </button>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- SEARCH CONTENT -->
+    <section class="search-content">
+      <div class="container">
+
+        <!-- FILTER TOOLBAR -->
+        <div class="search-toolbar">
+
+          <!-- TYPE -->
+          <div class="filter-group">
+
+            <label for="typeFilter">
+              Loại dịch vụ
+            </label>
+
+            <select
+              id="typeFilter"
+              onchange="searchSpaces()"
+            >
+
+              <option value="all">
+                Tất cả
+              </option>
+
+              <option value="studio">
+                Studio
+              </option>
+
+              <option value="darkroom">
+                Darkroom
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- CLEAR -->
+          <button
+            class="clear-filter"
+            type="button"
+            onclick="clearFilters()"
+          >
+            Xóa bộ lọc
+          </button>
+
+        </div>
+
+
+        <!-- RESULT HEADER -->
+        <div class="results-heading">
+
+          <div>
+
+            <h2>
+              Studio & Darkroom
+            </h2>
+
+            <p id="resultCount">
+              Đang tải...
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- SPACE GRID -->
+        <div
+          class="space-grid"
+          id="spaceGrid"
+        >
+          <!-- Cards will be rendered from Backend -->
+        </div>
+
+
+        <!-- LOADING -->
+        <div
+          class="no-results"
+          id="loadingState"
+        >
+
+          <div class="no-results-icon">
+            ⟳
+          </div>
+
+          <h3>
+            Đang tải địa điểm...
+          </h3>
+
+          <p>
+            Vui lòng chờ một chút.
+          </p>
+
+        </div>
+
+
+        <!-- NO RESULTS -->
+        <div
+          class="no-results"
+          id="noResults"
+          style="display: none;"
+        >
+
+          <div class="no-results-icon">
+            ⌕
+          </div>
+
+          <h3>
+            Không tìm thấy địa điểm
+          </h3>
+
+          <p>
+            Thử thay đổi từ khóa hoặc bộ lọc của bạn.
+          </p>
+
+        </div>
+
+
+        <!-- ERROR -->
+        <div
+          class="no-results"
+          id="errorState"
+          style="display: none;"
+        >
+
+          <div class="no-results-icon">
+            !
+          </div>
+
+          <h3>
+            Không thể tải địa điểm
+          </h3>
+
+          <p id="errorMessage">
+            Vui lòng kiểm tra Backend.
+          </p>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- FOOTER -->
+  <footer class="footer">
+
+    <div class="container">
+
+      <div class="footer-top">
+
+        <div class="footer-brand">
+
+          <div class="footer-logo">
+            Photography<span>Platform</span>
+          </div>
+
+          <p>
+            Kết nối các nhiếp ảnh gia phim với các phòng tối và studio đáng tin cậy.
+          </p>
+
+        </div>
+
+
+        <div class="footer-menu">
+
+          <a href="home.html">
+            Home
+          </a>
+
+          <a href="search.html">
+            Search
+          </a>
+
+          <a href="booking.html">
+            Bookings
+          </a>
+
+          <a href="workshops.html">
+            Workshops
+          </a>
+
+          <a href="profile.html">
+            Profile
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <hr class="footer-line">
+
+
+      <div class="footer-bottom">
+
+        <span>
+          Copyright © 2026 Photography Platform. All rights reserved.
+        </span>
+
+
+        <div class="footer-links">
+
+          <a href="#">
+            Privacy Policy
+          </a>
+
+          <a href="#">
+            Terms of Use
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- JAVASCRIPT -->
+  <script>
+
+    /* =========================
+       CONFIG
+    ========================= */
+
+    const API_BASE_URL =
+      "http://127.0.0.1:9999";
+
+
+    let allSpaces = [];
+
+
+    /* =========================
+       AUTH
+    ========================= */
+
+    function getLoggedInUser() {
+
+      const token =
+        localStorage.getItem("auth_token") ||
+        sessionStorage.getItem("auth_token");
+
+      const username =
+        localStorage.getItem("username") ||
+        sessionStorage.getItem("username");
+
+      const fullName =
+        localStorage.getItem("full_name") ||
+        sessionStorage.getItem("full_name");
+
+      return {
+        token,
+        username,
+        fullName
+      };
+
+    }
+
+
+    /* =========================
+       LOAD PHOTOGRAPHER INFO
+    ========================= */
+
+    function loadPhotographerInfo() {
+
+      const user =
+        getLoggedInUser();
+
+
+      if (!user.token) {
+
+        window.location.href =
+          "../auth.html";
+
+        return false;
+
+      }
+
+
+      const displayName =
+        user.fullName ||
+        user.username ||
+        "Photographer";
+
+
+      const navName =
+        document.getElementById(
+          "navPhotographerName"
+        );
+
+
+      if (navName) {
+
+        navName.textContent =
+          displayName;
+
+      }
+
+
+      return true;
+
+    }
+
+
+    /* =========================
+       LOAD SPACES FROM BACKEND
+    ========================= */
+
+    async function loadSpaces() {
+
+      const loadingState =
+        document.getElementById(
+          "loadingState"
+        );
+
+
+      const errorState =
+        document.getElementById(
+          "errorState"
+        );
+
+
+      const errorMessage =
+        document.getElementById(
+          "errorMessage"
+        );
+
+
+      try {
+
+        loadingState.style.display =
+          "block";
+
+        errorState.style.display =
+          "none";
+
+
+        const response =
+          await fetch(
+            `${API_BASE_URL}/creative-spaces/`
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            `HTTP ${response.status}`
+          );
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        /*
+         * Backend trả về:
+         *
+         * [
+         *   {
+         *      id,
+         *      name,
+         *      category_id,
+         *      ...
+         *   }
+         * ]
+         */
+
+        allSpaces =
+          Array.isArray(data)
+            ? data
+            : [];
+
+
+        loadingState.style.display =
+          "none";
+
+
+        renderSpaces(
+          allSpaces
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "LOAD SPACES ERROR:",
+          error
+        );
+
+
+        loadingState.style.display =
+          "none";
+
+
+        errorState.style.display =
+          "block";
+
+
+        errorMessage.textContent =
+          "Không thể kết nối đến Backend. Hãy kiểm tra Flask đang chạy ở port 9999.";
+
+      }
+
+    }
+
+
+    /* =========================
+       NORMALIZE TEXT
+    ========================= */
+
+    function normalizeText(value) {
+
+      return String(value || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(
+          /[\u0300-\u036f]/g,
+          ""
+        );
+
+    }
+
+
+    /* =========================
+       GET SPACE TYPE
+    ========================= */
+
+    function getSpaceType(space) {
+
+      const categoryName =
+        normalizeText(
+          space.category_name
+        );
+
+
+      if (
+        categoryName.includes(
+          "darkroom"
+        )
+      ) {
+
+        return "darkroom";
+
+      }
+
+
+      if (
+        categoryName.includes(
+          "studio"
+        )
+      ) {
+
+        return "studio";
+
+      }
+
+
+      /*
+       * Fallback nếu backend
+       * chưa trả category_name.
+       */
+
+      const categoryId =
+        Number(
+          space.category_id
+        );
+
+
+      /*
+       * Có thể chỉnh ID này
+       * nếu Categories của DB
+       * dùng ID khác.
+       */
+
+      if (categoryId === 1) {
+
+        return "studio";
+
+      }
+
+
+      if (categoryId === 2) {
+
+        return "darkroom";
+
+      }
+
+
+      return "";
+
+    }
+
+
+    /* =========================
+       GET LOCATION KEY
+    ========================= */
+
+    function getLocationKey(address) {
+
+      const value =
+        normalizeText(address);
+
+
+      if (
+        value.includes(
+          "binh thanh"
+        )
+      ) {
+
+        return "binh-thanh";
+
+      }
+
+
+      if (
+        value.includes(
+          "thu duc"
+        )
+      ) {
+
+        return "thu-duc";
+
+      }
+
+
+      if (
+        value.includes(
+          "quan 3"
+        ) ||
+        value.includes(
+          "q.3"
+        ) ||
+        value.includes(
+          "q3"
+        )
+      ) {
+
+        return "quan-3";
+
+      }
+
+
+      if (
+        value.includes(
+          "phu nhuan"
+        )
+      ) {
+
+        return "phu-nhuan";
+
+      }
+
+
+      return "";
+
+    }
+
+
+    /* =========================
+       FORMAT PRICE
+    ========================= */
+
+    function formatPrice(price) {
+
+      if (
+        price === null ||
+        price === undefined ||
+        price === ""
+      ) {
+
+        return "Chưa cập nhật";
+
+      }
+
+
+      const number =
+        Number(price);
+
+
+      if (Number.isNaN(number)) {
+
+        return price;
+
+      }
+
+
+      return new Intl.NumberFormat(
+        "vi-VN"
+      ).format(number) + " VND";
+
+    }
+
+
+    /* =========================
+       FORMAT PRICING MODEL
+    ========================= */
+
+    function formatPricingModel(model) {
+
+      const value =
+        normalizeText(model);
+
+
+      if (
+        value.includes("hour") ||
+        value.includes("gio")
+      ) {
+
+        return "/ hour";
+
+      }
+
+
+      if (
+        value.includes("session") ||
+        value.includes("buoi")
+      ) {
+
+        return "/ session";
+
+      }
+
+
+      if (
+        value.includes("day") ||
+        value.includes("ngay")
+      ) {
+
+        return "/ day";
+
+      }
+
+
+      return "";
+
+    }
+
+
+    /* =========================
+       GET IMAGE
+    ========================= */
+
+    const LOCAL_SPACE_IMAGES = [
+      "../assets/images/12.jpe",
+      "../assets/images/10.jpg",
+      "../assets/images/9.jpe",
+      "../assets/images/11.jpg",
+      "../assets/images/8.jpe",
+      "../assets/images/13.jpe"
+    ];
+
+    function getSpaceImage(space) {
+
+      const spaceId = Number(space.id);
+
+      if (
+        Number.isInteger(spaceId) &&
+        spaceId >= 1 &&
+        spaceId <= LOCAL_SPACE_IMAGES.length
+      ) {
+        return LOCAL_SPACE_IMAGES[spaceId - 1];
+      }
+
+      return LOCAL_SPACE_IMAGES[0];
+
+    }
+
+
+    /* =========================
+       RENDER SPACES
+    ========================= */
+
+    function renderSpaces(
+      spaces
+    ) {
+
+      const grid =
+        document.getElementById(
+          "spaceGrid"
+        );
+
+
+      const noResults =
+        document.getElementById(
+          "noResults"
+        );
+
+
+      const resultCount =
+        document.getElementById(
+          "resultCount"
+        );
+
+
+      grid.innerHTML = "";
+
+
+      if (!spaces || spaces.length === 0) {
+
+        resultCount.textContent =
+          "0 địa điểm";
+
+        noResults.style.display =
+          "block";
+
+        return;
+
+      }
+
+
+      noResults.style.display =
+        "none";
+
+
+      resultCount.textContent =
+        `${spaces.length} địa điểm`;
+
+
+      spaces.forEach(
+        space => {
+
+          const card =
+            createSpaceCard(
+              space
+            );
+
+
+          grid.appendChild(
+            card
+          );
+
+        }
+      );
+
+    }
+
+
+    /* =========================
+       CREATE SPACE CARD
+    ========================= */
+
+    function createSpaceCard(
+      space
+    ) {
+
+      const card =
+        document.createElement(
+          "article"
+        );
+
+
+      card.className =
+        "space-card";
+
+
+      const type =
+        getSpaceType(
+          space
+        );
+
+
+      const typeName =
+        type === "darkroom"
+          ? "Darkroom"
+          : "Studio";
+
+
+      const locationKey =
+        getLocationKey(
+          space.address
+        );
+
+
+      const imageUrl =
+        getSpaceImage(
+          space
+        );
+
+
+      const pricingModel =
+        formatPricingModel(
+          space.pricing_model
+        );
+
+
+      const price =
+        formatPrice(
+          space.base_price
+        );
+
+
+      card.dataset.type =
+        type;
+
+
+      card.dataset.location =
+        locationKey;
+
+
+      card.dataset.name =
+        space.name || "";
+
+
+      card.innerHTML = `
+
+        <div class="space-image">
+
+          <img
+            src="${escapeHtml(imageUrl)}"
+            alt="${escapeHtml(space.name || "Creative Space")}"
+            onerror="this.src='../assets/images/1.jpe'"
+          >
+
+          <span class="space-badge ${type === "darkroom" ? "darkroom" : ""}">
+            ${escapeHtml(typeName)}
+          </span>
+
+          
+
+        </div>
+
+
+        <div class="space-info">
+
+          <h3>
+            ${escapeHtml(
+              space.name || "Chưa cập nhật"
+            )}
+          </h3>
+
+
+          <p class="location">
+            📍
+            ${escapeHtml(
+              space.address || "Chưa cập nhật địa điểm"
+            )}
+          </p>
+
+
+          <div class="space-meta">
+
+            <span>
+              ${escapeHtml(price)}
+              ${escapeHtml(pricingModel)}
+            </span>
+
+          </div>
+
+
+          <p class="description">
+
+            ${escapeHtml(
+              space.description ||
+              "Chưa có mô tả cho địa điểm này."
+            )}
+
+          </p>
+
+
+          <a
+            href="space-detail.html?id=${encodeURIComponent(space.id)}"
+            class="detail-btn"
+          >
+            View details
+          </a>
+
+        </div>
+
+      `;
+
+
+      return card;
+
+    }
+
+
+    /* =========================
+       SEARCH + FILTER
+    ========================= */
+
+    function searchSpaces() {
+
+      const keyword =
+        normalizeText(
+          document.getElementById(
+            "searchInput"
+          ).value.trim()
+        );
+
+
+      const type =
+        document.getElementById(
+          "typeFilter"
+        ).value;
+
+
+      const location =
+        document.getElementById(
+          "locationFilter"
+        ).value;
+
+
+      const filtered =
+        allSpaces.filter(
+          space => {
+
+            const name =
+              normalizeText(
+                space.name
+              );
+
+
+            const address =
+              normalizeText(
+                space.address
+              );
+
+
+            const description =
+              normalizeText(
+                space.description
+              );
+
+
+            const categoryName =
+              normalizeText(
+                space.category_name
+              );
+
+
+            const spaceType =
+              getSpaceType(
+                space
+              );
+
+
+            const locationKey =
+              getLocationKey(
+                space.address
+              );
+
+
+            /*
+             * Search theo:
+             * - tên
+             * - địa chỉ
+             * - mô tả
+             * - loại dịch vụ
+             */
+
+            const matchesKeyword =
+              !keyword ||
+              name.includes(keyword) ||
+              address.includes(keyword) ||
+              description.includes(keyword) ||
+              categoryName.includes(keyword);
+
+
+            const matchesType =
+              type === "all" ||
+              spaceType === type;
+
+
+            const matchesLocation =
+              location === "all" ||
+              locationKey === location;
+
+
+            return (
+              matchesKeyword &&
+              matchesType &&
+              matchesLocation
+            );
+
+          }
+        );
+
+
+      renderSpaces(
+        filtered
+      );
+
+    }
+
+
+    /* =========================
+       CLEAR FILTERS
+    ========================= */
+
+    function clearFilters() {
+
+      document.getElementById(
+        "searchInput"
+      ).value = "";
+
+
+      document.getElementById(
+        "typeFilter"
+      ).value = "all";
+
+
+      document.getElementById(
+        "locationFilter"
+      ).value = "all";
+
+
+      renderSpaces(
+        allSpaces
+      );
+
+    }
+
+
+    /* =========================
+       ENTER SEARCH
+    ========================= */
+
+    document
+      .getElementById("searchInput")
+      .addEventListener(
+        "keydown",
+        function(event) {
+
+          if (
+            event.key === "Enter"
+          ) {
+
+            event.preventDefault();
+
+            searchSpaces();
+
+          }
+
+        }
+      );
+
+    /* =========================
+       ESCAPE HTML
+    ========================= */
+
+    function escapeHtml(
+      value
+    ) {
+
+      return String(value ?? "")
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        )
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+        .replace(
+          /'/g,
+          "&#039;"
+        );
+
+    }
+
+
+    /* =========================
+       LOGOUT
+    ========================= */
+
+    function logout() {
+
+      localStorage.removeItem(
+        "auth_token"
+      );
+
+      localStorage.removeItem(
+        "username"
+      );
+
+      localStorage.removeItem(
+        "full_name"
+      );
+
+
+      sessionStorage.removeItem(
+        "auth_token"
+      );
+
+      sessionStorage.removeItem(
+        "username"
+      );
+
+      sessionStorage.removeItem(
+        "full_name"
+      );
+
+
+      window.location.href =
+        "../auth.html";
+
+    }
+
+
+    /* =========================
+       INITIALIZE
+    ========================= */
+
+    if (
+      loadPhotographerInfo()
+    ) {
+
+      loadSpaces();
+
+    }
+
+  </script>
+
+</body>
+</html>

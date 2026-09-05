@@ -5,7 +5,7 @@ from api.schemas.service_package import (
     ServicePackageRequestSchema,
     ServicePackageResponseSchema
 )
-from infrastructure.databases.mssql import session
+from infrastructure.databases.postgres import session
 
 bp = Blueprint('service_package', __name__, url_prefix='/service-packages')
 
@@ -15,6 +15,7 @@ service_package_service = ServicePackageService(
 
 request_schema = ServicePackageRequestSchema()
 response_schema = ServicePackageResponseSchema()
+response_list_schema = ServicePackageResponseSchema(many=True)
 
 
 @bp.route('/', methods=['GET'])
@@ -23,9 +24,16 @@ def list_packages():
     List service packages
     ---
     get:
-      summary: Lấy danh sách gói dịch vụ
+      summary: Lấy danh sách gói dịch vụ (Có hỗ trợ lọc theo space_id)
       tags:
         - ServicePackage
+      parameters:
+        - name: space_id
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: ID của Không gian để lọc các dịch vụ liên quan
       responses:
         200:
           description: Danh sách gói dịch vụ
@@ -36,9 +44,16 @@ def list_packages():
                 items:
                   $ref: '#/components/schemas/ServicePackageResponse'
     """
-    items = service_package_service.list_packages()
+    # Lấy space_id từ query parameter (ví dụ: /service-packages?space_id=1)
+    space_id = request.args.get('space_id', type=int)
 
-    return jsonify(response_schema.dump(items, many=True)), 200
+    if space_id:
+        items = service_package_service.get_packages_by_space(space_id)
+    else:
+        items = service_package_service.list_packages()
+
+    # Dùng response_list_schema thay vì response_schema.dump(..., many=True)
+    return jsonify(response_list_schema.dump(items)), 200
 
 
 @bp.route('/<int:pkg_id>', methods=['GET'])

@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, DateTime, Numeric, ForeignKey, String
 from infrastructure.databases.base import Base
+from datetime import datetime
 
 class BookingModel(Base):
     __tablename__ = 'Bookings'
@@ -13,4 +14,4 @@ class BookingModel(Base):
     end_time = Column('EndTime', DateTime, nullable=False)
     status = Column('Status', String(20), nullable=False)
     total_price = Column('TotalPrice', Numeric(12,2), nullable=False)
-    created_at = Column('CreatedAt', DateTime, nullable=False)
+    created_at = Column('CreatedAt', DateTime, nullable=False, default=datetime.now)

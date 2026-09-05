@@ -2,14 +2,18 @@ from flask import Blueprint, request, jsonify
 from services.equipment_service import EquipmentService
 from infrastructure.repositories.equipment_repository import EquipmentRepository
 from api.schemas.equipment import EquipmentRequestSchema, EquipmentResponseSchema
-from infrastructure.databases.mssql import session
+from config import DevelopmentConfig
+from infrastructure.databases.postgres import session
 
 bp = Blueprint('equipment', __name__, url_prefix='/equipment')
 
-equipment_service = EquipmentService(EquipmentRepository(session))
+equipment_service = EquipmentService(
+    EquipmentRepository(session)
+)
 
 request_schema = EquipmentRequestSchema()
 response_schema = EquipmentResponseSchema()
+response_list_schema = EquipmentResponseSchema(many=True)
 
 
 @bp.route('/', methods=['GET'])
@@ -18,9 +22,16 @@ def list_equipment():
     List equipment
     ---
     get:
-      summary: Lấy danh sách thiết bị
+      summary: Lấy danh sách thiết bị (Có hỗ trợ lọc theo space_id)
       tags:
         - Equipment
+      parameters:
+        - name: space_id
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Lọc thiết bị theo ID không gian
       responses:
         200:
           description: Danh sách thiết bị
@@ -31,10 +42,9 @@ def list_equipment():
                 items:
                   $ref: '#/components/schemas/EquipmentResponse'
     """
-    items = equipment_service.list_equipment()
-
-    return jsonify(response_schema.dump(items, many=True)), 200
-
+    space_id = request.args.get('space_id', type=int)
+    items = equipment_service.list_equipment(space_id=space_id)
+    return jsonify(response_list_schema.dump(items)), 200
 
 @bp.route('/<int:eq_id>', methods=['GET'])
 def get_equipment(eq_id):
