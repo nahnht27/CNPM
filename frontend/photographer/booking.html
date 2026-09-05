@@ -680,26 +680,43 @@
     2. Tải & Đặt chỗ qua Flask Backend
     ----------------------------------------------------- */
   async function fetchMyBookings() {
-    const userStr = localStorage.getItem("user") || sessionStorage.getItem("user");
-    let photographerId = 1;
-    if (userStr) {
-      try {
-        const u = JSON.parse(userStr);
-        photographerId = u.photographer_id || u.PhotographerID || u.id || 1;
-      } catch(e) {}
-    }
-
     try {
       const baseUrl = getApiBaseUrl().replace(/\/+$/, "");
-      const response = await fetch(`${baseUrl}/bookings/?photographer_id=${photographerId}`, {
-        headers: { "Authorization": getAuthToken() }
+
+      // Không truyền photographer_id ở frontend.
+      // Giữ nguyên cách lấy danh sách booking như trước.
+      const response = await window.fetch(`${baseUrl}/bookings/`, {
+        headers: {
+          "Authorization": getAuthToken()
+        }
       });
-      if (response.ok) {
-        myBookings = await response.json();
+
+      if (!response.ok) {
+        console.error(
+          "Không lấy được danh sách booking:",
+          response.status,
+          await response.text()
+        );
+
+        myBookings = [];
         renderAll();
+        return;
       }
+
+      const data = await response.json();
+
+      // Đảm bảo luôn là mảng
+      myBookings = Array.isArray(data) ? data : [];
+
+      console.log("Danh sách booking:", myBookings);
+
+      renderAll();
+
     } catch (err) {
       console.error("Lỗi tải danh sách booking:", err);
+
+      myBookings = [];
+      renderAll();
     }
   }
 
