@@ -540,6 +540,32 @@
     return parsePrice(rawPrice);
   }
 
+    function getSpaceAddress(space) {
+    if (!space) return "Chưa cập nhật địa chỉ";
+
+    return (
+      space.address ||
+      space.Address ||
+      space.business_address ||
+      space.BusinessAddress ||
+      "Chưa cập nhật địa chỉ"
+    );
+  }
+
+  function getSpaceImage(space) {
+    if (!space) return "../assets/images/1.jpg";
+
+    return (
+      space.image_url ||
+      space.ImageUrl ||
+      space.image ||
+      space.Image ||
+      space.space_image ||
+      space.SpaceImage ||
+      "../assets/images/1.jpg"
+    );
+  }
+
   /* -----------------------------------------------------
     1. Tải danh mục từ Flask Backend & Lọc trùng Equipment
     ----------------------------------------------------- */
@@ -676,9 +702,6 @@
     document.getElementById("summaryPrice").textContent = grandTotal.toLocaleString("vi-VN") + " VND";
   }
 
-  /* -----------------------------------------------------
-    2. Tải & Đặt chỗ qua Flask Backend
-    ----------------------------------------------------- */
   async function fetchMyBookings() {
     try {
       const baseUrl = getApiBaseUrl().replace(/\/+$/, "");
@@ -705,7 +728,6 @@
 
       const data = await response.json();
 
-      // Đảm bảo luôn là mảng
       myBookings = Array.isArray(data) ? data : [];
 
       console.log("Danh sách booking:", myBookings);
@@ -796,9 +818,7 @@
     }
   }
 
-  /* -----------------------------------------------------
-    3. Render Giao diện & Tabs
-    ----------------------------------------------------- */
+  /*3. Render Giao diện & Tabs */
   function normalizeStatus(status) {
     if (!status) return "pending";
     return String(status).toLowerCase().trim();
@@ -864,31 +884,91 @@
       const { dateStr, timeStr } = formatBookingTime(b);
       const priceVal = Number(b.total_price || b.TotalPrice || b.totalPrice || 0);
 
-      const spaceObj = fetchedSpaces.find(s => String(s.id || s.SpaceID || s.space_id) === String(b.space_id || b.SpaceID));
-      const spaceName = spaceObj ? getItemName(spaceObj, "Không gian Studio") : `Không gian #${b.space_id || b.SpaceID || ''}`;
+      // Tìm thông tin space từ dữ liệu đã lấy từ API /creative-spaces/
+      const spaceId = b.space_id || b.SpaceID || b.spaceId;
+
+      const spaceObj = fetchedSpaces.find(
+        s => String(s.id || s.SpaceID || s.space_id) === String(spaceId)
+      );
+
+      const spaceName = spaceObj
+        ? getItemName(spaceObj, "Không gian Studio")
+        : `Không gian #${spaceId || ''}`;
+
+      // LẤY ĐỊA CHỈ TỪ DATABASE
+      const spaceAddress =
+        spaceObj?.address ||
+        spaceObj?.Address ||
+        "Chưa cập nhật địa chỉ";
+
+      // LẤY HÌNH ẢNH TỪ DATABASE
+      const spaceImage =
+        spaceObj?.image_url ||
+        spaceObj?.ImageUrl ||
+        spaceObj?.image ||
+        spaceObj?.Image ||
+        "";
 
       const card = document.createElement("article");
       card.className = "booking-card";
+
       card.innerHTML = `
         <div class="booking-card-image">
-          <img src="${b.space_image || '../assets/images/1.jpg'}" alt="Space" onerror="this.src='https://via.placeholder.com/180x120'">
+          ${
+            spaceImage
+              ? `<img 
+                  src="${spaceImage}" 
+                  alt="${spaceName}"
+                  onerror="this.style.display='none'"
+                >`
+              : `<div style="
+                  height: 100%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: var(--muted);
+                ">
+                  Chưa có hình ảnh
+                </div>`
+          }
         </div>
+
         <div class="booking-card-body">
           <div class="booking-card-top">
-            <span class="status-badge status-${normStatus}">${getStatusLabel(statusVal)}</span>
-            <span style="font-size: 0.8rem; color: var(--muted);">#BK-${bId}</span>
+            <span class="status-badge status-${normStatus}">
+              ${getStatusLabel(statusVal)}
+            </span>
+
+            <span style="font-size: 0.8rem; color: var(--muted);">
+              #BK-${bId}
+            </span>
           </div>
-          <h3 style="font-size: 1.05rem; margin: 0 0 6px;">${spaceName}</h3>
+
+          <h3 style="font-size: 1.05rem; margin: 0 0 6px;">
+            ${spaceName}
+          </h3>
+
           <div style="font-size: 0.85rem; color: var(--muted);">
-            📍 TP. Hồ Chí Minh<br>
+            📍 ${spaceAddress}<br>
             📅 ${dateStr} | ⏱ ${timeStr}
           </div>
         </div>
+
         <div class="booking-card-actions">
-          <div class="booking-card-price">${priceVal.toLocaleString('vi-VN')} VND</div>
-          <button type="button" class="btn btn-secondary" onclick="openDetail(${bId})">Chi tiết</button>
+          <div class="booking-card-price">
+            ${priceVal.toLocaleString('vi-VN')} VND
+          </div>
+
+          <button
+            type="button"
+            class="btn btn-secondary"
+            onclick="openDetail(${bId})"
+          >
+            Chi tiết
+          </button>
         </div>
       `;
+
       list.appendChild(card);
     });
   }
@@ -915,13 +995,51 @@
 
   const spaceObj = fetchedSpaces.find(s => String(s.id || s.SpaceID || s.space_id) === String(b.space_id || b.SpaceID));
   const spaceName = spaceObj ? getItemName(spaceObj, "Không gian Studio") : `Không gian #${b.space_id || b.SpaceID}`;
+  const spaceAddress = getSpaceAddress(spaceObj);
+  const spaceImage = getSpaceImage(spaceObj);
 
   document.getElementById("detailSubtitle").textContent = "Mã booking: #BK-" + bId;
   document.getElementById("detailBodyContent").innerHTML = `
-    <p style="margin: 4px 0;"><strong>Không gian:</strong> ${spaceName}</p>
-    <p style="margin: 4px 0;"><strong>Thời gian:</strong> ${dateStr} (${timeStr})</p>
-    <p style="margin: 4px 0;"><strong>Trạng thái:</strong> ${getStatusLabel(statusVal)}</p>
-    <p style="margin: 12px 0 0; font-size: 1.1rem; color: var(--pink);"><strong>Tổng thanh toán:</strong> ${priceVal.toLocaleString()} VND</p>
+    ${
+      spaceImage
+        ? `
+          <div style="margin-bottom: 16px;">
+            <img
+              src="${spaceImage}"
+              alt="${spaceName}"
+              style="
+                width: 100%;
+                max-height: 220px;
+                object-fit: cover;
+                border-radius: 10px;
+              "
+              onerror="this.style.display='none'"
+            >
+          </div>
+        `
+        : ""
+    }
+
+    <p style="margin: 4px 0;">
+      <strong>Không gian:</strong> ${spaceName}
+    </p>
+
+    <p style="margin: 4px 0;">
+      <strong>Địa chỉ:</strong> ${spaceAddress}
+    </p>
+
+    <p style="margin: 4px 0;">
+      <strong>Thời gian:</strong> ${dateStr} (${timeStr})
+    </p>
+
+    <p style="margin: 4px 0;">
+      <strong>Trạng thái:</strong> ${getStatusLabel(statusVal)}
+    </p>
+
+    <p style="margin: 12px 0 0; font-size: 1.1rem; color: var(--pink);">
+      <strong>Tổng thanh toán:</strong>
+      ${priceVal.toLocaleString('vi-VN')} VND
+    </p>
   `;
 
   const actions = document.getElementById("detailActions");
