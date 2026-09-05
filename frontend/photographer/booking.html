@@ -7,6 +7,7 @@
 
   <!-- CSS dùng chung của project -->
   <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/photographer-home.css">
 
   <style>
     .booking-container {
@@ -335,21 +336,75 @@
 <body>
 
   <!-- NAVBAR -->
-  <nav class="navbar">
+  <!-- =====================================================
+     NAVBAR
+     Đồng bộ với photographer/home.html
+     ===================================================== -->
+  <nav class="navbar" id="mainNavbar">
+
     <div class="navbar-container container">
-      <a class="logo" href="home.html">Film<span>Space</span></a>
-      <div class="menu">
-        <a href="home.html">Home</a>
-        <a href="search.html">Search</a>
-        <a href="booking.html" class="active">Bookings</a>
-        <a href="workshops.html">Workshops</a>
-        <a href="profile.html">Profile</a>
+
+      <!-- Logo -->
+      <a
+        class="logo"
+        href="home.html"
+        aria-label="FilmSpace"
+      >
+        FilmSpace
+      </a>
+
+
+      <!-- Photographer Navigation -->
+      <div class="menu" aria-label="Photographer navigation">
+
+        <a href="home.html">
+          Home
+        </a>
+
+        <a href="search.html">
+          Search
+        </a>
+
+        <a
+          href="booking.html"
+          class="active"
+        >
+          Bookings
+        </a>
+
+        <a href="workshops.html">
+          Workshops
+        </a>
+
+        <a href="profile.html">
+          Profile
+        </a>
+
       </div>
+
+
+      <!-- User -->
       <div class="nav-actions">
-        <span id="navPhotographerName" style="font-size: 12px; font-weight: 600;">Photographer</span>
-        <button type="button" class="register-btn" onclick="logout()">Đăng xuất</button>
+
+        <span
+          class="photographer-nav-name"
+          id="navPhotographerName"
+        >
+          Photographer
+        </span>
+
+        <button
+          type="button"
+          class="photographer-logout"
+          onclick="logout()"
+        >
+          Đăng xuất
+        </button>
+
       </div>
+
     </div>
+
   </nav>
 
   <!-- MAIN CONTENT -->
@@ -565,10 +620,6 @@
         "";
 
       if (!image) return "";
-
-      // DB đang lưu dạng: /assets/images/12.jpe
-      // booking.html nằm trong photographer/
-      // nên cần đi lên 1 cấp: ../assets/images/12.jpe
       image = image.replace(/^\/+/, "");
 
       if (image.startsWith("assets/")) {
