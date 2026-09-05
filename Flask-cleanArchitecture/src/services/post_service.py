@@ -14,7 +14,7 @@ class PostService:
         return self.repository.list()
 
     def update_post(self, id: int, **data):
-        data['id'] = id
+        data['id'] = id 
         return self.repository.update(data)
 
     def delete_post(self, id: int):
