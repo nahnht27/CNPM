@@ -23,7 +23,9 @@ class CreativeSpaceResponseSchema(Schema):
     base_price = fields.Raw()
 
     status = fields.Str()
-    address = fields.Str()
+    address = fields.Str(allow_none=True)
+
+    image_url = fields.Str(allow_none=True)
 
     created_at = fields.Raw()
 

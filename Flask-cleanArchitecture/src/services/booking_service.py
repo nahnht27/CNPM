@@ -14,8 +14,8 @@ class BookingService:
         return self.repository.list()
 
     def update_booking(self, id: int, **data):
-        data['id'] = id
-        return self.repository.update(data)
+        # Truyền tách biệt id và dict data vào repository
+        return self.repository.update(id, data)
 
     def delete_booking(self, id: int):
         return self.repository.delete(id)

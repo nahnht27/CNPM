@@ -1,10 +1,10 @@
 from typing import List, Optional
-from infrastructure.databases.factory_database import FactoryDatabase as db_factory
 from infrastructure.models.booking_model import BookingModel
+from sqlalchemy import or_
 
 class BookingRepository:
-    def __init__(self, session=None):
-        self.session = session or db_factory.get_database('POSTGREE').session
+    def __init__(self, session):
+        self.session = session
 
     def add(self, data) -> BookingModel:
         m = BookingModel(
@@ -13,8 +13,8 @@ class BookingRepository:
             package_id=data.get('package_id'),
             start_time=data.get('start_time'),
             end_time=data.get('end_time'),
-            status=data.get('status'),
-            total_price=data.get('total_price'),
+            status=data.get('status', 'pending'),
+            total_price=data.get('total_price', 0),
             created_at=data.get('created_at')
         )
         self.session.add(m)
@@ -22,24 +22,41 @@ class BookingRepository:
         self.session.refresh(m)
         return m
 
-    def get_by_id(self, id: int) -> Optional[BookingModel]:
-        return self.session.query(BookingModel).filter_by(id=id).first()
+    def get_by_id(self, booking_id: int) -> Optional[BookingModel]:
+        return self.session.query(BookingModel).filter(BookingModel.id == booking_id).first()
 
     def list(self) -> List[BookingModel]:
         return self.session.query(BookingModel).all()
 
-    def update(self, data) -> BookingModel:
-        m = self.session.query(BookingModel).filter_by(id=data.get('id')).first()
-        if not m:
-            raise ValueError('Not found')
-        for k, v in data.items():
-            if hasattr(m, k) and k != 'id':
-                setattr(m, k, v)
-        self.session.commit()
-        return m
+    def get_bookings_by_time_range(self, photographer_id: int, space_id: int, start_time, end_time):
+        return self.session.query(BookingModel).filter(
+            or_(
+                BookingModel.photographer_id == photographer_id,
+                BookingModel.space_id == space_id
+            ),
+            BookingModel.start_time < end_time,
+            BookingModel.end_time > start_time
+        ).all()
 
-    def delete(self, id: int) -> None:
-        m = self.session.query(BookingModel).filter_by(id=id).first()
-        if m:
-            self.session.delete(m)
-            self.session.commit()
+    # --- BỔ SUNG HÀM UPDATE VÀ DELETE VÀO ĐÂY ---
+    def update(self, booking_id: int, data: dict) -> Optional[BookingModel]:
+        booking = self.get_by_id(booking_id)
+        if not booking:
+            return None
+
+        # Tự động cập nhật các trường có trong dict data
+        for key, value in data.items():
+            if hasattr(booking, key) and value is not None:
+                setattr(booking, key, value)
+
+        self.session.commit()
+        self.session.refresh(booking)
+        return booking
+
+    def delete(self, booking_id: int) -> bool:
+        booking = self.get_by_id(booking_id)
+        if not booking:
+            return False
+        self.session.delete(booking)
+        self.session.commit()
+        return True
