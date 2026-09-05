@@ -215,195 +215,22 @@
         </div> 
  
  
-        <div class="photographer-studio-grid"> 
+        <div class="photographer-studio-grid" id="homeSpaceGrid">
+          <!-- Dữ liệu sẽ được load từ Backend -->
+        </div>
+
+        <p id="homeSpaceLoading" style="text-align: center; display: none;">
+          Đang tải dữ liệu...
+        </p>
+
+        <p id="homeSpaceEmpty" style="text-align: center; display: none;">
+          Chưa có địa điểm nào.
+        </p>
+
+        <p id="homeSpaceError" style="text-align: center; display: none;">
+          Không thể tải dữ liệu từ Backend.
+        </p>
  
- 
-          <!-- ================= STUDIO 1 ================= --> 
-          <article class="photographer-studio-card"> 
- 
-            <div class="photographer-studio-image"> 
- 
-              <img 
-                src="../assets/images/1.jpe" 
-                alt="Studio Lumi" 
-              > 
- 
-              <button 
-                type="button" 
-                class="favorite-btn" 
-                aria-label="Favorite Studio Lumi" 
-              > 
-                ♡ 
-              </button> 
- 
-            </div> 
- 
- 
-            <div class="photographer-studio-info"> 
- 
-              <span class="service-type"> 
-                Studio 
-              </span> 
- 
-              <h3> 
-                Studio Lumi 
-              </h3> 
- 
-              <p class="studio-location"> 
-                📍 Bình Thạnh 
-              </p> 
- 
- 
-              <div class="studio-meta"> 
- 
-                <span> 
-                  ★ 4.9 
-                </span> 
- 
-                <span> 
-                  300.000 VND / giờ 
-                </span> 
- 
-              </div> 
- 
- 
-              <a 
-                href="search.html" 
-                class="book-btn" 
-              > 
-                View details 
-              </a> 
- 
-            </div> 
- 
-          </article> 
- 
- 
-          <!-- ================= DARKROOM 2 ================= --> 
-          <article class="photographer-studio-card"> 
- 
-            <div class="photographer-studio-image"> 
- 
-              <img 
-                src="../assets/images/2.webp" 
-                alt="Film House Darkroom" 
-              > 
- 
-              <button 
-                type="button" 
-                class="favorite-btn" 
-                aria-label="Favorite Film House Darkroom" 
-              > 
-                ♡ 
-              </button> 
- 
-            </div> 
- 
- 
-            <div class="photographer-studio-info"> 
- 
-              <span class="service-type darkroom-type"> 
-                Darkroom 
-              </span> 
- 
-              <h3> 
-                Film House Darkroom 
-              </h3> 
- 
-              <p class="studio-location"> 
-                📍 Thủ Đức 
-              </p> 
- 
- 
-              <div class="studio-meta"> 
- 
-                <span> 
-                  ★ 4.8 
-                </span> 
- 
-                <span> 
-                  150.000 VND / giờ 
-                </span> 
- 
-              </div> 
- 
- 
-              <a 
-                href="search.html" 
-                class="book-btn" 
-              > 
-                View details 
-              </a> 
- 
-            </div> 
- 
-          </article> 
- 
- 
-          <!-- ================= STUDIO 3 ================= --> 
-          <article class="photographer-studio-card"> 
- 
-            <div class="photographer-studio-image"> 
- 
-              <img 
-                src="../assets/images/3.png" 
-                alt="Analog Space" 
-              > 
- 
-              <button 
-                type="button" 
-                class="favorite-btn" 
-                aria-label="Favorite Analog Space" 
-              > 
-                ♡ 
-              </button> 
- 
-            </div> 
- 
- 
-            <div class="photographer-studio-info"> 
- 
-              <span class="service-type"> 
-                Studio 
-              </span> 
- 
-              <h3> 
-                Analog Space 
-              </h3> 
- 
-              <p class="studio-location"> 
-                📍 Quận 3 
-              </p> 
- 
- 
-              <div class="studio-meta"> 
- 
-                <span> 
-                  ★ 4.9 
-                </span> 
- 
-                <span> 
-                  450.000 VND / giờ 
-                </span> 
- 
-              </div> 
- 
- 
-              <a 
-                href="search.html" 
-                class="book-btn" 
-              > 
-                View details 
-              </a> 
- 
-            </div> 
- 
-          </article> 
- 
- 
-        </div> 
- 
-      </div> 
  
     </section> 
  
@@ -440,103 +267,15 @@
         </div> 
  
  
-        <div class="upcoming-booking-card"> 
+        <div class="upcoming-booking-card" id="homeUpcomingBooking">
+          <div class="upcoming-booking-content">
+            <div style="text-align: center; width: 100%;">
+              Đang tải booking...
+            </div>
+          </div>
+        </div>
+
  
- 
-          <!-- Image --> 
-          <div class="upcoming-booking-image"> 
- 
-            <img 
-              src="../assets/images/4.jpe" 
-              alt="Upcoming booking" 
-            > 
- 
-          </div> 
- 
- 
-          <!-- Information --> 
-          <div class="upcoming-booking-content"> 
- 
-            <div class="booking-header"> 
- 
-              <div> 
- 
-                <span class="booking-status"> 
-                  Upcoming 
-                </span> 
- 
-                <h3> 
-                  Film Lab VN 
-                </h3> 
- 
-              </div> 
- 
-            </div> 
- 
- 
-            <div class="booking-info-grid"> 
- 
-              <div class="booking-info-item"> 
- 
-                <span class="booking-label"> 
-                  Date 
-                </span> 
- 
-                <strong> 
-                  25 Sep 2026 
-                </strong> 
- 
-              </div> 
- 
- 
-              <div class="booking-info-item"> 
- 
-                <span class="booking-label"> 
-                  Time 
-                </span> 
- 
-                <strong> 
-                  09:00 - 12:00 
-                </strong> 
- 
-              </div> 
- 
- 
-              <div class="booking-info-item"> 
- 
-                <span class="booking-label"> 
-                  Service 
-                </span> 
- 
-                <strong> 
-                  Film Developing 
-                </strong> 
- 
-              </div> 
- 
-            </div> 
- 
- 
-            <div class="booking-footer"> 
- 
-              <span class="booking-location"> 
-                📍 Phú Nhuận, TP. Hồ Chí Minh 
-              </span> 
- 
-              <a 
-                href="booking.html" 
-                class="booking-detail-btn" 
-              > 
-                View details 
-              </a> 
- 
-            </div> 
- 
-          </div> 
- 
-        </div> 
- 
-      </div> 
  
     </section> 
  
@@ -665,120 +404,23 @@
         </div> 
  
  
-        <div class="workshop-grid"> 
+        <div class="workshop-grid" id="homeWorkshopGrid">
+          <!-- Dữ liệu workshop sẽ được load từ Backend -->
+        </div>
+
+        <p id="homeWorkshopLoading" style="text-align: center; display: none;">
+          Đang tải workshop...
+        </p>
+
+        <p id="homeWorkshopEmpty" style="text-align: center; display: none;">
+          Chưa có workshop sắp diễn ra.
+        </p>
+
+        <p id="homeWorkshopError" style="text-align: center; display: none;">
+          Không thể tải workshop từ Backend.
+        </p>
+
  
- 
-          <!-- Workshop 1 --> 
-          <article class="workshop-card"> 
- 
-            <div class="workshop-image"> 
- 
-              <img 
-                src="../assets/images/2.webp" 
-                alt="Film developing workshop" 
-              > 
- 
-            </div> 
- 
- 
-            <div class="workshop-content"> 
- 
-              <span class="workshop-status"> 
-                Upcoming 
-              </span> 
- 
-              <h3> 
-                Kỹ thuật tráng film B&W cơ bản 
-              </h3> 
- 
-              <p> 
-                📅 27 Sep 2026 
-              </p> 
- 
-              <p> 
-                📍 Film House Darkroom 
-              </p> 
- 
-            </div> 
- 
-          </article> 
- 
- 
-          <!-- Workshop 2 --> 
-          <article class="workshop-card"> 
- 
-            <div class="workshop-image"> 
- 
-              <img 
-                src="../assets/images/5.jpg" 
-                alt="Film photography workshop" 
-              > 
- 
-            </div> 
- 
- 
-            <div class="workshop-content"> 
- 
-              <span class="workshop-status"> 
-                Upcoming 
-              </span> 
- 
-              <h3> 
-                Film Photography cho người mới 
-              </h3> 
- 
-              <p> 
-                📅 03 Oct 2026 
-              </p> 
- 
-              <p> 
-                📍 Analog Space 
-              </p> 
- 
-            </div> 
- 
-          </article> 
- 
- 
-          <!-- Workshop 3 --> 
-          <article class="workshop-card"> 
- 
-            <div class="workshop-image"> 
- 
-              <img 
-                src="../assets/images/6.jpg" 
-                alt="Film scanning workshop" 
-              > 
- 
-            </div> 
- 
- 
-            <div class="workshop-content"> 
- 
-              <span class="workshop-status"> 
-                Upcoming 
-              </span> 
- 
-              <h3> 
-                Scan & số hóa film 
-              </h3> 
- 
-              <p> 
-                📅 10 Oct 2026 
-              </p> 
- 
-              <p> 
-                📍 Film Lab VN 
-              </p> 
- 
-            </div> 
- 
-          </article> 
- 
- 
-        </div> 
- 
-      </div> 
  
     </section> 
  
@@ -870,152 +512,829 @@
   <!-- ===================================================== 
        JAVASCRIPT 
        ===================================================== --> 
-  <script> 
- 
-    /* ===================================================== 
-       Lấy thông tin user đang đăng nhập 
-       ===================================================== */ 
-    function getLoggedInUser() { 
- 
-      const token = 
-        localStorage.getItem("auth_token") || 
-        sessionStorage.getItem("auth_token"); 
- 
-      const username = 
-        localStorage.getItem("username") || 
-        sessionStorage.getItem("username"); 
- 
-      const fullName = 
-        localStorage.getItem("full_name") || 
-        sessionStorage.getItem("full_name"); 
- 
-      return { 
-        token: token, 
-        username: username, 
-        fullName: fullName 
-      }; 
-    } 
- 
- 
-    /* ===================================================== 
-       Hiển thị tên Photographer 
-       ===================================================== */ 
-    function loadPhotographerInfo() { 
- 
-      const user = getLoggedInUser(); 
- 
-      /* 
-       * Nếu chưa đăng nhập thì quay về trang login. 
-       */ 
-      if (!user.token) { 
-        window.location.href = "../auth.html"; 
-        return; 
-      } 
- 
- 
-      /* 
-       * Ưu tiên FullName. 
-       * Nếu backend chưa trả FullName thì dùng Username. 
-       */ 
-      const displayName = 
-        user.fullName || 
-        user.username || 
-        "Photographer"; 
- 
- 
-      /* 
-       * Tên ở phần: 
-       * Xin chào, [Tên] 
-       */ 
-      const nameElement = 
-        document.getElementById("photographerName"); 
- 
-      if (nameElement) { 
-        nameElement.textContent = displayName; 
-      } 
- 
- 
-      /* 
-       * Tên ở Navbar 
-       */ 
-      const navNameElement = 
-        document.getElementById("navPhotographerName"); 
- 
-      if (navNameElement) { 
-        navNameElement.textContent = displayName; 
-      } 
- 
-    } 
- 
- 
-    /* ===================================================== 
-       Quick Search 
-       ===================================================== */ 
-    function quickSearch() { 
- 
-      const input = 
-        document.getElementById("quickSearchInput"); 
- 
-      const keyword = 
-        input.value.trim(); 
- 
- 
-      if (!keyword) { 
-        window.location.href = "search.html"; 
-        return; 
-      } 
- 
- 
-      const params = 
-        new URLSearchParams(); 
- 
-      params.set("keyword", keyword); 
- 
- 
-      window.location.href = 
-        "search.html?" + params.toString(); 
- 
-    } 
- 
- 
-    /* ===================================================== 
-       Enter để Search 
-       ===================================================== */ 
-    document 
-      .getElementById("quickSearchInput") 
-      .addEventListener("keydown", function(event) { 
- 
-        if (event.key === "Enter") { 
-          quickSearch(); 
-        } 
- 
-      }); 
- 
- 
-    /* ===================================================== 
-       Logout 
-       ===================================================== */ 
-    function logout() { 
- 
-      localStorage.removeItem("auth_token"); 
-      localStorage.removeItem("username"); 
-      localStorage.removeItem("full_name"); 
- 
-      sessionStorage.removeItem("auth_token"); 
-      sessionStorage.removeItem("username"); 
-      sessionStorage.removeItem("full_name"); 
- 
- 
-      window.location.href = "../auth.html"; 
- 
-    } 
- 
- 
-    /* ===================================================== 
-       Load page 
-       ===================================================== */ 
-    loadPhotographerInfo(); 
- 
+  <script>
+
+    const API_BASE_URL = "http://127.0.0.1:9999";
+
+    let homeSpaces = [];
+
+
+    /* =====================================================
+       USER LOGIN
+       ===================================================== */
+    function getLoggedInUser() {
+
+      const storage =
+        localStorage.getItem("auth_token")
+          ? localStorage
+          : sessionStorage;
+
+      return {
+        token: storage.getItem("auth_token"),
+        userId: storage.getItem("user_id"),
+        username: storage.getItem("username"),
+        fullName: storage.getItem("full_name")
+      };
+
+    }
+
+
+    function loadPhotographerInfo() {
+
+      const user = getLoggedInUser();
+
+      if (!user.token) {
+        window.location.href = "../auth.html";
+        return false;
+      }
+
+      const displayName =
+        user.fullName ||
+        user.username ||
+        "Photographer";
+
+      const nameElement =
+        document.getElementById("photographerName");
+
+      if (nameElement) {
+        nameElement.textContent = displayName;
+      }
+
+      const navNameElement =
+        document.getElementById("navPhotographerName");
+
+      if (navNameElement) {
+        navNameElement.textContent = displayName;
+      }
+
+      return true;
+
+    }
+
+
+    /* =====================================================
+       QUICK SEARCH
+       ===================================================== */
+    function quickSearch() {
+
+      const input =
+        document.getElementById("quickSearchInput");
+
+      const keyword =
+        input.value.trim();
+
+      if (!keyword) {
+        window.location.href = "search.html";
+        return;
+      }
+
+      const params =
+        new URLSearchParams();
+
+      params.set("keyword", keyword);
+
+      window.location.href =
+        "search.html?" + params.toString();
+
+    }
+
+
+    document
+      .getElementById("quickSearchInput")
+      .addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter") {
+          event.preventDefault();
+          quickSearch();
+        }
+
+      });
+
+
+    /* =====================================================
+       CREATIVE SPACES
+       Cùng API với Search
+       ===================================================== */
+    async function loadHomeSpaces() {
+
+      const grid =
+        document.getElementById("homeSpaceGrid");
+
+      const loading =
+        document.getElementById("homeSpaceLoading");
+
+      const empty =
+        document.getElementById("homeSpaceEmpty");
+
+      const error =
+        document.getElementById("homeSpaceError");
+
+      try {
+
+        loading.style.display = "block";
+        empty.style.display = "none";
+        error.style.display = "none";
+
+        const response =
+          await fetch(`${API_BASE_URL}/creative-spaces/`);
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        homeSpaces =
+          Array.isArray(data) ? data : [];
+
+        loading.style.display = "none";
+
+        if (homeSpaces.length === 0) {
+          grid.innerHTML = "";
+          empty.style.display = "block";
+          return;
+        }
+
+        renderHomeSpaces(
+          homeSpaces.slice(0, 3)
+        );
+
+      } catch (errorObject) {
+
+        console.error(
+          "LOAD HOME SPACES ERROR:",
+          errorObject
+        );
+
+        loading.style.display = "none";
+        error.style.display = "block";
+
+      }
+
+    }
+
+
+    function renderHomeSpaces(spaces) {
+
+      const grid =
+        document.getElementById("homeSpaceGrid");
+
+      grid.innerHTML = "";
+
+      spaces.forEach(space => {
+
+        const card =
+          document.createElement("article");
+
+        card.className =
+          "photographer-studio-card";
+
+        const type =
+          getHomeSpaceType(space);
+
+        const typeName =
+          type === "darkroom"
+            ? "Darkroom"
+            : "Studio";
+
+        const typeClass =
+          type === "darkroom"
+            ? "darkroom-type"
+            : "";
+
+        const imageUrl =
+          getHomeSpaceImage(space);
+
+        const price =
+          formatHomePrice(space.base_price);
+
+        const pricingModel =
+          formatHomePricingModel(space.pricing_model);
+
+        card.innerHTML = `
+
+          <div class="photographer-studio-image">
+
+            <img
+              src="${escapeHtml(imageUrl)}"
+              alt="${escapeHtml(space.name || "Creative Space") }"
+              onerror="this.src='../assets/images/1.jpe'"
+            >
+
+          </div>
+
+          <div class="photographer-studio-info">
+
+            <span class="service-type ${typeClass}">
+              ${escapeHtml(typeName)}
+            </span>
+
+            <h3>
+              ${escapeHtml(space.name || "Chưa cập nhật")}
+            </h3>
+
+            <p class="studio-location">
+              📍 ${escapeHtml(space.address || "Chưa cập nhật địa điểm")}
+            </p>
+
+            <div class="studio-meta">
+              <span>
+                ${escapeHtml(price)}${escapeHtml(pricingModel)}
+              </span>
+            </div>
+
+            <a
+              href="space-detail.html?id=${encodeURIComponent(space.id)}"
+              class="book-btn"
+            >
+              View details
+            </a>
+
+          </div>
+
+        `;
+
+        grid.appendChild(card);
+
+      });
+
+    }
+
+
+    function getHomeSpaceType(space) {
+
+      const categoryName =
+        String(space.category_name || "").toLowerCase();
+
+      if (categoryName.includes("darkroom")) {
+        return "darkroom";
+      }
+
+      return "studio";
+
+    }
+
+
+    const LOCAL_SPACE_IMAGES = [
+  "../assets/images/12.jpe",
+  "../assets/images/10.jpg",
+  "../assets/images/9.jpe",
+  "../assets/images/11.jpg",
+  "../assets/images/8.jpe",
+  "../assets/images/13.jpe"
+];
+
+
+function getHomeSpaceImage(space) {
+
+  const spaceId =
+    Number(space.id);
+
+
+  if (
+    Number.isInteger(spaceId) &&
+    spaceId >= 1 &&
+    spaceId <= LOCAL_SPACE_IMAGES.length
+  ) {
+
+    return LOCAL_SPACE_IMAGES[
+      spaceId - 1
+    ];
+
+  }
+
+
+  return LOCAL_SPACE_IMAGES[0];
+
+}
+
+
+    function formatHomePrice(price) {
+
+      if (
+        price === null ||
+        price === undefined ||
+        price === ""
+      ) {
+        return "Chưa cập nhật";
+      }
+
+      const number = Number(price);
+
+      if (Number.isNaN(number)) {
+        return String(price);
+      }
+
+      return new Intl.NumberFormat("vi-VN").format(number) + " VND";
+
+    }
+
+
+    function formatHomePricingModel(model) {
+
+      const value =
+        String(model || "").toLowerCase();
+
+      if (value.includes("hour") || value.includes("gio")) {
+        return " / giờ";
+      }
+
+      if (value.includes("session") || value.includes("buoi")) {
+        return " / buổi";
+      }
+
+      if (value.includes("day") || value.includes("ngay")) {
+        return " / ngày";
+      }
+
+      return "";
+
+    }
+
+
+    /* =====================================================
+       UPCOMING BOOKING
+       ===================================================== */
+    async function loadUpcomingBooking() {
+
+      const user =
+        getLoggedInUser();
+
+      if (!user.userId) {
+        renderNoUpcomingBooking(
+          "Không tìm thấy thông tin photographer."
+        );
+        return;
+      }
+
+      try {
+
+        const response =
+          await fetch(
+            `${API_BASE_URL}/bookings/?photographer_id=${encodeURIComponent(user.userId)}`,
+            {
+              headers: {
+                "Authorization": `Bearer ${user.token}`
+              }
+            }
+          );
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data =
+          await response.json();
+
+        const now =
+          new Date();
+
+        const upcoming =
+          (Array.isArray(data) ? data : [])
+            .filter(booking => {
+
+              const startTime =
+                new Date(booking.start_time);
+
+              const status =
+                String(booking.status || "")
+                  .toLowerCase();
+
+              return (
+                !Number.isNaN(startTime.getTime()) &&
+                startTime >= now &&
+                status !== "cancelled" &&
+                status !== "completed"
+              );
+
+            })
+            .sort(
+              (a, b) =>
+                new Date(a.start_time) -
+                new Date(b.start_time)
+            );
+
+        if (upcoming.length === 0) {
+          renderNoUpcomingBooking(
+            "Bạn chưa có booking sắp tới."
+          );
+          return;
+        }
+
+        renderUpcomingBooking(
+          upcoming[0]
+        );
+
+      } catch (errorObject) {
+
+        console.error(
+          "LOAD UPCOMING BOOKING ERROR:",
+          errorObject
+        );
+
+        renderNoUpcomingBooking(
+          "Không thể tải booking từ Backend."
+        );
+
+      }
+
+    }
+
+
+    function renderUpcomingBooking(booking) {
+
+      const container =
+        document.getElementById("homeUpcomingBooking");
+
+      const space =
+        homeSpaces.find(
+          item =>
+            Number(item.id) ===
+            Number(booking.space_id)
+        );
+
+      const start =
+        new Date(booking.start_time);
+
+      const end =
+        new Date(booking.end_time);
+
+      const spaceName =
+        space?.name ||
+        `Space #${booking.space_id}`;
+
+      const address =
+        space?.address ||
+        "Chưa cập nhật địa điểm";
+
+      const imageUrl =
+        getHomeSpaceImage(space || {});
+
+      container.innerHTML = `
+
+        <div class="upcoming-booking-image">
+
+          <img
+            src="${escapeHtml(imageUrl)}"
+            alt="${escapeHtml(spaceName)}"
+            onerror="this.src='../assets/images/4.jpe'"
+          >
+
+        </div>
+
+        <div class="upcoming-booking-content">
+
+          <div class="booking-header">
+
+            <div>
+
+              <span class="booking-status">
+                ${escapeHtml(formatBookingStatus(booking.status))}
+              </span>
+
+              <h3>
+                ${escapeHtml(spaceName)}
+              </h3>
+
+            </div>
+
+          </div>
+
+          <div class="booking-info-grid">
+
+            <div class="booking-info-item">
+              <span class="booking-label">Date</span>
+              <strong>${escapeHtml(formatDate(start))}</strong>
+            </div>
+
+            <div class="booking-info-item">
+              <span class="booking-label">Time</span>
+              <strong>${escapeHtml(formatTimeRange(start, end))}</strong>
+            </div>
+
+            <div class="booking-info-item">
+              <span class="booking-label">Booking</span>
+              <strong>#${escapeHtml(booking.id)}</strong>
+            </div>
+
+          </div>
+
+          <div class="booking-footer">
+
+            <span class="booking-location">
+              📍 ${escapeHtml(address)}
+            </span>
+
+            <a
+              href="booking.html"
+              class="booking-detail-btn"
+            >
+              View details
+            </a>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }
+
+
+    function renderNoUpcomingBooking(message) {
+
+      const container =
+        document.getElementById("homeUpcomingBooking");
+
+      container.innerHTML = `
+        <div class="upcoming-booking-content">
+          <div style="text-align: center; width: 100%;">
+            ${escapeHtml(message)}
+          </div>
+        </div>
+      `;
+
+    }
+
+
+    function formatBookingStatus(status) {
+
+      const value =
+        String(status || "").toLowerCase();
+
+      const statusMap = {
+        pending: "Pending",
+        confirmed: "Confirmed",
+        checked_in: "Checked in",
+        completed: "Completed",
+        cancelled: "Cancelled"
+      };
+
+      return (
+        statusMap[value] ||
+        status ||
+        "Upcoming"
+      );
+
+    }
+
+
+    /* =====================================================
+       WORKSHOPS
+       ===================================================== */
+    async function loadHomeWorkshops() {
+
+      const grid =
+        document.getElementById("homeWorkshopGrid");
+
+      const loading =
+        document.getElementById("homeWorkshopLoading");
+
+      const empty =
+        document.getElementById("homeWorkshopEmpty");
+
+      const error =
+        document.getElementById("homeWorkshopError");
+
+      try {
+
+        loading.style.display = "block";
+        empty.style.display = "none";
+        error.style.display = "none";
+
+        const response =
+          await fetch(`${API_BASE_URL}/workshops/`);
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data =
+          await response.json();
+
+        const now =
+          new Date();
+
+        const upcoming =
+          (Array.isArray(data) ? data : [])
+            .filter(workshop => {
+
+              const startTime =
+                new Date(workshop.start_time);
+
+              const status =
+                String(workshop.status || "")
+                  .toLowerCase();
+
+              return (
+                !Number.isNaN(startTime.getTime()) &&
+                startTime >= now &&
+                status !== "cancelled"
+              );
+
+            })
+            .sort(
+              (a, b) =>
+                new Date(a.start_time) -
+                new Date(b.start_time)
+            )
+            .slice(0, 3);
+
+        loading.style.display = "none";
+
+        if (upcoming.length === 0) {
+          grid.innerHTML = "";
+          empty.style.display = "block";
+          return;
+        }
+
+        renderHomeWorkshops(upcoming);
+
+      } catch (errorObject) {
+
+        console.error(
+          "LOAD HOME WORKSHOPS ERROR:",
+          errorObject
+        );
+
+        loading.style.display = "none";
+        error.style.display = "block";
+
+      }
+
+    }
+
+
+    const HOME_WORKSHOP_IMAGES = [
+      "../assets/images/2.webp",
+      "../assets/images/5.jpg",
+      "../assets/images/6.jpg"
+    ];
+
+
+    function renderHomeWorkshops(workshops) {
+
+      const grid =
+        document.getElementById("homeWorkshopGrid");
+
+      grid.innerHTML = "";
+
+      workshops.forEach((workshop, index) => {
+
+        const card =
+          document.createElement("article");
+
+        card.className = "workshop-card";
+
+        const status =
+          String(workshop.status || "")
+            .toLowerCase();
+
+        const statusText =
+          status === "open"
+            ? "Open"
+            : status === "full"
+              ? "Full"
+              : "Upcoming";
+
+        const start =
+          new Date(workshop.start_time);
+
+        const imageUrl =
+          HOME_WORKSHOP_IMAGES[
+            index % HOME_WORKSHOP_IMAGES.length
+          ];
+
+        card.innerHTML = `
+
+          <div class="workshop-image">
+
+            <img
+              src="${escapeHtml(imageUrl)}"
+              alt="${escapeHtml(workshop.title || "Workshop") }"
+              onerror="this.src='../assets/images/2.webp'"
+            >
+
+          </div>
+
+          <div class="workshop-content">
+
+            <span class="workshop-status">
+              ${escapeHtml(statusText)}
+            </span>
+
+            <h3>
+              ${escapeHtml(workshop.title || "Chưa cập nhật")}
+            </h3>
+
+            <p>
+              📅 ${escapeHtml(formatDate(start))}
+            </p>
+
+            <p>
+              📍 ${escapeHtml(workshop.location || "Chưa cập nhật địa điểm")}
+            </p>
+
+          </div>
+
+        `;
+
+        grid.appendChild(card);
+
+      });
+
+    }
+
+
+    function formatDate(date) {
+
+      if (!date || Number.isNaN(date.getTime())) {
+        return "Chưa cập nhật";
+      }
+
+      return date.toLocaleDateString(
+        "en-GB",
+        {
+          day: "2-digit",
+          month: "short",
+          year: "numeric"
+        }
+      );
+
+    }
+
+
+    function formatTime(date) {
+
+      if (!date || Number.isNaN(date.getTime())) {
+        return "--:--";
+      }
+
+      return date.toLocaleTimeString(
+        "en-GB",
+        {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false
+        }
+      );
+
+    }
+
+
+    function formatTimeRange(start, end) {
+      return `${formatTime(start)} - ${formatTime(end)}`;
+    }
+
+
+    function escapeHtml(value) {
+
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    function logout() {
+
+      localStorage.removeItem("auth_token");
+      localStorage.removeItem("user_id");
+      localStorage.removeItem("role_id");
+      localStorage.removeItem("provider_id");
+      localStorage.removeItem("username");
+      localStorage.removeItem("full_name");
+
+      sessionStorage.removeItem("auth_token");
+      sessionStorage.removeItem("user_id");
+      sessionStorage.removeItem("role_id");
+      sessionStorage.removeItem("provider_id");
+      sessionStorage.removeItem("username");
+      sessionStorage.removeItem("full_name");
+
+      window.location.href = "../auth.html";
+
+    }
+
+
+    async function initializeHome() {
+
+      if (!loadPhotographerInfo()) {
+        return;
+      }
+
+      await loadHomeSpaces();
+      await loadUpcomingBooking();
+      await loadHomeWorkshops();
+
+    }
+
+
+    initializeHome();
+
   </script> 
  
 </body> 

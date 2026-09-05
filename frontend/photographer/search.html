@@ -917,14 +917,7 @@
             ${escapeHtml(typeName)}
           </span>
 
-          <button
-            class="favorite-btn"
-            type="button"
-            aria-label="Yêu thích"
-            onclick="toggleFavorite(this)"
-          >
-            ♡
-          </button>
+          
 
         </div>
 
@@ -1142,44 +1135,6 @@
 
         }
       );
-
-
-    /* =========================
-       FAVORITE
-    ========================= */
-
-
-
-    function toggleFavorite(
-      button
-    ) {
-
-      if (!button) {
-        return;
-      }
-
-
-      const active =
-        button.classList.toggle(
-          "active"
-        );
-
-
-      button.textContent =
-        active
-          ? "♥"
-          : "♡";
-
-
-      button.setAttribute(
-        "aria-label",
-        active
-          ? "Bỏ yêu thích"
-          : "Yêu thích"
-      );
-
-    }
-
 
     /* =========================
        ESCAPE HTML

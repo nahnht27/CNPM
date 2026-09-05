@@ -126,13 +126,6 @@
 
       <div class="detail-actions">
 
-        <button
-          type="button"
-          class="detail-favorite"
-          id="favoriteBtn"
-          aria-label="Yêu thích">
-          ♡
-        </button>
 
         <a
           href="booking.html"
@@ -622,52 +615,39 @@
            IMAGE
         ===================== */
 
-        if (
-          space.images &&
-          space.images.length > 0
-        ) {
+        /* =====================
+   IMAGE
+   Giống Search.html
+===================== */
 
-          const imageUrl =
-            space.images[0];
-
-
-          document.getElementById(
-            "spaceImage"
-          ).src =
-            imageUrl;
+const imageUrl =
+  getSpaceImage(space);
 
 
-          document.getElementById(
-            "spaceImage"
-          ).alt =
-            space.name;
+document.getElementById(
+  "spaceImage"
+).src =
+  imageUrl;
 
 
-          document.getElementById(
-            "thumbnailImage"
-          ).src =
-            imageUrl;
+document.getElementById(
+  "spaceImage"
+).alt =
+  space.name ||
+  "Space";
 
 
-          document.getElementById(
-            "thumbnailImage"
-          ).alt =
-            space.name;
-
-        } else {
-
-          document.getElementById(
-            "spaceImage"
-          ).src =
-            "../assets/images/1.jpe";
+document.getElementById(
+  "thumbnailImage"
+).src =
+  imageUrl;
 
 
-          document.getElementById(
-            "thumbnailImage"
-          ).src =
-            "../assets/images/1.jpe";
-
-        }
+document.getElementById(
+  "thumbnailImage"
+).alt =
+  space.name ||
+  "Space thumbnail";
 
       } catch (error) {
 
@@ -794,52 +774,7 @@
           "block";
       }
     }
-
-
-    /* =========================
-       FAVORITE
-       UI ONLY
-    ========================= */
-
-    const favoriteBtn =
-      document.getElementById(
-        "favoriteBtn"
-      );
-
-
-    let isFavorite = false;
-
-
-    favoriteBtn.addEventListener(
-      "click",
-      function () {
-
-        isFavorite =
-          !isFavorite;
-
-
-        if (isFavorite) {
-
-          favoriteBtn.textContent =
-            "♥";
-
-          favoriteBtn.classList.add(
-            "active"
-          );
-
-        } else {
-
-          favoriteBtn.textContent =
-            "♡";
-
-          favoriteBtn.classList.remove(
-            "active"
-          );
-        }
-
-      }
-    );
-
+    
 
     /* =========================
        LOGOUT
@@ -883,7 +818,43 @@
     ========================= */
 
     loadPhotographerInfo();
+    /* =========================
+   GET SPACE IMAGE
+   Same mapping as Search
+========================= */
 
+const LOCAL_SPACE_IMAGES = [
+  "../assets/images/12.jpe",
+  "../assets/images/10.jpg",
+  "../assets/images/9.jpe",
+  "../assets/images/11.jpg",
+  "../assets/images/8.jpe",
+  "../assets/images/13.jpe"
+];
+
+
+function getSpaceImage(space) {
+
+  const spaceId =
+    Number(space.id);
+
+
+  if (
+    Number.isInteger(spaceId) &&
+    spaceId >= 1 &&
+    spaceId <= LOCAL_SPACE_IMAGES.length
+  ) {
+
+    return LOCAL_SPACE_IMAGES[
+      spaceId - 1
+    ];
+
+  }
+
+
+  return LOCAL_SPACE_IMAGES[0];
+
+}
     loadSpaceDetail();
 
   </script>
