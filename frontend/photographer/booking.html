@@ -553,7 +553,7 @@
         });
         if (!res.ok) return [];
         const data = await res.json();
-        return Array.isArray(data) ? data : (data.data || data.items || data.equipment || []);
+        return Array.isArray(data) ? data : [];
       } catch (e) {
         console.warn(`Lỗi fetch ${url}:`, e);
         return [];
@@ -561,9 +561,6 @@
     };
 
     fetchedSpaces = await fetchSafe(`${baseUrl}/creative-spaces/`);
-    fetchedServices = await fetchSafe(`${baseUrl}/service-packages/`);
-    fetchedEquipments = await fetchSafe(`${baseUrl}/equipment/`);
-
     populateSpacesSelect();
   }
 
@@ -591,45 +588,60 @@
     }
   }
 
-  function onSpaceSelectChange() {
+  async function onSpaceSelectChange() {
+    const spaceId = document.getElementById("selectSpace").value;
+    const baseUrl = getApiBaseUrl().replace(/\/+$/, "");
+
+    const fetchSafe = async (url) => {
+      try {
+        const res = await window.fetch(url, {
+          headers: { "Authorization": getAuthToken() }
+        });
+        if (!res.ok) return [];
+        const data = await res.json();
+        return Array.isArray(data) ? data : [];
+      } catch (e) {
+        console.warn(`Lỗi fetch ${url}:`, e);
+        return [];
+      }
+    };
+
+    if (!spaceId) {
+      fetchedServices = [];
+      fetchedEquipments = [];
+    } else {
+      fetchedServices = await fetchSafe(`${baseUrl}/service-packages/?space_id=${spaceId}`);
+      fetchedEquipments = await fetchSafe(`${baseUrl}/equipment/?space_id=${spaceId}`);
+    }
+
     const serviceSelect = document.getElementById("selectService");
     const equipSelect = document.getElementById("selectEquipment");
 
-    // Render danh sách Gói Dịch Vụ
-    if (fetchedServices && fetchedServices.length > 0) {
+    // Render danh sách Gói Dịch Vụ (đã lọc theo space từ backend, không cần lọc thêm ở đây)
+    if (fetchedServices.length > 0) {
       serviceSelect.innerHTML = `<option value="" data-price="0">Không chọn dịch vụ (0đ)</option>` +
         fetchedServices.map(sv => {
-          const id = sv.id || sv.package_id || sv.PackageID;
+          const id = sv.id;
           const name = getItemName(sv, "Gói dịch vụ");
           const price = getItemPrice(sv);
           return `<option value="${id}" data-price="${price}">${name} (+${price.toLocaleString('vi-VN')}đ)</option>`;
         }).join("");
     } else {
-      serviceSelect.innerHTML = `<option value="" data-price="0">Dịch vụ tiêu chuẩn (0đ)</option>`;
+      serviceSelect.innerHTML = `<option value="" data-price="0">Không có gói dịch vụ cho không gian này</option>`;
     }
 
-    // --- LỌC TRÙNG THIẾT BỊ THEO TÊN ---
-    if (fetchedEquipments && fetchedEquipments.length > 0) {
-      const uniqueEquipments = [];
-      const seenNames = new Set();
-
-      fetchedEquipments.forEach(eq => {
-        const name = getItemName(eq, "Thiết bị Studio");
-        if (!seenNames.has(name)) {
-          seenNames.add(name);
-          uniqueEquipments.push(eq);
-        }
-      });
-
+    // Render danh sách Thiết bị (đã lọc theo space từ backend — không còn cần bộ lọc trùng tên nữa
+    // vì mỗi space giờ chỉ trả về đúng thiết bị của nó, không lẫn thiết bị từ space khác)
+    if (fetchedEquipments.length > 0) {
       equipSelect.innerHTML = `<option value="" data-price="0">Không chọn thiết bị thêm (0đ)</option>` +
-        uniqueEquipments.map(eq => {
-          const id = eq.id || eq.equipment_id || eq.EquipmentID;
+        fetchedEquipments.map(eq => {
+          const id = eq.id;
           const name = getItemName(eq, "Thiết bị Studio");
           const price = getItemPrice(eq);
           return `<option value="${id}" data-price="${price}">${name} (+${price.toLocaleString('vi-VN')}đ/lần)</option>`;
         }).join("");
     } else {
-      equipSelect.innerHTML = `<option value="" data-price="0">Không có thiết bị thêm</option>`;
+      equipSelect.innerHTML = `<option value="" data-price="0">Không có thiết bị cho không gian này</option>`;
     }
 
     updateBookingSummary();

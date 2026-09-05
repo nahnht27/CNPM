@@ -15,7 +15,7 @@ class EquipmentService:
         items = self.repository.list()
 
         if space_id is not None:
-            items = [item for item in items if getattr(item, 'SpaceID', None) == space_id]
+            items = [item for item in items if getattr(item, 'space_id', None) == space_id]
 
         return items
 
