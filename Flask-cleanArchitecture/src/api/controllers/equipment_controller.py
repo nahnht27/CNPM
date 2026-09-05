@@ -7,6 +7,7 @@ from services.equipment_service import EquipmentService
 from infrastructure.repositories.equipment_repository import EquipmentRepository
 from api.schemas.equipment import EquipmentRequestSchema, EquipmentResponseSchema
 from config import DevelopmentConfig
+from infrastructure.databases.postgres import session
 
 bp = Blueprint('equipment', __name__, url_prefix='/equipment')
 

@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Provider - Dashboard | FilmSpace</title>
+
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/provider-dashboard.css">
+</head>
+
+<body>
+
+  <!-- =========================
+       NAVBAR
+  ========================== -->
+  <nav class="navbar" id="mainNavbar">
+    <div class="navbar-container container">
+
+      <a
+        class="logo"
+        href="dashboard.html"
+        aria-label="FilmSpace"
+      >
+        FilmSpace
+      </a>
+
+      <div
+        class="menu"
+        aria-label="Provider navigation"
+      >
+        <a
+          href="dashboard.html"
+          class="active"
+        >
+          Dashboard
+        </a>
+
+        <a href="spaces.html">
+          Spaces
+        </a>
+
+        <a href="equipment.html">
+          Equipment
+        </a>
+
+        <a href="packages.html">
+          Packages
+        </a>
+
+        <a href="bookings.html">
+          Bookings
+        </a>
+
+        <a href="profile.html">
+          Profile
+        </a>
+      </div>
+
+      <div class="nav-actions">
+
+        <span
+          class="provider-nav-name"
+          id="navProviderName"
+        >
+          Provider
+        </span>
+
+        <button
+          type="button"
+          class="provider-logout"
+          onclick="logout()"
+        >
+          Đăng xuất
+        </button>
+
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- =========================
+       MAIN
+  ========================== -->
+  <main class="provider-page">
+
+
+    <!-- =========================
+         WELCOME
+    ========================== -->
+    <section class="provider-welcome">
+
+      <div class="container">
+
+        <div class="provider-welcome-card">
+
+          <div class="provider-welcome-content">
+
+            <div class="provider-welcome-kicker">
+              SERVICE PROVIDER DASHBOARD
+            </div>
+
+            <h1>
+              Xin chào,
+              <span id="providerName">
+                Provider
+              </span>
+              👋
+            </h1>
+
+            <p>
+              Theo dõi booking, doanh thu và quản lý không gian,
+              thiết bị, gói dịch vụ của bạn trên FilmSpace.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         OVERVIEW
+    ========================== -->
+    <section class="provider-section">
+
+      <div class="container">
+
+        <div class="provider-section-heading">
+
+          <div>
+
+            <h2>
+              Tổng quan
+            </h2>
+
+            <p>
+              Các chỉ số hoạt động chính của Provider.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="provider-stats-grid">
+
+
+          <!-- TOTAL BOOKINGS -->
+          <article class="provider-stat-card">
+
+            <div class="provider-stat-icon">
+              ◷
+            </div>
+
+            <div>
+
+              <span class="provider-stat-label">
+                Tổng booking
+              </span>
+
+              <strong id="totalBookings">
+                —
+              </strong>
+
+            </div>
+
+          </article>
+
+
+          <!-- TOTAL REVENUE -->
+          <article class="provider-stat-card">
+
+            <div class="provider-stat-icon pink">
+              ₫
+            </div>
+
+            <div>
+
+              <span class="provider-stat-label">
+                Doanh thu
+              </span>
+
+              <strong id="totalRevenue">
+                —
+              </strong>
+
+            </div>
+
+          </article>
+
+
+          <!-- TOTAL SPACES -->
+          <article class="provider-stat-card">
+
+            <div class="provider-stat-icon blue">
+              ▣
+            </div>
+
+            <div>
+
+              <span class="provider-stat-label">
+                Không gian
+              </span>
+
+              <strong id="totalSpaces">
+                —
+              </strong>
+
+            </div>
+
+          </article>
+
+
+          <!-- TOTAL INVOICES -->
+          <article class="provider-stat-card">
+
+            <div class="provider-stat-icon soft">
+              ▤
+            </div>
+
+            <div>
+
+              <span class="provider-stat-label">
+                Hóa đơn
+              </span>
+
+              <strong id="totalInvoices">
+                —
+              </strong>
+
+            </div>
+
+          </article>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         RECENT BOOKINGS
+    ========================== -->
+    <section class="provider-section">
+
+      <div class="container">
+
+        <div class="provider-section-heading">
+
+          <div>
+
+            <h2>
+              Booking gần đây
+            </h2>
+
+            <p>
+              Các yêu cầu đặt chỗ mới nhất từ Photographer.
+            </p>
+
+          </div>
+
+          <a
+            href="bookings.html"
+            class="provider-view-all"
+          >
+            View all
+          </a>
+
+        </div>
+
+
+        <div
+          class="provider-booking-panel"
+          id="recentBookings"
+        >
+
+          <div class="provider-empty-state">
+
+            <div class="provider-empty-icon">
+              ◷
+            </div>
+
+            <h3>
+              Chưa có dữ liệu booking
+            </h3>
+
+            <p>
+              Danh sách booking sẽ hiển thị tại đây khi API
+              Provider Booking được kết nối.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         REVENUE
+    ========================== -->
+    <section class="provider-section">
+
+      <div class="container">
+
+        <div class="provider-section-heading">
+
+          <div>
+
+            <h2>
+              Doanh thu
+            </h2>
+
+            <p>
+              Doanh thu theo tháng của Provider.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="provider-revenue-card">
+
+          <div class="provider-revenue-head">
+
+            <div>
+
+              <span class="provider-revenue-label">
+                Tổng doanh thu
+              </span>
+
+              <strong id="revenueSummary">
+                —
+              </strong>
+
+            </div>
+
+            <span class="provider-revenue-note">
+              Dữ liệu từ /reports/provider
+            </span>
+
+          </div>
+
+
+          <div
+            class="provider-chart-placeholder"
+            id="revenueChart"
+          >
+
+            <div class="chart-line line-a"></div>
+            <div class="chart-line line-b"></div>
+            <div class="chart-line line-c"></div>
+
+            <div class="chart-empty-copy">
+              Biểu đồ sẽ hiển thị khi có dữ liệu doanh thu.
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         QUICK ACTIONS
+    ========================== -->
+    <section class="provider-section provider-actions-section">
+
+      <div class="container">
+
+        <div class="provider-section-heading">
+
+          <div>
+
+            <h2>
+              Quick Actions
+            </h2>
+
+            <p>
+              Truy cập nhanh các chức năng quản lý thường dùng.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="provider-actions-grid">
+
+
+          <!-- SPACES -->
+          <a
+            href="spaces.html"
+            class="provider-action-card"
+          >
+
+            <div class="provider-action-icon">
+              ▣
+            </div>
+
+            <div>
+
+              <h3>
+                Quản lý không gian
+              </h3>
+
+              <p>
+                Thêm, cập nhật và theo dõi studio hoặc darkroom.
+              </p>
+
+            </div>
+
+            <span>
+              →
+            </span>
+
+          </a>
+
+
+          <!-- EQUIPMENT -->
+          <a
+            href="equipment.html"
+            class="provider-action-card"
+          >
+
+            <div class="provider-action-icon blue">
+              ⌁
+            </div>
+
+            <div>
+
+              <h3>
+                Quản lý thiết bị
+              </h3>
+
+              <p>
+                Quản lý trang bị và giá thuê cho Photographer.
+              </p>
+
+            </div>
+
+            <span>
+              →
+            </span>
+
+          </a>
+
+
+          <!-- PACKAGES -->
+          <a
+            href="packages.html"
+            class="provider-action-card"
+          >
+
+            <div class="provider-action-icon soft">
+              ◇
+            </div>
+
+            <div>
+
+              <h3>
+                Gói dịch vụ
+              </h3>
+
+              <p>
+                Tạo và cập nhật các package dịch vụ.
+              </p>
+
+            </div>
+
+            <span>
+              →
+            </span>
+
+          </a>
+
+
+          <!-- BOOKINGS -->
+          <a
+            href="bookings.html"
+            class="provider-action-card"
+          >
+
+            <div class="provider-action-icon pink">
+              ✓
+            </div>
+
+            <div>
+
+              <h3>
+                Xử lý booking
+              </h3>
+
+              <p>
+                Xem và xử lý yêu cầu booking của khách hàng.
+              </p>
+
+            </div>
+
+            <span>
+              →
+            </span>
+
+          </a>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- =========================
+     FOOTER
+     Giữ đúng layout footer hiện tại của project
+========================== -->
+<footer class="footer">
+
+  <div class="container">
+
+    <div class="footer-top">
+
+      <div class="footer-brand">
+
+        <div class="footer-logo">
+          Photography<span>Platform</span>
+        </div>
+
+        <p>
+          Kết nối các nhiếp ảnh gia phim với các phòng tối
+          và studio đáng tin cậy.
+        </p>
+
+      </div>
+
+
+      <div class="footer-menu">
+
+        <a href="dashboard.html">
+          Dashboard
+        </a>
+
+        <a href="spaces.html">
+          Spaces
+        </a>
+
+        <a href="equipment.html">
+          Equipment
+        </a>
+
+        <a href="packages.html">
+          Packages
+        </a>
+
+        <a href="bookings.html">
+          Bookings
+        </a>
+
+        <a href="profile.html">
+          Profile
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <hr class="footer-line">
+
+
+    <div class="footer-bottom">
+
+      <span>
+        Copyright © 2026 Photography Platform.
+        All rights reserved.
+      </span>
+
+
+      <div class="footer-links">
+
+        <a href="#">
+          Privacy Policy
+        </a>
+
+        <a href="#">
+          Terms of Use
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================== -->
+  <script>
+
+    /* =========================
+       CONFIG
+    ========================== */
+
+    const API_BASE_URL =
+      "http://127.0.0.1:9999";
+
+
+    /* =========================
+       AUTH
+    ========================== */
+
+    function getLoggedInUser() {
+
+      return {
+
+        token:
+          localStorage.getItem("auth_token") ||
+          sessionStorage.getItem("auth_token"),
+
+        username:
+          localStorage.getItem("username") ||
+          sessionStorage.getItem("username"),
+
+        fullName:
+          localStorage.getItem("full_name") ||
+          sessionStorage.getItem("full_name"),
+
+        providerId:
+          localStorage.getItem("provider_id") ||
+          sessionStorage.getItem("provider_id")
+
+      };
+
+    }
+
+
+    /* =========================
+       LOAD PROVIDER INFO
+    ========================== */
+
+    function loadProviderInfo() {
+
+      const user =
+        getLoggedInUser();
+
+
+      if (!user.token) {
+
+        window.location.href =
+          "../auth.html";
+
+        return false;
+
+      }
+
+
+      const displayName =
+        user.fullName ||
+        user.username ||
+        "Provider";
+
+
+      const providerName =
+        document.getElementById(
+          "providerName"
+        );
+
+
+      const navProviderName =
+        document.getElementById(
+          "navProviderName"
+        );
+
+
+      if (providerName) {
+
+        providerName.textContent =
+          displayName;
+
+      }
+
+
+      if (navProviderName) {
+
+        navProviderName.textContent =
+          displayName;
+
+      }
+
+
+      return true;
+
+    }
+
+
+    /* =========================
+       LOGOUT
+    ========================== */
+
+    function logout() {
+
+      [
+        "auth_token",
+        "username",
+        "full_name",
+        "provider_id"
+      ].forEach(function(key) {
+
+        localStorage.removeItem(key);
+        sessionStorage.removeItem(key);
+
+      });
+
+
+      window.location.href =
+        "../auth.html";
+
+    }
+
+
+    /* =========================
+       FORMAT CURRENCY
+    ========================== */
+
+    function formatCurrency(value) {
+
+      const number =
+        Number(value || 0);
+
+
+      return number.toLocaleString(
+        "vi-VN"
+      ) + " ₫";
+
+    }
+
+
+    /* =========================
+       LOAD REPORT DATA
+    ========================== */
+
+    async function loadReportData(providerId) {
+
+      const currentYear =
+        new Date().getFullYear();
+
+
+      const fromDate =
+        `${currentYear}-01-01T00:00:00`;
+
+
+      const toDate =
+        `${currentYear}-12-31T23:59:59`;
+
+
+      const url =
+        `${API_BASE_URL}/reports/provider` +
+        `?provider_id=${encodeURIComponent(providerId)}` +
+        `&from_date=${encodeURIComponent(fromDate)}` +
+        `&to_date=${encodeURIComponent(toDate)}`;
+
+
+      const response =
+        await fetch(url);
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          `Report API HTTP ${response.status}`
+        );
+
+      }
+
+
+      const data =
+        await response.json();
+
+
+      console.log(
+        "REPORT DATA:",
+        data
+      );
+
+
+      /* =========================
+         TOTAL BOOKINGS
+      ========================== */
+
+      const totalBookings =
+        document.getElementById(
+          "totalBookings"
+        );
+
+
+      if (totalBookings) {
+
+        totalBookings.textContent =
+          data.total_bookings ?? 0;
+
+      }
+
+
+      /* =========================
+         TOTAL REVENUE
+      ========================== */
+
+      const totalRevenue =
+        document.getElementById(
+          "totalRevenue"
+        );
+
+
+      const revenueSummary =
+        document.getElementById(
+          "revenueSummary"
+        );
+
+
+      const revenue =
+        data.total_revenue ?? 0;
+
+
+      if (totalRevenue) {
+
+        totalRevenue.textContent =
+          formatCurrency(revenue);
+
+      }
+
+
+      if (revenueSummary) {
+
+        revenueSummary.textContent =
+          formatCurrency(revenue);
+
+      }
+
+
+      /* =========================
+         TOTAL INVOICES
+      ========================== */
+
+      const totalInvoices =
+        document.getElementById(
+          "totalInvoices"
+        );
+
+
+      if (totalInvoices) {
+
+        totalInvoices.textContent =
+          data.total_invoices ?? 0;
+
+      }
+
+    }
+
+
+    /* =========================
+       LOAD SPACE COUNT
+    ========================== */
+
+    async function loadSpaceCount(providerId) {
+
+      const response =
+        await fetch(
+          `${API_BASE_URL}/creative-spaces/`
+        );
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          `Space API HTTP ${response.status}`
+        );
+
+      }
+
+
+      const data =
+        await response.json();
+
+
+      const spaces =
+        Array.isArray(data)
+          ? data
+          : [];
+
+
+      /*
+       * Chỉ đếm space thuộc Provider
+       * đang đăng nhập.
+       */
+
+      const providerSpaces =
+        spaces.filter(function(space) {
+
+          return String(
+            space.provider_id
+          ) === String(
+            providerId
+          );
+
+        });
+
+
+      console.log(
+        "ALL SPACES:",
+        spaces
+      );
+
+
+      console.log(
+        "PROVIDER SPACES:",
+        providerSpaces
+      );
+
+
+      const totalSpaces =
+        document.getElementById(
+          "totalSpaces"
+        );
+
+
+      if (totalSpaces) {
+
+        totalSpaces.textContent =
+          providerSpaces.length;
+
+      }
+
+    }
+
+
+    /* =========================
+       LOAD DASHBOARD DATA
+    ========================== */
+
+    async function loadDashboardData() {
+
+      const user =
+        getLoggedInUser();
+
+
+      if (!user.providerId) {
+
+        console.error(
+          "Không tìm thấy provider_id"
+        );
+
+        return;
+
+      }
+
+
+      const providerId =
+        user.providerId;
+
+
+      /*
+       * Report và Space tách riêng.
+       * Nếu Space API lỗi thì Report
+       * vẫn có thể hiển thị.
+       */
+
+      try {
+
+        await loadReportData(
+          providerId
+        );
+
+      } catch (error) {
+
+        console.error(
+          "LOAD REPORT ERROR:",
+          error
+        );
+
+      }
+
+
+      try {
+
+        await loadSpaceCount(
+          providerId
+        );
+
+      } catch (error) {
+
+        console.error(
+          "LOAD SPACE ERROR:",
+          error
+        );
+
+      }
+
+    }
+
+
+    /* =========================
+       INIT DASHBOARD
+    ========================== */
+
+    const isLoggedIn =
+      loadProviderInfo();
+
+
+    if (isLoggedIn) {
+
+      loadDashboardData();
+
+    }
+
+  </script>
+
+</body>
+</html>

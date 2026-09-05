@@ -5,7 +5,7 @@ from api.schemas.service_package import (
     ServicePackageRequestSchema,
     ServicePackageResponseSchema
 )
-from infrastructure.databases.mssql import session
+from infrastructure.databases.postgres import session
 
 bp = Blueprint('service_package', __name__, url_prefix='/service-packages')
 

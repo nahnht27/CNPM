@@ -314,11 +314,7 @@
               <input type="checkbox" id="rememberMe">
               Ghi nhớ đăng nhập
             </label>
-<<<<<<< HEAD
-            <a class="forgot" href="#">Quên mật khẩu?</a>
-=======
             <a class="forgot" href="forgot-password.html">Quên mật khẩu?</a>
->>>>>>> feature/auth-profile-search-ai
           </div>
 
           <button class="btn-submit" type="submit">Đăng nhập</button>
@@ -464,6 +460,7 @@
   storage.setItem("auth_token", data.token);
   storage.setItem("user_id", data.user_id);
   storage.setItem("role_id", data.role_id);
+  storage.setItem("provider_id", data.provider_id);
 
   storage.setItem(
     "username",
