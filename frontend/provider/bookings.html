@@ -262,6 +262,46 @@
   </div>
 </div>
 
+<!-- CONFIRM MODAL -->
+<div class="overlay" id="confirmModal" onclick="closeConfirmOutside(event)">
+  <div class="confirm-modal">
+
+    <div class="confirm-modal-head">
+      <div class="confirm-icon" id="confirmIcon">?</div>
+
+      <div>
+        <h2 id="confirmTitle">Xác nhận thao tác</h2>
+      </div>
+    </div>
+
+    <div class="confirm-modal-body">
+      <span id="confirmMessage">
+        Bạn có chắc chắn muốn thực hiện thao tác này?
+      </span>
+    </div>
+
+    <div class="confirm-modal-actions">
+      <button
+        type="button"
+        class="confirm-btn confirm-cancel"
+        onclick="closeConfirm()"
+      >
+        Hủy
+      </button>
+
+      <button
+        type="button"
+        class="confirm-btn confirm-ok"
+        id="confirmOkBtn"
+        onclick="executeConfirmedAction()"
+      >
+        Xác nhận
+      </button>
+    </div>
+
+  </div>
+</div>
+
 <div class="toast-stack" id="toastStack"></div>
 
 <script>
@@ -270,6 +310,10 @@ let currentBookings = [];
 let currentProviderId = null;
 let currentToken = null;
 let selectedBooking = null;
+
+let pendingAction = null;
+let pendingBookingId = null;
+let pendingFromModal = false;
 
 function getStorage() {
   return localStorage.getItem("auth_token") ? localStorage : sessionStorage;
@@ -473,20 +517,45 @@ function renderBookings(items) {
 function renderActionButtons(booking) {
   if (booking.status === "pending") {
     return `
-      <button type="button" class="action-btn success" onclick="changeBookingStatus(${Number(booking.id)}, 'confirm')">Xác nhận</button>
-      <button type="button" class="action-btn danger" onclick="changeBookingStatus(${Number(booking.id)}, 'reject')">Từ chối</button>
+      <button
+        type="button"
+        class="action-btn success"
+        onclick="showConfirmModal(${Number(booking.id)}, 'confirm')"
+      >
+        Xác nhận
+      </button>
+
+      <button
+        type="button"
+        class="action-btn danger"
+        onclick="showConfirmModal(${Number(booking.id)}, 'reject')"
+      >
+        Từ chối
+      </button>
     `;
   }
 
   if (booking.status === "confirmed") {
     return `
-      <button type="button" class="action-btn success" onclick="changeBookingStatus(${Number(booking.id)}, 'check-in')">Check-in</button>
+      <button
+        type="button"
+        class="action-btn success"
+        onclick="showConfirmModal(${Number(booking.id)}, 'check-in')"
+      >
+        Check-in
+      </button>
     `;
   }
 
   if (booking.status === "checked_in") {
     return `
-      <button type="button" class="action-btn success" onclick="changeBookingStatus(${Number(booking.id)}, 'check-out')">Check-out</button>
+      <button
+        type="button"
+        class="action-btn success"
+        onclick="showConfirmModal(${Number(booking.id)}, 'check-out')"
+      >
+        Check-out
+      </button>
     `;
   }
 
@@ -684,32 +753,151 @@ function renderModalActions(booking) {
 
   if (booking.status === "pending") {
     actions.innerHTML = `
-      <button type="button" class="action-btn danger" onclick="changeBookingStatus(${Number(booking.id)}, 'reject', true)">Từ chối</button>
-      <button type="button" class="action-btn success" onclick="changeBookingStatus(${Number(booking.id)}, 'confirm', true)">Xác nhận booking</button>
+      <button
+        type="button"
+        class="action-btn danger"
+        onclick="showConfirmModal(${Number(booking.id)}, 'reject', true)"
+      >
+        Từ chối
+      </button>
+
+      <button
+        type="button"
+        class="action-btn success"
+        onclick="showConfirmModal(${Number(booking.id)}, 'confirm', true)"
+      >
+        Xác nhận booking
+      </button>
     `;
     return;
   }
 
   if (booking.status === "confirmed") {
     actions.innerHTML = `
-      <button type="button" class="action-btn success" onclick="changeBookingStatus(${Number(booking.id)}, 'check-in', true)">Check-in</button>
+      <button
+        type="button"
+        class="action-btn success"
+        onclick="showConfirmModal(${Number(booking.id)}, 'check-in', true)"
+      >
+        Check-in
+      </button>
     `;
     return;
   }
 
   if (booking.status === "checked_in") {
     actions.innerHTML = `
-      <button type="button" class="action-btn success" onclick="changeBookingStatus(${Number(booking.id)}, 'check-out', true)">Check-out</button>
+      <button
+        type="button"
+        class="action-btn success"
+        onclick="showConfirmModal(${Number(booking.id)}, 'check-out', true)"
+      >
+        Check-out
+      </button>
     `;
     return;
   }
 
   actions.innerHTML = `
-    <button type="button" class="action-btn" onclick="closeDetail()">Đóng</button>
+    <button
+      type="button"
+      class="action-btn"
+      onclick="closeDetail()"
+    >
+      Đóng
+    </button>
   `;
 }
 
-async function changeBookingStatus(bookingId, action, fromModal = false) {
+function showConfirmModal(bookingId, action, fromModal = false) {
+  const labels = {
+    confirm: "xác nhận booking",
+    reject: "từ chối booking",
+    "check-in": "check-in booking",
+    "check-out": "check-out booking"
+  };
+
+  const titles = {
+    confirm: "Xác nhận booking",
+    reject: "Từ chối booking",
+    "check-in": "Check-in booking",
+    "check-out": "Check-out booking"
+  };
+
+  const icon = document.getElementById("confirmIcon");
+  const title = document.getElementById("confirmTitle");
+  const message = document.getElementById("confirmMessage");
+  const okButton = document.getElementById("confirmOkBtn");
+
+  pendingAction = action;
+  pendingBookingId = bookingId;
+  pendingFromModal = fromModal;
+
+  title.textContent = titles[action] || "Xác nhận thao tác";
+
+  if (action === "reject") {
+    icon.textContent = "!";
+    message.innerHTML =
+      `Bạn có chắc muốn <strong>từ chối booking #${bookingId}</strong>? ` +
+      `Booking sẽ chuyển sang trạng thái <strong>Đã huỷ</strong>.`;
+
+    okButton.textContent = "Từ chối";
+    okButton.classList.add("danger");
+  } else {
+    icon.textContent = "?";
+
+    message.innerHTML =
+      `Bạn có chắc muốn <strong>${labels[action]}</strong> #${bookingId}?`;
+
+    okButton.textContent =
+      action === "confirm" ? "Xác nhận" :
+      action === "check-in" ? "Check-in" :
+      action === "check-out" ? "Check-out" :
+      "Xác nhận";
+
+    okButton.classList.remove("danger");
+  }
+
+  document.getElementById("confirmModal").classList.add("open");
+}
+
+
+function closeConfirm() {
+  document.getElementById("confirmModal").classList.remove("open");
+
+  pendingAction = null;
+  pendingBookingId = null;
+  pendingFromModal = false;
+}
+
+
+function closeConfirmOutside(event) {
+  if (event.target.id === "confirmModal") {
+    closeConfirm();
+  }
+}
+
+
+async function executeConfirmedAction() {
+  const bookingId = pendingBookingId;
+  const action = pendingAction;
+  const fromModal = pendingFromModal;
+
+  if (!bookingId || !action) {
+    closeConfirm();
+    return;
+  }
+
+  closeConfirm();
+
+  await updateBookingStatus(
+    bookingId,
+    action,
+    fromModal
+  );
+}
+
+async function updateBookingStatus(bookingId, action, fromModal = false) {
   const labels = {
     confirm: "xác nhận booking",
     reject: "từ chối booking",
@@ -718,16 +906,6 @@ async function changeBookingStatus(bookingId, action, fromModal = false) {
   };
 
   const label = labels[action] || "cập nhật booking";
-
-  let confirmMessage = `Bạn có chắc muốn ${label} #${bookingId}?`;
-
-  if (action === "reject") {
-    confirmMessage = `Bạn có chắc muốn từ chối booking #${bookingId}? Booking sẽ chuyển sang trạng thái Đã huỷ.`;
-  }
-
-  if (!window.confirm(confirmMessage)) {
-    return;
-  }
 
   try {
     let endpoint = "";
@@ -761,10 +939,15 @@ async function changeBookingStatus(bookingId, action, fromModal = false) {
     }
 
     if (!response.ok) {
-      throw new Error(data.message || `Không thể ${label}.`);
+      throw new Error(
+        data.message || `Không thể ${label}.`
+      );
     }
 
-    showToast(data.message || "Cập nhật booking thành công.");
+    showToast(
+      data.message || "Cập nhật booking thành công.",
+      "success"
+    );
 
     if (fromModal) {
       closeDetail();
@@ -774,7 +957,11 @@ async function changeBookingStatus(bookingId, action, fromModal = false) {
 
   } catch (error) {
     console.error(error);
-    showToast(error.message || "Không thể cập nhật booking.", "error");
+
+    showToast(
+      error.message || "Không thể cập nhật booking.",
+      "error"
+    );
   }
 }
 
