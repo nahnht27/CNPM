@@ -453,45 +453,55 @@ class BookingService:
         # SERVICE SESSION
         # ------------------------------------------------------
 
-        if self.service_session_repository:
+        if (
+            self.service_session_repository
+            and self.invoice_repository
+        ):
 
             service_session = (
                 self.service_session_repository
                 .get_by_booking_id(booking_id)
             )
 
-            if not service_session:
-                return None, (
-                    'Không tìm thấy ServiceSession'
+            if service_session:
+
+                existing_invoice = (
+                    self.invoice_repository
+                    .get_by_session_id(
+                        service_session.id
+                    )
                 )
 
-            if service_session.check_out_time:
-                return None, (
-                    'Booking đã check-out'
+                if not existing_invoice:
+
+                    subtotal = (
+                        updated_booking.total_price or 0
+                    )
+
+                    self.invoice_repository.add({
+                        'session_id': service_session.id,
+                        'invoice_number':
+                            f'INV-{booking_id:06d}',
+                        'subtotal': subtotal,
+                        'discount_amount': 0,
+                        'tax_amount': 0,
+                        'total_amount': subtotal,
+                        'issued_at': datetime.now()
+                    })
+
+                # ==================================================
+                # LẤY INVOICE SAU KHI TẠO
+                # ==================================================
+
+                invoice = (
+                    self.invoice_repository
+                    .get_by_session_id(
+                        service_session.id
+                    )
                 )
 
-            now = datetime.now()
-
-            duration = 0
-
-            if service_session.check_in_time:
-
-                duration = int(
-                    (
-                        now -
-                        service_session.check_in_time
-                    ).total_seconds() / 60
-                )
-
-            self.service_session_repository.update(
-                service_session.id,
-                {
-                    'check_out_time': now,
-                    'actual_duration_minutes':
-                        max(duration, 0),
-                    'status': 'completed'
-                }
-            )
+                if invoice:
+                    updated_booking.invoice_id = invoice.id
 
         # ------------------------------------------------------
         # UPDATE BOOKING

@@ -4,18 +4,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Đặt chỗ & Quản lý Booking | FilmSpace</title>
+
   <link rel="stylesheet" href="../assets/css/styles.css">
   <link rel="stylesheet" href="../assets/css/photographer-home.css">
 
   <style>
-    /* Confirm modal - dùng cùng phong cách UI với Provider */
+    /* =========================================================
+       CONFIRM CANCEL MODAL
+    ========================================================= */
+
     .confirm-modal {
       background: #fff;
       border-radius: 14px;
       width: 100%;
       max-width: 430px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.2);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .2);
       overflow: hidden;
     }
 
@@ -102,12 +107,82 @@
     .btn-ghost-danger:hover {
       background: #fee2e2;
     }
+
+
+    /* =========================================================
+       PAYMENT ACTION IN BOOKING DETAIL
+    ========================================================= */
+
+    .booking-payment-action {
+      width: 100%;
+      padding: 14px 15px;
+      border-radius: 11px;
+      background: #fdf2f8;
+      border: 1px solid #f5c2dc;
+      margin-bottom: 8px;
+    }
+
+    .booking-payment-action-title {
+      color: #a61e60;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .booking-payment-action-text {
+      color: #6b5260;
+      font-size: 12px;
+      line-height: 1.5;
+      margin-bottom: 11px;
+    }
+
+    .booking-payment-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 9px;
+      border-radius: 7px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .booking-payment-status.pending {
+      background: #fff7ed;
+      color: #c2410c;
+    }
+
+    .booking-payment-status.success {
+      background: #f0fdf4;
+      color: #15803d;
+    }
+
+    .booking-payment-status.failed {
+      background: #fef2f2;
+      color: #b91c1c;
+    }
+
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media (max-width: 640px) {
+      .confirm-modal {
+        max-width: calc(100% - 20px);
+      }
+    }
   </style>
 </head>
 
+
 <body>
 
+  <!-- =========================================================
+       NAVBAR
+  ========================================================= -->
+
   <nav class="navbar" id="mainNavbar">
+
     <div class="navbar-container container">
 
       <a class="logo" href="home.html" aria-label="FilmSpace">
@@ -115,36 +190,79 @@
       </a>
 
       <div class="menu" aria-label="Photographer navigation">
-        <a href="home.html">Home</a>
-        <a href="search.html">Search</a>
-        <a href="booking.html" class="active">Bookings</a>
-        <a href="workshops.html">Workshops</a>
-        <a href="profile.html">Profile</a>
+
+        <a href="home.html">
+          Home
+        </a>
+
+        <a href="search.html">
+          Search
+        </a>
+
+        <a href="booking.html" class="active">
+          Bookings
+        </a>
+
+        <a href="workshops.html">
+          Workshops
+        </a>
+
+        <a href="profile.html">
+          Profile
+        </a>
+
       </div>
 
       <div class="nav-actions">
-        <span class="photographer-nav-name" id="navPhotographerName">Photographer</span>
-        <button type="button" class="photographer-logout" onclick="logout()">Đăng xuất</button>
+
+        <span
+          class="photographer-nav-name"
+          id="navPhotographerName"
+        >
+          Photographer
+        </span>
+
+        <button
+          type="button"
+          class="photographer-logout"
+          onclick="logout()"
+        >
+          Đăng xuất
+        </button>
+
       </div>
 
     </div>
+
   </nav>
+
+
+  <!-- =========================================================
+       MAIN
+  ========================================================= -->
 
   <main class="container">
 
     <div class="booking-container">
 
       <div>
+
         <h1 style="font-size: 28px; margin: 0 0 6px;">
           Đặt chỗ & Quản lý Lịch
         </h1>
 
         <p style="margin: 0; color: var(--muted); font-size: 13px;">
-          Lựa chọn không gian, gói dịch vụ, thiết bị và theo dõi các lượt đặt chỗ của bạn.
+          Lựa chọn không gian, gói dịch vụ, thiết bị và theo dõi
+          các lượt đặt chỗ của bạn.
         </p>
+
       </div>
 
-      <!-- CREATE BOOKING -->
+
+      <!-- =====================================================
+           CREATE BOOKING
+      ===================================================== -->
+
       <section class="booking-form-card">
 
         <div class="booking-section-title">
@@ -156,31 +274,65 @@
           <div class="form-grid-3">
 
             <div class="form-group">
-              <label for="selectSpace">Địa điểm / Không gian</label>
 
-              <select id="selectSpace" onchange="onSpaceSelectChange()" required>
-                <option value="">-- Đang tải không gian... --</option>
+              <label for="selectSpace">
+                Địa điểm / Không gian
+              </label>
+
+              <select
+                id="selectSpace"
+                onchange="onSpaceSelectChange()"
+                required
+              >
+                <option value="">
+                  -- Đang tải không gian... --
+                </option>
               </select>
+
             </div>
 
-            <div class="form-group">
-              <label for="selectService">Gói Dịch vụ hỗ trợ</label>
 
-              <select id="selectService" onchange="updateBookingSummary()">
-                <option value="">-- Chọn dịch vụ --</option>
+            <div class="form-group">
+
+              <label for="selectService">
+                Gói Dịch vụ hỗ trợ
+              </label>
+
+              <select
+                id="selectService"
+                onchange="updateBookingSummary()"
+              >
+                <option value="">
+                  -- Chọn dịch vụ --
+                </option>
               </select>
+
             </div>
 
-            <div class="form-group">
-              <label for="selectEquipment">Gói Thiết bị đi kèm</label>
 
-              <select id="selectEquipment" onchange="updateBookingSummary()">
-                <option value="">-- Chọn thiết bị (Tùy chọn) --</option>
+            <div class="form-group">
+
+              <label for="selectEquipment">
+                Gói Thiết bị đi kèm
+              </label>
+
+              <select
+                id="selectEquipment"
+                onchange="updateBookingSummary()"
+              >
+                <option value="">
+                  -- Chọn thiết bị (Tùy chọn) --
+                </option>
               </select>
+
             </div>
 
+
             <div class="form-group">
-              <label for="bookingDate">Ngày sử dụng</label>
+
+              <label for="bookingDate">
+                Ngày sử dụng
+              </label>
 
               <input
                 type="date"
@@ -188,12 +340,20 @@
                 required
                 onchange="updateBookingSummary()"
               >
+
             </div>
 
-            <div class="form-group">
-              <label for="bookingTime">Giờ bắt đầu</label>
 
-              <select id="bookingTime" onchange="updateBookingSummary()">
+            <div class="form-group">
+
+              <label for="bookingTime">
+                Giờ bắt đầu
+              </label>
+
+              <select
+                id="bookingTime"
+                onchange="updateBookingSummary()"
+              >
                 <option value="07:00">07:00</option>
                 <option value="08:00">08:00</option>
                 <option value="09:00" selected>09:00</option>
@@ -205,12 +365,20 @@
                 <option value="16:00">16:00</option>
                 <option value="18:00">18:00</option>
               </select>
+
             </div>
 
-            <div class="form-group">
-              <label for="bookingDuration">Thời lượng (Giờ)</label>
 
-              <select id="bookingDuration" onchange="updateBookingSummary()">
+            <div class="form-group">
+
+              <label for="bookingDuration">
+                Thời lượng (Giờ)
+              </label>
+
+              <select
+                id="bookingDuration"
+                onchange="updateBookingSummary()"
+              >
                 <option value="1">1 Giờ</option>
                 <option value="2" selected>2 Giờ</option>
                 <option value="3">3 Giờ</option>
@@ -220,17 +388,25 @@
                 <option value="7">7 Giờ</option>
                 <option value="8">8 Giờ (Cả ngày)</option>
               </select>
+
             </div>
 
           </div>
 
+
           <div class="booking-summary-box">
 
-            <div class="booking-summary-info" id="summaryInfo">
+            <div
+              class="booking-summary-info"
+              id="summaryInfo"
+            >
               Vui lòng chọn không gian để xem chi tiết chi phí.
             </div>
 
-            <div class="booking-summary-price" id="summaryPrice">
+            <div
+              class="booking-summary-price"
+              id="summaryPrice"
+            >
               0 VND
             </div>
 
@@ -248,7 +424,11 @@
 
       </section>
 
-      <!-- BOOKING LIST -->
+
+      <!-- =====================================================
+           BOOKING LIST
+      ===================================================== -->
+
       <section>
 
         <div class="booking-section-title">
@@ -256,7 +436,11 @@
           (<span id="totalBookingCount">0</span>)
         </div>
 
-        <div class="booking-tabs" id="bookingTabs">
+
+        <div
+          class="booking-tabs"
+          id="bookingTabs"
+        >
 
           <button
             type="button"
@@ -264,8 +448,11 @@
             data-status="all"
           >
             Tất cả
-            <span class="tab-count" id="countAll">0</span>
+            <span class="tab-count" id="countAll">
+              0
+            </span>
           </button>
+
 
           <button
             type="button"
@@ -273,8 +460,11 @@
             data-status="pending"
           >
             Chờ xử lý
-            <span class="tab-count" id="countPending">0</span>
+            <span class="tab-count" id="countPending">
+              0
+            </span>
           </button>
+
 
           <button
             type="button"
@@ -282,8 +472,11 @@
             data-status="confirmed"
           >
             Sắp tới
-            <span class="tab-count" id="countConfirmed">0</span>
+            <span class="tab-count" id="countConfirmed">
+              0
+            </span>
           </button>
+
 
           <button
             type="button"
@@ -291,8 +484,11 @@
             data-status="checked_in"
           >
             Đang diễn ra
-            <span class="tab-count" id="countCheckedIn">0</span>
+            <span class="tab-count" id="countCheckedIn">
+              0
+            </span>
           </button>
+
 
           <button
             type="button"
@@ -300,8 +496,11 @@
             data-status="completed"
           >
             Hoàn tất
-            <span class="tab-count" id="countCompleted">0</span>
+            <span class="tab-count" id="countCompleted">
+              0
+            </span>
           </button>
+
 
           <button
             type="button"
@@ -309,10 +508,13 @@
             data-status="cancelled"
           >
             Đã hủy
-            <span class="tab-count" id="countCancelled">0</span>
+            <span class="tab-count" id="countCancelled">
+              0
+            </span>
           </button>
 
         </div>
+
 
         <div
           class="booking-list"
@@ -326,14 +528,22 @@
 
   </main>
 
-  <!-- BOOKING DETAIL MODAL -->
-  <div class="overlay" id="detailOverlay">
+
+  <!-- =========================================================
+       BOOKING DETAIL MODAL
+  ========================================================= -->
+
+  <div
+    class="overlay"
+    id="detailOverlay"
+  >
 
     <div class="modal">
 
       <div class="modal-head">
 
         <div>
+
           <h2
             id="detailTitle"
             style="margin: 0 0 4px; font-size: 1.1rem;"
@@ -347,7 +557,9 @@
           >
             Mã: —
           </div>
+
         </div>
+
 
         <button
           type="button"
@@ -359,10 +571,12 @@
 
       </div>
 
+
       <div
         style="margin-bottom: 20px; font-size: 0.9rem; line-height: 1.6;"
         id="detailBodyContent"
       ></div>
+
 
       <div
         style="display: flex; gap: 8px; justify-content: flex-end;"
@@ -373,7 +587,11 @@
 
   </div>
 
-  <!-- CONFIRM CANCEL MODAL -->
+
+  <!-- =========================================================
+       CONFIRM CANCEL MODAL
+  ========================================================= -->
+
   <div
     class="overlay"
     id="cancelConfirmModal"
@@ -396,6 +614,7 @@
 
       </div>
 
+
       <div class="confirm-modal-body">
 
         <span id="cancelConfirmMessage">
@@ -403,6 +622,7 @@
         </span>
 
       </div>
+
 
       <div class="confirm-modal-actions">
 
@@ -429,92 +649,168 @@
 
   </div>
 
-  <!-- TOAST -->
+
+  <!-- =========================================================
+       TOAST
+  ========================================================= -->
+
   <div
     class="toast-stack"
     id="toastStack"
   ></div>
 
+
   <script src="../api/api.js"></script>
 
+
   <script>
+
+    /* =========================================================
+       GLOBAL STATE
+    ========================================================= */
+
     let fetchedSpaces = [];
     let fetchedServices = [];
     let fetchedEquipments = [];
+
     let myBookings = [];
+
     let activeTab = "all";
+
     let pendingCancelBookingId = null;
 
+
+    /* =========================================================
+       API / AUTH
+    ========================================================= */
+
     function getApiBaseUrl() {
-      return typeof API_BASE_URL !== 'undefined'
+
+      return typeof API_BASE_URL !== "undefined"
         ? API_BASE_URL
         : "http://127.0.0.1:9999";
+
     }
 
+
     function getAuthToken() {
+
       const token =
         localStorage.getItem("token") ||
         sessionStorage.getItem("token") ||
         localStorage.getItem("auth_token") ||
         sessionStorage.getItem("auth_token");
 
-      if (!token || token === "null" || token === "undefined") {
+      if (
+        !token ||
+        token === "null" ||
+        token === "undefined"
+      ) {
         return "";
       }
 
       return token.startsWith("Bearer ")
         ? token
         : `Bearer ${token}`;
+
     }
 
+
     function loadPhotographerInfo() {
+
       const token = getAuthToken();
 
       if (!token) {
+
         window.location.href = "../auth.html";
+
         return;
       }
+
 
       const username =
         localStorage.getItem("username") ||
         sessionStorage.getItem("username");
 
+
       const fullName =
         localStorage.getItem("full_name") ||
         sessionStorage.getItem("full_name");
 
+
       const displayName =
-        fullName || username || "Photographer";
+        fullName ||
+        username ||
+        "Photographer";
+
 
       const navNameElement =
-        document.getElementById("navPhotographerName");
+        document.getElementById(
+          "navPhotographerName"
+        );
+
 
       if (navNameElement) {
         navNameElement.textContent = displayName;
       }
+
     }
+
 
     function logout() {
+
       localStorage.clear();
       sessionStorage.clear();
+
       window.location.href = "../auth.html";
+
     }
 
+
+    /* =========================================================
+       GENERAL HELPERS
+    ========================================================= */
+
     function parsePrice(val) {
-      if (val === null || val === undefined) return 0;
+
+      if (
+        val === null ||
+        val === undefined
+      ) {
+        return 0;
+      }
+
 
       if (typeof val === "number") {
         return val;
       }
 
-      const cleaned = String(val).replace(/[^0-9.]/g, "");
-      const num = Number(cleaned);
 
-      return isNaN(num) ? 0 : num;
+      const cleaned =
+        String(val)
+          .replace(/[^0-9.]/g, "");
+
+
+      const num =
+        Number(cleaned);
+
+
+      return isNaN(num)
+        ? 0
+        : num;
+
     }
 
-    function getItemName(item, defaultVal = "Dịch vụ/Thiết bị") {
-      if (!item) return defaultVal;
+
+    function getItemName(
+      item,
+      defaultVal = "Dịch vụ/Thiết bị"
+    ) {
+
+      if (!item) {
+        return defaultVal;
+      }
+
 
       return (
         item.name ||
@@ -527,10 +823,16 @@
         item.title ||
         defaultVal
       );
+
     }
 
+
     function getItemPrice(item) {
-      if (!item) return 0;
+
+      if (!item) {
+        return 0;
+      }
+
 
       const rawPrice =
         item.price ??
@@ -542,13 +844,18 @@
         item.RentalPrice ??
         0;
 
+
       return parsePrice(rawPrice);
+
     }
 
+
     function getSpaceAddress(space) {
+
       if (!space) {
         return "Chưa cập nhật địa chỉ";
       }
+
 
       return (
         space.address ||
@@ -557,10 +864,16 @@
         space.BusinessAddress ||
         "Chưa cập nhật địa chỉ"
       );
+
     }
 
+
     function getSpaceImage(space) {
-      if (!space) return "";
+
+      if (!space) {
+        return "";
+      }
+
 
       let image =
         space.image_url ||
@@ -571,143 +884,352 @@
         space.SpaceImage ||
         "";
 
-      if (!image) return "";
 
-      image = image.replace(/^\/+/, "");
+      if (!image) {
+        return "";
+      }
+
+
+      image =
+        image.replace(/^\/+/, "");
+
 
       if (image.startsWith("assets/")) {
         return `../${image}`;
       }
 
+
       return image;
+
     }
 
-    /* =========================
+
+    function getBookingId(b) {
+
+      if (!b) {
+        return null;
+      }
+
+
+      return (
+        b.id ??
+        b.booking_id ??
+        b.BookingID
+      );
+
+    }
+
+
+    function getBookingPrice(b) {
+
+      if (!b) {
+        return 0;
+      }
+
+
+      return parsePrice(
+        b.total_price ??
+        b.TotalPrice ??
+        b.totalPrice ??
+        0
+      );
+
+    }
+
+
+    /* =========================================================
+       PAYMENT STATUS
+       Chỉ dùng để hiển thị trạng thái.
+       Payment thực tế xử lý ở payment.html.
+    ========================================================= */
+
+    function getPaymentStatus(b) {
+
+      if (!b) {
+        return "";
+      }
+
+
+      return String(
+        b.payment_status ??
+        b.PaymentStatus ??
+        b.paymentStatus ??
+        b.payment?.status ??
+        b.Payment?.status ??
+        ""
+      )
+        .toLowerCase()
+        .trim();
+
+    }
+
+
+    function isPaymentSuccessful(b) {
+
+      const status =
+        getPaymentStatus(b);
+
+
+      return [
+        "success",
+        "successful",
+        "completed",
+        "paid",
+        "succeeded",
+        "đã thanh toán"
+      ].includes(status);
+
+    }
+
+
+    function isPaymentPending(b) {
+
+      const status =
+        getPaymentStatus(b);
+
+
+      return [
+        "pending",
+        "processing",
+        "confirming",
+        "waiting",
+        "chờ xác nhận",
+        "đang xử lý"
+      ].includes(status);
+
+    }
+
+
+    /* =========================================================
        LOAD CATALOG
-    ========================= */
+    ========================================================= */
 
     async function loadCatalogData() {
+
       const baseUrl =
-        getApiBaseUrl().replace(/\/+$/, "");
+        getApiBaseUrl()
+          .replace(/\/+$/, "");
 
-      const fetchSafe = async (url) => {
-        try {
-          const res = await window.fetch(url, {
-            headers: {
-              "Authorization": getAuthToken()
+
+      const fetchSafe =
+        async (url) => {
+
+          try {
+
+            const res =
+              await window.fetch(
+                url,
+                {
+                  headers: {
+                    "Authorization":
+                      getAuthToken()
+                  }
+                }
+              );
+
+
+            if (!res.ok) {
+              return [];
             }
-          });
 
-          if (!res.ok) return [];
 
-          const data = await res.json();
+            const data =
+              await res.json();
 
-          return Array.isArray(data)
-            ? data
-            : [];
 
-        } catch (e) {
-          console.warn(`Lỗi fetch ${url}:`, e);
-          return [];
-        }
-      };
+            return Array.isArray(data)
+              ? data
+              : [];
+
+          } catch (e) {
+
+            console.warn(
+              `Lỗi fetch ${url}:`,
+              e
+            );
+
+            return [];
+
+          }
+
+        };
+
 
       fetchedSpaces =
-        await fetchSafe(`${baseUrl}/creative-spaces/`);
+        await fetchSafe(
+          `${baseUrl}/creative-spaces/`
+        );
+
 
       populateSpacesSelect();
+
     }
 
+
     function populateSpacesSelect() {
+
       const spaceSelect =
-        document.getElementById("selectSpace");
+        document.getElementById(
+          "selectSpace"
+        );
 
-      if (!spaceSelect) return;
 
-      if (!fetchedSpaces || fetchedSpaces.length === 0) {
-        spaceSelect.innerHTML =
-          `<option value="">Không tìm thấy không gian</option>`;
+      if (!spaceSelect) {
         return;
       }
 
+
+      if (
+        !fetchedSpaces ||
+        fetchedSpaces.length === 0
+      ) {
+
+        spaceSelect.innerHTML =
+          `<option value="">
+            Không tìm thấy không gian
+          </option>`;
+
+        return;
+
+      }
+
+
       spaceSelect.innerHTML =
-        `<option value="">-- Chọn không gian --</option>` +
-        fetchedSpaces.map(s => {
+        `<option value="">
+          -- Chọn không gian --
+        </option>` +
 
-          const id =
-            s.id ||
-            s.SpaceID ||
-            s.space_id;
+        fetchedSpaces
+          .map(s => {
 
-          const name =
-            getItemName(s, "Không gian Studio");
+            const id =
+              s.id ||
+              s.SpaceID ||
+              s.space_id;
 
-          const displayPrice =
-            getItemPrice(s);
 
-          return `
-            <option value="${id}">
-              ${name} (${displayPrice.toLocaleString("vi-VN")}đ/h)
-            </option>
-          `;
+            const name =
+              getItemName(
+                s,
+                "Không gian Studio"
+              );
 
-        }).join("");
+
+            const displayPrice =
+              getItemPrice(s);
+
+
+            return `
+              <option value="${id}">
+                ${name}
+                (${displayPrice.toLocaleString("vi-VN")}đ/h)
+              </option>
+            `;
+
+          })
+          .join("");
+
 
       if (fetchedSpaces.length > 0) {
+
         spaceSelect.selectedIndex = 1;
+
         onSpaceSelectChange();
+
       }
+
     }
 
+
     async function onSpaceSelectChange() {
+
       const spaceId =
-        document.getElementById("selectSpace").value;
+        document.getElementById(
+          "selectSpace"
+        ).value;
+
 
       const baseUrl =
-        getApiBaseUrl().replace(/\/+$/, "");
+        getApiBaseUrl()
+          .replace(/\/+$/, "");
 
-      const fetchSafe = async (url) => {
-        try {
-          const res = await window.fetch(url, {
-            headers: {
-              "Authorization": getAuthToken()
+
+      const fetchSafe =
+        async (url) => {
+
+          try {
+
+            const res =
+              await window.fetch(
+                url,
+                {
+                  headers: {
+                    "Authorization":
+                      getAuthToken()
+                  }
+                }
+              );
+
+
+            if (!res.ok) {
+              return [];
             }
-          });
 
-          if (!res.ok) return [];
 
-          const data = await res.json();
+            const data =
+              await res.json();
 
-          return Array.isArray(data)
-            ? data
-            : [];
 
-        } catch (e) {
-          console.warn(`Lỗi fetch ${url}:`, e);
-          return [];
-        }
-      };
+            return Array.isArray(data)
+              ? data
+              : [];
+
+          } catch (e) {
+
+            console.warn(
+              `Lỗi fetch ${url}:`,
+              e
+            );
+
+            return [];
+
+          }
+
+        };
+
 
       if (!spaceId) {
+
         fetchedServices = [];
         fetchedEquipments = [];
+
       } else {
+
         fetchedServices =
           await fetchSafe(
             `${baseUrl}/service-packages/?space_id=${spaceId}`
           );
 
+
         fetchedEquipments =
           await fetchSafe(
             `${baseUrl}/equipment/?space_id=${spaceId}`
           );
+
       }
 
+
       const serviceSelect =
-        document.getElementById("selectService");
+        document.getElementById(
+          "selectService"
+        );
+
 
       const equipSelect =
-        document.getElementById("selectEquipment");
+        document.getElementById(
+          "selectEquipment"
+        );
+
 
       if (fetchedServices.length > 0) {
 
@@ -716,25 +1238,33 @@
             Không chọn dịch vụ (0đ)
           </option>` +
 
-          fetchedServices.map(sv => {
+          fetchedServices
+            .map(sv => {
 
-            const id = sv.id;
-            const name =
-              getItemName(sv, "Gói dịch vụ");
+              const id = sv.id;
 
-            const price =
-              getItemPrice(sv);
+              const name =
+                getItemName(
+                  sv,
+                  "Gói dịch vụ"
+                );
 
-            return `
-              <option
-                value="${id}"
-                data-price="${price}"
-              >
-                ${name} (+${price.toLocaleString("vi-VN")}đ)
-              </option>
-            `;
+              const price =
+                getItemPrice(sv);
 
-          }).join("");
+
+              return `
+                <option
+                  value="${id}"
+                  data-price="${price}"
+                >
+                  ${name}
+                  (+${price.toLocaleString("vi-VN")}đ)
+                </option>
+              `;
+
+            })
+            .join("");
 
       } else {
 
@@ -742,7 +1272,9 @@
           `<option value="" data-price="0">
             Không có gói dịch vụ cho không gian này
           </option>`;
+
       }
+
 
       if (fetchedEquipments.length > 0) {
 
@@ -751,25 +1283,33 @@
             Không chọn thiết bị thêm (0đ)
           </option>` +
 
-          fetchedEquipments.map(eq => {
+          fetchedEquipments
+            .map(eq => {
 
-            const id = eq.id;
-            const name =
-              getItemName(eq, "Thiết bị Studio");
+              const id = eq.id;
 
-            const price =
-              getItemPrice(eq);
+              const name =
+                getItemName(
+                  eq,
+                  "Thiết bị Studio"
+                );
 
-            return `
-              <option
-                value="${id}"
-                data-price="${price}"
-              >
-                ${name} (+${price.toLocaleString("vi-VN")}đ/lần)
-              </option>
-            `;
+              const price =
+                getItemPrice(eq);
 
-          }).join("");
+
+              return `
+                <option
+                  value="${id}"
+                  data-price="${price}"
+                >
+                  ${name}
+                  (+${price.toLocaleString("vi-VN")}đ/lần)
+                </option>
+              `;
+
+            })
+            .join("");
 
       } else {
 
@@ -777,14 +1317,22 @@
           `<option value="" data-price="0">
             Không có thiết bị cho không gian này
           </option>`;
+
       }
 
+
       updateBookingSummary();
+
     }
 
+
     function updateBookingSummary() {
+
       const spaceId =
-        document.getElementById("selectSpace").value;
+        document.getElementById(
+          "selectSpace"
+        ).value;
+
 
       const space =
         fetchedSpaces.find(
@@ -793,92 +1341,143 @@
               s.id ||
               s.SpaceID ||
               s.space_id
-            ) === String(spaceId)
+            ) ===
+            String(spaceId)
         );
+
 
       const duration =
         Number(
-          document.getElementById("bookingDuration").value || 1
+          document.getElementById(
+            "bookingDuration"
+          ).value || 1
         );
 
+
       const serviceSelect =
-        document.getElementById("selectService");
+        document.getElementById(
+          "selectService"
+        );
+
 
       const equipSelect =
-        document.getElementById("selectEquipment");
+        document.getElementById(
+          "selectEquipment"
+        );
+
 
       const servicePrice =
         parsePrice(
           serviceSelect
-            .options[serviceSelect.selectedIndex]
-            ?.dataset?.price
+            .options[
+              serviceSelect.selectedIndex
+            ]
+            ?.dataset
+            ?.price
         );
+
 
       const equipPrice =
         parsePrice(
           equipSelect
-            .options[equipSelect.selectedIndex]
-            ?.dataset?.price
+            .options[
+              equipSelect.selectedIndex
+            ]
+            ?.dataset
+            ?.price
         );
+
 
       if (!space) {
 
-        document.getElementById("summaryInfo").textContent =
+        document.getElementById(
+          "summaryInfo"
+        ).textContent =
           "Vui lòng chọn không gian để xem chi tiết chi phí.";
 
-        document.getElementById("summaryPrice").textContent =
+
+        document.getElementById(
+          "summaryPrice"
+        ).textContent =
           "0 VND";
 
+
         return;
+
       }
+
 
       const spacePrice =
         getItemPrice(space);
 
+
       const hourlyTotal =
-        spacePrice * duration;
+        spacePrice *
+        duration;
+
 
       const grandTotal =
         hourlyTotal +
         servicePrice +
         equipPrice;
 
-      const spaceName =
-        getItemName(space, "Không gian");
 
-      document.getElementById("summaryInfo").innerHTML = `
-        <strong>${spaceName}</strong> (${duration} giờ)<br>
+      const spaceName =
+        getItemName(
+          space,
+          "Không gian"
+        );
+
+
+      document.getElementById(
+        "summaryInfo"
+      ).innerHTML = `
+        <strong>${spaceName}</strong>
+        (${duration} giờ)<br>
+
         <small>
           Thuê phòng:
-          ${hourlyTotal.toLocaleString("vi-VN")}đ |
+          ${hourlyTotal.toLocaleString("vi-VN")}đ
+          |
           Dịch vụ & Thiết bị:
           ${(servicePrice + equipPrice).toLocaleString("vi-VN")}đ
         </small>
       `;
 
-      document.getElementById("summaryPrice").textContent =
+
+      document.getElementById(
+        "summaryPrice"
+      ).textContent =
         grandTotal.toLocaleString("vi-VN") +
         " VND";
+
     }
 
-    /* =========================
+
+    /* =========================================================
        LOAD MY BOOKINGS
-    ========================= */
+    ========================================================= */
 
     async function fetchMyBookings() {
+
       try {
+
         const baseUrl =
-          getApiBaseUrl().replace(/\/+$/, "");
+          getApiBaseUrl()
+            .replace(/\/+$/, "");
+
 
         const response =
           await window.fetch(
             `${baseUrl}/bookings/`,
             {
               headers: {
-                "Authorization": getAuthToken()
+                "Authorization":
+                  getAuthToken()
               }
             }
           );
+
 
         if (!response.ok) {
 
@@ -888,24 +1487,31 @@
             await response.text()
           );
 
+
           myBookings = [];
+
           renderAll();
 
           return;
+
         }
+
 
         const data =
           await response.json();
+
 
         myBookings =
           Array.isArray(data)
             ? data
             : [];
 
+
         console.log(
           "Danh sách booking:",
           myBookings
         );
+
 
         renderAll();
 
@@ -916,47 +1522,102 @@
           err
         );
 
+
         myBookings = [];
+
         renderAll();
+
       }
+
     }
 
-    /* =========================
+
+    /* =========================================================
        CREATE BOOKING
-    ========================= */
+    ========================================================= */
 
     async function handleCreateBooking(event) {
+
       if (event) {
         event.preventDefault();
       }
 
+
       const spaceId =
-        document.getElementById("selectSpace").value;
+        document.getElementById(
+          "selectSpace"
+        ).value;
+
 
       const bookingDate =
-        document.getElementById("bookingDate").value;
+        document.getElementById(
+          "bookingDate"
+        ).value;
+
 
       const startTimeStr =
-        document.getElementById("bookingTime").value;
+        document.getElementById(
+          "bookingTime"
+        ).value;
+
 
       const duration =
         Number(
-          document.getElementById("bookingDuration").value
+          document.getElementById(
+            "bookingDuration"
+          ).value
         );
 
+
       if (!spaceId) {
+
         return showToast(
           "Vui lòng chọn không gian hợp lệ",
           "error"
         );
+
       }
 
+
       if (!bookingDate) {
+
         return showToast(
           "Vui lòng chọn ngày sử dụng",
           "error"
         );
+
       }
+
+
+      const selectedDate =
+        new Date(
+          `${bookingDate}T${startTimeStr}:00`
+        );
+
+
+      if (isNaN(selectedDate.getTime())) {
+
+        return showToast(
+          "Ngày hoặc giờ sử dụng không hợp lệ.",
+          "error"
+        );
+
+      }
+
+
+      const now =
+        new Date();
+
+
+      if (selectedDate < now) {
+
+        return showToast(
+          "Không thể đặt thời gian đã qua.",
+          "error"
+        );
+
+      }
+
 
       const space =
         fetchedSpaces.find(
@@ -965,61 +1626,92 @@
               s.id ||
               s.SpaceID ||
               s.space_id
-            ) === String(spaceId)
+            ) ===
+            String(spaceId)
         );
+
 
       const spacePrice =
         getItemPrice(space);
 
+
       const serviceSelect =
-        document.getElementById("selectService");
+        document.getElementById(
+          "selectService"
+        );
+
 
       const equipSelect =
-        document.getElementById("selectEquipment");
+        document.getElementById(
+          "selectEquipment"
+        );
+
 
       const servicePrice =
         parsePrice(
           serviceSelect
-            .options[serviceSelect.selectedIndex]
-            ?.dataset?.price
+            .options[
+              serviceSelect.selectedIndex
+            ]
+            ?.dataset
+            ?.price
         );
+
 
       const equipPrice =
         parsePrice(
           equipSelect
-            .options[equipSelect.selectedIndex]
-            ?.dataset?.price
+            .options[
+              equipSelect.selectedIndex
+            ]
+            ?.dataset
+            ?.price
         );
+
 
       const calculatedTotalPrice =
         (spacePrice * duration) +
         servicePrice +
         equipPrice;
 
+
       const startDateTime =
         new Date(
           `${bookingDate}T${startTimeStr}:00`
         );
 
+
       const endDateTime =
         new Date(
           startDateTime.getTime() +
-          duration * 60 * 60 * 1000
+          duration *
+          60 *
+          60 *
+          1000
         );
 
-      const formatIsoLocal = (d) => {
 
-        const pad =
-          n => String(n).padStart(2, "0");
+      const formatIsoLocal =
+        (d) => {
 
-        return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
-      };
+          const pad =
+            n =>
+              String(n)
+                .padStart(2, "0");
+
+
+          return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+
+        };
+
 
       const userStr =
         localStorage.getItem("user") ||
         sessionStorage.getItem("user");
 
-      let photographerId = 1;
+
+      let photographerId = null;
+
 
       if (userStr) {
 
@@ -1028,16 +1720,59 @@
           const u =
             JSON.parse(userStr);
 
+
           photographerId =
             u.photographer_id ||
             u.PhotographerID ||
             u.id ||
-            1;
+            null;
 
-        } catch (e) {}
+        } catch (e) {
+
+          console.warn(
+            "Không đọc được user:",
+            e
+          );
+
+        }
+
       }
 
+
+      if (!photographerId) {
+
+        const storedId =
+          localStorage.getItem("photographer_id") ||
+          sessionStorage.getItem("photographer_id") ||
+          localStorage.getItem("user_id") ||
+          sessionStorage.getItem("user_id");
+
+
+        if (storedId) {
+
+          photographerId =
+            parseInt(
+              storedId,
+              10
+            );
+
+        }
+
+      }
+
+
+      if (!photographerId) {
+
+        return showToast(
+          "Không xác định được tài khoản Photographer.",
+          "error"
+        );
+
+      }
+
+
       const payload = {
+
         photographer_id:
           parseInt(
             photographerId,
@@ -1062,21 +1797,32 @@
 
         total_price:
           calculatedTotalPrice
+
       };
+
 
       const btnSubmit =
         document.getElementById(
           "btnSubmitBooking"
         );
 
+
       if (btnSubmit) {
+
         btnSubmit.disabled = true;
+
+        btnSubmit.textContent =
+          "Đang tạo booking...";
+
       }
+
 
       try {
 
         const baseUrl =
-          getApiBaseUrl().replace(/\/+$/, "");
+          getApiBaseUrl()
+            .replace(/\/+$/, "");
+
 
         const response =
           await window.fetch(
@@ -1085,17 +1831,29 @@
               method: "POST",
 
               headers: {
+
                 "Content-Type":
                   "application/json",
 
                 "Authorization":
                   getAuthToken()
+
               },
 
               body:
-                JSON.stringify(payload)
+                JSON.stringify(
+                  payload
+                )
+
             }
           );
+
+
+        const data =
+          await response
+            .json()
+            .catch(() => ({}));
+
 
         if (
           response.ok ||
@@ -1103,70 +1861,132 @@
         ) {
 
           showToast(
-            "Xác nhận đặt chỗ thành công!"
+            "Đặt chỗ thành công. Vui lòng chờ Studio xác nhận."
           );
+
+
+          document
+            .getElementById(
+              "createBookingForm"
+            )
+            .reset();
+
+
+          document.getElementById(
+            "bookingDuration"
+          ).value = "2";
+
+
+          document.getElementById(
+            "bookingTime"
+          ).value = "09:00";
+
+
+          if (
+            document.getElementById(
+              "bookingDate"
+            )
+          ) {
+
+            document.getElementById(
+              "bookingDate"
+            ).value =
+              new Date()
+                .toISOString()
+                .split("T")[0];
+
+          }
+
 
           await fetchMyBookings();
 
         } else {
 
-          const errData =
-            await response
-              .json()
-              .catch(() => ({}));
-
           console.error(
             "Lỗi từ Flask Backend:",
-            errData
+            data
           );
 
+
           showToast(
-            errData.message ||
-            errData.error ||
-            "Lỗi máy chủ khi tạo booking (500)",
+            data.message ||
+            data.error ||
+            "Không thể tạo booking.",
             "error"
           );
+
         }
 
       } catch (err) {
 
         console.error(err);
 
+
         showToast(
-          "Lỗi kết nối máy chủ Flask",
+          "Lỗi kết nối máy chủ Flask.",
           "error"
         );
 
       } finally {
 
         if (btnSubmit) {
+
           btnSubmit.disabled = false;
+
+          btnSubmit.textContent =
+            "Xác nhận Đặt chỗ";
+
         }
+
       }
+
     }
 
-    /* =========================
+
+    /* =========================================================
        BOOKING STATUS
-    ========================= */
+    ========================================================= */
 
     function normalizeStatus(status) {
-      if (!status) return "pending";
+
+      if (!status) {
+        return "pending";
+      }
+
 
       return String(status)
         .toLowerCase()
-        .trim();
+        .trim()
+        .replace(/-/g, "_")
+        .replace(/ /g, "_");
+
     }
+
 
     function renderCounts() {
 
       const counts = {
-        all: myBookings.length,
-        pending: 0,
-        confirmed: 0,
-        checked_in: 0,
-        completed: 0,
-        cancelled: 0
+
+        all:
+          myBookings.length,
+
+        pending:
+          0,
+
+        confirmed:
+          0,
+
+        checked_in:
+          0,
+
+        completed:
+          0,
+
+        cancelled:
+          0
+
       };
+
 
       myBookings.forEach(b => {
 
@@ -1176,39 +1996,61 @@
             b.Status
           );
 
-        if (counts[st] !== undefined) {
+
+        if (
+          counts[st] !== undefined
+        ) {
+
           counts[st]++;
+
         }
+
       });
+
 
       document.getElementById(
         "totalBookingCount"
-      ).textContent = counts.all;
+      ).textContent =
+        counts.all;
+
 
       document.getElementById(
         "countAll"
-      ).textContent = counts.all;
+      ).textContent =
+        counts.all;
+
 
       document.getElementById(
         "countPending"
-      ).textContent = counts.pending;
+      ).textContent =
+        counts.pending;
+
 
       document.getElementById(
         "countConfirmed"
-      ).textContent = counts.confirmed;
+      ).textContent =
+        counts.confirmed;
+
 
       document.getElementById(
         "countCheckedIn"
-      ).textContent = counts.checked_in;
+      ).textContent =
+        counts.checked_in;
+
 
       document.getElementById(
         "countCompleted"
-      ).textContent = counts.completed;
+      ).textContent =
+        counts.completed;
+
 
       document.getElementById(
         "countCancelled"
-      ).textContent = counts.cancelled;
+      ).textContent =
+        counts.cancelled;
+
     }
+
 
     function formatBookingTime(b) {
 
@@ -1217,37 +2059,64 @@
         b.StartTime ||
         "";
 
-      if (startStr.includes("T")) {
+
+      if (
+        startStr.includes("T")
+      ) {
 
         const parts =
           startStr.split("T");
 
+
         return {
-          dateStr: parts[0],
+
+          dateStr:
+            parts[0],
+
           timeStr:
-            parts[1].substring(0, 5)
+            parts[1]
+              .substring(0, 5)
+
         };
+
       }
 
-      if (startStr.includes(" ")) {
+
+      if (
+        startStr.includes(" ")
+      ) {
 
         const parts =
           startStr.split(" ");
 
+
         return {
-          dateStr: parts[0],
+
+          dateStr:
+            parts[0],
+
           timeStr:
-            parts[1].substring(0, 5)
+            parts[1]
+              .substring(0, 5)
+
         };
+
       }
 
+
       return {
+
         dateStr:
-          startStr || "N/A",
+          startStr ||
+          "N/A",
+
         timeStr:
           "09:00"
+
       };
+
     }
+
 
     function renderList() {
 
@@ -1256,9 +2125,14 @@
           "bookingList"
         );
 
-      if (!list) return;
+
+      if (!list) {
+        return;
+      }
+
 
       list.innerHTML = "";
+
 
       let filtered =
         activeTab === "all"
@@ -1268,31 +2142,35 @@
                 normalizeStatus(
                   b.status ||
                   b.Status
-                ) === activeTab
+                ) ===
+                activeTab
             );
+
 
       filtered.sort((a, b) => {
 
         const idA =
           Number(
-            a.id ||
-            a.booking_id ||
-            a.BookingID ||
+            getBookingId(a) ||
             0
           );
+
 
         const idB =
           Number(
-            b.id ||
-            b.booking_id ||
-            b.BookingID ||
+            getBookingId(b) ||
             0
           );
 
+
         return idB - idA;
+
       });
 
-      if (filtered.length === 0) {
+
+      if (
+        filtered.length === 0
+      ) {
 
         list.innerHTML = `
           <div style="
@@ -1306,22 +2184,28 @@
           </div>
         `;
 
+
         return;
+
       }
+
 
       filtered.forEach(b => {
 
         const bId =
-          b.id ||
-          b.booking_id ||
-          b.BookingID;
+          getBookingId(b);
+
 
         const statusVal =
           b.status ||
           b.Status;
 
+
         const normStatus =
-          normalizeStatus(statusVal);
+          normalizeStatus(
+            statusVal
+          );
+
 
         const {
           dateStr,
@@ -1329,18 +2213,16 @@
         } =
           formatBookingTime(b);
 
+
         const priceVal =
-          Number(
-            b.total_price ||
-            b.TotalPrice ||
-            b.totalPrice ||
-            0
-          );
+          getBookingPrice(b);
+
 
         const spaceId =
           b.space_id ||
           b.SpaceID ||
           b.spaceId;
+
 
         const spaceObj =
           fetchedSpaces.find(
@@ -1353,6 +2235,7 @@
               String(spaceId)
           );
 
+
         const spaceName =
           spaceObj
             ? getItemName(
@@ -1361,24 +2244,79 @@
               )
             : `Không gian #${spaceId || ""}`;
 
+
         const spaceAddress =
-          getSpaceAddress(spaceObj);
+          getSpaceAddress(
+            spaceObj
+          );
+
 
         const spaceImage =
-          getSpaceImage(spaceObj);
+          getSpaceImage(
+            spaceObj
+          );
+
+
+        const paymentSuccess =
+          isPaymentSuccessful(b);
+
+
+        const paymentPending =
+          isPaymentPending(b);
+
+
+        let paymentBadge = "";
+
+
+        if (
+          normStatus === "confirmed" &&
+          !paymentSuccess
+        ) {
+
+          paymentBadge =
+            paymentPending
+              ? `
+                <span class="booking-payment-status pending">
+                  ⏳ Đang chờ xác nhận thanh toán
+                </span>
+              `
+              : `
+                <span class="booking-payment-status pending">
+                  💳 Chưa thanh toán
+                </span>
+              `;
+
+        }
+
+
+        if (paymentSuccess) {
+
+          paymentBadge = `
+            <span class="booking-payment-status success">
+              ✓ Đã thanh toán
+            </span>
+          `;
+
+        }
+
 
         const card =
           document.createElement(
             "article"
           );
 
+
         card.className =
           "booking-card";
 
+
         card.innerHTML = `
+
           <div class="booking-card-image">
+
             ${
               spaceImage
+
                 ? `
                   <img
                     src="${spaceImage}"
@@ -1386,6 +2324,7 @@
                     onerror="this.style.display='none'"
                   >
                 `
+
                 : `
                   <div style="
                     height:100%;
@@ -1398,15 +2337,20 @@
                   </div>
                 `
             }
+
           </div>
+
 
           <div class="booking-card-body">
 
             <div class="booking-card-top">
 
-              <span class="status-badge status-${normStatus}">
+              <span
+                class="status-badge status-${normStatus}"
+              >
                 ${getStatusLabel(statusVal)}
               </span>
+
 
               <span style="
                 font-size:.8rem;
@@ -1417,6 +2361,7 @@
 
             </div>
 
+
             <h3 style="
               font-size:1.05rem;
               margin:0 0 6px;
@@ -1424,21 +2369,43 @@
               ${spaceName}
             </h3>
 
+
             <div style="
               font-size:.85rem;
               color:var(--muted);
             ">
+
               📍 ${spaceAddress}<br>
-              📅 ${dateStr} | ⏱ ${timeStr}
+
+              📅 ${dateStr}
+              |
+              ⏱ ${timeStr}
+
             </div>
 
+
+            ${
+              paymentBadge
+                ? `
+                  <div style="
+                    margin-top:9px;
+                  ">
+                    ${paymentBadge}
+                  </div>
+                `
+                : ""
+            }
+
           </div>
+
 
           <div class="booking-card-actions">
 
             <div class="booking-card-price">
-              ${priceVal.toLocaleString("vi-VN")} VND
+              ${priceVal.toLocaleString("vi-VN")}
+              VND
             </div>
+
 
             <button
               type="button"
@@ -1449,36 +2416,64 @@
             </button>
 
           </div>
+
         `;
 
+
         list.appendChild(card);
+
       });
+
     }
+
 
     function getStatusLabel(s) {
 
       const st =
         normalizeStatus(s);
 
+
       const map = {
-        pending: "Chờ xử lý",
-        confirmed: "Sắp tới",
-        checked_in: "Đang diễn ra",
-        completed: "Hoàn tất",
-        cancelled: "Đã hủy"
+
+        pending:
+          "Chờ xử lý",
+
+        confirmed:
+          "Sắp tới",
+
+        checked_in:
+          "Đang diễn ra",
+
+        completed:
+          "Hoàn tất",
+
+        cancelled:
+          "Đã hủy"
+
       };
 
-      return map[st] || s;
+
+      return (
+        map[st] ||
+        s ||
+        "Không xác định"
+      );
+
     }
+
 
     function renderAll() {
+
       renderCounts();
+
       renderList();
+
     }
 
-    /* =========================
+
+    /* =========================================================
        BOOKING DETAIL
-    ========================= */
+    ========================================================= */
 
     function openDetail(id) {
 
@@ -1486,13 +2481,16 @@
         myBookings.find(
           x =>
             String(
-              x.id ||
-              x.booking_id ||
-              x.BookingID
-            ) === String(id)
+              getBookingId(x)
+            ) ===
+            String(id)
         );
 
-      if (!b) return;
+
+      if (!b) {
+        return;
+      }
+
 
       const {
         dateStr,
@@ -1500,21 +2498,19 @@
       } =
         formatBookingTime(b);
 
+
       const bId =
-        b.id ||
-        b.booking_id ||
-        b.BookingID;
+        getBookingId(b);
+
 
       const statusVal =
         b.status ||
         b.Status;
 
+
       const priceVal =
-        Number(
-          b.total_price ||
-          b.TotalPrice ||
-          0
-        );
+        getBookingPrice(b);
+
 
       const spaceObj =
         fetchedSpaces.find(
@@ -1526,9 +2522,11 @@
             ) ===
             String(
               b.space_id ||
-              b.SpaceID
+              b.SpaceID ||
+              b.spaceId
             )
         );
+
 
       const spaceName =
         spaceObj
@@ -1538,19 +2536,33 @@
             )
           : `Không gian #${
               b.space_id ||
-              b.SpaceID
+              b.SpaceID ||
+              ""
             }`;
 
+
       const spaceAddress =
-        getSpaceAddress(spaceObj);
+        getSpaceAddress(
+          spaceObj
+        );
+
 
       const spaceImage =
-        getSpaceImage(spaceObj);
+        getSpaceImage(
+          spaceObj
+        );
+
+
+      const paymentStatus =
+        getPaymentStatus(b);
+
 
       document.getElementById(
         "detailSubtitle"
       ).textContent =
-        "Mã booking: #BK-" + bId;
+        "Mã booking: #BK-" +
+        bId;
+
 
       document.getElementById(
         "detailBodyContent"
@@ -1558,8 +2570,10 @@
 
         ${
           spaceImage
+
             ? `
               <div style="margin-bottom:16px;">
+
                 <img
                   src="${spaceImage}"
                   alt="${spaceName}"
@@ -1571,30 +2585,52 @@
                   "
                   onerror="this.style.display='none'"
                 >
+
               </div>
             `
+
             : ""
         }
+
 
         <p style="margin:4px 0;">
           <strong>Không gian:</strong>
           ${spaceName}
         </p>
 
+
         <p style="margin:4px 0;">
           <strong>Địa chỉ:</strong>
           ${spaceAddress}
         </p>
 
-        <p style="margin:4px 0;">
-          <strong>Thời gian:</strong>
-          ${dateStr} (${timeStr})
-        </p>
 
         <p style="margin:4px 0;">
-          <strong>Trạng thái:</strong>
+          <strong>Thời gian:</strong>
+          ${dateStr}
+          (${timeStr})
+        </p>
+
+
+        <p style="margin:4px 0;">
+          <strong>Trạng thái booking:</strong>
           ${getStatusLabel(statusVal)}
         </p>
+
+
+        ${
+          paymentStatus
+
+            ? `
+              <p style="margin:4px 0;">
+                <strong>Trạng thái thanh toán:</strong>
+                ${getPaymentStatusLabel(paymentStatus)}
+              </p>
+            `
+
+            : ""
+        }
+
 
         <p style="
           margin:12px 0 0;
@@ -1602,27 +2638,44 @@
           color:var(--pink);
         ">
           <strong>Tổng thanh toán:</strong>
-          ${priceVal.toLocaleString("vi-VN")} VND
+          ${priceVal.toLocaleString("vi-VN")}
+          VND
         </p>
 
       `;
+
 
       const actions =
         document.getElementById(
           "detailActions"
         );
 
+
       actions.innerHTML = "";
+
 
       const st =
         normalizeStatus(
           statusVal
         );
 
-      /* Photographer chỉ được hủy pending */
+
+      const paymentSuccess =
+        isPaymentSuccessful(b);
+
+
+      const paymentPending =
+        isPaymentPending(b);
+
+
+      /* -------------------------------------------------------
+         PENDING
+      ------------------------------------------------------- */
+
       if (st === "pending") {
 
         actions.innerHTML = `
+
           <button
             type="button"
             class="btn-ghost-danger"
@@ -1630,74 +2683,342 @@
           >
             Hủy yêu cầu đặt chỗ
           </button>
+
         `;
 
-      } else if (st === "confirmed") {
-
-        actions.innerHTML = `
-          <div style="
-            width:100%;
-            color:var(--muted);
-            font-size:.9rem;
-            line-height:1.5;
-          ">
-            <strong>
-              Booking đã được Studio xác nhận.
-            </strong>
-            <br>
-            Vui lòng đến Studio đúng thời gian đã đặt.
-            Check-in sẽ được Studio thực hiện.
-          </div>
-        `;
-
-      } else if (st === "checked_in") {
-
-        actions.innerHTML = `
-          <div style="
-            width:100%;
-            color:var(--muted);
-            font-size:.9rem;
-            line-height:1.5;
-          ">
-            Buổi chụp đang diễn ra.
-            <br>
-            Sau khi kết thúc, Studio sẽ thực hiện Check-out.
-          </div>
-        `;
-
-      } else if (st === "completed") {
-
-        actions.innerHTML = `
-          <div style="
-            width:100%;
-            color:var(--muted);
-            font-size:.9rem;
-          ">
-            Buổi chụp đã hoàn tất.
-          </div>
-        `;
-
-      } else if (st === "cancelled") {
-
-        actions.innerHTML = `
-          <div style="
-            width:100%;
-            color:var(--muted);
-            font-size:.9rem;
-          ">
-            Booking này đã được hủy.
-          </div>
-        `;
       }
 
+
+      /* -------------------------------------------------------
+         CONFIRMED
+      ------------------------------------------------------- */
+
+      else if (
+        st === "confirmed"
+      ) {
+
+        if (paymentSuccess) {
+
+          actions.innerHTML = `
+
+            <div
+              class="booking-payment-action"
+              style="
+                background:#f0fdf4;
+                border-color:#bbf7d0;
+              "
+            >
+
+              <div
+                class="booking-payment-action-title"
+                style="color:#166534;"
+              >
+                ✓ Đã thanh toán
+              </div>
+
+              <div
+                class="booking-payment-action-text"
+                style="color:#166534;"
+              >
+                Thanh toán đã được ghi nhận.
+                Bạn có thể đến Studio đúng thời gian
+                đã đặt để thực hiện Check-in.
+              </div>
+
+            </div>
+
+          `;
+
+        }
+
+        else if (paymentPending) {
+
+          actions.innerHTML = `
+
+            <div class="booking-payment-action">
+
+              <div class="booking-payment-action-title">
+                ⏳ Thanh toán đang được xử lý
+              </div>
+
+              <div class="booking-payment-action-text">
+                Bạn đã gửi thông tin thanh toán.
+                Vui lòng chờ hệ thống xác nhận trước
+                khi Studio thực hiện Check-in.
+              </div>
+
+            </div>
+
+          `;
+
+        }
+
+        else {
+
+          actions.innerHTML = `
+
+            <div class="booking-payment-action">
+
+              <div class="booking-payment-action-title">
+                💳 Booking đã được Studio xác nhận
+              </div>
+
+              <div class="booking-payment-action-text">
+                Vui lòng thanh toán bằng
+                <strong>Chuyển khoản QR (VietQR)</strong>
+                trước khi sử dụng dịch vụ.
+              </div>
+
+
+              <button
+                type="button"
+                class="btn btn-primary"
+                onclick="goToPayment(${bId})"
+              >
+                💳 Thanh toán ngay
+              </button>
+
+            </div>
+
+          `;
+
+        }
+
+      }
+
+
+      /* -------------------------------------------------------
+         CHECKED IN
+      ------------------------------------------------------- */
+
+      else if (
+        st === "checked_in"
+      ) {
+
+        actions.innerHTML = `
+
+          <div style="
+            width:100%;
+            color:var(--muted);
+            font-size:.9rem;
+            line-height:1.5;
+          ">
+
+            <strong>
+              Buổi chụp đang diễn ra.
+            </strong>
+
+            <br>
+
+            Sau khi kết thúc,
+            Studio sẽ thực hiện Check-out.
+
+          </div>
+
+        `;
+
+      }
+
+
+      /* -------------------------------------------------------
+         COMPLETED
+      ------------------------------------------------------- */
+
+      else if (
+        st === "completed"
+      ) {
+
+        actions.innerHTML = `
+
+          <div style="
+            width:100%;
+            color:var(--muted);
+            font-size:.9rem;
+          ">
+
+            Buổi chụp đã hoàn tất.
+
+            ${
+              paymentSuccess
+                ? `
+                  <br>
+                  <span style="
+                    color:#15803d;
+                    font-weight:600;
+                  ">
+                    ✓ Thanh toán đã hoàn tất.
+                  </span>
+                `
+                : ""
+            }
+
+          </div>
+
+        `;
+
+      }
+
+
+      /* -------------------------------------------------------
+         CANCELLED
+      ------------------------------------------------------- */
+
+      else if (
+        st === "cancelled"
+      ) {
+
+        actions.innerHTML = `
+
+          <div style="
+            width:100%;
+            color:var(--muted);
+            font-size:.9rem;
+          ">
+
+            Booking này đã được hủy.
+
+          </div>
+
+        `;
+
+      }
+
+
       document
-        .getElementById("detailOverlay")
+        .getElementById(
+          "detailOverlay"
+        )
         .classList.add("open");
+
     }
 
-    /* =========================
-       CANCEL CONFIRM MODAL
-    ========================= */
+
+    function getPaymentStatusLabel(status) {
+
+      const map = {
+
+        pending:
+          "Chờ xác nhận",
+
+        processing:
+          "Đang xử lý",
+
+        confirming:
+          "Đang xác nhận",
+
+        success:
+          "Đã thanh toán",
+
+        successful:
+          "Đã thanh toán",
+
+        completed:
+          "Đã thanh toán",
+
+        paid:
+          "Đã thanh toán",
+
+        succeeded:
+          "Đã thanh toán",
+
+        failed:
+          "Thanh toán thất bại",
+
+        cancelled:
+          "Thanh toán đã hủy"
+
+      };
+
+
+      return (
+        map[status] ||
+        status ||
+        "Chưa cập nhật"
+      );
+
+    }
+
+
+    /* =========================================================
+       GO TO PAYMENT PAGE
+    ========================================================= */
+
+    function goToPayment(bookingId) {
+
+      if (!bookingId) {
+
+        showToast(
+          "Không xác định được booking.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      const booking =
+        myBookings.find(
+          b =>
+            String(
+              getBookingId(b)
+            ) ===
+            String(bookingId)
+        );
+
+
+      if (!booking) {
+
+        showToast(
+          "Không tìm thấy booking.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      const status =
+        normalizeStatus(
+          booking.status ||
+          booking.Status
+        );
+
+
+      if (status !== "confirmed") {
+
+        showToast(
+          "Chỉ booking đã được Studio xác nhận mới có thể thanh toán.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      if (isPaymentSuccessful(booking)) {
+
+        showToast(
+          "Booking này đã được thanh toán.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      window.location.href =
+        `payment.html?booking_id=${encodeURIComponent(bookingId)}`;
+
+    }
+
+
+    /* =========================================================
+       CANCEL BOOKING
+    ========================================================= */
 
     function showCancelConfirm(id) {
 
@@ -1705,13 +3026,16 @@
         myBookings.find(
           x =>
             String(
-              x.id ||
-              x.booking_id ||
-              x.BookingID
-            ) === String(id)
+              getBookingId(x)
+            ) ===
+            String(id)
         );
 
-      if (!b) return;
+
+      if (!b) {
+        return;
+      }
+
 
       const status =
         normalizeStatus(
@@ -1719,7 +3043,10 @@
           b.Status
         );
 
-      if (status !== "pending") {
+
+      if (
+        status !== "pending"
+      ) {
 
         showToast(
           "Chỉ có thể hủy booking đang chờ Studio xác nhận.",
@@ -1727,26 +3054,39 @@
         );
 
         return;
+
       }
 
-      pendingCancelBookingId = id;
+
+      pendingCancelBookingId =
+        id;
+
 
       document.getElementById(
         "cancelConfirmMessage"
       ).innerHTML = `
+
         Bạn có chắc muốn
-        <strong>hủy yêu cầu đặt chỗ #${id}</strong>?
+        <strong>
+          hủy yêu cầu đặt chỗ #${id}
+        </strong>?
+
         <br>
-        Sau khi hủy, booking sẽ chuyển sang trạng thái
-        <strong>Đã hủy</strong>.
+
+        Sau khi hủy, booking sẽ chuyển sang
+        trạng thái <strong>Đã hủy</strong>.
+
       `;
+
 
       document
         .getElementById(
           "cancelConfirmModal"
         )
         .classList.add("open");
+
     }
+
 
     function closeCancelConfirm() {
 
@@ -1754,76 +3094,110 @@
         .getElementById(
           "cancelConfirmModal"
         )
-        .classList.remove("open");
+        .classList.remove(
+          "open"
+        );
 
-      pendingCancelBookingId = null;
+
+      pendingCancelBookingId =
+        null;
+
     }
 
-    function closeCancelConfirmOutside(event) {
+
+    function closeCancelConfirmOutside(
+      event
+    ) {
 
       if (
         event.target.id ===
         "cancelConfirmModal"
       ) {
+
         closeCancelConfirm();
+
       }
+
     }
+
 
     async function executeCancelBooking() {
 
       const id =
         pendingCancelBookingId;
 
+
       if (!id) {
+
         closeCancelConfirm();
+
         return;
+
       }
 
+
       closeCancelConfirm();
+
 
       try {
 
         const baseUrl =
-          getApiBaseUrl().replace(
-            /\/+$/,
-            ""
-          );
+          getApiBaseUrl()
+            .replace(
+              /\/+$/,
+              ""
+            );
+
 
         const response =
           await window.fetch(
             `${baseUrl}/bookings/${id}`,
             {
-              method: "PUT",
+
+              method:
+                "PUT",
 
               headers: {
+
                 "Content-Type":
                   "application/json",
 
                 "Authorization":
                   getAuthToken()
+
               },
 
               body:
                 JSON.stringify({
-                  status: "cancelled"
+                  status:
+                    "cancelled"
                 })
+
             }
           );
+
 
         const data =
           await response
             .json()
-            .catch(() => ({}));
+            .catch(
+              () => ({})
+            );
 
-        if (response.ok) {
+
+        if (
+          response.ok
+        ) {
 
           showToast(
             "Đã hủy yêu cầu đặt chỗ."
           );
 
+
           closeModal(
             "detailOverlay"
           );
+
 
           await fetchMyBookings();
 
@@ -1835,6 +3209,7 @@
             "Không thể hủy booking.",
             "error"
           );
+
         }
 
       } catch (err) {
@@ -1844,26 +3219,39 @@
           err
         );
 
+
         showToast(
           "Lỗi kết nối máy chủ Flask.",
           "error"
         );
+
       }
+
     }
 
-    /* =========================
+
+    /* =========================================================
        MODAL / TOAST
-    ========================= */
+    ========================================================= */
 
     function closeModal(id) {
 
       const el =
-        document.getElementById(id);
+        document.getElementById(
+          id
+        );
+
 
       if (el) {
-        el.classList.remove("open");
+
+        el.classList.remove(
+          "open"
+        );
+
       }
+
     }
+
 
     function showToast(
       message,
@@ -1875,10 +3263,17 @@
           "toastStack"
         );
 
-      if (!stack) return;
+
+      if (!stack) {
+        return;
+      }
+
 
       const toast =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
+
 
       toast.className =
         `toast ${
@@ -1887,19 +3282,29 @@
             : "success"
         }`;
 
+
       toast.textContent =
         message;
 
-      stack.appendChild(toast);
 
-      setTimeout(() => {
-        toast.remove();
-      }, 3500);
+      stack.appendChild(
+        toast
+      );
+
+
+      setTimeout(
+        () => {
+          toast.remove();
+        },
+        3500
+      );
+
     }
 
-    /* =========================
+
+    /* =========================================================
        INIT
-    ========================= */
+    ========================================================= */
 
     document.addEventListener(
       "DOMContentLoaded",
@@ -1907,69 +3312,115 @@
 
         loadPhotographerInfo();
 
+
         const dateInput =
           document.getElementById(
             "bookingDate"
           );
 
+
         if (dateInput) {
 
+          const today =
+            new Date();
+
+
+          const year =
+            today.getFullYear();
+
+
+          const month =
+            String(
+              today.getMonth() + 1
+            )
+              .padStart(
+                2,
+                "0"
+              );
+
+
+          const day =
+            String(
+              today.getDate()
+            )
+              .padStart(
+                2,
+                "0"
+              );
+
+
           dateInput.value =
-            new Date()
-              .toISOString()
-              .split("T")[0];
+            `${year}-${month}-${day}`;
+
         }
+
 
         document
           .querySelectorAll(
             ".booking-tab"
           )
-          .forEach(tab => {
+          .forEach(
+            tab => {
 
-            tab.addEventListener(
-              "click",
-              () => {
+              tab.addEventListener(
+                "click",
+                () => {
 
-                document
-                  .querySelectorAll(
-                    ".booking-tab"
-                  )
-                  .forEach(t =>
-                    t.classList.remove(
-                      "active"
+                  document
+                    .querySelectorAll(
+                      ".booking-tab"
                     )
+                    .forEach(
+                      t =>
+                        t.classList.remove(
+                          "active"
+                        )
+                    );
+
+
+                  tab.classList.add(
+                    "active"
                   );
 
-                tab.classList.add(
-                  "active"
-                );
 
-                activeTab =
-                  tab.dataset.status;
+                  activeTab =
+                    tab.dataset.status;
 
-                renderList();
-              }
-            );
-          });
+
+                  renderList();
+
+                }
+              );
+
+            }
+          );
+
 
         const form =
           document.getElementById(
             "createBookingForm"
           );
 
+
         if (form) {
+
           form.addEventListener(
             "submit",
             handleCreateBooking
           );
+
         }
 
+
         loadCatalogData();
+
         fetchMyBookings();
+
       }
     );
+
   </script>
 
 </body>
-</html>
 
+</html>

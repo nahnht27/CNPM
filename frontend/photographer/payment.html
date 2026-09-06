@@ -1,0 +1,3125 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Thanh toán Booking | FilmSpace</title>
+
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/photographer-home.css">
+
+  <style>
+
+    /* =========================================================
+       PAYMENT PAGE
+    ========================================================= */
+
+    .payment-page {
+      max-width: 850px;
+      margin: 35px auto 60px;
+    }
+
+
+    .payment-page-header {
+      margin-bottom: 20px;
+    }
+
+
+    .payment-page-header h1 {
+      margin: 0 0 6px;
+      font-size: 28px;
+    }
+
+
+    .payment-page-header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+
+    .payment-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, .08);
+      overflow: hidden;
+    }
+
+
+    .payment-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 20px 24px;
+      border-bottom: 1px solid #eee;
+    }
+
+
+    .payment-card-head-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+
+    .payment-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #fdf2f8;
+      color: #d63384;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 21px;
+    }
+
+
+    .payment-card-head h2 {
+      margin: 0;
+      font-size: 19px;
+      color: #222;
+    }
+
+
+    .payment-card-subtitle {
+      margin-top: 3px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+
+    .payment-card-body {
+      padding: 24px;
+    }
+
+
+    /* =========================================================
+       STATUS
+    ========================================================= */
+
+    .payment-status-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 13px 15px;
+      border-radius: 10px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      color: #9a3412;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+
+    .payment-status-banner.success {
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+      color: #166534;
+    }
+
+
+    .payment-status-banner.error {
+      background: #fef2f2;
+      border-color: #fecaca;
+      color: #991b1b;
+    }
+
+
+    /* =========================================================
+       BOOKING INFO
+    ========================================================= */
+
+    .payment-booking-card {
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 18px;
+      background: #fafafa;
+      margin-bottom: 18px;
+    }
+
+
+    .payment-booking-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 14px;
+    }
+
+
+    .payment-info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px 20px;
+    }
+
+
+    .payment-info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+
+    .payment-info-label {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+
+    .payment-info-value {
+      color: #222;
+      font-size: 13px;
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+
+    /* =========================================================
+       TOTAL
+    ========================================================= */
+
+    .payment-total-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 18px;
+      border-radius: 12px;
+      background: #fff;
+      border: 2px solid #f3d5e5;
+      margin-bottom: 18px;
+    }
+
+
+    .payment-total-label {
+      font-size: 13px;
+      color: #555;
+    }
+
+
+    .payment-total-value {
+      color: #d63384;
+      font-size: 23px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+
+    /* =========================================================
+       METHOD
+    ========================================================= */
+
+    .payment-method-box {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 18px;
+    }
+
+
+    .payment-method-title {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+
+    .payment-method-value {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-weight: 700;
+      color: #222;
+      font-size: 14px;
+    }
+
+
+    .payment-method-badge {
+      padding: 5px 9px;
+      border-radius: 7px;
+      background: #fdf2f8;
+      color: #d63384;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+
+    /* =========================================================
+       QR
+    ========================================================= */
+
+    .payment-qr-section {
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 22px;
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+
+    .payment-qr-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 5px;
+    }
+
+
+    .payment-qr-description {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 17px;
+      line-height: 1.5;
+    }
+
+
+    .payment-qr-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 17px;
+    }
+
+
+    .payment-qr-image {
+      width: 250px;
+      height: 250px;
+      object-fit: contain;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      padding: 8px;
+      background: #fff;
+    }
+
+
+    .payment-qr-placeholder {
+      width: 250px;
+      min-height: 190px;
+      border: 1px dashed #d1d5db;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+      background: #fafafa;
+      box-sizing: border-box;
+    }
+
+
+    /* =========================================================
+       BANK INFO
+    ========================================================= */
+
+    .payment-bank-info {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      text-align: left;
+      margin-top: 15px;
+    }
+
+
+    .payment-bank-item {
+      padding: 11px 12px;
+      background: #fafafa;
+      border-radius: 8px;
+    }
+
+
+    .payment-bank-item span {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+
+
+    .payment-bank-item strong {
+      display: block;
+      font-size: 13px;
+      color: #222;
+      word-break: break-word;
+    }
+
+
+    /* =========================================================
+       TRANSFER CONTENT
+    ========================================================= */
+
+    .payment-transfer-box {
+      text-align: left;
+      padding: 14px;
+      background: #fdf2f8;
+      border: 1px solid #f5c2dc;
+      border-radius: 10px;
+      margin-top: 15px;
+    }
+
+
+    .payment-transfer-label {
+      font-size: 11px;
+      color: #8a315d;
+      margin-bottom: 5px;
+    }
+
+
+    .payment-transfer-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+
+    .payment-transfer-content strong {
+      color: #b4236f;
+      font-size: 14px;
+      word-break: break-all;
+    }
+
+
+    .payment-copy-btn {
+      flex-shrink: 0;
+      border: 1px solid #e5a9c7;
+      background: #fff;
+      color: #b4236f;
+      border-radius: 7px;
+      padding: 7px 11px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+
+    .payment-copy-btn:hover {
+      background: #fff7fb;
+    }
+
+
+    /* =========================================================
+       STEPS
+    ========================================================= */
+
+    .payment-steps {
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 18px;
+    }
+
+
+    .payment-steps-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 12px;
+    }
+
+
+    .payment-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+
+    .payment-step:last-child {
+      margin-bottom: 0;
+    }
+
+
+    .payment-step-number {
+      width: 23px;
+      height: 23px;
+      border-radius: 50%;
+      background: #fdf2f8;
+      color: #d63384;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+
+    .payment-step-text {
+      font-size: 12px;
+      color: #555;
+      line-height: 1.5;
+      padding-top: 2px;
+    }
+
+
+    .payment-warning {
+      padding: 13px 15px;
+      border-radius: 10px;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      font-size: 12px;
+      line-height: 1.55;
+      margin-bottom: 18px;
+    }
+
+
+    /* =========================================================
+       ACTIONS
+    ========================================================= */
+
+    .payment-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 9px;
+      padding-top: 18px;
+      border-top: 1px solid #eee;
+    }
+
+
+    .payment-btn {
+      border-radius: 8px;
+      padding: 10px 17px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+
+    .payment-btn-secondary {
+      border-color: #ddd;
+      background: #fff;
+      color: #333;
+    }
+
+
+    .payment-btn-secondary:hover {
+      background: #f7f7f8;
+    }
+
+
+    .payment-btn-primary {
+      background: #d63384;
+      border-color: #d63384;
+      color: #fff;
+    }
+
+
+    .payment-btn-primary:hover {
+      background: #b92d70;
+      border-color: #b92d70;
+    }
+
+
+    .payment-btn-primary:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+
+    /* =========================================================
+       SUCCESS
+    ========================================================= */
+
+    .payment-success-state {
+      text-align: center;
+      padding: 35px 15px 20px;
+    }
+
+
+    .payment-success-icon {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: #dcfce7;
+      color: #16a34a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 30px;
+      font-weight: 800;
+    }
+
+
+    .payment-success-state h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      color: #222;
+    }
+
+
+    .payment-success-state p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+
+    /* =========================================================
+       LOADING / ERROR
+    ========================================================= */
+
+    .payment-loading {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+
+    .payment-error {
+      text-align: center;
+      padding: 45px 20px;
+    }
+
+
+    .payment-error-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: #fef2f2;
+      color: #dc2626;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      font-size: 25px;
+      font-weight: 800;
+    }
+
+
+    .payment-error h3 {
+      margin: 0 0 8px;
+      color: #222;
+      font-size: 18px;
+    }
+
+
+    .payment-error p {
+      margin: 0 auto 18px;
+      max-width: 500px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media (max-width: 640px) {
+
+      .payment-page {
+        margin: 20px auto 40px;
+      }
+
+
+      .payment-card-head,
+      .payment-card-body {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+
+      .payment-info-grid,
+      .payment-bank-info {
+        grid-template-columns: 1fr;
+      }
+
+
+      .payment-total-card {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+
+      .payment-total-value {
+        font-size: 20px;
+      }
+
+
+      .payment-qr-image,
+      .payment-qr-placeholder {
+        width: 210px;
+        height: 210px;
+      }
+
+
+      .payment-actions {
+        flex-direction: column-reverse;
+      }
+
+
+      .payment-btn {
+        width: 100%;
+      }
+
+
+      .payment-transfer-content {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+
+      .payment-copy-btn {
+        width: 100%;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <!-- =========================================================
+       NAVBAR
+  ========================================================= -->
+
+  <nav class="navbar" id="mainNavbar">
+
+    <div class="navbar-container container">
+
+      <a
+        class="logo"
+        href="home.html"
+        aria-label="FilmSpace"
+      >
+        FilmSpace
+      </a>
+
+
+      <div
+        class="menu"
+        aria-label="Photographer navigation"
+      >
+
+        <a href="home.html">
+          Home
+        </a>
+
+        <a href="search.html">
+          Search
+        </a>
+
+        <a href="booking.html">
+          Bookings
+        </a>
+
+        <a href="workshops.html">
+          Workshops
+        </a>
+
+        <a href="profile.html">
+          Profile
+        </a>
+
+      </div>
+
+
+      <div class="nav-actions">
+
+        <span
+          class="photographer-nav-name"
+          id="navPhotographerName"
+        >
+          Photographer
+        </span>
+
+
+        <button
+          type="button"
+          class="photographer-logout"
+          onclick="logout()"
+        >
+          Đăng xuất
+        </button>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+
+  <!-- =========================================================
+       MAIN
+  ========================================================= -->
+
+  <main class="container">
+
+    <div class="payment-page">
+
+      <div class="payment-page-header">
+
+        <h1>
+          Thanh toán Booking
+        </h1>
+
+        <p>
+          Thanh toán bằng chuyển khoản ngân hàng qua VietQR.
+        </p>
+
+      </div>
+
+
+      <div class="payment-card">
+
+        <div class="payment-card-head">
+
+          <div class="payment-card-head-left">
+
+            <div class="payment-icon">
+              💳
+            </div>
+
+            <div>
+
+              <h2>
+                Thanh toán qua QR
+              </h2>
+
+              <div
+                class="payment-card-subtitle"
+                id="paymentSubtitle"
+              >
+                Đang tải thông tin booking...
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="payment-card-body"
+          id="paymentContent"
+        >
+
+          <div class="payment-loading">
+
+            ⏳
+
+            <br><br>
+
+            Đang tải thông tin thanh toán...
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- =========================================================
+       TOAST
+  ========================================================= -->
+
+  <div
+    class="toast-stack"
+    id="toastStack"
+  ></div>
+
+
+  <script src="../api/api.js"></script>
+
+
+  <script>
+
+    /* =========================================================
+       GLOBAL STATE
+    ========================================================= */
+
+    let currentBooking = null;
+    let currentPaymentData = null;
+
+
+    /* =========================================================
+       API / AUTH
+    ========================================================= */
+
+    function getApiBaseUrl() {
+
+      return typeof API_BASE_URL !== "undefined"
+        ? API_BASE_URL
+        : "http://127.0.0.1:9999";
+
+    }
+
+
+    function getAuthToken() {
+
+      const token =
+        localStorage.getItem("token") ||
+        sessionStorage.getItem("token") ||
+        localStorage.getItem("auth_token") ||
+        sessionStorage.getItem("auth_token");
+
+
+      if (
+        !token ||
+        token === "null" ||
+        token === "undefined"
+      ) {
+
+        return "";
+
+      }
+
+
+      return token.startsWith("Bearer ")
+        ? token
+        : `Bearer ${token}`;
+
+    }
+
+
+    function loadPhotographerInfo() {
+
+      const token =
+        getAuthToken();
+
+
+      if (!token) {
+
+        window.location.href =
+          "../auth.html";
+
+        return;
+
+      }
+
+
+      const username =
+        localStorage.getItem("username") ||
+        sessionStorage.getItem("username");
+
+
+      const fullName =
+        localStorage.getItem("full_name") ||
+        sessionStorage.getItem("full_name");
+
+
+      const displayName =
+        fullName ||
+        username ||
+        "Photographer";
+
+
+      const navNameElement =
+        document.getElementById(
+          "navPhotographerName"
+        );
+
+
+      if (navNameElement) {
+
+        navNameElement.textContent =
+          displayName;
+
+      }
+
+    }
+
+
+    function logout() {
+
+      localStorage.clear();
+      sessionStorage.clear();
+
+      window.location.href =
+        "../auth.html";
+
+    }
+
+
+    /* =========================================================
+       URL
+    ========================================================= */
+
+    function getBookingIdFromUrl() {
+
+      const params =
+        new URLSearchParams(
+          window.location.search
+        );
+
+
+      return (
+        params.get("booking_id") ||
+        params.get("id") ||
+        null
+      );
+
+    }
+
+
+    /* =========================================================
+       GENERAL HELPERS
+    ========================================================= */
+
+    function parsePrice(val) {
+
+      if (
+        val === null ||
+        val === undefined
+      ) {
+
+        return 0;
+
+      }
+
+
+      if (
+        typeof val === "number"
+      ) {
+
+        return val;
+
+      }
+
+
+      const cleaned =
+        String(val)
+          .replace(
+            /[^0-9.]/g,
+            ""
+          );
+
+
+      const num =
+        Number(cleaned);
+
+
+      return isNaN(num)
+        ? 0
+        : num;
+
+    }
+
+
+    function getBookingId(b) {
+
+      if (!b) {
+        return null;
+      }
+
+
+      return (
+        b.id ??
+        b.booking_id ??
+        b.BookingID ??
+        null
+      );
+
+    }
+
+
+    function getBookingPrice(b) {
+
+      if (!b) {
+        return 0;
+      }
+
+
+      return parsePrice(
+        b.total_price ??
+        b.TotalPrice ??
+        b.totalPrice ??
+        0
+      );
+
+    }
+
+
+    function getInvoiceId(b) {
+
+      if (!b) {
+        return null;
+      }
+
+
+      return (
+        b.invoice_id ??
+        b.InvoiceID ??
+        b.invoiceId ??
+        b.invoice?.id ??
+        b.Invoice?.id ??
+        null
+      );
+
+    }
+
+
+    function normalizeStatus(status) {
+
+      if (!status) {
+        return "";
+      }
+
+
+      return String(status)
+        .toLowerCase()
+        .trim()
+        .replace(
+          /-/g,
+          "_"
+        )
+        .replace(
+          / /g,
+          "_"
+        );
+
+    }
+
+
+    function getPaymentStatus(b) {
+
+      if (!b) {
+        return "";
+      }
+
+
+      return String(
+        b.payment_status ??
+        b.PaymentStatus ??
+        b.paymentStatus ??
+        b.payment?.status ??
+        b.Payment?.status ??
+        ""
+      )
+        .toLowerCase()
+        .trim();
+
+    }
+
+
+    function isPaymentSuccessful(b) {
+
+      const status =
+        getPaymentStatus(b);
+
+
+      return [
+        "success",
+        "successful",
+        "completed",
+        "paid",
+        "succeeded",
+        "đã thanh toán"
+      ].includes(status);
+
+    }
+
+
+    function isPaymentPending(b) {
+
+      const status =
+        getPaymentStatus(b);
+
+
+      return [
+        "pending",
+        "processing",
+        "confirming",
+        "waiting",
+        "chờ xác nhận",
+        "đang xử lý"
+      ].includes(status);
+
+    }
+
+
+    function getPaymentQrUrl(b) {
+
+      if (!b) {
+        return "";
+      }
+
+
+      return (
+        b.qr_url ||
+        b.QRUrl ||
+        b.qr_image ||
+        b.QRImage ||
+        b.payment_qr ||
+        b.PaymentQR ||
+        b.payment_qr_url ||
+        b.paymentQrUrl ||
+        b.invoice?.qr_url ||
+        b.invoice?.qr_image ||
+        b.Invoice?.qr_url ||
+        b.Invoice?.qr_image ||
+        ""
+      );
+
+    }
+
+
+    function getPaymentBankName(b) {
+
+      if (!b) {
+        return "Ngân hàng";
+      }
+
+
+      return (
+        b.bank_name ||
+        b.BankName ||
+        b.payment_bank_name ||
+        b.PaymentBankName ||
+        b.invoice?.bank_name ||
+        b.Invoice?.bank_name ||
+        "Ngân hàng"
+      );
+
+    }
+
+
+    function getPaymentAccountNumber(b) {
+
+      if (!b) {
+        return "";
+      }
+
+
+      return (
+        b.account_number ||
+        b.AccountNumber ||
+        b.bank_account ||
+        b.BankAccount ||
+        b.payment_account_number ||
+        b.PaymentAccountNumber ||
+        b.invoice?.account_number ||
+        b.Invoice?.account_number ||
+        ""
+      );
+
+    }
+
+
+    function getPaymentAccountName(b) {
+
+      if (!b) {
+        return "";
+      }
+
+
+      return (
+        b.account_name ||
+        b.AccountName ||
+        b.bank_account_name ||
+        b.BankAccountName ||
+        b.payment_account_name ||
+        b.PaymentAccountName ||
+        b.invoice?.account_name ||
+        b.Invoice?.account_name ||
+        ""
+      );
+
+    }
+
+
+    function getTransferContent(b) {
+
+      const id =
+        getBookingId(b);
+
+
+      return (
+        b.transfer_content ||
+        b.TransferContent ||
+        b.payment_content ||
+        b.PaymentContent ||
+        b.invoice?.transfer_content ||
+        b.Invoice?.transfer_content ||
+        `FILMSPACE BK${id}`
+      );
+
+    }
+
+
+    function formatBookingTime(b) {
+
+      const startStr =
+        b.start_time ||
+        b.StartTime ||
+        "";
+
+
+      const endStr =
+        b.end_time ||
+        b.EndTime ||
+        "";
+
+
+      let dateStr = "N/A";
+      let timeStr = "N/A";
+      let endTimeStr = "";
+
+
+      if (startStr) {
+
+        const normalized =
+          String(startStr)
+            .replace(
+              " ",
+              "T"
+            );
+
+
+        const date =
+          new Date(normalized);
+
+
+        if (!isNaN(date.getTime())) {
+
+          dateStr =
+            date.toLocaleDateString(
+              "vi-VN"
+            );
+
+
+          timeStr =
+            date.toLocaleTimeString(
+              "vi-VN",
+              {
+                hour: "2-digit",
+                minute: "2-digit"
+              }
+            );
+
+        } else {
+
+          if (
+            String(startStr)
+              .includes("T")
+          ) {
+
+            const parts =
+              String(startStr)
+                .split("T");
+
+
+            dateStr =
+              parts[0];
+
+
+            timeStr =
+              parts[1]
+                ?.substring(
+                  0,
+                  5
+                ) ||
+              "N/A";
+
+          }
+
+        }
+
+      }
+
+
+      if (endStr) {
+
+        const normalized =
+          String(endStr)
+            .replace(
+              " ",
+              "T"
+            );
+
+
+        const date =
+          new Date(normalized);
+
+
+        if (!isNaN(date.getTime())) {
+
+          endTimeStr =
+            date.toLocaleTimeString(
+              "vi-VN",
+              {
+                hour: "2-digit",
+                minute: "2-digit"
+              }
+            );
+
+        }
+
+      }
+
+
+      return {
+        dateStr,
+        timeStr,
+        endTimeStr
+      };
+
+    }
+
+
+    function getSpaceName(b) {
+
+      if (!b) {
+        return "Không gian Studio";
+      }
+
+
+      return (
+        b.space_name ||
+        b.SpaceName ||
+        b.space?.name ||
+        b.Space?.name ||
+        `Không gian #${
+          b.space_id ||
+          b.SpaceID ||
+          ""
+        }`
+      );
+
+    }
+
+
+    /* =========================================================
+       LOAD BOOKING
+    ========================================================= */
+
+    async function loadBooking() {
+
+      const bookingId =
+        getBookingIdFromUrl();
+
+
+      if (!bookingId) {
+
+        renderError(
+          "Không có Booking ID",
+          "Vui lòng mở trang thanh toán từ trang Booking."
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        const baseUrl =
+          getApiBaseUrl()
+            .replace(
+              /\/+$/,
+              ""
+            );
+
+
+        /*
+         * Ưu tiên GET trực tiếp booking.
+         */
+
+        let response =
+          await window.fetch(
+            `${baseUrl}/bookings/${encodeURIComponent(bookingId)}`,
+            {
+              method: "GET",
+
+              headers: {
+                "Authorization":
+                  getAuthToken()
+              }
+            }
+          );
+
+
+        let booking = null;
+
+
+        if (response.ok) {
+
+          const data =
+            await response.json();
+
+
+          /*
+           * Một số controller có thể trả:
+           * booking object trực tiếp
+           * hoặc { booking: {...} }
+           */
+
+          booking =
+            data?.booking ||
+            data?.data ||
+            data ||
+            null;
+
+        }
+
+
+        /*
+         * Fallback:
+         * nếu GET /bookings/{id} không trả object,
+         * lấy danh sách booking.
+         */
+
+        if (
+          !booking ||
+          !getBookingId(booking)
+        ) {
+
+          response =
+            await window.fetch(
+              `${baseUrl}/bookings/`,
+              {
+                method: "GET",
+
+                headers: {
+                  "Authorization":
+                    getAuthToken()
+                }
+              }
+            );
+
+
+          if (!response.ok) {
+
+            throw new Error(
+              "Không thể lấy thông tin booking."
+            );
+
+          }
+
+
+          const data =
+            await response.json();
+
+
+          const list =
+            Array.isArray(data)
+              ? data
+              : [];
+
+
+          booking =
+            list.find(
+              item =>
+                String(
+                  getBookingId(item)
+                ) ===
+                String(bookingId)
+            );
+
+        }
+
+
+        if (!booking) {
+
+          renderError(
+            "Không tìm thấy booking",
+            `Không tìm thấy booking #BK-${bookingId}.`
+          );
+
+          return;
+
+        }
+
+
+        currentBooking =
+          booking;
+
+
+        renderPaymentPage(
+          booking
+        );
+
+      } catch (err) {
+
+        console.error(
+          "Lỗi tải booking:",
+          err
+        );
+
+
+        renderError(
+          "Không thể tải thông tin booking",
+          "Đã xảy ra lỗi khi kết nối tới máy chủ Flask."
+        );
+
+      }
+
+    }
+
+
+    /* =========================================================
+       RENDER PAYMENT
+    ========================================================= */
+
+    function renderPaymentPage(
+      booking
+    ) {
+
+      const bookingId =
+        getBookingId(
+          booking
+        );
+
+
+      const bookingStatus =
+        normalizeStatus(
+          booking.status ||
+          booking.Status
+        );
+
+
+      const amount =
+        getBookingPrice(
+          booking
+        );
+
+
+      const invoiceId =
+        getInvoiceId(
+          booking
+        );
+
+
+      const paymentSuccess =
+        isPaymentSuccessful(
+          booking
+        );
+
+
+      const paymentPending =
+        isPaymentPending(
+          booking
+        );
+
+
+      const qrUrl =
+        getPaymentQrUrl(
+          booking
+        );
+
+
+      const bankName =
+        getPaymentBankName(
+          booking
+        );
+
+
+      const accountNumber =
+        getPaymentAccountNumber(
+          booking
+        );
+
+
+      const accountName =
+        getPaymentAccountName(
+          booking
+        );
+
+
+      const transferContent =
+        getTransferContent(
+          booking
+        );
+
+
+      const {
+        dateStr,
+        timeStr,
+        endTimeStr
+      } =
+        formatBookingTime(
+          booking
+        );
+
+
+      const spaceName =
+        getSpaceName(
+          booking
+        );
+
+
+      document.getElementById(
+        "paymentSubtitle"
+      ).textContent =
+        `Booking #BK-${bookingId}`;
+
+
+      const content =
+        document.getElementById(
+          "paymentContent"
+        );
+
+
+      /*
+       * PAYMENT ĐÃ THÀNH CÔNG
+       */
+
+      if (paymentSuccess) {
+
+        content.innerHTML = `
+
+          <div class="payment-success-state">
+
+            <div class="payment-success-icon">
+              ✓
+            </div>
+
+
+            <h3>
+              Booking đã được thanh toán
+            </h3>
+
+
+            <p>
+              Thanh toán của booking
+              <strong>#BK-${bookingId}</strong>
+              đã được hệ thống ghi nhận.
+              <br><br>
+              Bạn có thể quay lại trang Booking
+              để tiếp tục theo dõi trạng thái.
+            </p>
+
+          </div>
+
+
+          <div class="payment-status-banner success">
+
+            <div>
+              ✓
+            </div>
+
+            <div>
+
+              <strong>
+                Thanh toán đã được xác nhận.
+              </strong>
+
+              <br>
+
+              Studio có thể thực hiện Check-in
+              khi đến thời gian sử dụng.
+
+            </div>
+
+          </div>
+
+
+          <div class="payment-actions">
+
+            <button
+              type="button"
+              class="payment-btn payment-btn-secondary"
+              onclick="goBackToBooking()"
+            >
+              ← Quay lại Booking
+            </button>
+
+          </div>
+
+        `;
+
+
+        return;
+
+      }
+
+
+      /*
+       * BOOKING KHÔNG PHẢI CONFIRMED
+       */
+
+      if (
+        bookingStatus !==
+        "confirmed"
+      ) {
+
+        content.innerHTML = `
+
+          <div class="payment-status-banner error">
+
+            <div>
+              ⚠️
+            </div>
+
+            <div>
+
+              <strong>
+                Booking chưa thể thanh toán.
+              </strong>
+
+              <br>
+
+              Chỉ booking đã được Studio
+              xác nhận mới có thể thanh toán.
+
+            </div>
+
+          </div>
+
+
+          <div class="payment-booking-card">
+
+            <div class="payment-booking-card-title">
+              Thông tin booking
+            </div>
+
+
+            <div class="payment-info-grid">
+
+              <div class="payment-info-item">
+
+                <span class="payment-info-label">
+                  Mã booking
+                </span>
+
+                <span class="payment-info-value">
+                  #BK-${bookingId}
+                </span>
+
+              </div>
+
+
+              <div class="payment-info-item">
+
+                <span class="payment-info-label">
+                  Trạng thái
+                </span>
+
+                <span class="payment-info-value">
+                  ${getBookingStatusLabel(bookingStatus)}
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="payment-actions">
+
+            <button
+              type="button"
+              class="payment-btn payment-btn-secondary"
+              onclick="goBackToBooking()"
+            >
+              ← Quay lại Booking
+            </button>
+
+          </div>
+
+        `;
+
+
+        return;
+
+      }
+
+
+      /*
+       * ĐÃ GỬI PAYMENT
+       */
+
+      if (paymentPending) {
+
+        content.innerHTML = `
+
+          <div class="payment-status-banner">
+
+            <div>
+              ⏳
+            </div>
+
+            <div>
+
+              <strong>
+                Thanh toán đang được xử lý.
+              </strong>
+
+              <br>
+
+              Hệ thống đã tiếp nhận thông tin
+              thanh toán của booking này.
+              Vui lòng chờ xác nhận.
+
+            </div>
+
+          </div>
+
+
+          ${renderBookingInfo(
+            booking,
+            invoiceId,
+            spaceName,
+            dateStr,
+            timeStr,
+            endTimeStr
+          )}
+
+
+          <div class="payment-total-card">
+
+            <div class="payment-total-label">
+              Tổng tiền
+            </div>
+
+            <div class="payment-total-value">
+              ${amount.toLocaleString("vi-VN")} VND
+            </div>
+
+          </div>
+
+
+          <div class="payment-actions">
+
+            <button
+              type="button"
+              class="payment-btn payment-btn-secondary"
+              onclick="goBackToBooking()"
+            >
+              ← Quay lại Booking
+            </button>
+
+          </div>
+
+        `;
+
+
+        return;
+
+      }
+
+
+      /*
+       * CHƯA CÓ INVOICE
+       */
+
+      if (!invoiceId) {
+
+        content.innerHTML = `
+
+          <div class="payment-status-banner error">
+
+            <div>
+              ⚠️
+            </div>
+
+            <div>
+
+              <strong>
+                Booking chưa có hóa đơn.
+              </strong>
+
+              <br>
+
+              Studio đã xác nhận booking nhưng hệ thống
+              chưa cung cấp <strong>Invoice ID</strong>.
+              Bạn chưa thể gửi thanh toán.
+
+            </div>
+
+          </div>
+
+
+          ${renderBookingInfo(
+            booking,
+            null,
+            spaceName,
+            dateStr,
+            timeStr,
+            endTimeStr
+          )}
+
+
+          <div class="payment-actions">
+
+            <button
+              type="button"
+              class="payment-btn payment-btn-secondary"
+              onclick="goBackToBooking()"
+            >
+              ← Quay lại Booking
+            </button>
+
+          </div>
+
+        `;
+
+
+        return;
+
+      }
+
+
+      /*
+       * AMOUNT KHÔNG HỢP LỆ
+       */
+
+      if (amount <= 0) {
+
+        content.innerHTML = `
+
+          <div class="payment-status-banner error">
+
+            <div>
+              ⚠️
+            </div>
+
+            <div>
+
+              <strong>
+                Số tiền thanh toán không hợp lệ.
+              </strong>
+
+              <br>
+
+              Tổng tiền booking phải lớn hơn 0.
+
+            </div>
+
+          </div>
+
+
+          ${renderBookingInfo(
+            booking,
+            invoiceId,
+            spaceName,
+            dateStr,
+            timeStr,
+            endTimeStr
+          )}
+
+
+          <div class="payment-actions">
+
+            <button
+              type="button"
+              class="payment-btn payment-btn-secondary"
+              onclick="goBackToBooking()"
+            >
+              ← Quay lại Booking
+            </button>
+
+          </div>
+
+        `;
+
+
+        return;
+
+      }
+
+
+      /*
+       * PAYMENT FORM
+       */
+
+      content.innerHTML = `
+
+        <div class="payment-status-banner">
+
+          <div>
+            ℹ️
+          </div>
+
+          <div>
+
+            <strong>
+              Booking đã được Studio xác nhận.
+            </strong>
+
+            <br>
+
+            Vui lòng chuyển khoản đúng số tiền
+            và đúng nội dung trước khi xác nhận.
+
+          </div>
+
+        </div>
+
+
+        ${renderBookingInfo(
+          booking,
+          invoiceId,
+          spaceName,
+          dateStr,
+          timeStr,
+          endTimeStr
+        )}
+
+
+        <div class="payment-total-card">
+
+          <div class="payment-total-label">
+            Tổng tiền cần thanh toán
+          </div>
+
+          <div class="payment-total-value">
+            ${amount.toLocaleString("vi-VN")} VND
+          </div>
+
+        </div>
+
+
+        <div class="payment-method-box">
+
+          <div class="payment-method-title">
+            Phương thức thanh toán
+          </div>
+
+          <div class="payment-method-value">
+
+            <span class="payment-method-badge">
+              QR
+            </span>
+
+            Chuyển khoản ngân hàng qua VietQR
+
+          </div>
+
+        </div>
+
+
+        <div class="payment-qr-section">
+
+          <div class="payment-qr-title">
+            Quét mã QR để thanh toán
+          </div>
+
+
+          <div class="payment-qr-description">
+            Mở ứng dụng ngân hàng, quét mã QR
+            và kiểm tra lại số tiền trước khi chuyển.
+          </div>
+
+
+          <div class="payment-qr-wrapper">
+
+            ${
+              qrUrl
+
+                ? `
+                  <img
+                    class="payment-qr-image"
+                    src="${qrUrl}"
+                    alt="QR thanh toán booking #BK-${bookingId}"
+                    onerror="handlePaymentQrError(this)"
+                  >
+                `
+
+                : `
+                  <div class="payment-qr-placeholder">
+
+                    <div style="
+                      font-size:28px;
+                      margin-bottom:8px;
+                    ">
+                      ▦
+                    </div>
+
+                    <strong style="
+                      color:#444;
+                      margin-bottom:5px;
+                    ">
+                      Chưa có mã QR
+                    </strong>
+
+                    <span>
+                      Backend chưa cung cấp
+                      QR thanh toán cho booking này.
+                    </span>
+
+                  </div>
+                `
+
+            }
+
+          </div>
+
+
+          <div class="payment-bank-info">
+
+            <div class="payment-bank-item">
+
+              <span>
+                Ngân hàng
+              </span>
+
+              <strong>
+                ${bankName}
+              </strong>
+
+            </div>
+
+
+            <div class="payment-bank-item">
+
+              <span>
+                Số tài khoản
+              </span>
+
+              <strong>
+                ${
+                  accountNumber ||
+                  "Chưa cập nhật"
+                }
+              </strong>
+
+            </div>
+
+
+            <div class="payment-bank-item">
+
+              <span>
+                Chủ tài khoản
+              </span>
+
+              <strong>
+                ${
+                  accountName ||
+                  "Chưa cập nhật"
+                }
+              </strong>
+
+            </div>
+
+
+            <div class="payment-bank-item">
+
+              <span>
+                Số tiền
+              </span>
+
+              <strong>
+                ${amount.toLocaleString("vi-VN")} VND
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div class="payment-transfer-box">
+
+            <div class="payment-transfer-label">
+              Nội dung chuyển khoản bắt buộc
+            </div>
+
+
+            <div class="payment-transfer-content">
+
+              <strong id="paymentTransferText">
+                ${transferContent}
+              </strong>
+
+
+              <button
+                type="button"
+                class="payment-copy-btn"
+                onclick="copyTransferContent()"
+              >
+                Sao chép
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="payment-steps">
+
+          <div class="payment-steps-title">
+            Hướng dẫn thanh toán
+          </div>
+
+
+          <div class="payment-step">
+
+            <div class="payment-step-number">
+              1
+            </div>
+
+            <div class="payment-step-text">
+              Mở ứng dụng ngân hàng và quét
+              mã QR thanh toán.
+            </div>
+
+          </div>
+
+
+          <div class="payment-step">
+
+            <div class="payment-step-number">
+              2
+            </div>
+
+            <div class="payment-step-text">
+              Kiểm tra số tiền
+              <strong>
+                ${amount.toLocaleString("vi-VN")} VND
+              </strong>
+              và nội dung
+              <strong>
+                ${transferContent}
+              </strong>
+              trước khi chuyển.
+            </div>
+
+          </div>
+
+
+          <div class="payment-step">
+
+            <div class="payment-step-number">
+              3
+            </div>
+
+            <div class="payment-step-text">
+              Sau khi chuyển khoản thành công,
+              quay lại FilmSpace và nhấn
+              <strong>
+                "Tôi đã thanh toán"
+              </strong>.
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="payment-warning">
+
+          ⚠️
+
+          <strong>
+            Lưu ý:
+          </strong>
+
+          Chỉ nhấn "Tôi đã thanh toán" sau khi
+          giao dịch chuyển khoản đã thực sự thành công.
+
+          Studio chỉ thực hiện Check-in sau khi
+          hệ thống xác nhận thanh toán hợp lệ.
+
+        </div>
+
+
+        <div class="payment-actions">
+
+          <button
+            type="button"
+            class="payment-btn payment-btn-secondary"
+            onclick="goBackToBooking()"
+          >
+            ← Quay lại Booking
+          </button>
+
+
+          <button
+            type="button"
+            class="payment-btn payment-btn-primary"
+            id="btnConfirmPayment"
+            onclick="confirmPayment()"
+          >
+            Tôi đã thanh toán
+          </button>
+
+        </div>
+
+      `;
+
+    }
+
+
+    /* =========================================================
+       BOOKING INFO HTML
+    ========================================================= */
+
+    function renderBookingInfo(
+      booking,
+      invoiceId,
+      spaceName,
+      dateStr,
+      timeStr,
+      endTimeStr
+    ) {
+
+      const bookingId =
+        getBookingId(
+          booking
+        );
+
+
+      return `
+
+        <div class="payment-booking-card">
+
+          <div class="payment-booking-card-title">
+            Thông tin booking
+          </div>
+
+
+          <div class="payment-info-grid">
+
+            <div class="payment-info-item">
+
+              <span class="payment-info-label">
+                Mã booking
+              </span>
+
+              <span class="payment-info-value">
+                #BK-${bookingId}
+              </span>
+
+            </div>
+
+
+            <div class="payment-info-item">
+
+              <span class="payment-info-label">
+                Mã hóa đơn
+              </span>
+
+              <span class="payment-info-value">
+
+                ${
+                  invoiceId
+                    ? "#" + invoiceId
+                    : "Chưa có"
+                }
+
+              </span>
+
+            </div>
+
+
+            <div class="payment-info-item">
+
+              <span class="payment-info-label">
+                Không gian
+              </span>
+
+              <span class="payment-info-value">
+                ${spaceName}
+              </span>
+
+            </div>
+
+
+            <div class="payment-info-item">
+
+              <span class="payment-info-label">
+                Ngày sử dụng
+              </span>
+
+              <span class="payment-info-value">
+                ${dateStr}
+              </span>
+
+            </div>
+
+
+            <div class="payment-info-item">
+
+              <span class="payment-info-label">
+                Giờ bắt đầu
+              </span>
+
+              <span class="payment-info-value">
+                ${timeStr}
+              </span>
+
+            </div>
+
+
+            ${
+              endTimeStr
+
+                ? `
+                  <div class="payment-info-item">
+
+                    <span class="payment-info-label">
+                      Giờ kết thúc
+                    </span>
+
+                    <span class="payment-info-value">
+                      ${endTimeStr}
+                    </span>
+
+                  </div>
+                `
+
+                : ""
+            }
+
+          </div>
+
+        </div>
+
+      `;
+
+    }
+
+
+    /* =========================================================
+       CREATE PAYMENT
+    ========================================================= */
+
+    async function confirmPayment() {
+
+      const booking =
+        currentBooking;
+
+
+      if (!booking) {
+
+        showToast(
+          "Không xác định được booking.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      const bookingStatus =
+        normalizeStatus(
+          booking.status ||
+          booking.Status
+        );
+
+
+      if (
+        bookingStatus !==
+        "confirmed"
+      ) {
+
+        showToast(
+          "Booking không còn ở trạng thái có thể thanh toán.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      if (
+        isPaymentSuccessful(
+          booking
+        )
+      ) {
+
+        showToast(
+          "Booking này đã được thanh toán.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      const invoiceId =
+        getInvoiceId(
+          booking
+        );
+
+
+      if (!invoiceId) {
+
+        showToast(
+          "Booking chưa có Invoice ID. Không thể tạo thanh toán.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      const amount =
+        getBookingPrice(
+          booking
+        );
+
+
+      if (
+        amount <= 0
+      ) {
+
+        showToast(
+          "Số tiền thanh toán không hợp lệ.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      const confirmBtn =
+        document.getElementById(
+          "btnConfirmPayment"
+        );
+
+
+      if (confirmBtn) {
+
+        confirmBtn.disabled =
+          true;
+
+        confirmBtn.textContent =
+          "Đang ghi nhận thanh toán...";
+
+      }
+
+
+      try {
+
+        const baseUrl =
+          getApiBaseUrl()
+            .replace(
+              /\/+$/,
+              ""
+            );
+
+
+        const payload = {
+
+          invoice_id:
+            parseInt(
+              invoiceId,
+              10
+            ),
+
+          payment_method:
+            "Chuyển khoản QR (VietQR)",
+
+          amount:
+            amount
+
+        };
+
+
+        console.log(
+          "Payment payload:",
+          payload
+        );
+
+
+        const response =
+          await window.fetch(
+            `${baseUrl}/payments/`,
+            {
+
+              method:
+                "POST",
+
+              headers: {
+
+                "Content-Type":
+                  "application/json",
+
+                "Authorization":
+                  getAuthToken()
+
+              },
+
+              body:
+                JSON.stringify(
+                  payload
+                )
+
+            }
+          );
+
+
+        const data =
+          await response
+            .json()
+            .catch(
+              () => ({})
+            );
+
+
+        if (
+          response.status === 401 ||
+          response.status === 403
+        ) {
+
+          showToast(
+            "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.",
+            "error"
+          );
+
+          return;
+
+        }
+
+
+        if (!response.ok) {
+
+          console.error(
+            "Payment API error:",
+            data
+          );
+
+
+          showToast(
+            data.message ||
+            data.error ||
+            "Không thể ghi nhận thanh toán.",
+            "error"
+          );
+
+          return;
+
+        }
+
+
+        currentPaymentData =
+          data;
+
+
+        showPaymentSuccessState(
+          data
+        );
+
+
+      } catch (err) {
+
+        console.error(
+          "Lỗi tạo payment:",
+          err
+        );
+
+
+        showToast(
+          "Lỗi kết nối máy chủ Flask.",
+          "error"
+        );
+
+      } finally {
+
+        if (confirmBtn) {
+
+          confirmBtn.disabled =
+            false;
+
+          confirmBtn.textContent =
+            "Tôi đã thanh toán";
+
+        }
+
+      }
+
+    }
+
+
+    /* =========================================================
+       PAYMENT SUCCESS
+    ========================================================= */
+
+    function showPaymentSuccessState(
+      paymentData
+    ) {
+
+      const content =
+        document.getElementById(
+          "paymentContent"
+        );
+
+
+      content.innerHTML = `
+
+        <div class="payment-success-state">
+
+          <div class="payment-success-icon">
+            ✓
+          </div>
+
+
+          <h3>
+            Đã ghi nhận thanh toán
+          </h3>
+
+
+          <p>
+
+            Hệ thống đã tiếp nhận thông tin
+            thanh toán của booking
+            <strong>
+              #BK-${getBookingId(currentBooking)}
+            </strong>.
+
+            <br>
+
+            Vui lòng chờ hệ thống/Studio
+            xác nhận giao dịch.
+
+            <br><br>
+
+            Sau khi thanh toán được xác nhận,
+            Studio mới thực hiện Check-in
+            cho booking.
+
+          </p>
+
+        </div>
+
+
+        <div class="payment-status-banner success">
+
+          <div>
+            ✓
+          </div>
+
+          <div>
+
+            <strong>
+              Payment đã được gửi lên hệ thống.
+            </strong>
+
+            <br>
+
+            Không cần thanh toán lại cho booking này
+            trong thời gian chờ xác nhận.
+
+          </div>
+
+        </div>
+
+
+        <div class="payment-actions">
+
+          <button
+            type="button"
+            class="payment-btn payment-btn-primary"
+            onclick="goBackToBooking()"
+          >
+            Hoàn tất
+          </button>
+
+        </div>
+
+      `;
+
+
+      showToast(
+        "Đã gửi thông tin thanh toán thành công."
+      );
+
+    }
+
+
+    /* =========================================================
+       COPY TRANSFER CONTENT
+    ========================================================= */
+
+    function copyTransferContent() {
+
+      if (!currentBooking) {
+        return;
+      }
+
+
+      const content =
+        getTransferContent(
+          currentBooking
+        );
+
+
+      if (
+        navigator.clipboard &&
+        navigator.clipboard.writeText
+      ) {
+
+        navigator.clipboard
+          .writeText(
+            content
+          )
+          .then(
+            () => {
+
+              showToast(
+                "Đã sao chép nội dung chuyển khoản."
+              );
+
+            }
+          )
+          .catch(
+            () => {
+
+              showToast(
+                "Không thể sao chép tự động.",
+                "error"
+              );
+
+            }
+          );
+
+      } else {
+
+        showToast(
+          "Trình duyệt không hỗ trợ sao chép.",
+          "error"
+        );
+
+      }
+
+    }
+
+
+    /* =========================================================
+       QR ERROR
+    ========================================================= */
+
+    function handlePaymentQrError(
+      img
+    ) {
+
+      const wrapper =
+        img.parentElement;
+
+
+      wrapper.innerHTML = `
+
+        <div class="payment-qr-placeholder">
+
+          <div style="
+            font-size:28px;
+            margin-bottom:8px;
+          ">
+            ⚠️
+          </div>
+
+          <strong style="
+            color:#444;
+            margin-bottom:5px;
+          ">
+            Không thể tải mã QR
+          </strong>
+
+          <span>
+            Vui lòng kiểm tra lại thông tin
+            thanh toán hoặc liên hệ Studio.
+          </span>
+
+        </div>
+
+      `;
+
+    }
+
+
+    /* =========================================================
+       BACK TO BOOKING
+    ========================================================= */
+
+    function goBackToBooking() {
+
+      window.location.href =
+        "booking.html";
+
+    }
+
+
+    /* =========================================================
+       STATUS LABEL
+    ========================================================= */
+
+    function getBookingStatusLabel(
+      status
+    ) {
+
+      const map = {
+
+        pending:
+          "Chờ xử lý",
+
+        confirmed:
+          "Đã xác nhận",
+
+        checked_in:
+          "Đang diễn ra",
+
+        completed:
+          "Hoàn tất",
+
+        cancelled:
+          "Đã hủy"
+
+      };
+
+
+      return (
+        map[status] ||
+        status ||
+        "Không xác định"
+      );
+
+    }
+
+
+    /* =========================================================
+       ERROR
+    ========================================================= */
+
+    function renderError(
+      title,
+      message
+    ) {
+
+      document.getElementById(
+        "paymentSubtitle"
+      ).textContent =
+        "Không thể tải thông tin thanh toán";
+
+
+      document.getElementById(
+        "paymentContent"
+      ).innerHTML = `
+
+        <div class="payment-error">
+
+          <div class="payment-error-icon">
+            !
+          </div>
+
+
+          <h3>
+            ${title}
+          </h3>
+
+
+          <p>
+            ${message}
+          </p>
+
+
+          <div class="payment-actions"
+            style="
+              justify-content:center;
+              border-top:none;
+            "
+          >
+
+            <button
+              type="button"
+              class="payment-btn payment-btn-secondary"
+              onclick="goBackToBooking()"
+            >
+              ← Quay lại Booking
+            </button>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }
+
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    function showToast(
+      message,
+      type = "success"
+    ) {
+
+      const stack =
+        document.getElementById(
+          "toastStack"
+        );
+
+
+      if (!stack) {
+        return;
+      }
+
+
+      const toast =
+        document.createElement(
+          "div"
+        );
+
+
+      toast.className =
+        `toast ${
+          type === "error"
+            ? "error"
+            : "success"
+        }`;
+
+
+      toast.textContent =
+        message;
+
+
+      stack.appendChild(
+        toast
+      );
+
+
+      setTimeout(
+        () => {
+
+          toast.remove();
+
+        },
+        3500
+      );
+
+    }
+
+
+    /* =========================================================
+       INIT
+    ========================================================= */
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      () => {
+
+        loadPhotographerInfo();
+
+        loadBooking();
+
+      }
+    );
+
+  </script>
+
+</body>
+
+</html>

@@ -240,3 +240,4 @@ spec.components.schema(
     "SpaceImageResponse",
     schema=SpaceImageResponseSchema
 )
+

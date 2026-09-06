@@ -1,12 +1,16 @@
 from typing import List, Optional
 
-from infrastructure.databases.factory_database import FactoryDatabase as db_factory
+from infrastructure.databases.factory_database import (
+    FactoryDatabase as db_factory
+)
+
 from infrastructure.models.payment_model import PaymentModel
 
 
 class PaymentRepository:
 
     def __init__(self, session=None):
+
         self.session = (
             session
             or db_factory.get_database('POSTGREE').session
@@ -27,14 +31,19 @@ class PaymentRepository:
         )
 
         try:
+
             self.session.add(model)
+
             self.session.commit()
+
             self.session.refresh(model)
 
             return model
 
         except Exception:
+
             self.session.rollback()
+
             raise
 
     # ==========================================================
@@ -47,7 +56,8 @@ class PaymentRepository:
     ) -> Optional[PaymentModel]:
 
         return (
-            self.session.query(PaymentModel)
+            self.session
+            .query(PaymentModel)
             .filter_by(id=id)
             .first()
         )
@@ -62,7 +72,8 @@ class PaymentRepository:
     ) -> Optional[PaymentModel]:
 
         return (
-            self.session.query(PaymentModel)
+            self.session
+            .query(PaymentModel)
             .filter_by(invoice_id=invoice_id)
             .first()
         )
@@ -89,7 +100,8 @@ class PaymentRepository:
     ) -> Optional[PaymentModel]:
 
         model = (
-            self.session.query(PaymentModel)
+            self.session
+            .query(PaymentModel)
             .filter_by(id=data.get('id'))
             .first()
         )
@@ -101,16 +113,26 @@ class PaymentRepository:
 
             for key, value in data.items():
 
-                if hasattr(model, key) and key != 'id':
-                    setattr(model, key, value)
+                if (
+                    hasattr(model, key)
+                    and key != 'id'
+                ):
+                    setattr(
+                        model,
+                        key,
+                        value
+                    )
 
             self.session.commit()
+
             self.session.refresh(model)
 
             return model
 
         except Exception:
+
             self.session.rollback()
+
             raise
 
     # ==========================================================
@@ -123,7 +145,8 @@ class PaymentRepository:
     ) -> bool:
 
         model = (
-            self.session.query(PaymentModel)
+            self.session
+            .query(PaymentModel)
             .filter_by(id=id)
             .first()
         )
@@ -134,10 +157,13 @@ class PaymentRepository:
         try:
 
             self.session.delete(model)
+
             self.session.commit()
 
             return True
 
         except Exception:
+
             self.session.rollback()
+
             raise

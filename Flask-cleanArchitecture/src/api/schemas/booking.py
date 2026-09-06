@@ -26,11 +26,16 @@ class ProviderBookingResponseSchema(Schema):
     photographer_id = fields.Int()
     space_id = fields.Int()
     package_id = fields.Int(allow_none=True)
+
     start_time = fields.DateTime()
     end_time = fields.DateTime()
+
     status = fields.Str()
     total_price = fields.Float()
     created_at = fields.DateTime()
+
+    # Invoice của Booking
+    invoice_id = fields.Int(allow_none=True)
 
     provider_id = fields.Int()
     space_name = fields.Str(allow_none=True)
@@ -41,8 +46,13 @@ class BookingResponseSchema(Schema):
     photographer_id = fields.Int()
     space_id = fields.Int()
     package_id = fields.Int(allow_none=True)
+
     start_time = fields.DateTime()
     end_time = fields.DateTime()
+
     status = fields.Str()
     total_price = fields.Float()
     created_at = fields.DateTime()
+
+    # Invoice của Booking
+    invoice_id = fields.Int(allow_none=True)

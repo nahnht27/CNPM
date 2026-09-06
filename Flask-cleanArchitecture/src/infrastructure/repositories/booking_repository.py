@@ -1,12 +1,66 @@
 from typing import List, Optional
 from sqlalchemy import or_
+
 from infrastructure.models.booking_model import BookingModel
 from infrastructure.models.creative_space_model import CreativeSpaceModel
+from infrastructure.models.service_session_model import ServiceSessionModel
+from infrastructure.models.invoice_model import InvoiceModel
 
 
 class BookingRepository:
+
     def __init__(self, session):
         self.session = session
+
+    # ==========================================================
+    # HELPER: GẮN INVOICE ID VÀO BOOKING
+    # ==========================================================
+
+    def _attach_invoice_id(self, booking):
+        """
+        Booking không có cột InvoiceID.
+
+        Quan hệ:
+            Booking
+                -> ServiceSession
+                -> Invoice
+
+        Hàm này tìm Invoice tương ứng và gắn invoice_id
+        vào object Booking để Service/Controller/Schema
+        có thể trả về cho frontend.
+        """
+
+        if not booking:
+            return booking
+
+        service_session = (
+            self.session.query(ServiceSessionModel)
+            .filter(
+                ServiceSessionModel.booking_id == booking.id
+            )
+            .first()
+        )
+
+        invoice_id = None
+
+        if service_session:
+
+            invoice = (
+                self.session.query(InvoiceModel)
+                .filter(
+                    InvoiceModel.session_id == service_session.id
+                )
+                .first()
+            )
+
+            if invoice:
+                invoice_id = invoice.id
+
+        # BookingModel không có column invoice_id.
+        # Gắn dynamic attribute để response có thể sử dụng.
+        booking.invoice_id = invoice_id
+
+        return booking
 
     # ==========================================================
     # PHOTOGRAPHER BOOKING
@@ -31,6 +85,9 @@ class BookingRepository:
             self.session.commit()
             self.session.refresh(model)
 
+            # Booking mới chưa có ServiceSession/Invoice
+            model.invoice_id = None
+
             return model
 
         except Exception:
@@ -43,17 +100,27 @@ class BookingRepository:
         booking_id: int
     ) -> Optional[BookingModel]:
 
-        return self.session.query(
-            BookingModel
-        ).filter(
-            BookingModel.id == booking_id
-        ).first()
+        booking = (
+            self.session.query(BookingModel)
+            .filter(
+                BookingModel.id == booking_id
+            )
+            .first()
+        )
+
+        return self._attach_invoice_id(booking)
 
     def list(self) -> List[BookingModel]:
 
-        return self.session.query(
-            BookingModel
-        ).all()
+        bookings = (
+            self.session.query(BookingModel)
+            .all()
+        )
+
+        for booking in bookings:
+            self._attach_invoice_id(booking)
+
+        return bookings
 
     def get_bookings_by_time_range(
         self,
@@ -63,16 +130,23 @@ class BookingRepository:
         end_time
     ):
 
-        return self.session.query(
-            BookingModel
-        ).filter(
-            or_(
-                BookingModel.photographer_id == photographer_id,
-                BookingModel.space_id == space_id
-            ),
-            BookingModel.start_time < end_time,
-            BookingModel.end_time > start_time
-        ).all()
+        bookings = (
+            self.session.query(BookingModel)
+            .filter(
+                or_(
+                    BookingModel.photographer_id == photographer_id,
+                    BookingModel.space_id == space_id
+                ),
+                BookingModel.start_time < end_time,
+                BookingModel.end_time > start_time
+            )
+            .all()
+        )
+
+        for booking in bookings:
+            self._attach_invoice_id(booking)
+
+        return bookings
 
     def update(
         self,
@@ -103,6 +177,9 @@ class BookingRepository:
 
             self.session.commit()
             self.session.refresh(booking)
+
+            # Sau khi update, lấy lại invoice_id
+            self._attach_invoice_id(booking)
 
             return booking
 
@@ -147,15 +224,21 @@ class BookingRepository:
         space_id: Optional[int] = None
     ):
 
-        query = self.session.query(
-            BookingModel,
-            CreativeSpaceModel.provider_id,
-            CreativeSpaceModel.name
-        ).join(
-            CreativeSpaceModel,
-            BookingModel.space_id == CreativeSpaceModel.id
-        ).filter(
-            CreativeSpaceModel.provider_id == provider_id
+        query = (
+            self.session.query(
+                BookingModel,
+                CreativeSpaceModel.provider_id,
+                CreativeSpaceModel.name
+            )
+            .join(
+                CreativeSpaceModel,
+                BookingModel.space_id ==
+                CreativeSpaceModel.id
+            )
+            .filter(
+                CreativeSpaceModel.provider_id ==
+                provider_id
+            )
         )
 
         if status:
@@ -173,15 +256,36 @@ class BookingRepository:
         if date:
 
             query = query.filter(
-                BookingModel.start_time >= f'{date} 00:00:00',
-                BookingModel.start_time < f'{date} 23:59:59'
+                BookingModel.start_time >=
+                f'{date} 00:00:00',
+                BookingModel.start_time <
+                f'{date} 23:59:59'
             )
 
         query = query.order_by(
             BookingModel.start_time.desc()
         )
 
-        return query.all()
+        rows = query.all()
+
+        result = []
+
+        for booking, provider_id_value, space_name in rows:
+
+            self._attach_invoice_id(booking)
+
+            booking.provider_id = provider_id_value
+            booking.space_name = space_name
+
+            result.append(
+                (
+                    booking,
+                    provider_id_value,
+                    space_name
+                )
+            )
+
+        return result
 
     def get_provider_booking(
         self,
@@ -189,17 +293,37 @@ class BookingRepository:
         booking_id: int
     ):
 
-        return self.session.query(
-            BookingModel,
-            CreativeSpaceModel.provider_id,
-            CreativeSpaceModel.name
-        ).join(
-            CreativeSpaceModel,
-            BookingModel.space_id == CreativeSpaceModel.id
-        ).filter(
-            BookingModel.id == booking_id,
-            CreativeSpaceModel.provider_id == provider_id
-        ).first()
+        row = (
+            self.session.query(
+                BookingModel,
+                CreativeSpaceModel.provider_id,
+                CreativeSpaceModel.name
+            )
+            .join(
+                CreativeSpaceModel,
+                BookingModel.space_id ==
+                CreativeSpaceModel.id
+            )
+            .filter(
+                BookingModel.id == booking_id,
+                CreativeSpaceModel.provider_id ==
+                provider_id
+            )
+            .first()
+        )
+
+        if not row:
+            return None
+
+        booking, provider_id_value, space_name = row
+
+        self._attach_invoice_id(booking)
+
+        return (
+            booking,
+            provider_id_value,
+            space_name
+        )
 
     def get_provider_space_ids(
         self,
@@ -208,9 +332,14 @@ class BookingRepository:
 
         return [
             row.id
-            for row in self.session.query(
-                CreativeSpaceModel.id
-            ).filter(
-                CreativeSpaceModel.provider_id == provider_id
-            ).all()
+            for row in (
+                self.session.query(
+                    CreativeSpaceModel.id
+                )
+                .filter(
+                    CreativeSpaceModel.provider_id ==
+                    provider_id
+                )
+                .all()
+            )
         ]
