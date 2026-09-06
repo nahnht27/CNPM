@@ -1477,3 +1477,157 @@ select {
 .confirm-ok.danger:hover {
   background: #b91c1c;
 }
+
+.provider-booking-panel {
+    background: #fff;
+    border: 1px solid #e9e9ef;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .provider-booking-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .provider-booking-table {
+    width: 100%;
+    min-width: 900px;
+    border-collapse: collapse;
+  }
+
+  .provider-booking-table th {
+    background: #f8f8fa;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 700;
+    color: #666;
+    padding: 14px 16px;
+    border-bottom: 1px solid #e9e9ef;
+    white-space: nowrap;
+  }
+
+  .provider-booking-table td {
+    padding: 15px 16px;
+    border-bottom: 1px solid #f0f0f3;
+    font-size: 13px;
+    vertical-align: middle;
+  }
+
+  .provider-booking-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .provider-booking-table tbody tr:hover {
+    background: #fafafa;
+  }
+
+  .provider-booking-id {
+    font-weight: 700;
+    color: #222;
+  }
+
+  .provider-booking-sub {
+    display: block;
+    margin-top: 4px;
+    color: #777;
+    font-size: 11px;
+  }
+
+  .provider-booking-price {
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .provider-booking-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .provider-booking-status.pending {
+    background: #fff7df;
+    color: #a16207;
+  }
+
+  .provider-booking-status.confirmed {
+    background: #eaf3ff;
+    color: #2563eb;
+  }
+
+  .provider-booking-status.checked_in {
+    background: #ecfdf5;
+    color: #047857;
+  }
+
+  .provider-booking-status.completed {
+    background: #eef2ff;
+    color: #4f46e5;
+  }
+
+  .provider-booking-status.cancelled {
+    background: #fef2f2;
+    color: #dc2626;
+  }
+
+  .provider-booking-view-btn {
+    display: inline-block;
+    padding: 7px 11px;
+    border-radius: 7px;
+    background: #222;
+    color: #fff;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .provider-booking-view-btn:hover {
+    background: #444;
+  }
+
+  .provider-loading-state {
+    padding: 45px 20px;
+    text-align: center;
+    color: #777;
+    font-size: 13px;
+  }
+
+  .provider-booking-error {
+    padding: 40px 20px;
+    text-align: center;
+    color: #dc2626;
+    font-size: 13px;
+  }
+
+  .provider-booking-empty {
+    padding: 50px 20px;
+    text-align: center;
+    color: #777;
+  }
+
+  .provider-booking-empty-icon {
+    font-size: 36px;
+    margin-bottom: 10px;
+  }
+
+  .provider-booking-empty h3 {
+    margin: 0 0 6px;
+    color: #333;
+    font-size: 16px;
+  }
+
+  .provider-booking-empty p {
+    margin: 0;
+    font-size: 13px;
+  }
+
+  @media (max-width: 800px) {
+    .provider-booking-table {
+      min-width: 850px;
+    }
+  }

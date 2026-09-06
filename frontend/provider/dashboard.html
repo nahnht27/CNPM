@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,22 +18,12 @@
   <nav class="navbar" id="mainNavbar">
     <div class="navbar-container container">
 
-      <a
-        class="logo"
-        href="dashboard.html"
-        aria-label="FilmSpace"
-      >
-        FilmSpace
+      <a class="logo" href="dashboard.html" aria-label="FilmSpace">
+        Film<span>Space</span>
       </a>
 
-      <div
-        class="menu"
-        aria-label="Provider navigation"
-      >
-        <a
-          href="dashboard.html"
-          class="active"
-        >
+      <div class="menu" aria-label="Provider navigation">
+        <a href="dashboard.html" class="active">
           Dashboard
         </a>
 
@@ -59,18 +50,11 @@
 
       <div class="nav-actions">
 
-        <span
-          class="provider-nav-name"
-          id="navProviderName"
-        >
+        <span class="provider-nav-name" id="navProviderName">
           Provider
         </span>
 
-        <button
-          type="button"
-          class="provider-logout"
-          onclick="logout()"
-        >
+        <button type="button" class="provider-logout" onclick="logout()">
           Đăng xuất
         </button>
 
@@ -265,38 +249,17 @@
 
           </div>
 
-          <a
-            href="bookings.html"
-            class="provider-view-all"
-          >
+          <a href="bookings.html" class="provider-view-all">
             View all
           </a>
 
         </div>
 
 
-        <div
-          class="provider-booking-panel"
-          id="recentBookings"
-        >
-
-          <div class="provider-empty-state">
-
-            <div class="provider-empty-icon">
-              ◷
-            </div>
-
-            <h3>
-              Chưa có dữ liệu booking
-            </h3>
-
-            <p>
-              Danh sách booking sẽ hiển thị tại đây khi API
-              Provider Booking được kết nối.
-            </p>
-
+        <div class="provider-booking-panel" id="recentBookings">
+          <div class="provider-loading-state">
+            Đang tải booking...
           </div>
-
         </div>
 
       </div>
@@ -351,10 +314,7 @@
           </div>
 
 
-          <div
-            class="provider-chart-placeholder"
-            id="revenueChart"
-          >
+          <div class="provider-chart-placeholder" id="revenueChart">
 
             <div class="chart-line line-a"></div>
             <div class="chart-line line-b"></div>
@@ -463,85 +423,85 @@
      FOOTER
      Giữ đúng layout footer hiện tại của project
 ========================== -->
-<footer class="footer">
+  <footer class="footer">
 
-  <div class="container">
+    <div class="container">
 
-    <div class="footer-top">
+      <div class="footer-top">
 
-      <div class="footer-brand">
+        <div class="footer-brand">
 
-        <div class="footer-logo">
-          Photography<span>Platform</span>
+          <div class="footer-logo">
+            Photography<span>Platform</span>
+          </div>
+
+          <p>
+            Kết nối các nhiếp ảnh gia phim với các phòng tối
+            và studio đáng tin cậy.
+          </p>
+
         </div>
 
-        <p>
-          Kết nối các nhiếp ảnh gia phim với các phòng tối
-          và studio đáng tin cậy.
-        </p>
+
+        <div class="footer-menu">
+
+          <a href="dashboard.html">
+            Dashboard
+          </a>
+
+          <a href="spaces.html">
+            Spaces
+          </a>
+
+          <a href="equipment.html">
+            Equipment
+          </a>
+
+          <a href="packages.html">
+            Packages
+          </a>
+
+          <a href="bookings.html">
+            Bookings
+          </a>
+
+          <a href="profile.html">
+            Profile
+          </a>
+
+        </div>
 
       </div>
 
 
-      <div class="footer-menu">
-
-        <a href="dashboard.html">
-          Dashboard
-        </a>
-
-        <a href="spaces.html">
-          Spaces
-        </a>
-
-        <a href="equipment.html">
-          Equipment
-        </a>
-
-        <a href="packages.html">
-          Packages
-        </a>
-
-        <a href="bookings.html">
-          Bookings
-        </a>
-
-        <a href="profile.html">
-          Profile
-        </a>
-
-      </div>
-
-    </div>
+      <hr class="footer-line">
 
 
-    <hr class="footer-line">
+      <div class="footer-bottom">
+
+        <span>
+          Copyright © 2026 Photography Platform.
+          All rights reserved.
+        </span>
 
 
-    <div class="footer-bottom">
+        <div class="footer-links">
 
-      <span>
-        Copyright © 2026 Photography Platform.
-        All rights reserved.
-      </span>
+          <a href="#">
+            Privacy Policy
+          </a>
 
+          <a href="#">
+            Terms of Use
+          </a>
 
-      <div class="footer-links">
-
-        <a href="#">
-          Privacy Policy
-        </a>
-
-        <a href="#">
-          Terms of Use
-        </a>
+        </div>
 
       </div>
 
     </div>
 
-  </div>
-
-</footer>
+  </footer>
 
 
   <!-- =========================
@@ -549,46 +509,101 @@
   ========================== -->
   <script>
 
-    /* =========================
+    /* =========================================================
        CONFIG
-    ========================== */
+    ========================================================= */
 
-    const API_BASE_URL =
-      "http://127.0.0.1:9999";
+    const API_BASE_URL = "http://127.0.0.1:9999";
+
+    let currentProviderId = null;
+    let currentToken = null;
 
 
-    /* =========================
+    /* =========================================================
        AUTH
-    ========================== */
+    ========================================================= */
+
+    function getStorage() {
+
+      if (localStorage.getItem("auth_token")) {
+        return localStorage;
+      }
+
+      return sessionStorage;
+    }
+
 
     function getLoggedInUser() {
 
+      const storage = getStorage();
+
       return {
 
+        storage,
+
         token:
-          localStorage.getItem("auth_token") ||
-          sessionStorage.getItem("auth_token"),
+          storage.getItem("auth_token"),
+
+        userId:
+          storage.getItem("user_id"),
 
         username:
-          localStorage.getItem("username") ||
-          sessionStorage.getItem("username"),
+          storage.getItem("username") || "",
 
         fullName:
-          localStorage.getItem("full_name") ||
-          sessionStorage.getItem("full_name"),
+          storage.getItem("full_name") || "",
 
         providerId:
-          localStorage.getItem("provider_id") ||
-          sessionStorage.getItem("provider_id")
+          storage.getItem("provider_id")
 
       };
 
     }
 
 
-    /* =========================
+    /* =========================================================
+       API FETCH
+       
+       QUAN TRỌNG:
+       Dashboard trước đây không gửi Authorization.
+    ========================================================= */
+
+    async function apiFetch(url, options = {}) {
+
+      const user = getLoggedInUser();
+
+      const headers = {
+
+        "Accept":
+          "application/json",
+
+        ...(options.headers || {})
+
+      };
+
+
+      if (user.token) {
+
+        headers["Authorization"] =
+          `Bearer ${user.token}`;
+
+      }
+
+
+      return fetch(url, {
+
+        ...options,
+
+        headers
+
+      });
+
+    }
+
+
+    /* =========================================================
        LOAD PROVIDER INFO
-    ========================== */
+    ========================================================= */
 
     function loadProviderInfo() {
 
@@ -596,7 +611,7 @@
         getLoggedInUser();
 
 
-      if (!user.token) {
+      if (!user.token || !user.providerId) {
 
         window.location.href =
           "../auth.html";
@@ -606,10 +621,17 @@
       }
 
 
+      currentProviderId =
+        Number(user.providerId);
+
+      currentToken =
+        user.token;
+
+
       const displayName =
         user.fullName ||
         user.username ||
-        "Provider";
+        `Provider #${user.providerId}`;
 
 
       const providerName =
@@ -645,20 +667,26 @@
     }
 
 
-    /* =========================
+    /* =========================================================
        LOGOUT
-    ========================== */
+    ========================================================= */
 
     function logout() {
 
       [
+
         "auth_token",
+        "user_id",
         "username",
         "full_name",
+        "email",
+        "phone",
         "provider_id"
-      ].forEach(function(key) {
+
+      ].forEach(function (key) {
 
         localStorage.removeItem(key);
+
         sessionStorage.removeItem(key);
 
       });
@@ -670,9 +698,9 @@
     }
 
 
-    /* =========================
-       FORMAT CURRENCY
-    ========================== */
+    /* =========================================================
+       FORMAT
+    ========================================================= */
 
     function formatCurrency(value) {
 
@@ -687,11 +715,606 @@
     }
 
 
-    /* =========================
-       LOAD REPORT DATA
-    ========================== */
+    function formatDateTime(value) {
 
-    async function loadReportData(providerId) {
+      if (!value) {
+        return "-";
+      }
+
+
+      const date =
+        new Date(value);
+
+
+      if (
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+
+        return value;
+
+      }
+
+
+      return date.toLocaleString(
+        "vi-VN",
+        {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit"
+        }
+      );
+
+    }
+
+
+    function formatDate(value) {
+
+      if (!value) {
+        return "-";
+      }
+
+
+      const date =
+        new Date(value);
+
+
+      if (
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+
+        return value;
+
+      }
+
+
+      return date.toLocaleDateString(
+        "vi-VN"
+      );
+
+    }
+
+
+    function escapeHtml(value) {
+
+      if (
+        value === null ||
+        value === undefined
+      ) {
+
+        return "";
+
+      }
+
+
+      return String(value)
+
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+
+        .replace(
+          /</g,
+          "&lt;"
+        )
+
+        .replace(
+          />/g,
+          "&gt;"
+        )
+
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+
+        .replace(
+          /'/g,
+          "&#039;"
+        );
+
+    }
+
+
+    /* =========================================================
+       BOOKING STATUS
+    ========================================================= */
+
+    function statusText(status) {
+
+      const map = {
+
+        pending:
+          "Chờ xác nhận",
+
+        confirmed:
+          "Đã xác nhận",
+
+        checked_in:
+          "Đang sử dụng",
+
+        completed:
+          "Hoàn thành",
+
+        cancelled:
+          "Đã huỷ"
+
+      };
+
+
+      return (
+        map[status] ||
+        status ||
+        "Không xác định"
+      );
+
+    }
+
+
+    /* =========================================================
+       LOAD PROVIDER BOOKINGS
+       
+       Dùng CHÍNH API giống bookings.html:
+       
+       GET /bookings/provider/{providerId}
+    ========================================================= */
+
+    async function loadRecentBookings() {
+
+      const container =
+        document.getElementById(
+          "recentBookings"
+        );
+
+
+      if (!container) {
+        return [];
+      }
+
+
+      container.innerHTML = `
+      <div class="provider-loading-state">
+        Đang tải booking...
+      </div>
+    `;
+
+
+      try {
+
+        const response =
+          await apiFetch(
+            `${API_BASE_URL}/bookings/provider/${currentProviderId}`
+          );
+
+
+        if (
+          response.status === 401 ||
+          response.status === 403
+        ) {
+
+          window.location.href =
+            "../auth.html";
+
+          return [];
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.message ||
+            "Không thể tải booking."
+          );
+
+        }
+
+
+        const bookings =
+          Array.isArray(data)
+            ? data
+            : [];
+
+
+        /*
+         * Sắp xếp booking mới nhất lên trước.
+         *
+         * Ưu tiên created_at.
+         */
+
+        bookings.sort(
+          function (a, b) {
+
+            const dateA =
+              new Date(
+                a.created_at || 0
+              ).getTime();
+
+            const dateB =
+              new Date(
+                b.created_at || 0
+              ).getTime();
+
+            return dateB - dateA;
+
+          }
+        );
+
+
+        /*
+         * Chỉ lấy 5 booking gần đây
+         */
+
+        const recentBookings =
+          bookings.slice(0, 5);
+
+
+        renderRecentBookings(
+          recentBookings
+        );
+
+
+        /*
+         * Tổng booking trên Dashboard
+         * lấy cùng nguồn với trang Bookings.
+         */
+
+        const totalBookings =
+          document.getElementById(
+            "totalBookings"
+          );
+
+
+        if (totalBookings) {
+
+          totalBookings.textContent =
+            bookings.length;
+
+        }
+
+
+        return bookings;
+
+      } catch (error) {
+
+        console.error(
+          "LOAD RECENT BOOKINGS ERROR:",
+          error
+        );
+
+
+        container.innerHTML = `
+        <div class="provider-booking-error">
+          Không thể tải danh sách booking.
+        </div>
+      `;
+
+
+        return [];
+
+      }
+
+    }
+
+
+    /* =========================================================
+       RENDER RECENT BOOKINGS
+    ========================================================= */
+
+    function renderRecentBookings(
+      bookings
+    ) {
+
+      const container =
+        document.getElementById(
+          "recentBookings"
+        );
+
+
+      if (!container) {
+        return;
+      }
+
+
+      if (!bookings.length) {
+
+        container.innerHTML = `
+
+        <div class="provider-booking-empty">
+
+          <div class="provider-booking-empty-icon">
+            ◷
+          </div>
+
+          <h3>
+            Chưa có booking
+          </h3>
+
+          <p>
+            Chưa có đơn đặt chỗ nào được gửi đến
+            các không gian của bạn.
+          </p>
+
+        </div>
+
+      `;
+
+        return;
+
+      }
+
+
+      let html = `
+
+      <div class="provider-booking-table-wrapper">
+
+        <table class="provider-booking-table">
+
+          <thead>
+
+            <tr>
+
+              <th>
+                Booking
+              </th>
+
+              <th>
+                Photographer
+              </th>
+
+              <th>
+                Không gian
+              </th>
+
+              <th>
+                Dịch vụ
+              </th>
+
+              <th>
+                Ngày & giờ
+              </th>
+
+              <th>
+                Tổng tiền
+              </th>
+
+              <th>
+                Trạng thái
+              </th>
+
+              <th>
+                Thao tác
+              </th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+    `;
+
+
+      bookings.forEach(
+        function (booking) {
+
+          const photographer =
+            booking.photographer_name ||
+            (
+              booking.photographer_id
+                ? `Photographer #${booking.photographer_id}`
+                : "Photographer"
+            );
+
+
+          const spaceName =
+            booking.space_name ||
+            (
+              booking.space_id
+                ? `Space #${booking.space_id}`
+                : "Không gian"
+            );
+
+
+          const packageName =
+            booking.package_name ||
+
+            (
+              booking.package_id
+                ? `Gói #${booking.package_id}`
+                : "Đặt không gian"
+            );
+
+
+          const status =
+            String(
+              booking.status || ""
+            ).toLowerCase();
+
+
+          html += `
+
+          <tr>
+
+            <td>
+
+              <span class="provider-booking-id">
+                #${escapeHtml(booking.id)}
+              </span>
+
+              <span class="provider-booking-sub">
+                ${escapeHtml(
+            formatDate(
+              booking.created_at
+            )
+          )}
+              </span>
+
+            </td>
+
+
+            <td>
+
+              <strong>
+                ${escapeHtml(
+            photographer
+          )}
+              </strong>
+
+              ${booking.photographer_id
+              ? `
+                    <span class="provider-booking-sub">
+                      ID: ${escapeHtml(
+                booking.photographer_id
+              )}
+                    </span>
+                  `
+              : ""
+            }
+
+            </td>
+
+
+            <td>
+
+              <strong>
+                ${escapeHtml(
+              spaceName
+            )}
+              </strong>
+
+              ${booking.space_id
+              ? `
+                    <span class="provider-booking-sub">
+                      ID: ${escapeHtml(
+                booking.space_id
+              )}
+                    </span>
+                  `
+              : ""
+            }
+
+            </td>
+
+
+            <td>
+              ${escapeHtml(
+              packageName
+            )}
+            </td>
+
+
+            <td>
+
+              <strong>
+                ${escapeHtml(
+              formatDate(
+                booking.start_time
+              )
+            )}
+              </strong>
+
+              <span class="provider-booking-sub">
+
+                ${escapeHtml(
+              formatDateTime(
+                booking.start_time
+              )
+                .split(", ")
+                .slice(-1)[0]
+            )}
+
+                -
+
+                ${escapeHtml(
+              formatDateTime(
+                booking.end_time
+              )
+                .split(", ")
+                .slice(-1)[0]
+            )}
+
+              </span>
+
+            </td>
+
+
+            <td class="provider-booking-price">
+
+              ${escapeHtml(
+              formatCurrency(
+                booking.total_price
+              )
+            )}
+
+            </td>
+
+
+            <td>
+
+              <span
+                class="provider-booking-status ${escapeHtml(status)}"
+              >
+                ${escapeHtml(
+              statusText(status)
+            )}
+              </span>
+
+            </td>
+
+
+            <td>
+
+              <a
+                href="bookings.html"
+                class="provider-booking-view-btn"
+              >
+                Chi tiết
+              </a>
+
+            </td>
+
+          </tr>
+
+        `;
+
+        }
+      );
+
+
+      html += `
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    `;
+
+
+      container.innerHTML =
+        html;
+
+    }
+
+
+    /* =========================================================
+       LOAD REPORT
+       
+       GET /reports/provider
+    ========================================================= */
+
+    async function loadReportData() {
 
       const currentYear =
         new Date().getFullYear();
@@ -707,26 +1330,46 @@
 
       const url =
         `${API_BASE_URL}/reports/provider` +
-        `?provider_id=${encodeURIComponent(providerId)}` +
-        `&from_date=${encodeURIComponent(fromDate)}` +
-        `&to_date=${encodeURIComponent(toDate)}`;
+        `?provider_id=${encodeURIComponent(
+          currentProviderId
+        )}` +
+        `&from_date=${encodeURIComponent(
+          fromDate
+        )}` +
+        `&to_date=${encodeURIComponent(
+          toDate
+        )}`;
 
 
       const response =
-        await fetch(url);
+        await apiFetch(url);
 
 
-      if (!response.ok) {
+      if (
+        response.status === 401 ||
+        response.status === 403
+      ) {
 
-        throw new Error(
-          `Report API HTTP ${response.status}`
-        );
+        window.location.href =
+          "../auth.html";
+
+        return;
 
       }
 
 
       const data =
         await response.json();
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          data.message ||
+          `Report API HTTP ${response.status}`
+        );
+
+      }
 
 
       console.log(
@@ -736,26 +1379,12 @@
 
 
       /* =========================
-         TOTAL BOOKINGS
-      ========================== */
-
-      const totalBookings =
-        document.getElementById(
-          "totalBookings"
-        );
-
-
-      if (totalBookings) {
-
-        totalBookings.textContent =
-          data.total_bookings ?? 0;
-
-      }
-
-
-      /* =========================
          TOTAL REVENUE
       ========================== */
+
+      const revenue =
+        data.total_revenue ?? 0;
+
 
       const totalRevenue =
         document.getElementById(
@@ -767,10 +1396,6 @@
         document.getElementById(
           "revenueSummary"
         );
-
-
-      const revenue =
-        data.total_revenue ?? 0;
 
 
       if (totalRevenue) {
@@ -806,19 +1431,37 @@
 
       }
 
+
+      return data;
+
     }
 
 
-    /* =========================
+    /* =========================================================
        LOAD SPACE COUNT
-    ========================== */
+       
+       Dùng cùng API creative-spaces
+    ========================================================= */
 
-    async function loadSpaceCount(providerId) {
+    async function loadSpaceCount() {
 
       const response =
-        await fetch(
+        await apiFetch(
           `${API_BASE_URL}/creative-spaces/`
         );
+
+
+      if (
+        response.status === 401 ||
+        response.status === 403
+      ) {
+
+        window.location.href =
+          "../auth.html";
+
+        return;
+
+      }
 
 
       if (!response.ok) {
@@ -840,21 +1483,18 @@
           : [];
 
 
-      /*
-       * Chỉ đếm space thuộc Provider
-       * đang đăng nhập.
-       */
-
       const providerSpaces =
-        spaces.filter(function(space) {
+        spaces.filter(
+          function (space) {
 
-          return String(
-            space.provider_id
-          ) === String(
-            providerId
-          );
+            return String(
+              space.provider_id
+            ) === String(
+              currentProviderId
+            );
 
-        });
+          }
+        );
 
 
       console.log(
@@ -885,47 +1525,30 @@
     }
 
 
-    /* =========================
-       LOAD DASHBOARD DATA
-    ========================== */
+    /* =========================================================
+       LOAD DASHBOARD
+    ========================================================= */
 
     async function loadDashboardData() {
 
-      const user =
-        getLoggedInUser();
-
-
-      if (!user.providerId) {
-
-        console.error(
-          "Không tìm thấy provider_id"
-        );
-
-        return;
-
-      }
-
-
-      const providerId =
-        user.providerId;
-
-
       /*
-       * Report và Space tách riêng.
-       * Nếu Space API lỗi thì Report
-       * vẫn có thể hiển thị.
+       * Chạy độc lập:
+       *
+       * Booking lỗi
+       * không làm Revenue lỗi.
+       *
+       * Revenue lỗi
+       * không làm Space lỗi.
        */
 
       try {
 
-        await loadReportData(
-          providerId
-        );
+        await loadRecentBookings();
 
       } catch (error) {
 
         console.error(
-          "LOAD REPORT ERROR:",
+          "BOOKING ERROR:",
           error
         );
 
@@ -934,32 +1557,95 @@
 
       try {
 
-        await loadSpaceCount(
-          providerId
-        );
+        await loadReportData();
 
       } catch (error) {
 
         console.error(
-          "LOAD SPACE ERROR:",
+          "REPORT ERROR:",
           error
         );
+
+
+        const totalRevenue =
+          document.getElementById(
+            "totalRevenue"
+          );
+
+
+        const revenueSummary =
+          document.getElementById(
+            "revenueSummary"
+          );
+
+
+        if (totalRevenue) {
+
+          totalRevenue.textContent =
+            "—";
+
+        }
+
+
+        if (revenueSummary) {
+
+          revenueSummary.textContent =
+            "—";
+
+        }
+
+      }
+
+
+      try {
+
+        await loadSpaceCount();
+
+      } catch (error) {
+
+        console.error(
+          "SPACE ERROR:",
+          error
+        );
+
+
+        const totalSpaces =
+          document.getElementById(
+            "totalSpaces"
+          );
+
+
+        if (totalSpaces) {
+
+          totalSpaces.textContent =
+            "—";
+
+        }
 
       }
 
     }
 
-    const isLoggedIn =
-      loadProviderInfo();
+
+    /* =========================================================
+       INIT
+    ========================================================= */
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      function () {
+
+        const isLoggedIn =
+          loadProviderInfo();
 
 
-    if (isLoggedIn) {
+        if (isLoggedIn) {
 
-      loadDashboardData();
+          loadDashboardData();
 
-    }
+        }
+
+      }
+    );
 
   </script>
-
-</body>
-</html>
