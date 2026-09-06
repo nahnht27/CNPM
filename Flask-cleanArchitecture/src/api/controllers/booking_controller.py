@@ -57,62 +57,36 @@ provider_response_schema = ProviderBookingResponseSchema()
 
 @bp.route('/', methods=['GET'])
 def list_bookings():
-    """
-    ---
-    get:
-      tags:
-        - Booking
-      summary: Lấy danh sách booking
-      parameters:
-        - name: photographer_id
-          in: query
-          required: false
-          schema:
-            type: integer
-          description: Lọc booking theo Photographer
-      responses:
-        200:
-          description: Danh sách booking
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/BookingResponse'
-        500:
-          description: Không thể lấy danh sách booking
-    """
-
-    photographer_id = request.args.get(
-        'photographer_id',
-        type=int
-    )
+    photographer_id = request.args.get('photographer_id', type=int)
 
     try:
-
         items = booking_service.list_bookings()
 
-        if photographer_id:
-            items = [
-                b for b in items
-                if getattr(
-                    b,
-                    'photographer_id',
-                    None
-                ) == photographer_id
-            ]
+        if photographer_id is not None:
+            filtered_items = []
+            for b in items:
+                # 1. Bắt cả 2 trường hợp thuộc tính Python hoặc Column Name
+                b_photographer_id = (
+                    getattr(b, 'photographer_id', None) or 
+                    getattr(b, 'PhotographerID', None)
+                )
+
+                # 2. Trường hợp Repository trả về dict thay vì Object
+                if b_photographer_id is None and isinstance(b, dict):
+                    b_photographer_id = b.get('photographer_id') or b.get('PhotographerID')
+
+                # 3. So sánh sau khi ép kiểu an toàn
+                if b_photographer_id is not None and int(b_photographer_id) == int(photographer_id):
+                    filtered_items.append(b)
+
+            items = filtered_items
 
         return jsonify(
-            response_schema.dump(
-                items,
-                many=True
-            )
+            response_schema.dump(items, many=True)
         ), 200
 
     except Exception as e:
-
         session.rollback()
-
         return jsonify({
             'message': 'Không thể lấy danh sách booking',
             'error': str(e)

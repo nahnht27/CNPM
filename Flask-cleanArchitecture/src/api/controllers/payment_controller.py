@@ -8,6 +8,8 @@ from api.schemas.payment import (
     PaymentResponseSchema
 )
 from infrastructure.databases.factory_database import FactoryDatabase
+from infrastructure.repositories.invoice_repository import InvoiceRepository
+from infrastructure.databases.postgres import session
 
 
 bp = Blueprint(
@@ -16,36 +18,17 @@ bp = Blueprint(
     url_prefix='/payments'
 )
 
-
-# ============================================================
-# DATABASE
-# ============================================================
-
 db = FactoryDatabase.get_database('POSTGREE')
 session = db.session
 
-
-# ============================================================
-# SERVICE
-# ============================================================
-
 payment_service = PaymentService(
-    PaymentRepository(session)
+    PaymentRepository(session),
+    invoice_repository=InvoiceRepository(session)
 )
-
-
-# ============================================================
-# SCHEMAS
-# ============================================================
 
 request_schema = PaymentRequestSchema()
 update_schema = PaymentUpdateSchema()
 response_schema = PaymentResponseSchema()
-
-
-# ============================================================
-# GET ALL PAYMENTS
-# ============================================================
 
 @bp.route('/', methods=['GET'])
 def list_payments():
@@ -81,11 +64,6 @@ def list_payments():
             'message': 'Không thể lấy danh sách thanh toán',
             'error': str(e)
         }), 500
-
-
-# ============================================================
-# GET PAYMENT BY ID
-# ============================================================
 
 @bp.route('/<int:pay_id>', methods=['GET'])
 def get_payment(pay_id):
@@ -132,11 +110,6 @@ def get_payment(pay_id):
             'message': 'Không thể lấy thanh toán',
             'error': str(e)
         }), 500
-
-
-# ============================================================
-# CREATE PAYMENT
-# ============================================================
 
 @bp.route('/', methods=['POST'])
 def create_payment():
@@ -204,11 +177,6 @@ def create_payment():
             'error': str(e)
         }), 500
 
-
-# ============================================================
-# GET PAYMENT BY INVOICE
-# ============================================================
-
 @bp.route('/invoice/<int:invoice_id>', methods=['GET'])
 def get_payment_by_invoice(invoice_id):
     """
@@ -256,11 +224,6 @@ def get_payment_by_invoice(invoice_id):
             'message': 'Không thể lấy thanh toán theo invoice',
             'error': str(e)
         }), 500
-
-
-# ============================================================
-# UPDATE PAYMENT STATUS
-# ============================================================
 
 @bp.route('/<int:pay_id>', methods=['PUT'])
 def update_payment(pay_id):
@@ -366,11 +329,6 @@ def update_payment(pay_id):
             'message': 'Không thể cập nhật thanh toán',
             'error': str(e)
         }), 500
-
-
-# ============================================================
-# DELETE PAYMENT
-# ============================================================
 
 @bp.route('/<int:pay_id>', methods=['DELETE'])
 def delete_payment(pay_id):

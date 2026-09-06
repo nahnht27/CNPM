@@ -1,6 +1,4 @@
-
 from marshmallow import Schema, fields, validate
-
 
 PAYMENT_STATUSES = [
     'Đang chờ xử lý',
@@ -11,11 +9,13 @@ PAYMENT_STATUSES = [
 
 
 class PaymentRequestSchema(Schema):
-    """
-    Schema dùng khi TẠO payment mới.
-    """
+    """Schema dùng khi TẠO payment mới."""
 
-    invoice_id = fields.Int(required=True)
+    # Cho phép invoice_id = 0 hoặc không bắt buộc truyền
+    invoice_id = fields.Int(required=False, load_default=0)
+
+    # Khai báo session_id để Marshmallow giữ lại trường này khi load()
+    session_id = fields.Int(required=False, allow_none=True)
 
     payment_method = fields.Str(
         required=True,
@@ -29,6 +29,10 @@ class PaymentRequestSchema(Schema):
         as_string=False
     )
 
+    # Khai báo thêm để không bị lọc mất
+    discount_amount = fields.Decimal(required=False, load_default=0.0)
+    tax_amount = fields.Decimal(required=False, load_default=0.0)
+
     status = fields.Str(
         required=False,
         allow_none=True,
@@ -37,13 +41,6 @@ class PaymentRequestSchema(Schema):
 
 
 class PaymentUpdateSchema(Schema):
-    """
-    Schema dùng khi provider XÁC NHẬN payment.
-
-    PUT /payments/{pay_id}
-    chỉ cần gửi status.
-    """
-
     status = fields.Str(
         required=True,
         validate=validate.OneOf(PAYMENT_STATUSES)

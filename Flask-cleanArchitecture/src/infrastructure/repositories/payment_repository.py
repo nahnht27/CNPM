@@ -1,16 +1,13 @@
 from typing import List, Optional
-
 from infrastructure.databases.factory_database import (
     FactoryDatabase as db_factory
 )
-
 from infrastructure.models.payment_model import PaymentModel
 
 
 class PaymentRepository:
 
     def __init__(self, session=None):
-
         self.session = (
             session
             or db_factory.get_database('POSTGREE').session
@@ -20,41 +17,38 @@ class PaymentRepository:
     # CREATE
     # ==========================================================
 
-    def add(self, data) -> PaymentModel:
+    def add(self, data=None, **kwargs) -> PaymentModel:
+        if isinstance(data, PaymentModel):
+            model = data
+        else:
+            payload = data if isinstance(data, dict) else kwargs
 
-        model = PaymentModel(
-            invoice_id=data.get('invoice_id'),
-            payment_method=data.get('payment_method'),
-            amount=data.get('amount'),
-            status=data.get('status'),
-            paid_at=data.get('paid_at')
-        )
+            # Ép kiểu dữ liệu an toàn tránh lỗi SQLAlchemy
+            invoice_id = payload.get('invoice_id') or payload.get('InvoiceID')
+            amount = payload.get('amount')
+            
+            model = PaymentModel(
+                invoice_id=int(invoice_id) if invoice_id is not None else None,
+                payment_method=str(payload.get('payment_method', '')),
+                amount=float(amount) if amount is not None else 0.0,
+                status=str(payload.get('status', 'Đang chờ xử lý')),
+                paid_at=payload.get('paid_at')
+            )
 
         try:
-
             self.session.add(model)
-
             self.session.commit()
-
             self.session.refresh(model)
-
             return model
-
         except Exception:
-
             self.session.rollback()
-
             raise
 
     # ==========================================================
     # GET BY ID
     # ==========================================================
 
-    def get_by_id(
-        self,
-        id: int
-    ) -> Optional[PaymentModel]:
-
+    def get_by_id(self, id: int) -> Optional[PaymentModel]:
         return (
             self.session
             .query(PaymentModel)
@@ -66,11 +60,7 @@ class PaymentRepository:
     # GET BY INVOICE
     # ==========================================================
 
-    def get_by_invoice_id(
-        self,
-        invoice_id: int
-    ) -> Optional[PaymentModel]:
-
+    def get_by_invoice_id(self, invoice_id: int) -> Optional[PaymentModel]:
         return (
             self.session
             .query(PaymentModel)
@@ -83,7 +73,6 @@ class PaymentRepository:
     # ==========================================================
 
     def list(self) -> List[PaymentModel]:
-
         return (
             self.session
             .query(PaymentModel)
@@ -94,15 +83,13 @@ class PaymentRepository:
     # UPDATE
     # ==========================================================
 
-    def update(
-        self,
-        data
-    ) -> Optional[PaymentModel]:
+    def update(self, data) -> Optional[PaymentModel]:
+        pay_id = data.get('id') if isinstance(data, dict) else getattr(data, 'id', None)
 
         model = (
             self.session
             .query(PaymentModel)
-            .filter_by(id=data.get('id'))
+            .filter_by(id=pay_id)
             .first()
         )
 
@@ -110,40 +97,23 @@ class PaymentRepository:
             return None
 
         try:
-
-            for key, value in data.items():
-
-                if (
-                    hasattr(model, key)
-                    and key != 'id'
-                ):
-                    setattr(
-                        model,
-                        key,
-                        value
-                    )
+            if isinstance(data, dict):
+                for key, value in data.items():
+                    if hasattr(model, key) and key != 'id':
+                        setattr(model, key, value)
 
             self.session.commit()
-
             self.session.refresh(model)
-
             return model
-
         except Exception:
-
             self.session.rollback()
-
             raise
 
     # ==========================================================
     # DELETE
     # ==========================================================
 
-    def delete(
-        self,
-        id: int
-    ) -> bool:
-
+    def delete(self, id: int) -> bool:
         model = (
             self.session
             .query(PaymentModel)
@@ -155,15 +125,9 @@ class PaymentRepository:
             return False
 
         try:
-
             self.session.delete(model)
-
             self.session.commit()
-
             return True
-
         except Exception:
-
             self.session.rollback()
-
             raise

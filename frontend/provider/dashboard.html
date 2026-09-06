@@ -672,31 +672,18 @@
     ========================================================= */
 
     function logout() {
+      localStorage.clear();
+      sessionStorage.clear();
 
-      [
-
-        "auth_token",
-        "user_id",
-        "username",
-        "full_name",
-        "email",
-        "phone",
-        "provider_id"
-
-      ].forEach(function (key) {
-
-        localStorage.removeItem(key);
-
-        sessionStorage.removeItem(key);
-
+      // Xóa toàn bộ Cookie
+      document.cookie.split(";").forEach((c) => {
+        document.cookie = c
+          .replace(/^ +/, "")
+          .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
       });
 
-
-      window.location.href =
-        "../auth.html";
-
+      window.location.href = "../auth.html";
     }
-
 
     /* =========================================================
        FORMAT

@@ -110,12 +110,14 @@ class BookingRepository:
 
         return self._attach_invoice_id(booking)
 
-    def list(self) -> List[BookingModel]:
+    def list(self, photographer_id: Optional[int] = None) -> List[BookingModel]:
+        query = self.session.query(BookingModel)
 
-        bookings = (
-            self.session.query(BookingModel)
-            .all()
-        )
+        # Nếu có truyền photographer_id -> Lọc đúng theo user đó
+        if photographer_id:
+            query = query.filter(BookingModel.photographer_id == photographer_id)
+
+        bookings = query.all()
 
         for booking in bookings:
             self._attach_invoice_id(booking)

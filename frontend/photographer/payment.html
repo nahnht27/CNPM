@@ -853,6 +853,8 @@
 
     let currentBooking = null;
     let currentPaymentData = null;
+    let currentInvoice = null;
+    let currentInvoiceId = null;
 
 
     /* =========================================================
@@ -972,6 +974,128 @@
         null
       );
 
+    }
+
+    function getInvoiceIdFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+
+      const value =
+        params.get("invoice_id") ||
+        params.get("InvoiceID") ||
+        params.get("invoiceId") ||
+        null;
+
+      if (!value) return null;
+
+      const id = parseInt(value, 10);
+      return Number.isInteger(id) && id > 0 ? id : null;
+    }
+
+    function normalizeObjectResponse(data) {
+      if (!data || typeof data !== "object") return null;
+
+      return (
+        data.invoice ||
+        data.Invoice ||
+        data.payment ||
+        data.Payment ||
+        data.data ||
+        data
+      );
+    }
+
+    function getInvoiceAmount(invoice) {
+      if (!invoice) return 0;
+
+      return parsePrice(
+        invoice.amount ??
+        invoice.total_amount ??
+        invoice.total_price ??
+        invoice.Amount ??
+        invoice.TotalAmount ??
+        invoice.TotalPrice ??
+        0
+      );
+    }
+
+    async function loadInvoiceAndPayment(baseUrl, booking) {
+      const urlInvoiceId = getInvoiceIdFromUrl();
+      const bookingInvoiceId = getInvoiceId(booking);
+
+      currentInvoiceId =
+        urlInvoiceId ||
+        bookingInvoiceId ||
+        null;
+
+      currentInvoice = null;
+      currentPaymentData = null;
+
+      if (!currentInvoiceId) return;
+
+      currentInvoiceId =
+        parseInt(currentInvoiceId, 10);
+
+      try {
+        const response =
+          await window.fetch(
+            `${baseUrl}/invoices/${encodeURIComponent(currentInvoiceId)}`,
+            {
+              method: "GET",
+              headers: {
+                "Authorization": getAuthToken(),
+                "Accept": "application/json"
+              }
+            }
+          );
+
+        if (response.ok) {
+          const data =
+            await response.json().catch(() => null);
+
+          currentInvoice =
+            normalizeObjectResponse(data);
+        }
+      } catch (error) {
+        console.warn("Không tải được Invoice:", error);
+      }
+
+      try {
+        const response =
+          await window.fetch(
+            `${baseUrl}/payments/invoice/${encodeURIComponent(currentInvoiceId)}`,
+            {
+              method: "GET",
+              headers: {
+                "Authorization": getAuthToken(),
+                "Accept": "application/json"
+              }
+            }
+          );
+
+        if (response.ok) {
+          const data =
+            await response.json().catch(() => null);
+
+          currentPaymentData =
+            normalizeObjectResponse(data);
+
+          if (currentPaymentData) {
+            booking.payment =
+              currentPaymentData;
+
+            booking.payment_status =
+              currentPaymentData.status ??
+              currentPaymentData.Status ??
+              "";
+          }
+        }
+      } catch (error) {
+        console.warn("Không tải được Payment:", error);
+      }
+
+      // invoice_id trong URL luôn được ưu tiên.
+      booking.invoice_id =
+        currentInvoiceId;
     }
 
 
@@ -1548,6 +1672,12 @@
           booking;
 
 
+
+        await loadInvoiceAndPayment(
+          baseUrl,
+          booking
+        );
+
         renderPaymentPage(
           booking
         );
@@ -1592,12 +1722,14 @@
 
 
       const amount =
+        getInvoiceAmount(currentInvoice) ||
         getBookingPrice(
           booking
         );
 
 
       const invoiceId =
+        currentInvoiceId ||
         getInvoiceId(
           booking
         );
@@ -2491,22 +2623,12 @@
     ========================================================= */
 
     async function confirmPayment() {
-
-      const booking =
-        currentBooking;
-
+      const booking = currentBooking;
 
       if (!booking) {
-
-        showToast(
-          "Không xác định được booking.",
-          "error"
-        );
-
+        showToast("Không xác định được booking.", "error");
         return;
-
       }
-
 
       const bookingStatus =
         normalizeStatus(
@@ -2514,234 +2636,286 @@
           booking.Status
         );
 
-
-      if (
-        bookingStatus !==
-        "confirmed"
-      ) {
-
+      if (bookingStatus !== "confirmed") {
         showToast(
           "Booking không còn ở trạng thái có thể thanh toán.",
           "error"
         );
-
         return;
-
       }
-
-
-      if (
-        isPaymentSuccessful(
-          booking
-        )
-      ) {
-
-        showToast(
-          "Booking này đã được thanh toán.",
-          "error"
-        );
-
-        return;
-
-      }
-
 
       const invoiceId =
-        getInvoiceId(
-          booking
-        );
-
+        currentInvoiceId ||
+        getInvoiceIdFromUrl() ||
+        getInvoiceId(booking);
 
       if (!invoiceId) {
-
         showToast(
-          "Booking chưa có Invoice ID. Không thể tạo thanh toán.",
+          "Không xác định được Invoice ID của booking.",
           "error"
         );
-
         return;
-
       }
 
+      currentInvoiceId =
+        parseInt(invoiceId, 10);
 
-      const amount =
-        getBookingPrice(
-          booking
+      const baseUrl =
+        getApiBaseUrl()
+          .replace(/\/+$/, "");
+
+      /*
+       * Backend chỉ cho một Payment đang chờ xử lý trên một Invoice.
+       * Vì vậy kiểm tra trước khi POST để không tạo trùng.
+       */
+      try {
+        const existingResponse =
+          await window.fetch(
+            `${baseUrl}/payments/invoice/${encodeURIComponent(currentInvoiceId)}`,
+            {
+              method: "GET",
+              headers: {
+                "Authorization": getAuthToken(),
+                "Accept": "application/json"
+              }
+            }
+          );
+
+        if (existingResponse.ok) {
+          const existingData =
+            await existingResponse.json().catch(() => null);
+
+          const existingPayment =
+            normalizeObjectResponse(existingData);
+
+          const status =
+            String(
+              existingPayment?.status ??
+              existingPayment?.Status ??
+              ""
+            ).toLowerCase().trim();
+
+          currentPaymentData =
+            existingPayment;
+
+          booking.payment =
+            existingPayment;
+
+          booking.payment_status =
+            existingPayment?.status ??
+            existingPayment?.Status ??
+            "";
+
+          if (
+            [
+              "thành công",
+              "success",
+              "successful",
+              "completed",
+              "paid",
+              "succeeded",
+              "đã thanh toán"
+            ].includes(status)
+          ) {
+            showToast(
+              "Invoice này đã được thanh toán.",
+              "error"
+            );
+            renderPaymentPage(booking);
+            return;
+          }
+
+          if (
+            [
+              "đang chờ xử lý",
+              "pending",
+              "processing",
+              "chờ xác nhận",
+              "confirming",
+              "waiting"
+            ].includes(status)
+          ) {
+            showToast(
+              "Thanh toán đã được gửi và đang chờ Studio xác nhận.",
+              "success"
+            );
+            renderPaymentPage(booking);
+            return;
+          }
+        } else if (existingResponse.status !== 404) {
+          const errorData =
+            await existingResponse.json().catch(() => ({}));
+
+          console.warn(
+            "Không kiểm tra được Payment hiện tại:",
+            errorData
+          );
+        }
+      } catch (error) {
+        console.warn(
+          "Kiểm tra Payment hiện tại thất bại:",
+          error
         );
+      }
 
+      /*
+       * Lấy amount từ Invoice trước, vì POST /payments yêu cầu
+       * amount phải đúng tổng tiền của Invoice.
+       */
+      let amount =
+        getInvoiceAmount(currentInvoice);
 
-      if (
-        amount <= 0
-      ) {
+      if (amount <= 0) {
+        amount =
+          getBookingPrice(booking);
+      }
 
+      if (amount <= 0) {
         showToast(
           "Số tiền thanh toán không hợp lệ.",
           "error"
         );
-
         return;
-
       }
-
 
       const confirmBtn =
         document.getElementById(
           "btnConfirmPayment"
         );
 
-
       if (confirmBtn) {
-
-        confirmBtn.disabled =
-          true;
-
+        confirmBtn.disabled = true;
         confirmBtn.textContent =
           "Đang ghi nhận thanh toán...";
-
       }
 
-
       try {
-
-        const baseUrl =
-          getApiBaseUrl()
-            .replace(
-              /\/+$/,
-              ""
-            );
-
-
         const payload = {
-
           invoice_id:
-            parseInt(
-              invoiceId,
-              10
-            ),
+            Number(currentInvoiceId),
 
           payment_method:
             "Chuyển khoản QR (VietQR)",
 
           amount:
-            amount
-
+            Number(amount)
         };
 
-
         console.log(
-          "Payment payload:",
+          "[FilmSpace] POST /payments/ payload:",
           payload
         );
-
 
         const response =
           await window.fetch(
             `${baseUrl}/payments/`,
             {
-
-              method:
-                "POST",
+              method: "POST",
 
               headers: {
-
                 "Content-Type":
+                  "application/json",
+
+                "Accept":
                   "application/json",
 
                 "Authorization":
                   getAuthToken()
-
               },
 
               body:
-                JSON.stringify(
-                  payload
-                )
-
+                JSON.stringify(payload)
             }
           );
 
+        const rawText =
+          await response.text();
 
-        const data =
-          await response
-            .json()
-            .catch(
-              () => ({})
-            );
+        let data = {};
 
+        try {
+          data =
+            rawText
+              ? JSON.parse(rawText)
+              : {};
+        } catch {
+          data = {
+            raw: rawText
+          };
+        }
+
+        console.log(
+          "[FilmSpace] Payment response:",
+          response.status,
+          data
+        );
 
         if (
           response.status === 401 ||
           response.status === 403
         ) {
-
           showToast(
             "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.",
             "error"
           );
-
           return;
-
         }
 
-
         if (!response.ok) {
-
           console.error(
-            "Payment API error:",
-            data
+            "[FilmSpace] POST /payments/ failed:",
+            {
+              status: response.status,
+              payload,
+              response: data
+            }
           );
 
-
           showToast(
-            data.message ||
-            data.error ||
-            "Không thể ghi nhận thanh toán.",
+            data?.message ||
+            data?.error ||
+            `Không thể tạo thanh toán (HTTP ${response.status}).`,
             "error"
           );
 
           return;
-
         }
 
-
         currentPaymentData =
+          normalizeObjectResponse(data) ||
           data;
 
+        booking.payment =
+          currentPaymentData;
+
+        booking.payment_status =
+          currentPaymentData?.status ??
+          currentPaymentData?.Status ??
+          "Đang chờ xử lý";
 
         showPaymentSuccessState(
-          data
+          currentPaymentData
         );
 
-
-      } catch (err) {
-
+      } catch (error) {
         console.error(
-          "Lỗi tạo payment:",
-          err
+          "[FilmSpace] Lỗi tạo payment:",
+          error
         );
-
 
         showToast(
-          "Lỗi kết nối máy chủ Flask.",
+          "Không thể kết nối máy chủ Flask.",
           "error"
         );
 
       } finally {
-
         if (confirmBtn) {
-
-          confirmBtn.disabled =
-            false;
-
+          confirmBtn.disabled = false;
           confirmBtn.textContent =
             "Tôi đã thanh toán";
-
         }
-
       }
-
     }
-
 
     /* =========================================================
        PAYMENT SUCCESS
@@ -2804,7 +2978,7 @@
           <div>
 
             <strong>
-              Payment đã được gửi lên hệ thống.
+              Thanh toán đã được ghi nhận.
             </strong>
 
             <br>
@@ -2833,7 +3007,7 @@
 
 
       showToast(
-        "Đã gửi thông tin thanh toán thành công."
+        "Đã ghi nhận thông tin thanh toán."
       );
 
     }

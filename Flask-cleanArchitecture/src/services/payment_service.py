@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from datetime import datetime
 
 
@@ -18,254 +18,103 @@ class PaymentService:
         REFUNDED
     }
 
-    def __init__(
-        self,
-        repository,
-        invoice_repository=None
-    ):
-
+    def __init__(self, repository, invoice_repository=None):
         self.repository = repository
         self.invoice_repository = invoice_repository
 
     # ==========================================================
-    # CREATE PAYMENT
+    # GET ALL PAYMENTS
     # ==========================================================
+    def list_payments(self) -> List:
+        return self.repository.list()
 
+    # ==========================================================
+    # GET PAYMENT BY ID
+    # ==========================================================
+    def get_payment(self, pay_id: int):
+        return self.repository.get_by_id(pay_id)
+
+    # ==========================================================
+    # GET PAYMENT BY INVOICE ID
+    # ==========================================================
+    def get_payment_by_invoice(self, invoice_id: int):
+        return self.repository.get_by_invoice_id(invoice_id)
+
+    # ==========================================================
+    # CREATE PAYMENT (TỰ ĐỘNG THÀNH CÔNG)
+    # ==========================================================
     def create_payment(self, **data):
+        invoice_id = data.get('invoice_id', 0)
+        payment_amount = data.get('amount')
 
-        invoice_id = data.get('invoice_id')
+        if payment_amount is None:
+            raise ValueError('amount là bắt buộc')
 
-        if not invoice_id:
-            raise ValueError(
-                'invoice_id là bắt buộc'
+        # TỰ ĐỘNG TẠO INVOICE NẾU CHƯA CÓ INVOICE_ID HOẶC INVOICE_ID == 0
+        if invoice_id is None or int(invoice_id) == 0:
+            if not self.invoice_repository:
+                raise ValueError('InvoiceRepository chưa được cấu hình')
+
+            session_id = data.get('session_id') or 1
+            discount_amount = data.get('discount_amount', 0)
+            tax_amount = data.get('tax_amount', 0)
+
+            new_invoice_payload = {
+                'SessionID': int(session_id),
+                'InvoiceNumber': f"INV-{int(datetime.now().timestamp())}",
+                'SubTotal': float(payment_amount),
+                'DiscountAmount': float(discount_amount),
+                'TaxAmount': float(tax_amount),
+                'TotalAmount': float(payment_amount),
+                'IssuedAt': datetime.now()
+            }
+
+            try:
+                invoice = self.invoice_repository.add(**new_invoice_payload)
+            except TypeError:
+                invoice = self.invoice_repository.add(new_invoice_payload)
+
+            created_invoice_id = (
+                getattr(invoice, 'InvoiceID', None) 
+                or getattr(invoice, 'invoice_id', None)
+                or getattr(invoice, 'id', None)
             )
-
-        # ------------------------------------------------------
-        # Kiểm tra Invoice
-        # ------------------------------------------------------
-
-        if self.invoice_repository:
-
-            invoice = (
-                self.invoice_repository
-                .get_by_id(invoice_id)
-            )
-
-            if not invoice:
-
-                raise ValueError(
-                    'Không tìm thấy Invoice'
+            if isinstance(invoice, dict):
+                created_invoice_id = (
+                    invoice.get('InvoiceID') 
+                    or invoice.get('invoice_id') 
+                    or invoice.get('id')
                 )
 
-            invoice_amount = invoice.total_amount
+            if not created_invoice_id:
+                raise ValueError('Tạo Invoice thất bại, không nhận được InvoiceID từ database')
 
-            payment_amount = data.get('amount')
+            invoice_id = created_invoice_id
+            data['invoice_id'] = invoice_id
 
-            if payment_amount is None:
-
-                raise ValueError(
-                    'amount là bắt buộc'
-                )
-
-            if float(payment_amount) != float(
-                invoice_amount
-            ):
-
-                raise ValueError(
-                    'Số tiền thanh toán không khớp '
-                    'với tổng tiền hóa đơn'
-                )
-
-        # ------------------------------------------------------
-        # Kiểm tra phương thức thanh toán
-        # ------------------------------------------------------
-
-        payment_method = data.get(
-            'payment_method'
-        )
-
-        if payment_method != self.PAYMENT_METHOD:
-
-            raise ValueError(
-                'Phương thức thanh toán không hợp lệ. '
-                'Chỉ hỗ trợ Chuyển khoản QR (VietQR)'
-            )
-
-        # ------------------------------------------------------
-        # Kiểm tra Payment hiện tại
-        # ------------------------------------------------------
-
-        existing = (
-            self.repository
-            .get_by_invoice_id(invoice_id)
-        )
-
-        if existing:
-
-            if existing.status == self.SUCCESS:
-
-                raise ValueError(
-                    'Invoice này đã được thanh toán'
-                )
-
-            if existing.status == self.PENDING:
-
-                raise ValueError(
-                    'Invoice này đã có một Payment '
-                    'đang chờ xác nhận'
-                )
-
-        # ------------------------------------------------------
-        # Photographer tạo Payment
-        #
-        # Chưa xác nhận đã nhận tiền.
-        # ------------------------------------------------------
-
-        data['payment_method'] = (
-            self.PAYMENT_METHOD
-        )
-
-        data['status'] = self.PENDING
-
-        data['paid_at'] = None
+        # TỰ ĐỘNG CHUYỂN TRẠNG THÁI SANG THÀNH CÔNG
+        data['payment_method'] = data.get('payment_method') or self.PAYMENT_METHOD
+        data['status'] = self.SUCCESS
+        data['paid_at'] = datetime.now()
 
         return self.repository.add(data)
 
     # ==========================================================
-    # GET BY ID
-    # ==========================================================
-
-    def get_payment(
-        self,
-        id: int
-    ):
-
-        return self.repository.get_by_id(id)
-
-    # ==========================================================
-    # GET BY INVOICE
-    # ==========================================================
-
-    def get_payment_by_invoice(
-        self,
-        invoice_id: int
-    ):
-
-        return (
-            self.repository
-            .get_by_invoice_id(invoice_id)
-        )
-
-    # ==========================================================
-    # GET ALL
-    # ==========================================================
-
-    def list_payments(self) -> List:
-
-        return self.repository.list()
-
-    # ==========================================================
     # UPDATE PAYMENT
     # ==========================================================
+    def update_payment(self, pay_id: int, **data):
+        status = data.get('status')
+        if status and status not in self.ALLOWED_STATUSES:
+            raise ValueError(f'Trạng thái không hợp lệ. Chỉ chấp nhận: {", ".join(self.ALLOWED_STATUSES)}')
 
-    def update_payment(
-        self,
-        id: int,
-        **data
-    ):
+        payload = {'id': pay_id, **data}
+        if status == self.SUCCESS and 'paid_at' not in payload:
+            payload['paid_at'] = datetime.now()
 
-        payment = (
-            self.repository
-            .get_by_id(id)
-        )
-
-        if not payment:
-            return None
-
-        # ------------------------------------------------------
-        # Không cho đổi phương thức thanh toán
-        # ------------------------------------------------------
-
-        if 'payment_method' in data:
-
-            if (
-                data['payment_method']
-                != self.PAYMENT_METHOD
-            ):
-
-                raise ValueError(
-                    'Phương thức thanh toán không hợp lệ. '
-                    'Chỉ hỗ trợ Chuyển khoản QR (VietQR)'
-                )
-
-        # ------------------------------------------------------
-        # Kiểm tra status
-        # ------------------------------------------------------
-
-        if 'status' in data:
-
-            if (
-                data['status']
-                not in self.ALLOWED_STATUSES
-            ):
-
-                raise ValueError(
-                    'Trạng thái thanh toán không hợp lệ'
-                )
-
-        # ------------------------------------------------------
-        # Payment đã thành công
-        # không cho quay lại trạng thái khác
-        # ------------------------------------------------------
-
-        if payment.status == self.SUCCESS:
-
-            if data.get('status') != self.SUCCESS:
-
-                raise ValueError(
-                    'Payment đã được xác nhận thành công '
-                    'và không thể thay đổi trạng thái'
-                )
-
-        # ------------------------------------------------------
-        # Provider xác nhận đã nhận tiền
-        # ------------------------------------------------------
-
-        if data.get('status') == self.SUCCESS:
-
-            data['paid_at'] = datetime.now()
-
-        # ------------------------------------------------------
-        # Payment pending
-        # ------------------------------------------------------
-
-        elif data.get('status') == self.PENDING:
-
-            data['paid_at'] = None
-
-        # ------------------------------------------------------
-        # Payment failed
-        # ------------------------------------------------------
-
-        elif data.get('status') == self.FAILED:
-
-            data['paid_at'] = None
-
-        # ------------------------------------------------------
-        # ID
-        # ------------------------------------------------------
-
-        data['id'] = id
-
-        return self.repository.update(data)
+        return self.repository.update(payload)
 
     # ==========================================================
-    # DELETE
+    # DELETE PAYMENT
     # ==========================================================
-
-    def delete_payment(
-        self,
-        id: int
-    ):
-
-        return self.repository.delete(id)
+    def delete_payment(self, pay_id: int) -> bool:
+        return self.repository.delete(pay_id)
