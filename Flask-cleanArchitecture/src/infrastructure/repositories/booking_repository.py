@@ -1,6 +1,5 @@
-
 from typing import List, Optional
-from sqlalchemy import or_, and_
+from sqlalchemy import or_
 from infrastructure.models.booking_model import BookingModel
 from infrastructure.models.creative_space_model import CreativeSpaceModel
 
@@ -9,8 +8,13 @@ class BookingRepository:
     def __init__(self, session):
         self.session = session
 
+    # ==========================================================
+    # PHOTOGRAPHER BOOKING
+    # ==========================================================
+
     def add(self, data) -> BookingModel:
-        m = BookingModel(
+
+        model = BookingModel(
             photographer_id=data.get('photographer_id'),
             space_id=data.get('space_id'),
             package_id=data.get('package_id'),
@@ -21,18 +25,35 @@ class BookingRepository:
             created_at=data.get('created_at')
         )
 
-        self.session.add(m)
-        self.session.commit()
-        self.session.refresh(m)
-        return m
+        try:
 
-    def get_by_id(self, booking_id: int) -> Optional[BookingModel]:
-        return self.session.query(BookingModel).filter(
+            self.session.add(model)
+            self.session.commit()
+            self.session.refresh(model)
+
+            return model
+
+        except Exception:
+
+            self.session.rollback()
+            raise
+
+    def get_by_id(
+        self,
+        booking_id: int
+    ) -> Optional[BookingModel]:
+
+        return self.session.query(
+            BookingModel
+        ).filter(
             BookingModel.id == booking_id
         ).first()
 
     def list(self) -> List[BookingModel]:
-        return self.session.query(BookingModel).all()
+
+        return self.session.query(
+            BookingModel
+        ).all()
 
     def get_bookings_by_time_range(
         self,
@@ -41,7 +62,10 @@ class BookingRepository:
         start_time,
         end_time
     ):
-        return self.session.query(BookingModel).filter(
+
+        return self.session.query(
+            BookingModel
+        ).filter(
             or_(
                 BookingModel.photographer_id == photographer_id,
                 BookingModel.space_id == space_id
@@ -50,31 +74,66 @@ class BookingRepository:
             BookingModel.end_time > start_time
         ).all()
 
-    def update(self, booking_id: int, data: dict) -> Optional[BookingModel]:
-        booking = self.get_by_id(booking_id)
+    def update(
+        self,
+        booking_id: int,
+        data: dict
+    ) -> Optional[BookingModel]:
+
+        booking = self.get_by_id(
+            booking_id
+        )
 
         if not booking:
             return None
 
-        for key, value in data.items():
-            if hasattr(booking, key) and value is not None:
-                setattr(booking, key, value)
+        try:
 
-        self.session.commit()
-        self.session.refresh(booking)
+            for key, value in data.items():
 
-        return booking
+                if (
+                    hasattr(booking, key)
+                    and value is not None
+                ):
+                    setattr(
+                        booking,
+                        key,
+                        value
+                    )
 
-    def delete(self, booking_id: int) -> bool:
-        booking = self.get_by_id(booking_id)
+            self.session.commit()
+            self.session.refresh(booking)
+
+            return booking
+
+        except Exception:
+
+            self.session.rollback()
+            raise
+
+    def delete(
+        self,
+        booking_id: int
+    ) -> bool:
+
+        booking = self.get_by_id(
+            booking_id
+        )
 
         if not booking:
             return False
 
-        self.session.delete(booking)
-        self.session.commit()
+        try:
 
-        return True
+            self.session.delete(booking)
+            self.session.commit()
+
+            return True
+
+        except Exception:
+
+            self.session.rollback()
+            raise
 
     # ==========================================================
     # PROVIDER BOOKING MANAGEMENT
@@ -87,6 +146,7 @@ class BookingRepository:
         date: Optional[str] = None,
         space_id: Optional[int] = None
     ):
+
         query = self.session.query(
             BookingModel,
             CreativeSpaceModel.provider_id,
@@ -99,16 +159,19 @@ class BookingRepository:
         )
 
         if status:
+
             query = query.filter(
                 BookingModel.status == status
             )
 
         if space_id:
+
             query = query.filter(
                 BookingModel.space_id == space_id
             )
 
         if date:
+
             query = query.filter(
                 BookingModel.start_time >= f'{date} 00:00:00',
                 BookingModel.start_time < f'{date} 23:59:59'
@@ -125,6 +188,7 @@ class BookingRepository:
         provider_id: int,
         booking_id: int
     ):
+
         return self.session.query(
             BookingModel,
             CreativeSpaceModel.provider_id,
@@ -137,10 +201,16 @@ class BookingRepository:
             CreativeSpaceModel.provider_id == provider_id
         ).first()
 
-    def get_provider_space_ids(self, provider_id: int):
+    def get_provider_space_ids(
+        self,
+        provider_id: int
+    ):
+
         return [
             row.id
-            for row in self.session.query(CreativeSpaceModel.id).filter(
+            for row in self.session.query(
+                CreativeSpaceModel.id
+            ).filter(
                 CreativeSpaceModel.provider_id == provider_id
             ).all()
         ]

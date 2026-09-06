@@ -1,19 +1,33 @@
-
 from typing import List
 from datetime import datetime
 
 
 class BookingService:
-    def __init__(self, repository):
+    def __init__(
+        self,
+        repository,
+        service_session_repository=None,
+        invoice_repository=None,
+        payment_repository=None
+    ):
         self.repository = repository
+        self.service_session_repository = service_session_repository
+        self.invoice_repository = invoice_repository
+        self.payment_repository = payment_repository
 
     # ==========================================================
     # PHOTOGRAPHER BOOKING
     # ==========================================================
 
     def create_booking(self, **data):
-        if data.get('start_time') >= data.get('end_time'):
-            raise ValueError('Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc')
+        start_time = data.get('start_time')
+        end_time = data.get('end_time')
+
+        if start_time and end_time:
+            if start_time >= end_time:
+                raise ValueError(
+                    'Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc'
+                )
 
         return self.repository.add(data)
 
@@ -92,6 +106,10 @@ class BookingService:
             booking_id
         )
 
+    # ==========================================================
+    # CONFIRM BOOKING
+    # ==========================================================
+
     def confirm_booking(
         self,
         provider_id: int,
@@ -103,7 +121,9 @@ class BookingService:
         )
 
         if not booking:
-            return None, 'Booking không tồn tại hoặc không thuộc provider này'
+            return None, (
+                'Booking không tồn tại hoặc không thuộc provider này'
+            )
 
         if booking.status != 'pending':
             return None, (
@@ -111,12 +131,76 @@ class BookingService:
                 f'{booking.status}'
             )
 
-        booking.status = 'confirmed'
+        # ------------------------------------------------------
+        # 1. Confirm Booking
+        # ------------------------------------------------------
 
-        return self.repository.update(
+        updated_booking = self.repository.update(
             booking_id,
             {'status': 'confirmed'}
-        ), None
+        )
+
+        # ------------------------------------------------------
+        # 2. Tạo ServiceSession
+        # ------------------------------------------------------
+
+        if self.service_session_repository:
+
+            existing_session = (
+                self.service_session_repository
+                .get_by_booking_id(booking_id)
+            )
+
+            if not existing_session:
+
+                self.service_session_repository.add({
+                    'booking_id': booking_id,
+                    'status': 'pending'
+                })
+
+        # ------------------------------------------------------
+        # 3. Tạo Invoice
+        # ------------------------------------------------------
+
+        if (
+            self.service_session_repository
+            and self.invoice_repository
+        ):
+
+            service_session = (
+                self.service_session_repository
+                .get_by_booking_id(booking_id)
+            )
+
+            if service_session:
+
+                existing_invoice = (
+                    self.invoice_repository
+                    .get_by_session_id(service_session.id)
+                )
+
+                if not existing_invoice:
+
+                    subtotal = (
+                        updated_booking.total_price or 0
+                    )
+
+                    self.invoice_repository.add({
+                        'session_id': service_session.id,
+                        'invoice_number':
+                            f'INV-{booking_id:06d}',
+                        'subtotal': subtotal,
+                        'discount_amount': 0,
+                        'tax_amount': 0,
+                        'total_amount': subtotal,
+                        'issued_at': datetime.now()
+                    })
+
+        return updated_booking, None
+
+    # ==========================================================
+    # REJECT BOOKING
+    # ==========================================================
 
     def reject_booking(
         self,
@@ -129,7 +213,9 @@ class BookingService:
         )
 
         if not booking:
-            return None, 'Booking không tồn tại hoặc không thuộc provider này'
+            return None, (
+                'Booking không tồn tại hoặc không thuộc provider này'
+            )
 
         if booking.status != 'pending':
             return None, (
@@ -137,13 +223,14 @@ class BookingService:
                 f'{booking.status}'
             )
 
-        booking.status = 'cancelled'
-
         return self.repository.update(
             booking_id,
             {'status': 'cancelled'}
         ), None
 
+    # ==========================================================
+    # CHECK-IN
+    # ==========================================================
     def check_in_booking(
         self,
         provider_id: int,
@@ -155,7 +242,9 @@ class BookingService:
         )
 
         if not booking:
-            return None, 'Booking không tồn tại hoặc không thuộc provider này'
+            return None, (
+                'Booking không tồn tại hoặc không thuộc provider này'
+            )
 
         if booking.status != 'confirmed':
             return None, (
@@ -165,36 +254,79 @@ class BookingService:
         now = datetime.now()
 
         if now < booking.start_time:
-            return None, 'Chưa đến thời gian bắt đầu booking'
+            return None, (
+                'Chưa đến thời gian bắt đầu booking'
+            )
 
         if now > booking.end_time:
-            return None, 'Booking đã quá thời gian kết thúc'
+            return None, (
+                'Booking đã quá thời gian kết thúc'
+            )
+
+        # ------------------------------------------------------
+        # KIỂM TRA PAYMENT
+        # ------------------------------------------------------
+
+        if self.invoice_repository and self.payment_repository:
+
+            service_session = (
+                self.service_session_repository
+                .get_by_booking_id(booking_id)
+                if self.service_session_repository
+                else None
+            )
+
+            if not service_session:
+                return None, 'Không tìm thấy ServiceSession'
+
+            invoice = (
+                self.invoice_repository
+                .get_by_session_id(service_session.id)
+            )
+
+            if not invoice:
+                return None, 'Không tìm thấy Invoice'
+
+            payment = (
+                self.payment_repository
+                .get_by_invoice_id(invoice.id)
+            )
+
+            if not payment:
+                return None, (
+                    'Booking chưa thanh toán, không thể check-in'
+                )
+
+            if payment.status != 'Thành công':
+                return None, (
+                    'Thanh toán chưa thành công, không thể check-in'
+                )
+
+        # ------------------------------------------------------
+        # UPDATE SERVICE SESSION
+        # ------------------------------------------------------
+
+        if self.service_session_repository:
+
+            service_session = (
+                self.service_session_repository
+                .get_by_booking_id(booking_id)
+            )
+
+            if service_session:
+                self.service_session_repository.update(
+                    service_session.id,
+                    {
+                        'check_in_time': now,
+                        'status': 'checked_in'
+                    }
+                )
+
+        # ------------------------------------------------------
+        # UPDATE BOOKING
+        # ------------------------------------------------------
 
         return self.repository.update(
             booking_id,
             {'status': 'checked_in'}
         ), None
-
-    def check_out_booking(
-        self,
-        provider_id: int,
-        booking_id: int
-    ):
-        booking = self._get_owned_booking(
-            provider_id,
-            booking_id
-        )
-
-        if not booking:
-            return None, 'Booking không tồn tại hoặc không thuộc provider này'
-
-        if booking.status != 'checked_in':
-            return None, (
-                'Chỉ booking đã check-in mới được check-out'
-            )
-
-        return self.repository.update(
-            booking_id,
-            {'status': 'completed'}
-        ), None
-

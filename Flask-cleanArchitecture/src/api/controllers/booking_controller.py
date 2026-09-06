@@ -1,13 +1,30 @@
 from flask import Blueprint, request, jsonify
 
 from services.booking_service import BookingService
-from infrastructure.repositories.booking_repository import BookingRepository
+
+from infrastructure.repositories.booking_repository import (
+    BookingRepository
+)
+
+from infrastructure.repositories.service_session_repository import (
+    ServiceSessionRepository
+)
+
+from infrastructure.repositories.invoice_repository import (
+    InvoiceRepository
+)
+
+from infrastructure.repositories.payment_repository import (
+    PaymentRepository
+)
+
 from api.schemas.booking import (
     BookingRequestSchema,
     BookingUpdateSchema,
     BookingResponseSchema,
     ProviderBookingResponseSchema
 )
+
 from infrastructure.databases.postgres import session
 
 
@@ -17,9 +34,18 @@ bp = Blueprint(
     url_prefix='/bookings'
 )
 
+
+# ==========================================================
+# SERVICE
+# ==========================================================
+
 booking_service = BookingService(
-    BookingRepository(session)
+    BookingRepository(session),
+    ServiceSessionRepository(session),
+    InvoiceRepository(session),
+    PaymentRepository(session)
 )
+
 
 request_schema = BookingRequestSchema()
 update_schema = BookingUpdateSchema()
@@ -28,95 +54,62 @@ provider_response_schema = ProviderBookingResponseSchema()
 
 
 # ==========================================================
-# PHOTOGRAPHER APIs - GIỮ API CŨ
+# PHOTOGRAPHER APIs
 # ==========================================================
+
 
 @bp.route('/', methods=['GET'])
 def list_bookings():
+
     photographer_id = request.args.get(
         'photographer_id',
         type=int
     )
 
-    items = booking_service.list_bookings()
-
-    if photographer_id:
-        items = [
-            b for b in items
-            if getattr(b, 'photographer_id', None) == photographer_id
-        ]
-
-    return jsonify(
-        response_schema.dump(items, many=True)
-    ), 200
-
-
-@bp.route('/<int:booking_id>', methods=['GET'])
-def get_booking(booking_id):
-    item = booking_service.get_booking(booking_id)
-
-    if not item:
-        return jsonify({
-            'message': 'Booking not found'
-        }), 404
-
-    return jsonify(
-        response_schema.dump(item)
-    ), 200
-
-
-@bp.route('/', methods=['POST'])
-def create_booking():
-    data = request.get_json() or {}
-
-    errors = request_schema.validate(data)
-
-    if errors:
-        return jsonify(errors), 400
-
     try:
-        cleaned_data = request_schema.load(data)
-        item = booking_service.create_booking(**cleaned_data)
+
+        items = booking_service.list_bookings()
+
+        # Giữ nguyên logic lọc booking của Photographer
+        if photographer_id:
+            items = [
+                b for b in items
+                if getattr(
+                    b,
+                    'photographer_id',
+                    None
+                ) == photographer_id
+            ]
 
         return jsonify(
-            response_schema.dump(item)
-        ), 201
-
-    except ValueError as e:
-        return jsonify({
-            'message': str(e)
-        }), 400
+            response_schema.dump(
+                items,
+                many=True
+            )
+        ), 200
 
     except Exception as e:
+
         session.rollback()
 
         return jsonify({
-            'message': 'Không thể tạo booking',
+            'message': 'Không thể lấy danh sách booking',
             'error': str(e)
         }), 500
 
 
-@bp.route('/<int:booking_id>', methods=['PUT'])
-def update_booking(booking_id):
-    data = request.get_json() or {}
+# ==========================================================
+# GET BOOKING DETAIL
+# ==========================================================
 
-    errors = update_schema.validate(
-        data,
-        partial=True
-    )
 
-    if errors:
-        return jsonify(errors), 400
+@bp.route('/<int:booking_id>', methods=['GET'])
+def get_booking(booking_id):
 
     try:
-        cleaned_data = update_schema.load(
-            data,
-            partial=True
-        )
 
-        item = booking_service.update_booking(
-            booking_id,
-            **cleaned_data
+        item = booking_service.get_booking(
+            booking_id
         )
 
         if not item:
@@ -128,12 +121,167 @@ def update_booking(booking_id):
             response_schema.dump(item)
         ), 200
 
+    except Exception as e:
+
+        session.rollback()
+
+        return jsonify({
+            'message': 'Không thể lấy booking',
+            'error': str(e)
+        }), 500
+
+
+# ==========================================================
+# CREATE BOOKING
+# ==========================================================
+
+
+@bp.route('/', methods=['POST'])
+def create_booking():
+
+    data = request.get_json() or {}
+
+    errors = request_schema.validate(data)
+
+    if errors:
+        return jsonify(errors), 400
+
+    try:
+
+        cleaned_data = request_schema.load(data)
+
+        item = booking_service.create_booking(
+            **cleaned_data
+        )
+
+        return jsonify(
+            response_schema.dump(item)
+        ), 201
+
     except ValueError as e:
+
+        session.rollback()
+
         return jsonify({
             'message': str(e)
         }), 400
 
     except Exception as e:
+
+        session.rollback()
+
+        return jsonify({
+            'message': 'Không thể tạo booking',
+            'error': str(e)
+        }), 500
+
+
+# ==========================================================
+# UPDATE BOOKING
+# ==========================================================
+#
+# Photographer chỉ được cập nhật thông tin booking.
+#
+# Không cho phép dùng PUT để bypass flow Provider:
+#
+# pending
+#    ↓
+# Provider confirm
+#    ↓
+# confirmed
+#    ↓
+# Payment
+#    ↓
+# Provider check-in
+#    ↓
+# checked_in
+#    ↓
+# Provider check-out
+#    ↓
+# completed
+#
+# ==========================================================
+
+
+@bp.route('/<int:booking_id>', methods=['PUT'])
+def update_booking(booking_id):
+
+    data = request.get_json() or {}
+
+    errors = update_schema.validate(
+        data,
+        partial=True
+    )
+
+    if errors:
+        return jsonify(errors), 400
+
+    try:
+
+        cleaned_data = update_schema.load(
+            data,
+            partial=True
+        )
+
+        # --------------------------------------------------
+        # Không cho PUT thay đổi trạng thái vận hành
+        # --------------------------------------------------
+
+        forbidden_statuses = {
+            'confirmed',
+            'checked_in',
+            'completed'
+        }
+
+        new_status = cleaned_data.get('status')
+
+        if new_status in forbidden_statuses:
+
+            return jsonify({
+                'message': (
+                    'Không thể thay đổi trạng thái '
+                    f'{new_status} bằng API này. '
+                    'Vui lòng sử dụng API dành cho Provider.'
+                )
+            }), 403
+
+        # --------------------------------------------------
+        # Chỉ cho Photographer hủy booking
+        # --------------------------------------------------
+
+        if new_status and new_status != 'cancelled':
+
+            return jsonify({
+                'message': (
+                    'Trạng thái cập nhật không hợp lệ'
+                )
+            }), 400
+
+        item = booking_service.update_booking(
+            booking_id,
+            **cleaned_data
+        )
+
+        if not item:
+
+            return jsonify({
+                'message': 'Booking not found'
+            }), 404
+
+        return jsonify(
+            response_schema.dump(item)
+        ), 200
+
+    except ValueError as e:
+
+        session.rollback()
+
+        return jsonify({
+            'message': str(e)
+        }), 400
+
+    except Exception as e:
+
         session.rollback()
 
         return jsonify({
@@ -142,29 +290,48 @@ def update_booking(booking_id):
         }), 500
 
 
+# ==========================================================
+# DELETE BOOKING
+# ==========================================================
+
+
 @bp.route('/<int:booking_id>', methods=['DELETE'])
 def delete_booking(booking_id):
-    deleted = booking_service.delete_booking(
-        booking_id
-    )
 
-    if not deleted:
+    try:
+
+        deleted = booking_service.delete_booking(
+            booking_id
+        )
+
+        if not deleted:
+
+            return jsonify({
+                'message': 'Booking not found'
+            }), 404
+
+        return '', 204
+
+    except Exception as e:
+
+        session.rollback()
+
         return jsonify({
-            'message': 'Booking not found'
-        }), 404
-
-    return '', 204
+            'message': 'Không thể xóa booking',
+            'error': str(e)
+        }), 500
 
 
 # ==========================================================
 # PROVIDER BOOKING MANAGEMENT
 # ==========================================================
 
-@bp.route('/provider/<int:provider_id>', methods=['GET'])
+
+@bp.route(
+    '/provider/<int:provider_id>',
+    methods=['GET']
+)
 def get_provider_bookings(provider_id):
-    """
-    Lấy danh sách booking thuộc provider.
-    """
 
     status = request.args.get(
         'status',
@@ -181,6 +348,7 @@ def get_provider_bookings(provider_id):
         type=int
     )
 
+    # Các trạng thái hợp lệ của Booking
     allowed_statuses = {
         'pending',
         'confirmed',
@@ -190,11 +358,13 @@ def get_provider_bookings(provider_id):
     }
 
     if status and status not in allowed_statuses:
+
         return jsonify({
             'message': 'Trạng thái booking không hợp lệ'
         }), 400
 
     try:
+
         items = booking_service.list_provider_bookings(
             provider_id=provider_id,
             status=status,
@@ -210,10 +380,18 @@ def get_provider_bookings(provider_id):
         ), 200
 
     except Exception as e:
+
+        session.rollback()
+
         return jsonify({
             'message': 'Không thể lấy danh sách booking',
             'error': str(e)
         }), 500
+
+
+# ==========================================================
+# PROVIDER GET BOOKING DETAIL
+# ==========================================================
 
 
 @bp.route(
@@ -224,17 +402,16 @@ def get_provider_booking(
     provider_id,
     booking_id
 ):
-    """
-    Lấy chi tiết booking thuộc provider.
-    """
 
     try:
+
         item = booking_service.get_provider_booking(
             provider_id,
             booking_id
         )
 
         if not item:
+
             return jsonify({
                 'message': (
                     'Booking không tồn tại '
@@ -247,10 +424,18 @@ def get_provider_booking(
         ), 200
 
     except Exception as e:
+
+        session.rollback()
+
         return jsonify({
             'message': 'Không thể lấy chi tiết booking',
             'error': str(e)
         }), 500
+
+
+# ==========================================================
+# PROVIDER CONFIRM
+# ==========================================================
 
 
 @bp.route(
@@ -261,17 +446,16 @@ def confirm_provider_booking(
     provider_id,
     booking_id
 ):
-    """
-    Provider xác nhận booking.
-    """
 
     try:
+
         item, error = booking_service.confirm_booking(
             provider_id,
             booking_id
         )
 
         if error:
+
             status_code = 404 if not item else 400
 
             return jsonify({
@@ -284,12 +468,18 @@ def confirm_provider_booking(
         }), 200
 
     except Exception as e:
+
         session.rollback()
 
         return jsonify({
             'message': 'Không thể xác nhận booking',
             'error': str(e)
         }), 500
+
+
+# ==========================================================
+# PROVIDER REJECT
+# ==========================================================
 
 
 @bp.route(
@@ -300,17 +490,16 @@ def reject_provider_booking(
     provider_id,
     booking_id
 ):
-    """
-    Provider từ chối booking.
-    """
 
     try:
+
         item, error = booking_service.reject_booking(
             provider_id,
             booking_id
         )
 
         if error:
+
             status_code = 404 if not item else 400
 
             return jsonify({
@@ -323,12 +512,18 @@ def reject_provider_booking(
         }), 200
 
     except Exception as e:
+
         session.rollback()
 
         return jsonify({
             'message': 'Không thể từ chối booking',
             'error': str(e)
         }), 500
+
+
+# ==========================================================
+# PROVIDER CHECK-IN
+# ==========================================================
 
 
 @bp.route(
@@ -339,17 +534,16 @@ def check_in_provider_booking(
     provider_id,
     booking_id
 ):
-    """
-    Provider check-in booking.
-    """
 
     try:
+
         item, error = booking_service.check_in_booking(
             provider_id,
             booking_id
         )
 
         if error:
+
             status_code = 404 if not item else 400
 
             return jsonify({
@@ -362,12 +556,18 @@ def check_in_provider_booking(
         }), 200
 
     except Exception as e:
+
         session.rollback()
 
         return jsonify({
             'message': 'Không thể check-in booking',
             'error': str(e)
         }), 500
+
+
+# ==========================================================
+# PROVIDER CHECK-OUT
+# ==========================================================
 
 
 @bp.route(
@@ -378,17 +578,16 @@ def check_out_provider_booking(
     provider_id,
     booking_id
 ):
-    """
-    Provider check-out booking.
-    """
 
     try:
+
         item, error = booking_service.check_out_booking(
             provider_id,
             booking_id
         )
 
         if error:
+
             status_code = 404 if not item else 400
 
             return jsonify({
@@ -401,6 +600,7 @@ def check_out_provider_booking(
         }), 200
 
     except Exception as e:
+
         session.rollback()
 
         return jsonify({
