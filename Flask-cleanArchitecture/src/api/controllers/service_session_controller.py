@@ -46,6 +46,25 @@ response_schema = ServiceSessionResponseSchema()
 
 @bp.route('/', methods=['GET'])
 def list_sessions():
+    """
+    Lấy danh sách tất cả ServiceSession
+    ---
+    get:
+      tags:
+        - ServiceSession
+      summary: Lấy danh sách ServiceSession
+      responses:
+        200:
+          description: Danh sách ServiceSession
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceSessionResponse'
+        500:
+          description: Lỗi server
+    """
 
     try:
         items = service.list_sessions()
@@ -73,6 +92,31 @@ def list_sessions():
 
 @bp.route('/<int:session_id>', methods=['GET'])
 def get_session(session_id):
+    """
+    Lấy ServiceSession theo ID
+    ---
+    get:
+      tags:
+        - ServiceSession
+      summary: Lấy ServiceSession theo ID
+      parameters:
+        - in: path
+          name: session_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: ServiceSession
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceSessionResponse'
+        404:
+          description: Không tìm thấy ServiceSession
+        500:
+          description: Lỗi server
+    """
 
     try:
 
@@ -108,6 +152,31 @@ def get_session(session_id):
     methods=['GET']
 )
 def get_session_by_booking(booking_id):
+    """
+    Lấy ServiceSession theo Booking
+    ---
+    get:
+      tags:
+        - ServiceSession
+      summary: Lấy ServiceSession theo BookingID
+      parameters:
+        - in: path
+          name: booking_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: ServiceSession của Booking
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceSessionResponse'
+        404:
+          description: Không tìm thấy ServiceSession
+        500:
+          description: Lỗi server
+    """
 
     try:
 
@@ -141,6 +210,31 @@ def get_session_by_booking(booking_id):
 
 @bp.route('/', methods=['POST'])
 def create_session():
+    """
+    Tạo ServiceSession
+    ---
+    post:
+      tags:
+        - ServiceSession
+      summary: Tạo ServiceSession cho Booking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceSessionRequest'
+      responses:
+        201:
+          description: Tạo ServiceSession thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceSessionResponse'
+        400:
+          description: Dữ liệu không hợp lệ
+        500:
+          description: Lỗi server
+    """
 
     data = request.get_json() or {}
 
@@ -187,6 +281,38 @@ def create_session():
     methods=['POST']
 )
 def check_in(booking_id):
+    """
+    Check-in Booking
+    ---
+    post:
+      tags:
+        - ServiceSession
+      summary: Check-in Booking
+      parameters:
+        - in: path
+          name: booking_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                check_in_method:
+                  type: string
+                notes:
+                  type: string
+      responses:
+        200:
+          description: Check-in thành công
+        400:
+          description: Không thể check-in
+        500:
+          description: Lỗi server
+    """
 
     data = request.get_json() or {}
 
@@ -242,6 +368,36 @@ def check_in(booking_id):
     methods=['POST']
 )
 def check_out(booking_id):
+    """
+    Check-out Booking
+    ---
+    post:
+      tags:
+        - ServiceSession
+      summary: Check-out Booking
+      parameters:
+        - in: path
+          name: booking_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                notes:
+                  type: string
+      responses:
+        200:
+          description: Check-out thành công
+        400:
+          description: Không thể check-out
+        500:
+          description: Lỗi server
+    """
 
     data = request.get_json() or {}
 
@@ -292,6 +448,39 @@ def check_out(booking_id):
     methods=['PUT']
 )
 def update_session(session_id):
+    """
+    Cập nhật ServiceSession
+    ---
+    put:
+      tags:
+        - ServiceSession
+      summary: Cập nhật ServiceSession
+      parameters:
+        - in: path
+          name: session_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceSessionUpdate'
+      responses:
+        200:
+          description: Cập nhật thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceSessionResponse'
+        400:
+          description: Dữ liệu không hợp lệ
+        404:
+          description: Không tìm thấy ServiceSession
+        500:
+          description: Lỗi server
+    """
 
     data = request.get_json() or {}
 
@@ -350,6 +539,27 @@ def update_session(session_id):
     methods=['DELETE']
 )
 def delete_session(session_id):
+    """
+    Xóa ServiceSession
+    ---
+    delete:
+      tags:
+        - ServiceSession
+      summary: Xóa ServiceSession
+      parameters:
+        - in: path
+          name: session_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Xóa thành công
+        404:
+          description: Không tìm thấy ServiceSession
+        500:
+          description: Lỗi server
+    """
 
     try:
 

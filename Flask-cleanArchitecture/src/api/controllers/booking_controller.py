@@ -14,10 +14,6 @@ from infrastructure.repositories.invoice_repository import (
     InvoiceRepository
 )
 
-from infrastructure.repositories.payment_repository import (
-    PaymentRepository
-)
-
 from api.schemas.booking import (
     BookingRequestSchema,
     BookingUpdateSchema,
@@ -26,6 +22,8 @@ from api.schemas.booking import (
 )
 
 from infrastructure.databases.postgres import session
+
+from infrastructure.repositories.payment_repository import PaymentRepository
 
 
 bp = Blueprint(
@@ -54,12 +52,36 @@ provider_response_schema = ProviderBookingResponseSchema()
 
 
 # ==========================================================
-# PHOTOGRAPHER APIs
+# PHOTOGRAPHER APIs - GIỮ API CŨ
 # ==========================================================
-
 
 @bp.route('/', methods=['GET'])
 def list_bookings():
+    """
+    ---
+    get:
+      tags:
+        - Booking
+      summary: Lấy danh sách booking
+      parameters:
+        - name: photographer_id
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Lọc booking theo Photographer
+      responses:
+        200:
+          description: Danh sách booking
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookingResponse'
+        500:
+          description: Không thể lấy danh sách booking
+    """
 
     photographer_id = request.args.get(
         'photographer_id',
@@ -70,7 +92,6 @@ def list_bookings():
 
         items = booking_service.list_bookings()
 
-        # Giữ nguyên logic lọc booking của Photographer
         if photographer_id:
             items = [
                 b for b in items
@@ -98,13 +119,32 @@ def list_bookings():
         }), 500
 
 
-# ==========================================================
-# GET BOOKING DETAIL
-# ==========================================================
-
-
 @bp.route('/<int:booking_id>', methods=['GET'])
 def get_booking(booking_id):
+    """
+    ---
+    get:
+      tags:
+        - Booking
+      summary: Lấy thông tin booking
+      parameters:
+        - name: booking_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Thông tin booking
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingResponse'
+        404:
+          description: Không tìm thấy booking
+        500:
+          description: Không thể lấy booking
+    """
 
     try:
 
@@ -131,13 +171,32 @@ def get_booking(booking_id):
         }), 500
 
 
-# ==========================================================
-# CREATE BOOKING
-# ==========================================================
-
-
 @bp.route('/', methods=['POST'])
 def create_booking():
+    """
+    ---
+    post:
+      tags:
+        - Booking
+      summary: Tạo booking mới
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingRequest'
+      responses:
+        201:
+          description: Tạo booking thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingResponse'
+        400:
+          description: Dữ liệu booking không hợp lệ
+        500:
+          description: Không thể tạo booking
+    """
 
     data = request.get_json() or {}
 
@@ -160,8 +219,6 @@ def create_booking():
 
     except ValueError as e:
 
-        session.rollback()
-
         return jsonify({
             'message': str(e)
         }), 400
@@ -176,35 +233,40 @@ def create_booking():
         }), 500
 
 
-# ==========================================================
-# UPDATE BOOKING
-# ==========================================================
-#
-# Photographer chỉ được cập nhật thông tin booking.
-#
-# Không cho phép dùng PUT để bypass flow Provider:
-#
-# pending
-#    ↓
-# Provider confirm
-#    ↓
-# confirmed
-#    ↓
-# Payment
-#    ↓
-# Provider check-in
-#    ↓
-# checked_in
-#    ↓
-# Provider check-out
-#    ↓
-# completed
-#
-# ==========================================================
-
-
 @bp.route('/<int:booking_id>', methods=['PUT'])
 def update_booking(booking_id):
+    """
+    ---
+    put:
+      tags:
+        - Booking
+      summary: Cập nhật booking
+      parameters:
+        - name: booking_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingUpdate'
+      responses:
+        200:
+          description: Cập nhật booking thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingResponse'
+        400:
+          description: Dữ liệu booking không hợp lệ
+        404:
+          description: Không tìm thấy booking
+        500:
+          description: Không thể cập nhật booking
+    """
 
     data = request.get_json() or {}
 
@@ -223,47 +285,12 @@ def update_booking(booking_id):
             partial=True
         )
 
-        # --------------------------------------------------
-        # Không cho PUT thay đổi trạng thái vận hành
-        # --------------------------------------------------
-
-        forbidden_statuses = {
-            'confirmed',
-            'checked_in',
-            'completed'
-        }
-
-        new_status = cleaned_data.get('status')
-
-        if new_status in forbidden_statuses:
-
-            return jsonify({
-                'message': (
-                    'Không thể thay đổi trạng thái '
-                    f'{new_status} bằng API này. '
-                    'Vui lòng sử dụng API dành cho Provider.'
-                )
-            }), 403
-
-        # --------------------------------------------------
-        # Chỉ cho Photographer hủy booking
-        # --------------------------------------------------
-
-        if new_status and new_status != 'cancelled':
-
-            return jsonify({
-                'message': (
-                    'Trạng thái cập nhật không hợp lệ'
-                )
-            }), 400
-
         item = booking_service.update_booking(
             booking_id,
             **cleaned_data
         )
 
         if not item:
-
             return jsonify({
                 'message': 'Booking not found'
             }), 404
@@ -273,8 +300,6 @@ def update_booking(booking_id):
         ), 200
 
     except ValueError as e:
-
-        session.rollback()
 
         return jsonify({
             'message': str(e)
@@ -290,13 +315,28 @@ def update_booking(booking_id):
         }), 500
 
 
-# ==========================================================
-# DELETE BOOKING
-# ==========================================================
-
-
 @bp.route('/<int:booking_id>', methods=['DELETE'])
 def delete_booking(booking_id):
+    """
+    ---
+    delete:
+      tags:
+        - Booking
+      summary: Xóa booking
+      parameters:
+        - name: booking_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Xóa booking thành công
+        404:
+          description: Không tìm thấy booking
+        500:
+          description: Không thể xóa booking
+    """
 
     try:
 
@@ -305,7 +345,6 @@ def delete_booking(booking_id):
         )
 
         if not deleted:
-
             return jsonify({
                 'message': 'Booking not found'
             }), 404
@@ -326,12 +365,58 @@ def delete_booking(booking_id):
 # PROVIDER BOOKING MANAGEMENT
 # ==========================================================
 
-
 @bp.route(
     '/provider/<int:provider_id>',
     methods=['GET']
 )
 def get_provider_bookings(provider_id):
+    """
+    ---
+    get:
+      tags:
+        - Booking
+      summary: Lấy danh sách booking của Provider
+      parameters:
+        - name: provider_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - pending
+              - confirmed
+              - cancelled
+              - checked_in
+              - completed
+        - name: date
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: space_id
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Danh sách booking của Provider
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookingResponse'
+        400:
+          description: Trạng thái booking không hợp lệ
+        500:
+          description: Không thể lấy danh sách booking
+    """
 
     status = request.args.get(
         'status',
@@ -348,7 +433,6 @@ def get_provider_bookings(provider_id):
         type=int
     )
 
-    # Các trạng thái hợp lệ của Booking
     allowed_statuses = {
         'pending',
         'confirmed',
@@ -358,7 +442,6 @@ def get_provider_bookings(provider_id):
     }
 
     if status and status not in allowed_statuses:
-
         return jsonify({
             'message': 'Trạng thái booking không hợp lệ'
         }), 400
@@ -389,11 +472,6 @@ def get_provider_bookings(provider_id):
         }), 500
 
 
-# ==========================================================
-# PROVIDER GET BOOKING DETAIL
-# ==========================================================
-
-
 @bp.route(
     '/provider/<int:provider_id>/<int:booking_id>',
     methods=['GET']
@@ -402,6 +480,35 @@ def get_provider_booking(
     provider_id,
     booking_id
 ):
+    """
+    ---
+    get:
+      tags:
+        - Booking
+      summary: Lấy chi tiết booking của Provider
+      parameters:
+        - name: provider_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: booking_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Chi tiết booking
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingResponse'
+        404:
+          description: Booking không tồn tại hoặc không thuộc Provider
+        500:
+          description: Không thể lấy chi tiết booking
+    """
 
     try:
 
@@ -411,7 +518,6 @@ def get_provider_booking(
         )
 
         if not item:
-
             return jsonify({
                 'message': (
                     'Booking không tồn tại '
@@ -434,9 +540,8 @@ def get_provider_booking(
 
 
 # ==========================================================
-# PROVIDER CONFIRM
+# CONFIRM
 # ==========================================================
-
 
 @bp.route(
     '/provider/<int:provider_id>/<int:booking_id>/confirm',
@@ -446,6 +551,33 @@ def confirm_provider_booking(
     provider_id,
     booking_id
 ):
+    """
+    ---
+    post:
+      tags:
+        - Booking
+      summary: Provider xác nhận booking
+      parameters:
+        - name: provider_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: booking_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Booking đã được xác nhận
+        400:
+          description: Không thể xác nhận booking
+        404:
+          description: Booking không tồn tại hoặc không thuộc Provider
+        500:
+          description: Không thể xác nhận booking
+    """
 
     try:
 
@@ -478,9 +610,8 @@ def confirm_provider_booking(
 
 
 # ==========================================================
-# PROVIDER REJECT
+# REJECT
 # ==========================================================
-
 
 @bp.route(
     '/provider/<int:provider_id>/<int:booking_id>/reject',
@@ -490,6 +621,33 @@ def reject_provider_booking(
     provider_id,
     booking_id
 ):
+    """
+    ---
+    post:
+      tags:
+        - Booking
+      summary: Provider từ chối booking
+      parameters:
+        - name: provider_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: booking_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Booking đã bị từ chối
+        400:
+          description: Không thể từ chối booking
+        404:
+          description: Booking không tồn tại hoặc không thuộc Provider
+        500:
+          description: Không thể từ chối booking
+    """
 
     try:
 
@@ -522,9 +680,8 @@ def reject_provider_booking(
 
 
 # ==========================================================
-# PROVIDER CHECK-IN
+# CHECK-IN
 # ==========================================================
-
 
 @bp.route(
     '/provider/<int:provider_id>/<int:booking_id>/check-in',
@@ -534,6 +691,33 @@ def check_in_provider_booking(
     provider_id,
     booking_id
 ):
+    """
+    ---
+    post:
+      tags:
+        - Booking
+      summary: Provider check-in booking
+      parameters:
+        - name: provider_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: booking_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Check-in thành công
+        400:
+          description: Không thể check-in booking
+        404:
+          description: Booking không tồn tại hoặc không thuộc Provider
+        500:
+          description: Không thể check-in booking
+    """
 
     try:
 
@@ -566,9 +750,8 @@ def check_in_provider_booking(
 
 
 # ==========================================================
-# PROVIDER CHECK-OUT
+# CHECK-OUT
 # ==========================================================
-
 
 @bp.route(
     '/provider/<int:provider_id>/<int:booking_id>/check-out',
@@ -578,6 +761,33 @@ def check_out_provider_booking(
     provider_id,
     booking_id
 ):
+    """
+    ---
+    post:
+      tags:
+        - Booking
+      summary: Provider check-out booking
+      parameters:
+        - name: provider_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: booking_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Check-out thành công
+        400:
+          description: Không thể check-out booking
+        404:
+          description: Booking không tồn tại hoặc không thuộc Provider
+        500:
+          description: Không thể check-out booking
+    """
 
     try:
 
@@ -607,3 +817,4 @@ def check_out_provider_booking(
             'message': 'Không thể check-out booking',
             'error': str(e)
         }), 500
+

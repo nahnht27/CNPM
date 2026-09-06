@@ -1,5 +1,4 @@
 from src.api.controllers.auth_controller import auth_bp
-
 from src.api.controllers.booking_controller import bp as booking_bp
 from src.api.controllers.category_controller import bp as category_bp
 from src.api.controllers.complaint_controller import bp as complaint_bp
@@ -14,6 +13,7 @@ from src.api.controllers.promotion_controller import bp as promotion_bp
 from src.api.controllers.review_controller import bp as review_bp
 from src.api.controllers.role_controller import bp as role_bp
 from src.api.controllers.service_package_controller import bp as service_package_bp
+from src.api.controllers.service_session_controller import bp as service_session_bp
 from src.api.controllers.service_provider_controller import bp as service_provider_bp
 from src.api.controllers.report_controller import bp as report_bp
 from src.api.controllers.workshop_controller import bp as workshop_bp
@@ -36,6 +36,7 @@ def register_routes(app):
     app.register_blueprint(report_bp) 
 
     app.register_blueprint(service_package_bp)
+    app.register_blueprint(service_session_bp)
     app.register_blueprint(promotion_bp)
 
     app.register_blueprint(post_bp)

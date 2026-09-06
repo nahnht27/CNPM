@@ -75,11 +75,21 @@ from api.schemas.space_image import (
     SpaceImageResponseSchema
 )
 
+from api.schemas.service_session import (
+    ServiceSessionRequestSchema,
+    ServiceSessionUpdateSchema,
+    ServiceSessionResponseSchema
+)
+
 spec = APISpec(
     title="Film Photography Community Platform API",
     version="1.0.0",
     openapi_version="3.0.2",
     plugins=[FlaskPlugin(), MarshmallowPlugin()],
+)
+spec.components.schema(
+    "ServiceSessionUpdate",
+    schema=ServiceSessionUpdateSchema
 )
 
 # Đăng ký schema để tự động sinh model

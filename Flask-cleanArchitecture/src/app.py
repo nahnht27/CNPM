@@ -19,6 +19,7 @@ from api.controllers.promotion_controller import bp as promotion_bp
 from api.controllers.review_controller import bp as review_bp
 from api.controllers.role_controller import bp as role_bp
 from api.controllers.service_package_controller import bp as service_package_bp
+from api.controllers.service_session_controller import bp as service_session_bp
 from api.controllers.service_provider_controller import bp as service_provider_bp
 from api.controllers.workshop_controller import bp as workshop_bp
 
@@ -54,6 +55,7 @@ def create_app():
     app.register_blueprint(review_bp)
     app.register_blueprint(role_bp)
     app.register_blueprint(service_package_bp)
+    app.register_blueprint(service_session_bp)
     app.register_blueprint(service_provider_bp)
     app.register_blueprint(workshop_bp)
     app.register_blueprint(report_bp)
