@@ -1,0 +1,3407 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Provider - Workshops | FilmSpace</title>
+
+  <link
+    rel="stylesheet"
+    href="../assets/css/styles.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../assets/css/provider-dashboard.css"
+  >
+
+  <style>
+
+    /* =========================================
+       PROVIDER WORKSHOP PAGE
+       ========================================= */
+
+    .provider-workshop-page {
+      padding-bottom: 70px;
+    }
+
+    .workshop-header {
+      padding: 50px 0 25px;
+    }
+
+    .workshop-header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .workshop-header h1 {
+      margin: 0 0 8px;
+    }
+
+    .workshop-header p {
+      margin: 0;
+      color: #666;
+    }
+
+    .create-workshop-btn {
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      background: #e13493;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .create-workshop-btn:hover {
+      background: #c9277f;
+    }
+
+
+    /* =========================================
+       WORKSHOP GRID
+       ========================================= */
+
+    .provider-workshop-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .provider-workshop-card {
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      overflow: hidden;
+
+      box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.05);
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .provider-workshop-card:hover {
+      transform: translateY(-4px);
+
+      box-shadow:
+        0 8px 22px rgba(0, 0, 0, 0.08);
+    }
+
+    .provider-workshop-image {
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .provider-workshop-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .provider-workshop-content {
+      padding: 20px;
+    }
+
+    .workshop-status {
+      display: inline-block;
+
+      margin-bottom: 10px;
+
+      padding: 5px 10px;
+
+      border-radius: 20px;
+
+      background: #fce4f1;
+
+      color: #e13493;
+
+      font-size: 12px;
+
+      font-weight: 600;
+    }
+
+    .provider-workshop-content h3 {
+      margin: 0 0 12px;
+
+      font-size: 20px;
+    }
+
+    .workshop-info {
+      margin: 7px 0;
+
+      color: #555;
+
+      font-size: 14px;
+
+      line-height: 1.4;
+    }
+
+    .workshop-description {
+      margin: 14px 0;
+
+      color: #666;
+
+      line-height: 1.5;
+
+      min-height: 44px;
+    }
+
+    .workshop-card-actions {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 8px;
+
+      margin-top: 18px;
+    }
+
+    .workshop-action-btn {
+      border: none;
+
+      border-radius: 7px;
+
+      padding: 10px;
+
+      cursor: pointer;
+
+      font-size: 13px;
+
+      font-weight: 600;
+    }
+
+    .workshop-detail-btn {
+      background: #f1f1f1;
+
+      color: #333;
+    }
+
+    .workshop-detail-btn:hover {
+      background: #e4e4e4;
+    }
+
+    .workshop-edit-btn {
+      background: #e13493;
+
+      color: #fff;
+    }
+
+    .workshop-edit-btn:hover {
+      background: #c9277f;
+    }
+
+    .workshop-delete-btn {
+      grid-column: 1 / -1;
+
+      background: #fff0f3;
+
+      color: #d43c58;
+    }
+
+    .workshop-delete-btn:hover {
+      background: #ffe1e7;
+    }
+
+
+    /* =========================================
+       EMPTY / LOADING / ERROR
+       ========================================= */
+
+    .workshop-state {
+      text-align: center;
+
+      padding: 50px 20px;
+
+      color: #666;
+    }
+
+    .workshop-state-icon {
+      font-size: 36px;
+
+      margin-bottom: 12px;
+
+      color: #e13493;
+    }
+
+
+    /* =========================================
+       MODAL
+       ========================================= */
+
+    .workshop-modal {
+      display: none;
+
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 1000;
+
+      background:
+        rgba(0, 0, 0, 0.55);
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 20px;
+    }
+
+    .workshop-modal.active {
+      display: flex;
+    }
+
+    .workshop-modal-box {
+      width: 100%;
+
+      max-width: 650px;
+
+      max-height: 90vh;
+
+      overflow-y: auto;
+
+      position: relative;
+
+      background: #fff;
+
+      border-radius: 14px;
+
+      padding: 28px;
+    }
+
+    .workshop-modal-close {
+      position: absolute;
+
+      top: 12px;
+
+      right: 16px;
+
+      border: none;
+
+      background: transparent;
+
+      font-size: 28px;
+
+      color: #555;
+
+      cursor: pointer;
+    }
+
+    .workshop-modal-close:hover {
+      color: #e13493;
+    }
+
+    .workshop-modal-box h2 {
+      margin:
+        0 0 22px;
+    }
+
+
+    /* =========================================
+       DETAIL
+       ========================================= */
+
+    .detail-image {
+      width: 100%;
+
+      height: 250px;
+
+      overflow: hidden;
+
+      border-radius: 10px;
+
+      margin-bottom: 20px;
+    }
+
+    .detail-image img {
+      width: 100%;
+
+      height: 100%;
+
+      object-fit: cover;
+    }
+
+    .detail-row {
+      margin: 10px 0;
+
+      color: #555;
+
+      line-height: 1.5;
+    }
+
+    .detail-description {
+      margin-top: 20px;
+
+      color: #555;
+
+      line-height: 1.6;
+    }
+
+    .detail-registration {
+      margin-top: 20px;
+
+      padding: 14px;
+
+      border-radius: 8px;
+
+      background: #fafafa;
+
+      border: 1px solid #eee;
+    }
+
+
+    /* =========================================
+       FORM
+       ========================================= */
+
+    .workshop-form {
+      display: grid;
+
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 7px;
+    }
+
+    .form-group label {
+      font-size: 14px;
+
+      font-weight: 600;
+
+      color: #333;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+
+      box-sizing: border-box;
+
+      padding: 11px 12px;
+
+      border: 1px solid #ddd;
+
+      border-radius: 7px;
+
+      background: #fff;
+
+      color: #333;
+
+      font-size: 14px;
+
+      font-family: inherit;
+    }
+
+    .form-group textarea {
+      min-height: 110px;
+
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+
+      border-color: #e13493;
+    }
+
+    .form-row {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 14px;
+    }
+
+    .form-actions {
+      display: flex;
+
+      gap: 10px;
+
+      margin-top: 10px;
+    }
+
+    .form-cancel-btn,
+    .form-submit-btn {
+      flex: 1;
+
+      border: none;
+
+      border-radius: 8px;
+
+      padding: 12px;
+
+      cursor: pointer;
+
+      font-size: 14px;
+
+      font-weight: 600;
+    }
+
+    .form-cancel-btn {
+      background: #f1f1f1;
+
+      color: #333;
+    }
+
+    .form-cancel-btn:hover {
+      background: #e4e4e4;
+    }
+
+    .form-submit-btn {
+      background: #e13493;
+
+      color: #fff;
+    }
+
+    .form-submit-btn:hover {
+      background: #c9277f;
+    }
+
+    .form-submit-btn:disabled {
+      background: #aaa;
+
+      cursor: not-allowed;
+    }
+
+
+    /* =========================================
+       CONFIRM MODAL
+       ========================================= */
+
+    .confirm-box {
+      width: 100%;
+
+      max-width: 420px;
+
+      background: #fff;
+
+      border-radius: 16px;
+
+      padding: 30px;
+
+      text-align: center;
+    }
+
+    .confirm-icon {
+      width: 55px;
+
+      height: 55px;
+
+      margin:
+        0 auto 16px;
+
+      border-radius: 50%;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      background: #fff0f3;
+
+      color: #d43c58;
+
+      font-size: 26px;
+
+      font-weight: 700;
+    }
+
+    .confirm-box h3 {
+      margin: 0 0 10px;
+
+      font-size: 21px;
+    }
+
+    .confirm-box p {
+      margin: 0 0 24px;
+
+      color: #666;
+
+      line-height: 1.5;
+    }
+
+    .confirm-actions {
+      display: flex;
+
+      gap: 10px;
+    }
+
+    .confirm-cancel,
+    .confirm-ok {
+      flex: 1;
+
+      border: none;
+
+      border-radius: 8px;
+
+      padding: 11px;
+
+      cursor: pointer;
+
+      font-weight: 600;
+    }
+
+    .confirm-cancel {
+      background: #f1f1f1;
+
+      color: #333;
+    }
+
+    .confirm-ok {
+      background: #d43c58;
+
+      color: #fff;
+    }
+
+    .confirm-ok:hover {
+      background: #b82f49;
+    }
+
+
+    /* =========================================
+       MESSAGE MODAL
+       ========================================= */
+
+    .message-box {
+      width: 100%;
+
+      max-width: 420px;
+
+      background: #fff;
+
+      border-radius: 16px;
+
+      padding: 30px;
+
+      text-align: center;
+    }
+
+    .message-icon {
+      width: 58px;
+
+      height: 58px;
+
+      margin:
+        0 auto 16px;
+
+      border-radius: 50%;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      background: #fce4f1;
+
+      color: #e13493;
+
+      font-size: 28px;
+
+      font-weight: 700;
+    }
+
+    .message-box h3 {
+      margin: 0 0 10px;
+
+      font-size: 22px;
+    }
+
+    .message-box p {
+      margin: 0 0 24px;
+
+      color: #666;
+
+      line-height: 1.5;
+    }
+
+    .message-ok {
+      width: 100%;
+
+      border: none;
+
+      border-radius: 8px;
+
+      padding: 11px;
+
+      background: #e13493;
+
+      color: #fff;
+
+      cursor: pointer;
+
+      font-weight: 600;
+    }
+
+
+    /* =========================================
+       WORKSHOP TOP BAR
+       ========================================= */
+
+    .workshop-topbar {
+      background: #fff;
+      border-bottom: 1px solid #eee;
+      min-height: 76px;
+    }
+
+    .workshop-topbar-inner {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .workshop-brand {
+      color: #20243f;
+      text-decoration: none;
+      font-size: 28px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .workshop-topbar-center {
+      flex: 1;
+      text-align: center;
+    }
+
+    .workshop-topbar-label {
+      font-size: 16px;
+      font-weight: 700;
+      color: #20243f;
+    }
+
+    .workshop-topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .workshop-back-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 13px;
+      border-radius: 8px;
+      background: #f8f8f8;
+      color: #333;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .workshop-back-btn:hover {
+      background: #f0f0f0;
+      color: #e13493;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main.provider-workshop-page {
+      flex: 1;
+    }
+
+    /* =========================================
+       RESPONSIVE
+       ========================================= */
+
+    @media (max-width: 950px) {
+
+      .provider-workshop-grid {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
+
+    }
+
+    @media (max-width: 650px) {
+
+      .provider-workshop-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .workshop-topbar-inner {
+        flex-wrap: wrap;
+        padding-top: 14px;
+        padding-bottom: 14px;
+      }
+
+      .workshop-topbar-center {
+        order: 3;
+        flex-basis: 100%;
+      }
+
+      .workshop-topbar-actions {
+        margin-left: auto;
+      }
+
+      .workshop-header-content {
+        flex-direction: column;
+
+        align-items: flex-start;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .confirm-actions,
+      .form-actions {
+        flex-direction: column;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- =========================================
+       WORKSHOP TOP BAR
+       ========================================= -->
+  <header class="workshop-topbar">
+    <div class="container workshop-topbar-inner">
+      <a class="workshop-brand" href="dashboard.html">
+        FilmSpace
+      </a>
+
+      <div class="workshop-topbar-center">
+        <span class="workshop-topbar-label">
+          Quản lý Workshop
+        </span>
+      </div>
+
+      <div class="workshop-topbar-actions">
+        <a class="workshop-back-btn" href="dashboard.html">
+          ← Dashboard
+        </a>
+
+        <span
+          class="provider-nav-name"
+          id="navProviderName"
+        >
+          Provider
+        </span>
+
+        <button
+          type="button"
+          class="provider-logout"
+          onclick="logout()"
+        >
+          Đăng xuất
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================
+       MAIN
+       ========================================= -->
+
+  <main class="provider-page provider-workshop-page">
+
+
+    <!-- HEADER -->
+
+    <section class="workshop-header">
+
+      <div class="container">
+
+        <div class="workshop-header-content">
+
+          <div>
+
+            <h1>
+              Quản lý Workshop
+            </h1>
+
+            <p>
+              Tạo, cập nhật và quản lý các workshop
+              của bạn trên FilmSpace.
+            </p>
+
+          </div>
+
+
+          <button
+            type="button"
+            class="create-workshop-btn"
+            onclick="openCreateWorkshop()"
+          >
+            + Tạo workshop
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- WORKSHOP LIST -->
+
+    <section class="provider-section">
+
+      <div class="container">
+
+        <div
+          class="provider-workshop-grid"
+          id="workshopGrid"
+        >
+        </div>
+
+
+        <div
+          class="workshop-state"
+          id="loadingState"
+        >
+
+          <div class="workshop-state-icon">
+            ◷
+          </div>
+
+          <p>
+            Đang tải workshop...
+          </p>
+
+        </div>
+
+
+        <div
+          class="workshop-state"
+          id="emptyState"
+          style="display:none;"
+        >
+
+          <div class="workshop-state-icon">
+            ◉
+          </div>
+
+          <h3>
+            Chưa có workshop
+          </h3>
+
+          <p>
+            Hãy tạo workshop đầu tiên của bạn.
+          </p>
+
+        </div>
+
+
+        <div
+          class="workshop-state"
+          id="errorState"
+          style="display:none;"
+        >
+
+          <div class="workshop-state-icon">
+            !
+          </div>
+
+          <h3>
+            Không thể tải workshop
+          </h3>
+
+          <p>
+            Vui lòng kiểm tra Backend.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- =========================================
+       DETAIL MODAL
+       ========================================= -->
+
+  <div
+    class="workshop-modal"
+    id="detailModal"
+  >
+
+    <div class="workshop-modal-box">
+
+      <button
+        type="button"
+        class="workshop-modal-close"
+        onclick="closeDetailModal()"
+      >
+        ×
+      </button>
+
+      <div id="detailContent">
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================
+       CREATE / EDIT MODAL
+       ========================================= -->
+
+  <div
+    class="workshop-modal"
+    id="formModal"
+  >
+
+    <div class="workshop-modal-box">
+
+      <button
+        type="button"
+        class="workshop-modal-close"
+        onclick="closeFormModal()"
+      >
+        ×
+      </button>
+
+
+      <h2 id="formTitle">
+        Tạo workshop
+      </h2>
+
+
+      <form
+        class="workshop-form"
+        id="workshopForm"
+      >
+
+        <div class="form-group">
+
+          <label for="workshopTitle">
+            Tên workshop
+          </label>
+
+          <input
+            type="text"
+            id="workshopTitle"
+            placeholder="Nhập tên workshop"
+            required
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="workshopDescription">
+            Mô tả
+          </label>
+
+          <textarea
+            id="workshopDescription"
+            placeholder="Nhập mô tả workshop"
+          ></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="workshopLocation">
+            Địa điểm
+          </label>
+
+          <input
+            type="text"
+            id="workshopLocation"
+            placeholder="Nhập địa điểm workshop"
+            required
+          >
+
+        </div>
+
+
+        <div class="form-row">
+
+          <div class="form-group">
+
+            <label for="workshopStart">
+              Thời gian bắt đầu
+            </label>
+
+            <input
+              type="datetime-local"
+              id="workshopStart"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="workshopEnd">
+              Thời gian kết thúc
+            </label>
+
+            <input
+              type="datetime-local"
+              id="workshopEnd"
+              required
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="form-row">
+
+          <div class="form-group">
+
+            <label for="workshopCapacity">
+              Sức chứa
+            </label>
+
+            <input
+              type="number"
+              id="workshopCapacity"
+              min="1"
+              placeholder="Ví dụ: 20"
+              required
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="workshopStatus">
+            Trạng thái
+          </label>
+
+          <select
+            id="workshopStatus"
+            required
+          >
+
+            <option value="upcoming">
+              Upcoming
+            </option>
+
+            <option value="open">
+              Open
+            </option>
+
+            <option value="full">
+              Full
+            </option>
+
+            <option value="cancelled">
+              Cancelled
+            </option>
+
+            <option value="completed">
+              Completed
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="form-actions">
+
+          <button
+            type="button"
+            class="form-cancel-btn"
+            onclick="closeFormModal()"
+          >
+            Hủy
+          </button>
+
+
+          <button
+            type="submit"
+            class="form-submit-btn"
+            id="formSubmitBtn"
+          >
+            Tạo workshop
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================
+       DELETE CONFIRM MODAL
+       ========================================= -->
+
+  <div
+    class="workshop-modal"
+    id="confirmModal"
+  >
+
+    <div class="confirm-box">
+
+      <div class="confirm-icon">
+        !
+      </div>
+
+
+      <h3>
+        Xóa workshop
+      </h3>
+
+
+      <p id="confirmText">
+        Bạn có chắc muốn xóa workshop này không?
+      </p>
+
+
+      <div class="confirm-actions">
+
+        <button
+          type="button"
+          class="confirm-cancel"
+          onclick="closeConfirmModal()"
+        >
+          Hủy
+        </button>
+
+
+        <button
+          type="button"
+          class="confirm-ok"
+          id="confirmDeleteBtn"
+          onclick="confirmDeleteWorkshop()"
+        >
+          Xóa
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================
+       MESSAGE MODAL
+       ========================================= -->
+
+  <div
+    class="workshop-modal"
+    id="messageModal"
+  >
+
+    <div class="message-box">
+
+      <div
+        class="message-icon"
+        id="messageIcon"
+      >
+        ✓
+      </div>
+
+
+      <h3 id="messageTitle">
+        Thành công
+      </h3>
+
+
+      <p id="messageText">
+        Thao tác thành công.
+      </p>
+
+
+      <button
+        type="button"
+        class="message-ok"
+        onclick="closeMessageModal()"
+      >
+        OK
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       FOOTER
+       Giữ đúng layout footer hiện tại của project
+       ===================================================== -->
+
+  <footer class="footer">
+
+    <div class="container">
+
+      <div class="footer-top">
+
+        <div class="footer-brand">
+
+          <div class="footer-logo">
+            Photography<span>Platform</span>
+          </div>
+
+          <p>
+            Kết nối các nhiếp ảnh gia phim với các phòng tối
+            và studio đáng tin cậy.
+          </p>
+
+        </div>
+
+
+        <div class="footer-menu">
+
+          <a href="dashboard.html">
+            Dashboard
+          </a>
+
+          <a href="workshops.html">
+            Workshops
+          </a>
+
+          <a href="profile.html">
+            Profile
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <hr class="footer-line">
+
+
+      <div class="footer-bottom">
+
+        <span>
+          Copyright © 2026 Photography Platform.
+          All rights reserved.
+        </span>
+
+
+        <div class="footer-links">
+
+          <a href="#">
+            Privacy Policy
+          </a>
+
+          <a href="#">
+            Terms of Use
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =========================================
+       JAVASCRIPT
+       ========================================= -->
+
+  <script>
+
+    const API_BASE_URL =
+      "http://127.0.0.1:9999";
+
+
+    let allWorkshops = [];
+
+    let providerWorkshops = [];
+
+    let editingWorkshopId = null;
+
+    let deletingWorkshopId = null;
+
+
+    /* =========================================
+       AUTH
+       ========================================= */
+
+    function getLoggedInUser() {
+
+      const token =
+        localStorage.getItem("auth_token") ||
+        sessionStorage.getItem("auth_token");
+
+
+      const username =
+        localStorage.getItem("username") ||
+        sessionStorage.getItem("username");
+
+
+      const fullName =
+        localStorage.getItem("full_name") ||
+        sessionStorage.getItem("full_name");
+
+
+      const providerId =
+        localStorage.getItem("provider_id") ||
+        sessionStorage.getItem("provider_id");
+
+
+      const userId =
+        localStorage.getItem("user_id") ||
+        sessionStorage.getItem("user_id");
+
+
+      return {
+
+        token,
+
+        username,
+
+        fullName,
+
+        providerId,
+
+        userId
+
+      };
+
+    }
+
+
+    function loadProviderInfo() {
+
+      const user =
+        getLoggedInUser();
+
+
+      if (!user.token) {
+
+        window.location.href =
+          "../auth.html";
+
+        return false;
+
+      }
+
+
+      const displayName =
+        user.fullName ||
+        user.username ||
+        "Provider";
+
+
+      const navName =
+        document.getElementById(
+          "navProviderName"
+        );
+
+
+      if (navName) {
+
+        navName.textContent =
+          displayName;
+
+      }
+
+
+      if (!user.providerId) {
+
+        showMessage(
+          "Không thể tải dữ liệu",
+          "Không tìm thấy provider_id của tài khoản.",
+          "!"
+        );
+
+        return false;
+
+      }
+
+
+      return true;
+
+    }
+
+
+    /* =========================================
+       API HEADERS
+       ========================================= */
+
+    function getAuthHeaders() {
+
+      const user =
+        getLoggedInUser();
+
+
+      return {
+
+        "Content-Type":
+          "application/json",
+
+        "Authorization":
+          `Bearer ${user.token}`,
+
+        "Accept":
+          "application/json"
+
+      };
+
+    }
+
+
+    /* =========================================
+       LOAD WORKSHOPS
+       ========================================= */
+
+    async function loadWorkshops() {
+
+      const grid =
+        document.getElementById(
+          "workshopGrid"
+        );
+
+
+      const loading =
+        document.getElementById(
+          "loadingState"
+        );
+
+
+      const empty =
+        document.getElementById(
+          "emptyState"
+        );
+
+
+      const error =
+        document.getElementById(
+          "errorState"
+        );
+
+
+      loading.style.display =
+        "block";
+
+      empty.style.display =
+        "none";
+
+      error.style.display =
+        "none";
+
+
+      try {
+
+        const user =
+          getLoggedInUser();
+
+
+        const response =
+          await fetch(
+            `${API_BASE_URL}/workshops/`,
+            {
+              method: "GET",
+              headers: {
+                "Authorization":
+                  `Bearer ${user.token}`,
+                "Accept":
+                  "application/json"
+              }
+            }
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            `HTTP ${response.status}`
+          );
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        allWorkshops =
+          Array.isArray(data)
+            ? data
+            : [];
+
+
+        providerWorkshops =
+          allWorkshops.filter(
+            function(workshop) {
+
+              return String(
+                workshop.provider_id
+              ) === String(
+                user.providerId
+              );
+
+            }
+          );
+
+
+        loading.style.display =
+          "none";
+
+
+        if (
+          providerWorkshops.length === 0
+        ) {
+
+          grid.innerHTML =
+            "";
+
+          empty.style.display =
+            "block";
+
+          return;
+
+        }
+
+
+        renderWorkshops(
+          providerWorkshops
+        );
+
+      } catch (errorObject) {
+
+        console.error(
+          "LOAD PROVIDER WORKSHOPS ERROR:",
+          errorObject
+        );
+
+
+        loading.style.display =
+          "none";
+
+        error.style.display =
+          "block";
+
+      }
+
+    }
+
+
+    /* =========================================
+       RENDER WORKSHOPS
+       ========================================= */
+
+    function renderWorkshops(
+      workshops
+    ) {
+
+      const grid =
+        document.getElementById(
+          "workshopGrid"
+        );
+
+
+      grid.innerHTML =
+        "";
+
+
+      workshops.forEach(
+        function(workshop, index) {
+
+          const card =
+            document.createElement(
+              "article"
+            );
+
+
+          card.className =
+            "provider-workshop-card";
+
+
+          const imageUrl =
+            getWorkshopImage(
+              workshop,
+              index
+            );
+
+
+          const start =
+            new Date(
+              workshop.start_time
+            );
+
+
+          const end =
+            new Date(
+              workshop.end_time
+            );
+
+
+          const status =
+            String(
+              workshop.status || ""
+            ).toLowerCase();
+
+
+          card.innerHTML = `
+
+            <div class="provider-workshop-image">
+
+              <img
+                src="${escapeHtml(imageUrl)}"
+                alt="${escapeHtml(
+                  workshop.title ||
+                  "Workshop"
+                )}"
+                onerror="
+                  this.src='../assets/images/2.webp'
+                "
+              >
+
+            </div>
+
+
+            <div class="provider-workshop-content">
+
+              <span class="workshop-status">
+
+                ${escapeHtml(
+                  getStatusText(status)
+                )}
+
+              </span>
+
+
+              <h3>
+
+                ${escapeHtml(
+                  workshop.title ||
+                  "Chưa cập nhật"
+                )}
+
+              </h3>
+
+
+              <p class="workshop-info">
+
+                📅
+                ${escapeHtml(
+                  formatDate(start)
+                )}
+
+              </p>
+
+
+              <p class="workshop-info">
+
+                🕐
+                ${escapeHtml(
+                  formatTimeRange(
+                    start,
+                    end
+                  )
+                )}
+
+              </p>
+
+
+              <p class="workshop-info">
+
+                📍
+                ${escapeHtml(
+                  workshop.location ||
+                  "Chưa cập nhật"
+                )}
+
+              </p>
+
+
+              <p class="workshop-info">
+
+                👥
+                Sức chứa:
+                ${escapeHtml(
+                  workshop.capacity ??
+                  "Chưa cập nhật"
+                )}
+
+              </p>
+
+
+              <p class="workshop-description">
+
+                ${escapeHtml(
+                  workshop.description ||
+                  "Chưa có mô tả."
+                )}
+
+              </p>
+
+
+              <div class="workshop-card-actions">
+
+                <button
+                  type="button"
+                  class="workshop-action-btn workshop-detail-btn"
+                  onclick="
+                    viewWorkshopDetail(
+                      ${Number(workshop.id)}
+                    )
+                  "
+                >
+                  Chi tiết
+                </button>
+
+
+                <button
+                  type="button"
+                  class="workshop-action-btn workshop-edit-btn"
+                  onclick="
+                    openEditWorkshop(
+                      ${Number(workshop.id)}
+                    )
+                  "
+                >
+                  Chỉnh sửa
+                </button>
+
+
+                <button
+                  type="button"
+                  class="workshop-action-btn workshop-delete-btn"
+                  onclick="
+                    openDeleteWorkshop(
+                      ${Number(workshop.id)}
+                    )
+                  "
+                >
+                  Xóa workshop
+                </button>
+
+              </div>
+
+            </div>
+
+          `;
+
+
+          grid.appendChild(
+            card
+          );
+
+        }
+      );
+
+    }
+
+
+    /* =========================================
+       CREATE WORKSHOP
+       ========================================= */
+
+    function openCreateWorkshop() {
+
+      editingWorkshopId =
+        null;
+
+
+      document.getElementById(
+        "formTitle"
+      ).textContent =
+        "Tạo workshop";
+
+
+      document.getElementById(
+        "formSubmitBtn"
+      ).textContent =
+        "Tạo workshop";
+
+
+      document.getElementById(
+        "workshopForm"
+      ).reset();
+
+
+      document.getElementById(
+        "workshopStatus"
+      ).value =
+        "upcoming";
+
+
+      document.getElementById(
+        "formModal"
+      ).classList.add(
+        "active"
+      );
+
+    }
+
+
+    /* =========================================
+       EDIT WORKSHOP
+       ========================================= */
+
+    async function openEditWorkshop(
+      workshopId
+    ) {
+
+      try {
+
+        const response =
+          await fetch(
+            `${API_BASE_URL}/workshops/${workshopId}`,
+            {
+              method: "GET",
+              headers: getAuthHeaders()
+            }
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            `HTTP ${response.status}`
+          );
+
+        }
+
+
+        const workshop =
+          await response.json();
+
+
+        const user =
+          getLoggedInUser();
+
+
+        if (
+          String(
+            workshop.provider_id
+          ) !== String(
+            user.providerId
+          )
+        ) {
+
+          showMessage(
+            "Không thể chỉnh sửa",
+            "Workshop này không thuộc Provider hiện tại.",
+            "!"
+          );
+
+          return;
+
+        }
+
+
+        editingWorkshopId =
+          Number(workshop.id);
+
+
+        document.getElementById(
+          "formTitle"
+        ).textContent =
+          "Chỉnh sửa workshop";
+
+
+        document.getElementById(
+          "formSubmitBtn"
+        ).textContent =
+          "Lưu thay đổi";
+
+
+        document.getElementById(
+          "workshopTitle"
+        ).value =
+          workshop.title || "";
+
+
+        document.getElementById(
+          "workshopDescription"
+        ).value =
+          workshop.description || "";
+
+
+        document.getElementById(
+          "workshopLocation"
+        ).value =
+          workshop.location || "";
+
+
+        document.getElementById(
+          "workshopStart"
+        ).value =
+          toDateTimeLocal(
+            workshop.start_time
+          );
+
+
+        document.getElementById(
+          "workshopEnd"
+        ).value =
+          toDateTimeLocal(
+            workshop.end_time
+          );
+
+
+        document.getElementById(
+          "workshopCapacity"
+        ).value =
+          workshop.capacity ?? "";
+
+
+        document.getElementById(
+          "workshopStatus"
+        ).value =
+          String(
+            workshop.status ||
+            "upcoming"
+          ).toLowerCase();
+
+
+        document.getElementById(
+          "formModal"
+        ).classList.add(
+          "active"
+        );
+
+      } catch (errorObject) {
+
+        console.error(
+          "LOAD EDIT WORKSHOP ERROR:",
+          errorObject
+        );
+
+
+        showMessage(
+          "Không thể chỉnh sửa",
+          "Không thể tải thông tin workshop.",
+          "!"
+        );
+
+      }
+
+    }
+
+
+    /* =========================================
+       SUBMIT CREATE / UPDATE
+       ========================================= */
+
+    document
+      .getElementById(
+        "workshopForm"
+      )
+      .addEventListener(
+        "submit",
+        async function(event) {
+
+          event.preventDefault();
+
+
+          const user =
+            getLoggedInUser();
+
+
+          if (!user.providerId) {
+
+            showMessage(
+              "Không thể thực hiện",
+              "Không tìm thấy provider_id.",
+              "!"
+            );
+
+            return;
+
+          }
+
+
+          const title =
+            document.getElementById(
+              "workshopTitle"
+            ).value.trim();
+
+
+          const description =
+            document.getElementById(
+              "workshopDescription"
+            ).value.trim();
+
+
+          const location =
+            document.getElementById(
+              "workshopLocation"
+            ).value.trim();
+
+
+          const startValue =
+            document.getElementById(
+              "workshopStart"
+            ).value;
+
+
+          const endValue =
+            document.getElementById(
+              "workshopEnd"
+            ).value;
+
+
+          const capacity =
+            Number(
+              document.getElementById(
+                "workshopCapacity"
+              ).value
+            );
+
+
+          const status =
+            document.getElementById(
+              "workshopStatus"
+            ).value;
+
+
+          if (!title) {
+
+            showMessage(
+              "Thiếu thông tin",
+              "Vui lòng nhập tên workshop.",
+              "!"
+            );
+
+            return;
+
+          }
+
+
+          if (!location) {
+
+            showMessage(
+              "Thiếu thông tin",
+              "Vui lòng nhập địa điểm workshop.",
+              "!"
+            );
+
+            return;
+
+          }
+
+
+          if (!startValue || !endValue) {
+
+            showMessage(
+              "Thiếu thông tin",
+              "Vui lòng chọn thời gian workshop.",
+              "!"
+            );
+
+            return;
+
+          }
+
+
+          const startDate =
+            new Date(
+              startValue
+            );
+
+
+          const endDate =
+            new Date(
+              endValue
+            );
+
+
+          if (
+            Number.isNaN(
+              startDate.getTime()
+            ) ||
+            Number.isNaN(
+              endDate.getTime()
+            )
+          ) {
+
+            showMessage(
+              "Thời gian không hợp lệ",
+              "Vui lòng kiểm tra lại thời gian.",
+              "!"
+            );
+
+            return;
+
+          }
+
+
+          if (
+            endDate <= startDate
+          ) {
+
+            showMessage(
+              "Thời gian không hợp lệ",
+              "Thời gian kết thúc phải sau thời gian bắt đầu.",
+              "!"
+            );
+
+            return;
+
+          }
+
+
+          if (
+            !Number.isInteger(
+              capacity
+            ) ||
+            capacity < 1
+          ) {
+
+            showMessage(
+              "Thông tin không hợp lệ",
+              "Sức chứa phải lớn hơn 0.",
+              "!"
+            );
+
+            return;
+
+          }
+
+
+          const submitButton =
+            document.getElementById(
+              "formSubmitBtn"
+            );
+
+
+          submitButton.disabled =
+            true;
+
+
+          submitButton.textContent =
+            editingWorkshopId
+              ? "Đang lưu..."
+              : "Đang tạo...";
+
+
+          const body = {
+
+            provider_id:
+              Number(
+                user.providerId
+              ),
+
+            title,
+
+            description,
+
+            location,
+
+            start_time:
+              startValue,
+
+            end_time:
+              endValue,
+
+            capacity,
+            status
+
+          };
+
+
+          const currentEditingId =
+            editingWorkshopId;
+
+
+          try {
+
+            let response;
+
+
+            if (
+              currentEditingId
+            ) {
+
+              response =
+                await fetch(
+                  `${API_BASE_URL}/workshops/${currentEditingId}`,
+                  {
+                    method: "PUT",
+                    headers:
+                      getAuthHeaders(),
+                    body:
+                      JSON.stringify(
+                        body
+                      )
+                  }
+                );
+
+            } else {
+
+              response =
+                await fetch(
+                  `${API_BASE_URL}/workshops/`,
+                  {
+                    method: "POST",
+                    headers:
+                      getAuthHeaders(),
+                    body:
+                      JSON.stringify(
+                        body
+                      )
+                  }
+                );
+
+            }
+
+
+            const data =
+              await parseResponse(
+                response
+              );
+
+
+            if (!response.ok) {
+
+              throw new Error(
+                data.message ||
+                data.error ||
+                `HTTP ${response.status}`
+              );
+
+            }
+
+
+            closeFormModal();
+
+
+            showMessage(
+              currentEditingId
+                ? "Cập nhật thành công"
+                : "Tạo workshop thành công",
+
+              currentEditingId
+                ? "Workshop đã được cập nhật."
+                : "Workshop đã được tạo thành công.",
+
+              "✓"
+            );
+
+
+            editingWorkshopId =
+              null;
+
+
+            await loadWorkshops();
+
+          } catch (errorObject) {
+
+            console.error(
+              "SAVE WORKSHOP ERROR:",
+              errorObject
+            );
+
+
+            showMessage(
+              "Không thể thực hiện",
+              errorObject.message ||
+              "Không thể kết nối đến Backend.",
+              "!"
+            );
+
+          } finally {
+
+            submitButton.disabled =
+              false;
+
+
+            submitButton.textContent =
+              editingWorkshopId
+                ? "Lưu thay đổi"
+                : "Tạo workshop";
+
+          }
+
+        }
+      );
+
+
+    /* =========================================
+       VIEW DETAIL
+       ========================================= */
+
+    async function viewWorkshopDetail(
+      workshopId
+    ) {
+
+      const modal =
+        document.getElementById(
+          "detailModal"
+        );
+
+
+      const content =
+        document.getElementById(
+          "detailContent"
+        );
+
+
+      modal.classList.add(
+        "active"
+      );
+
+
+      content.innerHTML = `
+
+        <p style="text-align:center;">
+          Đang tải chi tiết...
+        </p>
+
+      `;
+
+
+      try {
+
+        const response =
+          await fetch(
+            `${API_BASE_URL}/workshops/${workshopId}`,
+            {
+              method: "GET",
+              headers: getAuthHeaders()
+            }
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            `HTTP ${response.status}`
+          );
+
+        }
+
+
+        const workshop =
+          await response.json();
+
+
+        const user =
+          getLoggedInUser();
+
+
+        if (
+          String(
+            workshop.provider_id
+          ) !== String(
+            user.providerId
+          )
+        ) {
+
+          closeDetailModal();
+
+
+          showMessage(
+            "Không thể xem",
+            "Workshop này không thuộc Provider hiện tại.",
+            "!"
+          );
+
+          return;
+
+        }
+
+
+        const start =
+          new Date(
+            workshop.start_time
+          );
+
+
+        const end =
+          new Date(
+            workshop.end_time
+          );
+
+
+        const imageUrl =
+          getWorkshopImage(
+            workshop
+          );
+
+
+        let registrationCount =
+          0;
+
+
+        try {
+
+          const registrationResponse =
+            await fetch(
+              `${API_BASE_URL}/workshop-registrations/workshop/${workshopId}`,
+              {
+                method: "GET",
+                headers: {
+                  "Authorization":
+                    `Bearer ${user.token}`,
+                  "Accept":
+                    "application/json"
+                }
+              }
+            );
+
+
+          if (
+            registrationResponse.ok
+          ) {
+
+            const registrations =
+              await registrationResponse.json();
+
+
+            if (
+              Array.isArray(
+                registrations
+              )
+            ) {
+
+              registrationCount =
+                registrations.length;
+
+            }
+
+          }
+
+        } catch (registrationError) {
+
+          console.warn(
+            "Không lấy được số lượng đăng ký:",
+            registrationError
+          );
+
+        }
+
+
+        content.innerHTML = `
+
+          <div class="detail-image">
+
+            <img
+              src="${escapeHtml(imageUrl)}"
+              alt="${escapeHtml(
+                workshop.title ||
+                "Workshop"
+              )}"
+              onerror="
+                this.src='../assets/images/2.webp'
+              "
+            >
+
+          </div>
+
+
+          <h2>
+
+            ${escapeHtml(
+              workshop.title ||
+              "Workshop"
+            )}
+
+          </h2>
+
+
+          <p class="detail-row">
+
+            📅
+            <strong>Ngày:</strong>
+            ${escapeHtml(
+              formatDate(start)
+            )}
+
+          </p>
+
+
+          <p class="detail-row">
+
+            🕐
+            <strong>Thời gian:</strong>
+            ${escapeHtml(
+              formatTimeRange(
+                start,
+                end
+              )
+            )}
+
+          </p>
+
+
+          <p class="detail-row">
+
+            📍
+            <strong>Địa điểm:</strong>
+            ${escapeHtml(
+              workshop.location ||
+              "Chưa cập nhật"
+            )}
+
+          </p>
+
+
+          <p class="detail-row">
+
+            👥
+            <strong>Sức chứa:</strong>
+            ${escapeHtml(
+              workshop.capacity ??
+              "Chưa cập nhật"
+            )}
+
+          </p>
+
+
+          <p class="detail-row">
+
+            <strong>Trạng thái:</strong>
+            ${escapeHtml(
+              getStatusText(
+                String(
+                  workshop.status ||
+                  ""
+                ).toLowerCase()
+              )
+            )}
+
+          </p>
+
+
+          <div class="detail-registration">
+
+            👥
+            <strong>
+              Đã đăng ký:
+            </strong>
+
+            ${registrationCount}
+
+            /
+
+            ${escapeHtml(
+              workshop.capacity ??
+              "?"
+            )}
+
+          </div>
+
+
+          <div class="detail-description">
+
+            <strong>
+              Mô tả
+            </strong>
+
+            <p>
+              ${escapeHtml(
+                workshop.description ||
+                "Chưa có mô tả."
+              )}
+            </p>
+
+          </div>
+
+        `;
+
+      } catch (errorObject) {
+
+        console.error(
+          "VIEW WORKSHOP DETAIL ERROR:",
+          errorObject
+        );
+
+
+        content.innerHTML = `
+
+          <p style="text-align:center;">
+            Không thể tải chi tiết workshop.
+          </p>
+
+        `;
+
+      }
+
+    }
+
+
+    /* =========================================
+       DELETE WORKSHOP
+       ========================================= */
+
+    function openDeleteWorkshop(
+      workshopId
+    ) {
+
+      const workshop =
+        providerWorkshops.find(
+          function(item) {
+
+            return Number(
+              item.id
+            ) === Number(
+              workshopId
+            );
+
+          }
+        );
+
+
+      if (!workshop) {
+
+        return;
+
+      }
+
+
+      deletingWorkshopId =
+        Number(workshopId);
+
+
+      document.getElementById(
+        "confirmText"
+      ).textContent =
+        `Bạn có chắc muốn xóa workshop "${workshop.title}" không?`;
+
+
+      document.getElementById(
+        "confirmModal"
+      ).classList.add(
+        "active"
+      );
+
+    }
+
+
+    async function confirmDeleteWorkshop() {
+
+      if (
+        !deletingWorkshopId
+      ) {
+
+        return;
+
+      }
+
+
+      const user =
+        getLoggedInUser();
+
+
+      const button =
+        document.getElementById(
+          "confirmDeleteBtn"
+        );
+
+
+      button.disabled =
+        true;
+
+
+      button.textContent =
+        "Đang xóa...";
+
+
+      try {
+
+        const workshopResponse =
+          await fetch(
+            `${API_BASE_URL}/workshops/${deletingWorkshopId}`,
+            {
+              method: "GET",
+              headers: getAuthHeaders()
+            }
+          );
+
+
+        if (
+          !workshopResponse.ok
+        ) {
+
+          throw new Error(
+            "Không tìm thấy workshop."
+          );
+
+        }
+
+
+        const workshop =
+          await workshopResponse.json();
+
+
+        if (
+          String(
+            workshop.provider_id
+          ) !== String(
+            user.providerId
+          )
+        ) {
+
+          throw new Error(
+            "Workshop không thuộc Provider hiện tại."
+          );
+
+        }
+
+
+        const response =
+          await fetch(
+            `${API_BASE_URL}/workshops/${deletingWorkshopId}`,
+            {
+              method: "DELETE",
+              headers:
+                getAuthHeaders()
+            }
+          );
+
+
+        const data =
+          await parseResponse(
+            response
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.message ||
+            data.error ||
+            `HTTP ${response.status}`
+          );
+
+        }
+
+
+        closeConfirmModal();
+
+
+        showMessage(
+          "Xóa thành công",
+          "Workshop đã được xóa.",
+          "✓"
+        );
+
+
+        deletingWorkshopId =
+          null;
+
+
+        await loadWorkshops();
+
+      } catch (errorObject) {
+
+        console.error(
+          "DELETE WORKSHOP ERROR:",
+          errorObject
+        );
+
+
+        closeConfirmModal();
+
+
+        showMessage(
+          "Xóa không thành công",
+          errorObject.message ||
+          "Không thể xóa workshop.",
+          "!"
+        );
+
+      } finally {
+
+        button.disabled =
+          false;
+
+
+        button.textContent =
+          "Xóa";
+
+      }
+
+    }
+
+
+    /* =========================================
+       MODAL FUNCTIONS
+       ========================================= */
+
+    function closeDetailModal() {
+
+      document.getElementById(
+        "detailModal"
+      ).classList.remove(
+        "active"
+      );
+
+    }
+
+
+    function closeFormModal() {
+
+      document.getElementById(
+        "formModal"
+      ).classList.remove(
+        "active"
+      );
+
+    }
+
+
+    function closeConfirmModal() {
+
+      document.getElementById(
+        "confirmModal"
+      ).classList.remove(
+        "active"
+      );
+
+    }
+
+
+    function showMessage(
+      title,
+      message,
+      icon
+    ) {
+
+      document.getElementById(
+        "messageTitle"
+      ).textContent =
+        title;
+
+
+      document.getElementById(
+        "messageText"
+      ).textContent =
+        message;
+
+
+      document.getElementById(
+        "messageIcon"
+      ).textContent =
+        icon;
+
+
+      document.getElementById(
+        "messageModal"
+      ).classList.add(
+        "active"
+      );
+
+    }
+
+
+    function closeMessageModal() {
+
+      document.getElementById(
+        "messageModal"
+      ).classList.remove(
+        "active"
+      );
+
+    }
+
+
+    /* =========================================
+       CLICK OUTSIDE MODALS
+       ========================================= */
+
+    document
+      .getElementById(
+        "detailModal"
+      )
+      .addEventListener(
+        "click",
+        function(event) {
+
+          if (
+            event.target === this
+          ) {
+
+            closeDetailModal();
+
+          }
+
+        }
+      );
+
+
+    document
+      .getElementById(
+        "formModal"
+      )
+      .addEventListener(
+        "click",
+        function(event) {
+
+          if (
+            event.target === this
+          ) {
+
+            closeFormModal();
+
+          }
+
+        }
+      );
+
+
+    document
+      .getElementById(
+        "confirmModal"
+      )
+      .addEventListener(
+        "click",
+        function(event) {
+
+          if (
+            event.target === this
+          ) {
+
+            closeConfirmModal();
+
+          }
+
+        }
+      );
+
+
+    document
+      .getElementById(
+        "messageModal"
+      )
+      .addEventListener(
+        "click",
+        function(event) {
+
+          if (
+            event.target === this
+          ) {
+
+            closeMessageModal();
+
+          }
+
+        }
+      );
+
+
+    /* =========================================
+       HELPERS
+       ========================================= */
+
+    function getWorkshopImage(
+      workshop,
+      index
+    ) {
+
+      const images = [
+
+        "../assets/images/2.webp",
+
+        "../assets/images/5.jpg",
+
+        "../assets/images/6.jpg"
+
+      ];
+
+
+      if (
+        index !== undefined
+      ) {
+
+        return images[
+          index %
+          images.length
+        ];
+
+      }
+
+
+      const foundIndex =
+        providerWorkshops.findIndex(
+          function(item) {
+
+            return Number(
+              item.id
+            ) === Number(
+              workshop.id
+            );
+
+          }
+        );
+
+
+      if (
+        foundIndex >= 0
+      ) {
+
+        return images[
+          foundIndex %
+          images.length
+        ];
+
+      }
+
+
+      return images[0];
+
+    }
+
+
+    function getStatusText(
+      status
+    ) {
+
+      const statusMap = {
+
+        open:
+          "Đang mở đăng ký",
+
+        upcoming:
+          "Sắp diễn ra",
+
+        full:
+          "Đã đủ chỗ",
+
+        cancelled:
+          "Đã hủy",
+
+        completed:
+          "Đã hoàn thành"
+
+      };
+
+
+      return (
+        statusMap[
+          String(
+            status ||
+            ""
+          ).toLowerCase()
+        ] ||
+        status ||
+        "Sắp diễn ra"
+      );
+
+    }
+
+    function formatDate(
+      date
+    ) {
+
+      if (
+        !date ||
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+
+        return "Chưa cập nhật";
+
+      }
+
+
+      return date.toLocaleDateString(
+        "en-GB",
+        {
+          day: "2-digit",
+          month: "short",
+          year: "numeric"
+        }
+      );
+
+    }
+
+
+    function formatTime(
+      date
+    ) {
+
+      if (
+        !date ||
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+
+        return "--:--";
+
+      }
+
+
+      return date.toLocaleTimeString(
+        "en-GB",
+        {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false
+        }
+      );
+
+    }
+
+
+    function formatTimeRange(
+      start,
+      end
+    ) {
+
+      return (
+        `${formatTime(start)} - ` +
+        `${formatTime(end)}`
+      );
+
+    }
+
+
+    function toDateTimeLocal(
+      value
+    ) {
+
+      if (!value) {
+
+        return "";
+
+      }
+
+
+      const date =
+        new Date(value);
+
+
+      if (
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+
+        return "";
+
+      }
+
+
+      const year =
+        date.getFullYear();
+
+
+      const month =
+        String(
+          date.getMonth() + 1
+        ).padStart(
+          2,
+          "0"
+        );
+
+
+      const day =
+        String(
+          date.getDate()
+        ).padStart(
+          2,
+          "0"
+        );
+
+
+      const hours =
+        String(
+          date.getHours()
+        ).padStart(
+          2,
+          "0"
+        );
+
+
+      const minutes =
+        String(
+          date.getMinutes()
+        ).padStart(
+          2,
+          "0"
+        );
+
+
+      return (
+        `${year}-${month}-${day}` +
+        `T${hours}:${minutes}`
+      );
+
+    }
+
+
+    async function parseResponse(
+      response
+    ) {
+
+      const text =
+        await response.text();
+
+
+      if (!text) {
+
+        return {};
+
+      }
+
+
+      try {
+
+        return JSON.parse(
+          text
+        );
+
+      } catch {
+
+        return {
+          message: text
+        };
+
+      }
+
+    }
+
+
+    function escapeHtml(
+      value
+    ) {
+
+      return String(
+        value ?? ""
+      )
+
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+
+        .replace(
+          /</g,
+          "&lt;"
+        )
+
+        .replace(
+          />/g,
+          "&gt;"
+        )
+
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+
+        .replace(
+          /'/g,
+          "&#039;"
+        );
+
+    }
+
+
+    /* =========================================
+       LOGOUT
+       ========================================= */
+
+    function logout() {
+
+      const keys = [
+
+        "auth_token",
+
+        "user_id",
+
+        "role_id",
+
+        "provider_id",
+
+        "username",
+
+        "full_name"
+
+      ];
+
+
+      keys.forEach(
+        function(key) {
+
+          localStorage.removeItem(
+            key
+          );
+
+          sessionStorage.removeItem(
+            key
+          );
+
+        }
+      );
+
+
+      window.location.href =
+        "../auth.html";
+
+    }
+
+
+    /* =========================================
+       INITIALIZE
+       ========================================= */
+
+    async function initialize() {
+
+      const loggedIn =
+        loadProviderInfo();
+
+
+      if (!loggedIn) {
+
+        return;
+
+      }
+
+
+      await loadWorkshops();
+
+    }
+
+
+    initialize();
+
+  </script>
+
+
+</body>
+
+</html>
