@@ -389,6 +389,30 @@
   color: var(--pink-dark);
 }
 
+.provider-nav-name {
+  max-width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #34364b;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.provider-logout {
+  border: 0;
+  background: transparent;
+  color: var(--pink);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+}
+
+.provider-logout:hover {
+  color: var(--pink-dark);
+}
+
 @media (max-width: 900px) {
   .profile-layout {
     grid-template-columns: 1fr;
