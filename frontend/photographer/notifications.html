@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Notifications | FilmSpace
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="../assets/css/styles.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../assets/css/photographer-home.css"
+  >
+
+
+  <style>
+
+    /* =========================================
+       NOTIFICATIONS PAGE
+       ========================================= */
+
+    .notifications-page {
+
+      padding-bottom: 70px;
+
+    }
+
+
+    .notifications-hero {
+
+      padding: 55px 0 25px;
+
+    }
+
+
+    .notifications-hero h1 {
+
+      margin-bottom: 10px;
+
+    }
+
+
+    .notifications-hero p {
+
+      color: #666;
+
+      max-width: 650px;
+
+    }
+
+
+    .notifications-wrapper {
+
+      max-width: 850px;
+
+      margin: 0 auto;
+
+    }
+
+
+    .notifications-list {
+
+      display: grid;
+
+      gap: 14px;
+
+    }
+
+
+    .notification-card {
+
+      display: flex;
+
+      gap: 16px;
+
+      padding: 20px;
+
+      background: #fff;
+
+      border: 1px solid #e5e5e5;
+
+      border-radius: 12px;
+
+      box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.05);
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+
+    }
+
+
+    .notification-card:hover {
+
+      transform:
+        translateY(-2px);
+
+      box-shadow:
+        0 7px 20px rgba(0, 0, 0, 0.08);
+
+    }
+
+
+    .notification-card.unread {
+
+      border-left:
+        4px solid #e13493;
+
+      background:
+        #fffafd;
+
+    }
+
+
+    .notification-icon {
+
+      width: 46px;
+
+      height: 46px;
+
+      flex-shrink: 0;
+
+      border-radius: 50%;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      background: #fce4f1;
+
+      color: #e13493;
+
+      font-size: 21px;
+
+    }
+
+
+    .notification-content {
+
+      flex: 1;
+
+      min-width: 0;
+
+    }
+
+
+    .notification-top {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 12px;
+
+    }
+
+
+    .notification-title {
+
+      margin: 0;
+
+      font-size: 17px;
+
+      color: #333;
+
+    }
+
+
+    .notification-time {
+
+      flex-shrink: 0;
+
+      font-size: 12px;
+
+      color: #999;
+
+    }
+
+
+    .notification-message {
+
+      margin: 8px 0 10px;
+
+      color: #666;
+
+      line-height: 1.5;
+
+      white-space: pre-wrap;
+
+    }
+
+
+    .notification-footer {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+    }
+
+
+    .notification-type {
+
+      display: inline-block;
+
+      padding: 4px 9px;
+
+      border-radius: 20px;
+
+      background: #f5f5f5;
+
+      color: #666;
+
+      font-size: 11px;
+
+      font-weight: 600;
+
+    }
+
+
+    .notification-unread-label {
+
+      color: #e13493;
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+    }
+
+
+    .notification-read-btn {
+
+      margin-left: auto;
+
+      border: none;
+
+      background: transparent;
+
+      color: #e13493;
+
+      cursor: pointer;
+
+      font-size: 12px;
+
+      font-weight: 600;
+
+    }
+
+
+    .notification-read-btn:hover {
+
+      text-decoration: underline;
+
+    }
+
+
+    .notification-state {
+
+      text-align: center;
+
+      padding: 60px 20px;
+
+      color: #777;
+
+    }
+
+
+    .notification-state-icon {
+
+      margin-bottom: 12px;
+
+      font-size: 40px;
+
+      color: #e13493;
+
+    }
+
+
+    @media (max-width: 650px) {
+
+      .notification-card {
+
+        padding: 15px;
+
+      }
+
+
+      .notification-top {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 5px;
+
+      }
+
+
+      .notification-time {
+
+        order: 2;
+
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- =========================================
+       NAVBAR
+       ========================================= -->
+
+  <nav
+    class="navbar"
+    id="mainNavbar"
+  >
+
+    <div class="navbar-container container">
+
+
+      <a
+        class="logo"
+        href="home.html"
+        aria-label="FilmSpace"
+      >
+        FilmSpace
+      </a>
+
+
+      <div
+        class="menu"
+        aria-label="Photographer navigation"
+      >
+
+        <a href="home.html">
+          Home
+        </a>
+
+        <a href="search.html">
+          Search
+        </a>
+
+        <a href="booking.html">
+          Bookings
+        </a>
+
+        <a href="workshops.html">
+          Workshops
+        </a>
+
+        <a href="notifications.html"
+           class="active"
+        >
+          Notifications
+        </a>
+
+        <a href="profile.html">
+          Profile
+        </a>
+
+      </div>
+
+
+      <div class="nav-actions">
+
+        <span
+          class="photographer-nav-name"
+          id="navPhotographerName"
+        >
+          Photographer
+        </span>
+
+
+        <button
+          type="button"
+          class="photographer-logout"
+          onclick="logout()"
+        >
+          Đăng xuất
+        </button>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+
+  <!-- =========================================
+       MAIN
+       ========================================= -->
+
+  <main class="photographer-page notifications-page">
+
+
+    <section class="notifications-hero">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <div>
+
+            <h1>
+              Notifications
+            </h1>
+
+            <p>
+              Xem các thông báo và cập nhật
+              liên quan đến tài khoản của bạn.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section class="dashboard-section">
+
+      <div class="container">
+
+        <div class="notifications-wrapper">
+
+          <div
+            id="notificationsList"
+            class="notifications-list"
+          >
+          </div>
+
+
+          <div
+            id="notificationsLoading"
+            class="notification-state"
+            style="display:none;"
+          >
+
+            <div class="notification-state-icon">
+              ◷
+            </div>
+
+            <p>
+              Đang tải thông báo...
+            </p>
+
+          </div>
+
+
+          <div
+            id="notificationsEmpty"
+            class="notification-state"
+            style="display:none;"
+          >
+
+            <div class="notification-state-icon">
+              🔔
+            </div>
+
+            <h3>
+              Chưa có thông báo
+            </h3>
+
+            <p>
+              Bạn hiện chưa có thông báo nào.
+            </p>
+
+          </div>
+
+
+          <div
+            id="notificationsError"
+            class="notification-state"
+            style="display:none;"
+          >
+
+            <div class="notification-state-icon">
+              !
+            </div>
+
+            <h3>
+              Không thể tải thông báo
+            </h3>
+
+            <p>
+              Vui lòng kiểm tra Backend.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================================
+       FOOTER
+       ========================================= -->
+
+  <footer class="footer">
+
+    <div class="container">
+
+      <div class="footer-top">
+
+        <div class="footer-brand">
+
+          <div class="footer-logo">
+            Photography<span>Platform</span>
+          </div>
+
+
+          <p>
+            Kết nối các nhiếp ảnh gia phim
+            với các phòng tối và studio
+            đáng tin cậy.
+          </p>
+
+        </div>
+
+
+        <div class="footer-menu">
+
+          <a href="home.html">
+            Home
+          </a>
+
+          <a href="search.html">
+            Search
+          </a>
+
+          <a href="booking.html">
+            Bookings
+          </a>
+
+          <a href="workshops.html">
+            Workshops
+          </a>
+
+          <a href="notifications.html">
+            Notifications
+          </a>
+
+          <a href="profile.html">
+            Profile
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <hr class="footer-line">
+
+
+      <div class="footer-bottom">
+
+        <span>
+          Copyright © 2026 Photography Platform.
+          All rights reserved.
+        </span>
+
+
+        <div class="footer-links">
+
+          <a href="#">
+            Privacy Policy
+          </a>
+
+          <a href="#">
+            Terms of Use
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =========================================
+       JAVASCRIPT
+       ========================================= -->
+
+  <script>
+
+    const API_BASE_URL =
+      "http://127.0.0.1:9999";
+
+
+    /* =========================================
+       AUTH
+       ========================================= */
+
+    function getLoggedInUser() {
+
+      const storage =
+        localStorage.getItem("auth_token")
+          ? localStorage
+          : sessionStorage;
+
+
+      return {
+
+        token:
+          storage.getItem(
+            "auth_token"
+          ),
+
+        userId:
+          storage.getItem(
+            "user_id"
+          ),
+
+        username:
+          storage.getItem(
+            "username"
+          ),
+
+        fullName:
+          storage.getItem(
+            "full_name"
+          )
+
+      };
+
+    }
+
+
+    function loadPhotographerInfo() {
+
+      const user =
+        getLoggedInUser();
+
+
+      if (!user.token) {
+
+        window.location.href =
+          "../auth.html";
+
+        return false;
+
+      }
+
+
+      const displayName =
+        user.fullName ||
+        user.username ||
+        "Photographer";
+
+
+      const navName =
+        document.getElementById(
+          "navPhotographerName"
+        );
+
+
+      if (navName) {
+
+        navName.textContent =
+          displayName;
+
+      }
+
+
+      return true;
+
+    }
+
+
+    /* =========================================
+       LOAD NOTIFICATIONS
+       ========================================= */
+
+    async function loadNotifications() {
+
+      const user =
+        getLoggedInUser();
+
+
+      if (!user.userId) {
+
+        showError(
+          "Không tìm thấy thông tin người dùng."
+        );
+
+        return;
+
+      }
+
+
+      const list =
+        document.getElementById(
+          "notificationsList"
+        );
+
+
+      const loading =
+        document.getElementById(
+          "notificationsLoading"
+        );
+
+
+      const empty =
+        document.getElementById(
+          "notificationsEmpty"
+        );
+
+
+      const error =
+        document.getElementById(
+          "notificationsError"
+        );
+
+
+      list.innerHTML = "";
+
+      loading.style.display =
+        "block";
+
+      empty.style.display =
+        "none";
+
+      error.style.display =
+        "none";
+
+
+      try {
+
+        const response =
+          await fetch(
+            `${API_BASE_URL}/notifications/user/${user.userId}`,
+            {
+              method: "GET",
+
+              headers: {
+
+                "Authorization":
+                  `Bearer ${user.token}`,
+
+                "Accept":
+                  "application/json"
+
+              }
+
+            }
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            `HTTP ${response.status}`
+          );
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        const notifications =
+          Array.isArray(data)
+            ? data
+            : [];
+
+
+        loading.style.display =
+          "none";
+
+
+        if (
+          notifications.length === 0
+        ) {
+
+          empty.style.display =
+            "block";
+
+          return;
+
+        }
+
+
+        renderNotifications(
+          notifications
+        );
+
+
+      } catch (errorObject) {
+
+        console.error(
+          "LOAD NOTIFICATIONS ERROR:",
+          errorObject
+        );
+
+
+        loading.style.display =
+          "none";
+
+        error.style.display =
+          "block";
+
+      }
+
+    }
+
+
+    /* =========================================
+       RENDER
+       ========================================= */
+
+    function renderNotifications(
+      notifications
+    ) {
+
+      const list =
+        document.getElementById(
+          "notificationsList"
+        );
+
+
+      list.innerHTML = "";
+
+
+      notifications.forEach(
+        function(notification) {
+
+          const card =
+            document.createElement(
+              "article"
+            );
+
+
+          const isRead =
+            Boolean(
+              notification.is_read
+            );
+
+
+          card.className =
+            isRead
+              ? "notification-card"
+              : "notification-card unread";
+
+
+          const icon =
+            getNotificationIcon(
+              notification.type
+            );
+
+
+          const typeText =
+            getNotificationTypeText(
+              notification.type
+            );
+
+
+          const date =
+            notification.created_at
+              ? new Date(
+                  notification.created_at
+                )
+              : null;
+
+
+          card.innerHTML = `
+
+            <div class="notification-icon">
+
+              ${icon}
+
+            </div>
+
+
+            <div class="notification-content">
+
+              <div class="notification-top">
+
+                <h3 class="notification-title">
+
+                  ${escapeHtml(
+                    notification.title ||
+                    "Thông báo"
+                  )}
+
+                </h3>
+
+
+                <span class="notification-time">
+
+                  ${escapeHtml(
+                    formatDateTime(date)
+                  )}
+
+                </span>
+
+              </div>
+
+
+              <p class="notification-message">
+
+                ${escapeHtml(
+                  notification.content ||
+                  ""
+                )}
+
+              </p>
+
+
+              <div class="notification-footer">
+
+                <span class="notification-type">
+
+                  ${escapeHtml(
+                    typeText
+                  )}
+
+                </span>
+
+
+                ${
+                  !isRead
+                    ? `
+                      <span class="notification-unread-label">
+                        Chưa đọc
+                      </span>
+
+                      <button
+                        type="button"
+                        class="notification-read-btn"
+                        onclick="
+                          markNotificationAsRead(
+                            ${Number(notification.id)}
+                          )
+                        "
+                      >
+                        Đánh dấu đã đọc
+                      </button>
+                    `
+                    : `
+                      <span
+                        style="
+                          color:#999;
+                          font-size:11px;
+                        "
+                      >
+                        Đã đọc
+                      </span>
+                    `
+                }
+
+              </div>
+
+            </div>
+
+          `;
+
+
+          list.appendChild(
+            card
+          );
+
+        }
+      );
+
+    }
+
+
+    /* =========================================
+       MARK AS READ
+       ========================================= */
+
+    async function markNotificationAsRead(
+      notificationId
+    ) {
+
+      const user =
+        getLoggedInUser();
+
+
+      try {
+
+        const response =
+          await fetch(
+            `${API_BASE_URL}/notifications/${notificationId}/read`,
+            {
+              method: "PUT",
+
+              headers: {
+
+                "Authorization":
+                  `Bearer ${user.token}`,
+
+                "Accept":
+                  "application/json"
+
+              }
+
+            }
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            `HTTP ${response.status}`
+          );
+
+        }
+
+
+        await loadNotifications();
+
+
+      } catch (errorObject) {
+
+        console.error(
+          "MARK NOTIFICATION READ ERROR:",
+          errorObject
+        );
+
+      }
+
+    }
+
+
+    /* =========================================
+       ICON
+       ========================================= */
+
+    function getNotificationIcon(
+      type
+    ) {
+
+      const value =
+        String(
+          type || ""
+        ).toLowerCase();
+
+
+      if (
+        value.includes("booking")
+      ) {
+
+        return "📅";
+
+      }
+
+
+      if (
+        value.includes("workshop")
+      ) {
+
+        return "◉";
+
+      }
+
+
+      if (
+        value.includes("payment")
+      ) {
+
+        return "💳";
+
+      }
+
+
+      if (
+        value.includes("review")
+      ) {
+
+        return "★";
+
+      }
+
+
+      if (
+        value.includes("approval")
+      ) {
+
+        return "✓";
+
+      }
+
+
+      return "🔔";
+
+    }
+
+
+    function getNotificationTypeText(
+      type
+    ) {
+
+      const value =
+        String(
+          type || ""
+        ).toLowerCase();
+
+
+      const typeMap = {
+
+        booking:
+          "Booking",
+
+        workshop:
+          "Workshop",
+
+        payment:
+          "Payment",
+
+        review:
+          "Review",
+
+        approval:
+          "Approval",
+
+        general:
+          "General"
+
+      };
+
+
+      return (
+        typeMap[value] ||
+        type ||
+        "General"
+      );
+
+    }
+
+
+    /* =========================================
+       DATE
+       ========================================= */
+
+    function formatDateTime(
+      date
+    ) {
+
+      if (
+        !date ||
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+
+        return "Chưa cập nhật";
+
+      }
+
+
+      return date.toLocaleString(
+        "vi-VN",
+        {
+          day: "2-digit",
+
+          month: "2-digit",
+
+          year: "numeric",
+
+          hour: "2-digit",
+
+          minute: "2-digit",
+
+          hour12: false
+
+        }
+      );
+
+    }
+
+
+    /* =========================================
+       ERROR
+       ========================================= */
+
+    function showError(
+      message
+    ) {
+
+      const error =
+        document.getElementById(
+          "notificationsError"
+        );
+
+
+      error.style.display =
+        "block";
+
+      error.querySelector(
+        "p"
+      ).textContent =
+        message;
+
+    }
+
+
+    /* =========================================
+       ESCAPE HTML
+       ========================================= */
+
+    function escapeHtml(
+      value
+    ) {
+
+      return String(
+        value ?? ""
+      )
+
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+
+        .replace(
+          /</g,
+          "&lt;"
+        )
+
+        .replace(
+          />/g,
+          "&gt;"
+        )
+
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+
+        .replace(
+          /'/g,
+          "&#039;"
+        );
+
+    }
+
+
+    /* =========================================
+       LOGOUT
+       ========================================= */
+
+    function logout() {
+
+      const keys = [
+
+        "auth_token",
+
+        "user_id",
+
+        "role_id",
+
+        "provider_id",
+
+        "username",
+
+        "full_name"
+
+      ];
+
+
+      keys.forEach(
+        function(key) {
+
+          localStorage.removeItem(
+            key
+          );
+
+          sessionStorage.removeItem(
+            key
+          );
+
+        }
+      );
+
+
+      window.location.href =
+        "../auth.html";
+
+    }
+
+
+    /* =========================================
+       INITIALIZE
+       ========================================= */
+
+    async function initialize() {
+
+      if (
+        !loadPhotographerInfo()
+      ) {
+
+        return;
+
+      }
+
+
+      await loadNotifications();
+
+    }
+
+
+    initialize();
+
+  </script>
+
+</body>
+
+</html>

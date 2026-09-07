@@ -1,8 +1,11 @@
 from flask import Blueprint, request, jsonify, session
-
+from services.notification_service import NotificationService
+from infrastructure.repositories.notification_repository import NotificationRepository
+from infrastructure.databases.factory_database import FactoryDatabase as db_factory
 from services.workshop_registration_service import (
     WorkshopRegistrationService
 )
+
 
 from infrastructure.repositories.workshop_registration_repository import (
     WorkshopRegistrationRepository
@@ -23,7 +26,11 @@ bp = Blueprint(
     __name__,
     url_prefix='/workshop-registrations'
 )
-
+notification_service = NotificationService(
+    NotificationRepository(
+        db_factory.get_database('POSTGREE').session
+    )
+)
 
 # =====================================================
 # REPOSITORIES
@@ -40,7 +47,8 @@ workshop_repository = WorkshopRepository(session)
 
 workshop_registration_service = WorkshopRegistrationService(
     registration_repository,
-    workshop_repository
+    workshop_repository,
+    notification_service
 )
 
 
