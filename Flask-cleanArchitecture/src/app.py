@@ -22,6 +22,9 @@ from api.controllers.service_package_controller import bp as service_package_bp
 from api.controllers.service_session_controller import bp as service_session_bp
 from api.controllers.service_provider_controller import bp as service_provider_bp
 from api.controllers.workshop_controller import bp as workshop_bp
+from api.controllers.workshop_registration_controller import (
+    bp as workshop_registration_bp
+)
 
 from api.controllers.report_controller import bp as report_bp
 from api.controllers.amenity_controller import bp as amenity_bp
@@ -61,6 +64,7 @@ def create_app():
     app.register_blueprint(report_bp)
     app.register_blueprint(amenity_bp)
     app.register_blueprint(ai_configuration_bp)
+    app.register_blueprint(workshop_registration_bp)
 
     # Custom middleware
     middleware(app)
