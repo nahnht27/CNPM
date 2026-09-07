@@ -1,0 +1,1246 @@
+/* =========================================================
+   PROVIDER SPACES
+   FilmSpace
+   ========================================================= */
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.provider-spaces-page {
+  background: #f7f8fb;
+  min-height: calc(100vh - 74px);
+}
+
+
+/* =========================================================
+   NAVBAR
+   Dùng navbar chung của project
+   Chỉ bổ sung style cho Provider
+   ========================================================= */
+
+.provider-nav-name {
+  max-width: 150px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  color: var(--text);
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+
+.provider-logout {
+  border: 0;
+
+  padding: 10px 14px;
+
+  border-radius: 5px;
+
+  background: #f3f3f6;
+
+  color: #55586b;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: .18s ease;
+}
+
+
+.provider-logout:hover {
+  background: #ececf1;
+
+  color: var(--pink);
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.spaces-header {
+  position: relative;
+
+  overflow: hidden;
+
+  padding: 52px 0 46px;
+
+  background:
+    linear-gradient(
+      120deg,
+      #fff5fa 0%,
+      #ffffff 48%,
+      #f5f6fb 100%
+    );
+
+  border-bottom: 1px solid var(--line);
+}
+
+
+.spaces-header::after {
+  content: "";
+
+  position: absolute;
+
+  width: 175px;
+  height: 175px;
+
+  right: 19%;
+  top: 15px;
+
+  border: 1px solid rgba(255, 21, 132, .18);
+
+  border-radius: 50%;
+}
+
+
+.spaces-header-content {
+  position: relative;
+
+  z-index: 2;
+}
+
+
+.spaces-kicker {
+  margin-bottom: 10px;
+
+  color: var(--pink);
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: .8px;
+}
+
+
+.spaces-header h1 {
+  margin: 0;
+
+  color: var(--text);
+
+  font-size: 38px;
+
+  line-height: 1.15;
+
+  letter-spacing: -1.1px;
+}
+
+
+.spaces-header h1 span {
+  color: var(--pink);
+}
+
+
+.spaces-header p {
+  max-width: 720px;
+
+  margin: 13px 0 0;
+
+  color: var(--muted);
+
+  font-size: 13px;
+
+  line-height: 1.65;
+}
+
+
+/* =========================================================
+   COMMON PROVIDER SECTION
+   ========================================================= */
+
+.provider-section {
+  padding: 36px 0 58px;
+}
+
+
+/* =========================================================
+   SECTION HEADING
+   ========================================================= */
+
+.spaces-section-heading {
+  display: flex;
+
+  align-items: flex-end;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 20px;
+}
+
+
+.spaces-section-heading h2 {
+  margin: 0 0 6px;
+
+  color: var(--text);
+
+  font-size: 25px;
+
+  letter-spacing: -.5px;
+}
+
+
+.spaces-section-heading p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   ADD BUTTON
+   ========================================================= */
+
+.add-space-btn {
+  flex-shrink: 0;
+
+  min-width: 145px;
+
+  padding: 12px 18px;
+
+  border: 0;
+
+  border-radius: 6px;
+
+  background: var(--pink);
+
+  color: #fff;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition: .18s ease;
+}
+
+
+.add-space-btn:hover {
+  background: var(--pink-dark);
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   SPACE GRID
+   ========================================================= */
+
+.provider-space-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 22px;
+}
+
+
+/* =========================================================
+   SPACE CARD
+   ========================================================= */
+
+.provider-space-card {
+  overflow: hidden;
+
+  background: #fff;
+
+  border: 1px solid var(--line);
+
+  border-radius: 11px;
+
+  box-shadow:
+    0 8px 24px rgba(40, 42, 67, .06);
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+
+.provider-space-card:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 14px 32px rgba(40, 42, 67, .10);
+}
+
+
+/* =========================================================
+   IMAGE
+   ========================================================= */
+
+.provider-space-image {
+  position: relative;
+
+  height: 220px;
+
+  overflow: hidden;
+
+  background: #eef0f4;
+}
+
+
+.provider-space-image img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  transition:
+    transform .3s ease;
+}
+
+
+.provider-space-card:hover
+.provider-space-image img {
+  transform: scale(1.035);
+}
+
+
+/* =========================================================
+   TYPE
+   ========================================================= */
+
+.provider-space-type {
+  position: absolute;
+
+  left: 14px;
+  top: 14px;
+
+  padding: 6px 10px;
+
+  border-radius: 5px;
+
+  background: rgba(255, 255, 255, .96);
+
+  color: var(--pink);
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
+
+.provider-space-type.darkroom {
+  color: #5d7080;
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.provider-space-status {
+  position: absolute;
+
+  right: 14px;
+  top: 14px;
+
+  padding: 6px 9px;
+
+  border-radius: 5px;
+
+  background: rgba(255, 255, 255, .96);
+
+  font-size: 9px;
+
+  font-weight: 800;
+}
+
+
+.provider-space-status.active {
+  color: #16845c;
+}
+
+
+.provider-space-status.inactive {
+  color: #777;
+}
+
+
+/* =========================================================
+   INFO
+   ========================================================= */
+
+.provider-space-info {
+  padding: 20px 18px 18px;
+}
+
+
+.provider-space-info h3 {
+  margin: 0 0 7px;
+
+  color: var(--text);
+
+  font-size: 18px;
+
+  line-height: 1.3;
+
+  letter-spacing: -.3px;
+}
+
+
+.provider-space-location {
+  min-height: 32px;
+
+  margin: 0 0 15px;
+
+  color: var(--muted);
+
+  font-size: 11px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   PRICE
+   ========================================================= */
+
+.provider-space-price-row {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 12px;
+
+  padding-bottom: 14px;
+
+  border-bottom: 1px solid var(--line);
+}
+
+
+.provider-space-price-row strong {
+  color: #d28b19;
+
+  font-size: 13px;
+}
+
+
+.provider-space-price-row span {
+  color: var(--text);
+
+  font-size: 10px;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+   ========================================================= */
+
+.provider-space-description {
+  min-height: 55px;
+
+  margin: 14px 0;
+
+  color: var(--muted);
+
+  font-size: 11px;
+
+  line-height: 1.55;
+}
+
+
+/* =========================================================
+   META
+   ========================================================= */
+
+.provider-space-meta {
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-bottom: 18px;
+
+  color: #9698a7;
+
+  font-size: 10px;
+}
+
+
+.provider-space-meta strong {
+  color: #65708a;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   CARD ACTIONS
+   ========================================================= */
+
+.provider-space-actions {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 9px;
+}
+
+
+.space-edit-btn,
+.space-delete-btn {
+  height: 39px;
+
+  border-radius: 6px;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: .18s ease;
+}
+
+
+.space-edit-btn {
+  border: 1px solid var(--pink);
+
+  background: #fff;
+
+  color: var(--pink);
+}
+
+
+.space-edit-btn:hover {
+  background: var(--pink);
+
+  color: #fff;
+}
+
+
+.space-delete-btn {
+  border: 1px solid var(--line);
+
+  background: #fff;
+
+  color: #66697b;
+}
+
+
+.space-delete-btn:hover {
+  border-color: #e6b4c5;
+
+  color: #d74d73;
+
+  background: #fff8fa;
+}
+
+
+/* =========================================================
+   STATES
+   ========================================================= */
+
+.space-state {
+  padding: 65px 20px;
+
+  text-align: center;
+}
+
+
+.space-state-icon {
+  width: 50px;
+  height: 50px;
+
+  display: grid;
+
+  place-items: center;
+
+  margin: 0 auto 14px;
+
+  border-radius: 50%;
+
+  background: #fff1f8;
+
+  color: var(--pink);
+
+  font-size: 21px;
+}
+
+
+.space-state h3 {
+  margin: 0 0 7px;
+
+  color: var(--text);
+
+  font-size: 17px;
+}
+
+
+.space-state p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 12px;
+}
+
+
+.retry-btn {
+  margin-top: 18px;
+
+  padding: 10px 17px;
+
+  border: 1px solid var(--pink);
+
+  border-radius: 6px;
+
+  background: #fff;
+
+  color: var(--pink);
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+.retry-btn:hover {
+  background: var(--pink);
+
+  color: #fff;
+}
+
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.space-modal {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 1000;
+
+  display: none;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 25px;
+
+  background: rgba(30, 32, 48, .48);
+}
+
+
+.space-modal.show {
+  display: flex;
+}
+
+
+.space-modal-box {
+  width: 100%;
+
+  max-width: 720px;
+
+  max-height: 90vh;
+
+  overflow-y: auto;
+
+  padding: 28px;
+
+  background: #fff;
+
+  border-radius: 12px;
+
+  box-shadow:
+    0 20px 60px rgba(40, 42, 67, .20);
+}
+
+
+/* =========================================================
+   MODAL HEADER
+   ========================================================= */
+
+.space-modal-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 24px;
+}
+
+
+.modal-kicker {
+  margin-bottom: 7px;
+
+  color: var(--pink);
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  letter-spacing: .7px;
+}
+
+
+.space-modal-header h2 {
+  margin: 0;
+
+  color: var(--text);
+
+  font-size: 23px;
+}
+
+
+.modal-close {
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  border: 0;
+
+  border-radius: 50%;
+
+  background: #f3f3f6;
+
+  color: #55586b;
+
+  font-size: 22px;
+
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+
+.modal-close:hover {
+  color: var(--pink);
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.form-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 17px;
+}
+
+
+.form-full {
+  grid-column: 1 / -1;
+}
+
+
+.form-group label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #646779;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  text-transform: uppercase;
+
+  letter-spacing: .3px;
+}
+
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  border: 1px solid var(--line);
+
+  border-radius: 6px;
+
+  outline: 0;
+
+  background: #fff;
+
+  color: var(--text);
+
+  font-family: inherit;
+
+  font-size: 12px;
+}
+
+
+.form-group input,
+.form-group select {
+  height: 42px;
+
+  padding: 0 12px;
+}
+
+
+.form-group textarea {
+  padding: 11px 12px;
+
+  resize: vertical;
+}
+
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--pink);
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+   ========================================================= */
+
+.form-actions {
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  margin-top: 25px;
+
+  padding-top: 20px;
+
+  border-top: 1px solid var(--line);
+}
+
+
+.form-cancel-btn,
+.form-submit-btn {
+  min-width: 115px;
+
+  height: 40px;
+
+  padding: 0 18px;
+
+  border-radius: 6px;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+.form-cancel-btn {
+  border: 1px solid var(--line);
+
+  background: #fff;
+
+  color: #66697b;
+}
+
+
+.form-submit-btn {
+  border: 0;
+
+  background: var(--pink);
+
+  color: #fff;
+}
+
+
+.form-submit-btn:hover {
+  background: var(--pink-dark);
+}
+
+
+.form-submit-btn:disabled {
+  opacity: .65;
+
+  cursor: wait;
+}
+
+
+/* =========================================================
+   DELETE CONFIRM
+   ========================================================= */
+
+.confirm-box {
+  width: 100%;
+
+  max-width: 420px;
+
+  padding: 30px;
+
+  border-radius: 12px;
+
+  background: #fff;
+
+  text-align: center;
+}
+
+
+.confirm-icon {
+  width: 55px;
+  height: 55px;
+
+  display: grid;
+
+  place-items: center;
+
+  margin: 0 auto 16px;
+
+  border-radius: 50%;
+
+  background: #fff1f8;
+
+  color: var(--pink);
+
+  font-size: 24px;
+
+  font-weight: 800;
+}
+
+
+.confirm-box h3 {
+  margin: 0 0 10px;
+
+  color: var(--text);
+
+  font-size: 20px;
+}
+
+
+.confirm-box p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 12px;
+
+  line-height: 1.55;
+}
+
+
+.confirm-actions {
+  display: flex;
+
+  gap: 10px;
+
+  margin-top: 24px;
+}
+
+
+.confirm-cancel,
+.confirm-delete {
+  flex: 1;
+
+  height: 40px;
+
+  border-radius: 6px;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+.confirm-cancel {
+  border: 1px solid var(--line);
+
+  background: #fff;
+
+  color: #66697b;
+}
+
+
+.confirm-delete {
+  border: 0;
+
+  background: var(--pink);
+
+  color: #fff;
+}
+
+
+.confirm-delete:hover {
+  background: var(--pink-dark);
+}
+
+
+/* =========================================================
+   MESSAGE
+   ========================================================= */
+
+.message-box {
+  width: 100%;
+
+  max-width: 420px;
+
+  padding: 30px;
+
+  border-radius: 12px;
+
+  background: #fff;
+
+  text-align: center;
+}
+
+
+.message-icon {
+  width: 58px;
+  height: 58px;
+
+  display: grid;
+
+  place-items: center;
+
+  margin: 0 auto 15px;
+
+  border-radius: 50%;
+
+  background: #fff1f8;
+
+  color: var(--pink);
+
+  font-size: 25px;
+
+  font-weight: 800;
+}
+
+
+.message-box h3 {
+  margin: 0 0 9px;
+
+  color: var(--text);
+
+  font-size: 20px;
+}
+
+
+.message-box p {
+  margin: 0 0 22px;
+
+  color: var(--muted);
+
+  font-size: 12px;
+
+  line-height: 1.55;
+}
+
+
+.message-ok {
+  width: 100%;
+
+  height: 40px;
+
+  border: 0;
+
+  border-radius: 6px;
+
+  background: var(--pink);
+
+  color: #fff;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   FOOTER
+   GIỮ NGUYÊN PROVIDER FOOTER
+   ========================================================= */
+
+.provider-footer {
+  background: #fff;
+
+  border-top: 1px solid var(--line);
+}
+
+
+.provider-footer-inner {
+  min-height: 78px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  color: var(--muted);
+
+  font-size: 10px;
+}
+
+
+.provider-footer-inner div {
+  display: flex;
+
+  gap: 20px;
+}
+
+
+.provider-footer a:hover {
+  color: var(--pink);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1050px) {
+
+  .provider-space-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+@media (max-width: 760px) {
+
+  .navbar {
+    height: auto;
+  }
+
+
+  .navbar-container {
+    min-height: 74px;
+
+    flex-wrap: wrap;
+
+    padding: 12px 0;
+  }
+
+
+  .menu {
+    order: 3;
+
+    width: 100%;
+
+    overflow-x: auto;
+
+    margin: 0;
+  }
+
+
+  .menu a {
+    padding: 10px 0;
+
+    white-space: nowrap;
+  }
+
+
+  .spaces-header {
+    padding: 40px 0;
+  }
+
+
+  .spaces-header h1 {
+    font-size: 31px;
+  }
+
+
+  .spaces-section-heading {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+
+  .add-space-btn {
+    width: 100%;
+  }
+
+
+  .provider-space-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .form-full {
+    grid-column: auto;
+  }
+
+
+  .provider-footer-inner {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    padding: 20px 0;
+  }
+
+}
+
+
+@media (max-width: 520px) {
+
+  .container {
+    width:
+      min(
+        100% - 24px,
+        1180px
+      );
+  }
+
+
+  .spaces-header h1 {
+    font-size: 27px;
+  }
+
+
+  .space-modal {
+    padding: 12px;
+  }
+
+
+  .space-modal-box {
+    padding: 22px;
+  }
+
+
+  .provider-space-image {
+    height: 200px;
+  }
+
+}

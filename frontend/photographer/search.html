@@ -1,39 +1,94 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
   <title>Search - Photographer | FilmSpace</title>
 
-  <link rel="stylesheet" href="../assets/css/styles.css">
-  <link rel="stylesheet" href="../assets/css/photographer-home.css">
+  <link
+    rel="stylesheet"
+    href="../assets/css/styles.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../assets/css/photographer-home.css"
+  >
+
 </head>
+
 
 <body>
 
-  <!-- NAVBAR -->
-  <nav class="navbar" id="mainNavbar">
+
+  <!-- =========================================
+       NAVBAR
+       ========================================= -->
+
+  <nav
+    class="navbar"
+    id="mainNavbar"
+  >
+
     <div class="navbar-container container">
 
-      <a class="logo" href="home.html" aria-label="FilmSpace">
+
+      <a
+        class="logo"
+        href="home.html"
+        aria-label="FilmSpace"
+      >
         FilmSpace
       </a>
 
-      <div class="menu" aria-label="Photographer navigation">
-        <a href="home.html">Home</a>
-        <a href="search.html" class="active">Search</a>
-        <a href="booking.html">Bookings</a>
-        <a href="workshops.html">Workshops</a>
-        <a href="profile.html">Profile</a>
+
+      <div
+        class="menu"
+        aria-label="Photographer navigation"
+      >
+
+        <a href="home.html">
+          Home
+        </a>
+
+        <a
+          href="search.html"
+          class="active"
+        >
+          Search
+        </a>
+
+        <a href="booking.html">
+          Bookings
+        </a>
+
+        <a href="workshops.html">
+          Workshops
+        </a>
+
+        <a href="profile.html">
+          Profile
+        </a>
+
       </div>
 
+
       <div class="nav-actions">
+
         <span
           class="photographer-nav-name"
           id="navPhotographerName"
         >
           Photographer
         </span>
+
 
         <button
           type="button"
@@ -42,38 +97,58 @@
         >
           Đăng xuất
         </button>
+
       </div>
 
+
     </div>
+
   </nav>
 
 
-  <!-- MAIN -->
+
+  <!-- =========================================
+       MAIN
+       ========================================= -->
+
   <main class="photographer-search-page">
 
-    <!-- SEARCH HERO -->
+
+    <!-- =========================================
+         SEARCH HERO
+         ========================================= -->
+
     <section class="search-hero">
+
       <div class="container">
+
 
         <span class="search-kicker">
           PHOTOGRAPHER
         </span>
 
+
         <h1>
           Tìm Studio & Darkroom
         </h1>
 
+
         <p>
-          Khám phá những địa điểm phù hợp cho buổi chụp và xử lý film của bạn.
+          Khám phá những địa điểm phù hợp cho buổi
+          chụp và xử lý film của bạn.
         </p>
 
 
+
         <!-- SEARCH BOX -->
+
         <div class="main-search-box">
+
 
           <span class="search-icon">
             ⌕
           </span>
+
 
           <input
             type="text"
@@ -82,6 +157,7 @@
             autocomplete="off"
           >
 
+
           <button
             type="button"
             onclick="searchSpaces()"
@@ -89,25 +165,40 @@
             Search
           </button>
 
+
         </div>
 
+
       </div>
+
     </section>
 
 
-    <!-- SEARCH CONTENT -->
+
+    <!-- =========================================
+         SEARCH CONTENT
+         ========================================= -->
+
     <section class="search-content">
+
       <div class="container">
 
-        <!-- FILTER TOOLBAR -->
+
+        <!-- =====================================
+             FILTER TOOLBAR
+             ===================================== -->
+
         <div class="search-toolbar">
 
+
           <!-- TYPE -->
+
           <div class="filter-group">
 
             <label for="typeFilter">
               Loại dịch vụ
             </label>
+
 
             <select
               id="typeFilter"
@@ -118,9 +209,11 @@
                 Tất cả
               </option>
 
+
               <option value="studio">
                 Studio
               </option>
+
 
               <option value="darkroom">
                 Darkroom
@@ -131,7 +224,9 @@
           </div>
 
 
+
           <!-- CLEAR -->
+
           <button
             class="clear-filter"
             type="button"
@@ -140,10 +235,15 @@
             Xóa bộ lọc
           </button>
 
+
         </div>
 
 
-        <!-- RESULT HEADER -->
+
+        <!-- =====================================
+             RESULT HEADER
+             ===================================== -->
+
         <div class="results-heading">
 
           <div>
@@ -151,6 +251,7 @@
             <h2>
               Studio & Darkroom
             </h2>
+
 
             <p id="resultCount">
               Đang tải...
@@ -161,16 +262,26 @@
         </div>
 
 
-        <!-- SPACE GRID -->
+
+        <!-- =====================================
+             SPACE GRID
+             ===================================== -->
+
         <div
           class="space-grid"
           id="spaceGrid"
         >
-          <!-- Cards will be rendered from Backend -->
+
+          <!-- Cards được render từ Backend -->
+
         </div>
 
 
-        <!-- LOADING -->
+
+        <!-- =====================================
+             LOADING
+             ===================================== -->
+
         <div
           class="no-results"
           id="loadingState"
@@ -180,9 +291,11 @@
             ⟳
           </div>
 
+
           <h3>
             Đang tải địa điểm...
           </h3>
+
 
           <p>
             Vui lòng chờ một chút.
@@ -191,7 +304,11 @@
         </div>
 
 
-        <!-- NO RESULTS -->
+
+        <!-- =====================================
+             NO RESULTS
+             ===================================== -->
+
         <div
           class="no-results"
           id="noResults"
@@ -202,9 +319,11 @@
             ⌕
           </div>
 
+
           <h3>
             Không tìm thấy địa điểm
           </h3>
+
 
           <p>
             Thử thay đổi từ khóa hoặc bộ lọc của bạn.
@@ -213,7 +332,11 @@
         </div>
 
 
-        <!-- ERROR -->
+
+        <!-- =====================================
+             ERROR
+             ===================================== -->
+
         <div
           class="no-results"
           id="errorState"
@@ -224,9 +347,11 @@
             !
           </div>
 
+
           <h3>
             Không thể tải địa điểm
           </h3>
+
 
           <p id="errorMessage">
             Vui lòng kiểm tra Backend.
@@ -234,90 +359,126 @@
 
         </div>
 
+
       </div>
+
     </section>
+
 
   </main>
 
 
-  <!-- FOOTER -->
+
+  <!-- =========================================
+       FOOTER
+       GIỮ NGUYÊN
+       ========================================= -->
+
   <footer class="footer">
 
     <div class="container">
 
+
       <div class="footer-top">
 
+
         <div class="footer-brand">
+
 
           <div class="footer-logo">
             Photography<span>Platform</span>
           </div>
 
+
           <p>
-            Kết nối các nhiếp ảnh gia phim với các phòng tối và studio đáng tin cậy.
+            Kết nối các nhiếp ảnh gia phim với các
+            phòng tối và studio đáng tin cậy.
           </p>
+
 
         </div>
 
 
+
         <div class="footer-menu">
+
 
           <a href="home.html">
             Home
           </a>
 
+
           <a href="search.html">
             Search
           </a>
+
 
           <a href="booking.html">
             Bookings
           </a>
 
+
           <a href="workshops.html">
             Workshops
           </a>
+
 
           <a href="profile.html">
             Profile
           </a>
 
+
         </div>
 
+
       </div>
+
 
 
       <hr class="footer-line">
 
 
+
       <div class="footer-bottom">
 
+
         <span>
-          Copyright © 2026 Photography Platform. All rights reserved.
+          Copyright © 2026 Photography Platform.
+          All rights reserved.
         </span>
 
 
         <div class="footer-links">
 
+
           <a href="#">
             Privacy Policy
           </a>
+
 
           <a href="#">
             Terms of Use
           </a>
 
+
         </div>
 
+
       </div>
+
 
     </div>
 
   </footer>
 
 
-  <!-- JAVASCRIPT -->
+
+  <!-- =========================================
+       JAVASCRIPT
+       ========================================= -->
+
   <script>
+
 
     /* =========================
        CONFIG
@@ -330,6 +491,7 @@
     let allSpaces = [];
 
 
+
     /* =========================
        AUTH
     ========================= */
@@ -340,13 +502,16 @@
         localStorage.getItem("auth_token") ||
         sessionStorage.getItem("auth_token");
 
+
       const username =
         localStorage.getItem("username") ||
         sessionStorage.getItem("username");
 
+
       const fullName =
         localStorage.getItem("full_name") ||
         sessionStorage.getItem("full_name");
+
 
       return {
         token,
@@ -355,6 +520,7 @@
       };
 
     }
+
 
 
     /* =========================
@@ -402,6 +568,7 @@
     }
 
 
+
     /* =========================
        LOAD SPACES FROM BACKEND
     ========================= */
@@ -430,6 +597,7 @@
 
         loadingState.style.display =
           "block";
+
 
         errorState.style.display =
           "none";
@@ -506,6 +674,7 @@
     }
 
 
+
     /* =========================
        NORMALIZE TEXT
     ========================= */
@@ -521,6 +690,7 @@
         );
 
     }
+
 
 
     /* =========================
@@ -558,7 +728,7 @@
 
 
       /*
-       * Fallback nếu backend
+       * Fallback nếu Backend
        * chưa trả category_name.
        */
 
@@ -569,9 +739,10 @@
 
 
       /*
-       * Có thể chỉnh ID này
-       * nếu Categories của DB
-       * dùng ID khác.
+       * Category ID hiện tại.
+       *
+       * Nếu DB của bạn dùng ID khác
+       * thì sửa tại đây.
        */
 
       if (categoryId === 1) {
@@ -592,70 +763,6 @@
 
     }
 
-
-    /* =========================
-       GET LOCATION KEY
-    ========================= */
-
-    function getLocationKey(address) {
-
-      const value =
-        normalizeText(address);
-
-
-      if (
-        value.includes(
-          "binh thanh"
-        )
-      ) {
-
-        return "binh-thanh";
-
-      }
-
-
-      if (
-        value.includes(
-          "thu duc"
-        )
-      ) {
-
-        return "thu-duc";
-
-      }
-
-
-      if (
-        value.includes(
-          "quan 3"
-        ) ||
-        value.includes(
-          "q.3"
-        ) ||
-        value.includes(
-          "q3"
-        )
-      ) {
-
-        return "quan-3";
-
-      }
-
-
-      if (
-        value.includes(
-          "phu nhuan"
-        )
-      ) {
-
-        return "phu-nhuan";
-
-      }
-
-
-      return "";
-
-    }
 
 
     /* =========================
@@ -679,7 +786,9 @@
         Number(price);
 
 
-      if (Number.isNaN(number)) {
+      if (
+        Number.isNaN(number)
+      ) {
 
         return price;
 
@@ -691,6 +800,7 @@
       ).format(number) + " VND";
 
     }
+
 
 
     /* =========================
@@ -725,6 +835,7 @@
 
       if (
         value.includes("day") ||
+        value.includes("daily") ||
         value.includes("ngay")
       ) {
 
@@ -738,34 +849,47 @@
     }
 
 
-    /* =========================
-       GET IMAGE
-    ========================= */
 
     const LOCAL_SPACE_IMAGES = [
+
       "../assets/images/12.jpe",
+
       "../assets/images/14.png",
+
       "../assets/images/9.jpe",
+
       "../assets/images/11.jpg",
+
       "../assets/images/8.jpe",
+
       "../assets/images/13.jpe"
+
     ];
+
 
     function getSpaceImage(space) {
 
-      const spaceId = Number(space.id);
+      const spaceId =
+        Number(space.id);
+
 
       if (
         Number.isInteger(spaceId) &&
         spaceId >= 1 &&
         spaceId <= LOCAL_SPACE_IMAGES.length
       ) {
-        return LOCAL_SPACE_IMAGES[spaceId - 1];
+
+        return LOCAL_SPACE_IMAGES[
+          spaceId - 1
+        ];
+
       }
+
 
       return LOCAL_SPACE_IMAGES[0];
 
     }
+
 
 
     /* =========================
@@ -794,16 +918,22 @@
         );
 
 
-      grid.innerHTML = "";
+      grid.innerHTML =
+        "";
 
 
-      if (!spaces || spaces.length === 0) {
+      if (
+        !spaces ||
+        spaces.length === 0
+      ) {
 
         resultCount.textContent =
           "0 địa điểm";
 
+
         noResults.style.display =
           "block";
+
 
         return;
 
@@ -819,7 +949,7 @@
 
 
       spaces.forEach(
-        space => {
+        function(space) {
 
           const card =
             createSpaceCard(
@@ -835,6 +965,7 @@
       );
 
     }
+
 
 
     /* =========================
@@ -867,12 +998,6 @@
           : "Studio";
 
 
-      const locationKey =
-        getLocationKey(
-          space.address
-        );
-
-
       const imageUrl =
         getSpaceImage(
           space
@@ -895,10 +1020,6 @@
         type;
 
 
-      card.dataset.location =
-        locationKey;
-
-
       card.dataset.name =
         space.name || "";
 
@@ -907,46 +1028,74 @@
 
         <div class="space-image">
 
+
           <img
             src="${escapeHtml(imageUrl)}"
-            alt="${escapeHtml(space.name || "Creative Space")}"
+            alt="${escapeHtml(
+              space.name ||
+              "Creative Space"
+            )}"
             onerror="this.src='../assets/images/1.jpe'"
           >
 
-          <span class="space-badge ${type === "darkroom" ? "darkroom" : ""}">
+
+          <span
+            class="
+              space-badge
+              ${
+                type === "darkroom"
+                  ? "darkroom"
+                  : ""
+              }
+            "
+          >
             ${escapeHtml(typeName)}
           </span>
 
-          
 
         </div>
 
 
+
         <div class="space-info">
 
+
           <h3>
+
             ${escapeHtml(
-              space.name || "Chưa cập nhật"
+              space.name ||
+              "Chưa cập nhật"
             )}
+
           </h3>
 
 
+
           <p class="location">
+
             📍
+
             ${escapeHtml(
-              space.address || "Chưa cập nhật địa điểm"
+              space.address ||
+              "Chưa cập nhật địa điểm"
             )}
+
           </p>
+
 
 
           <div class="space-meta">
 
             <span>
+
               ${escapeHtml(price)}
+
               ${escapeHtml(pricingModel)}
+
             </span>
 
           </div>
+
 
 
           <p class="description">
@@ -959,12 +1108,16 @@
           </p>
 
 
+
           <a
-            href="space-detail.html?id=${encodeURIComponent(space.id)}"
+            href="space-detail.html?id=${encodeURIComponent(
+              space.id
+            )}"
             class="detail-btn"
           >
             View details
           </a>
+
 
         </div>
 
@@ -974,6 +1127,7 @@
       return card;
 
     }
+
 
 
     /* =========================
@@ -996,15 +1150,17 @@
         ).value;
 
 
-      const location =
-        document.getElementById(
-          "locationFilter"
-        ).value;
+      /*
+       * KHÔNG có locationFilter
+       * trong HTML nên không lấy
+       * location ở đây nữa.
+       */
 
 
       const filtered =
         allSpaces.filter(
-          space => {
+          function(space) {
+
 
             const name =
               normalizeText(
@@ -1036,18 +1192,13 @@
               );
 
 
-            const locationKey =
-              getLocationKey(
-                space.address
-              );
-
-
             /*
              * Search theo:
-             * - tên
-             * - địa chỉ
-             * - mô tả
-             * - loại dịch vụ
+             *
+             * - Tên
+             * - Địa chỉ
+             * - Mô tả
+             * - Category
              */
 
             const matchesKeyword =
@@ -1058,20 +1209,22 @@
               categoryName.includes(keyword);
 
 
+            /*
+             * Filter theo:
+             *
+             * - All
+             * - Studio
+             * - Darkroom
+             */
+
             const matchesType =
               type === "all" ||
               spaceType === type;
 
 
-            const matchesLocation =
-              location === "all" ||
-              locationKey === location;
-
-
             return (
               matchesKeyword &&
-              matchesType &&
-              matchesLocation
+              matchesType
             );
 
           }
@@ -1085,6 +1238,7 @@
     }
 
 
+
     /* =========================
        CLEAR FILTERS
     ========================= */
@@ -1093,17 +1247,21 @@
 
       document.getElementById(
         "searchInput"
-      ).value = "";
+      ).value =
+        "";
 
 
       document.getElementById(
         "typeFilter"
-      ).value = "all";
+      ).value =
+        "all";
 
 
-      document.getElementById(
-        "locationFilter"
-      ).value = "all";
+      /*
+       * Không reset locationFilter
+       * vì HTML hiện tại không có
+       * locationFilter.
+       */
 
 
       renderSpaces(
@@ -1113,12 +1271,15 @@
     }
 
 
+
     /* =========================
        ENTER SEARCH
     ========================= */
 
     document
-      .getElementById("searchInput")
+      .getElementById(
+        "searchInput"
+      )
       .addEventListener(
         "keydown",
         function(event) {
@@ -1129,12 +1290,15 @@
 
             event.preventDefault();
 
+
             searchSpaces();
 
           }
 
         }
       );
+
+
 
     /* =========================
        ESCAPE HTML
@@ -1144,29 +1308,37 @@
       value
     ) {
 
-      return String(value ?? "")
+      return String(
+        value ?? ""
+      )
+
         .replace(
           /&/g,
           "&amp;"
         )
+
         .replace(
           /</g,
           "&lt;"
         )
+
         .replace(
           />/g,
           "&gt;"
         )
+
         .replace(
           /"/g,
           "&quot;"
         )
+
         .replace(
           /'/g,
           "&#039;"
         );
 
     }
+
 
 
     /* =========================
@@ -1179,9 +1351,11 @@
         "auth_token"
       );
 
+
       localStorage.removeItem(
         "username"
       );
+
 
       localStorage.removeItem(
         "full_name"
@@ -1192,9 +1366,11 @@
         "auth_token"
       );
 
+
       sessionStorage.removeItem(
         "username"
       );
+
 
       sessionStorage.removeItem(
         "full_name"
@@ -1205,6 +1381,7 @@
         "../auth.html";
 
     }
+
 
 
     /* =========================
@@ -1221,5 +1398,7 @@
 
   </script>
 
+
 </body>
+
 </html>

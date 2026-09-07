@@ -36,7 +36,18 @@ def list_spaces():
                 items:
                   $ref: '#/components/schemas/CreativeSpaceResponse'
     """
-    items = creative_space_service.list_spaces()
+    provider_id = request.args.get(
+        'provider_id',
+        type=int
+    )
+
+    items = creative_space_service.list_spaces(
+        provider_id=provider_id
+    )
+
+    return jsonify(
+        response_schema.dump(items, many=True)
+    ), 200
 
     return jsonify(response_schema.dump(items, many=True)), 200
 

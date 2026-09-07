@@ -15,8 +15,8 @@ class CreativeSpaceService:
     def get_space_detail(self, id: int):
         return self.repository.get_detail(id)
 
-    def list_spaces(self) -> List:
-        return self.repository.list()
+    def list_spaces(self, provider_id=None) -> List:
+        return self.repository.list(provider_id)
 
     def update_space(self, id: int, **data):
         data['id'] = id
