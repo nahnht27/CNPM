@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List, Optional
 
 from infrastructure.databases.factory_database import FactoryDatabase as db_factory
@@ -11,7 +12,12 @@ class CreativeSpaceRepository:
     def __init__(self, session=None):
         self.session = session or db_factory.get_database('POSTGREE').session
 
+    # =========================================================
+    # CREATE
+    # =========================================================
+
     def add(self, data) -> CreativeSpaceModel:
+
         m = CreativeSpaceModel(
             provider_id=data.get('provider_id'),
             name=data.get('name'),
@@ -22,18 +28,31 @@ class CreativeSpaceRepository:
             operating_hours=data.get('operating_hours'),
             pricing_model=data.get('pricing_model'),
             base_price=data.get('base_price'),
-            status=data.get('status'),
+            status=data.get('status', 'active'),
             address=data.get('address'),
-            created_at=data.get('created_at')
+
+            # DB yêu cầu CreatedAt NOT NULL
+            # Nếu frontend không gửi thì tự tạo thời gian hiện tại
+            created_at=data.get('created_at') or datetime.now()
         )
 
-        self.session.add(m)
-        self.session.commit()
-        self.session.refresh(m)
+        try:
+            self.session.add(m)
+            self.session.commit()
+            self.session.refresh(m)
 
-        return m
+            return m
+
+        except Exception:
+            self.session.rollback()
+            raise
+
+    # =========================================================
+    # GET BY ID
+    # =========================================================
 
     def get_by_id(self, id: int) -> Optional[CreativeSpaceModel]:
+
         return (
             self.session
             .query(CreativeSpaceModel)
@@ -41,7 +60,12 @@ class CreativeSpaceRepository:
             .first()
         )
 
+    # =========================================================
+    # GET DETAIL
+    # =========================================================
+
     def get_detail(self, id: int):
+
         space = (
             self.session
             .query(CreativeSpaceModel)
@@ -81,22 +105,37 @@ class CreativeSpaceRepository:
             'status': space.status,
             'address': space.address,
             'created_at': space.created_at,
+
             'images': [
                 image.image_url
                 for image in images
             ]
         }
 
-    def list(self) -> List:
-        spaces = (
+    # =========================================================
+    # LIST
+    # =========================================================
+
+    def list(self, provider_id=None) -> List:
+
+        query = (
             self.session
             .query(CreativeSpaceModel)
-            .all()
         )
+
+        # Nếu có provider_id thì chỉ lấy space
+        # thuộc provider đó
+        if provider_id is not None:
+            query = query.filter(
+                CreativeSpaceModel.provider_id == provider_id
+            )
+
+        spaces = query.all()
 
         result = []
 
         for space in spaces:
+
             image = (
                 self.session
                 .query(SpaceImageModel)
@@ -123,7 +162,12 @@ class CreativeSpaceRepository:
 
         return result
 
+    # =========================================================
+    # UPDATE
+    # =========================================================
+
     def update(self, data) -> CreativeSpaceModel:
+
         m = (
             self.session
             .query(CreativeSpaceModel)
@@ -134,15 +178,30 @@ class CreativeSpaceRepository:
         if not m:
             raise ValueError('Not found')
 
-        for k, v in data.items():
-            if hasattr(m, k) and k != 'id':
-                setattr(m, k, v)
+        for key, value in data.items():
 
-        self.session.commit()
+            if key == 'id':
+                continue
 
-        return m
+            if hasattr(m, key):
+                setattr(m, key, value)
+
+        try:
+            self.session.commit()
+            self.session.refresh(m)
+
+            return m
+
+        except Exception:
+            self.session.rollback()
+            raise
+
+    # =========================================================
+    # DELETE
+    # =========================================================
 
     def delete(self, id: int) -> None:
+
         m = (
             self.session
             .query(CreativeSpaceModel)
@@ -150,6 +209,13 @@ class CreativeSpaceRepository:
             .first()
         )
 
-        if m:
+        if not m:
+            return
+
+        try:
             self.session.delete(m)
             self.session.commit()
+
+        except Exception:
+            self.session.rollback()
+            raise
