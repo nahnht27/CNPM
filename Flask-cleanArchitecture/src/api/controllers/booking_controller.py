@@ -1,4 +1,7 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
+from datetime import datetime
+
+import jwt
 
 from services.booking_service import BookingService
 
@@ -23,7 +26,9 @@ from api.schemas.booking import (
 
 from infrastructure.databases.postgres import session
 
-from infrastructure.repositories.payment_repository import PaymentRepository
+from infrastructure.repositories.payment_repository import (
+    PaymentRepository
+)
 
 
 bp = Blueprint(
@@ -52,46 +57,133 @@ provider_response_schema = ProviderBookingResponseSchema()
 
 
 # ==========================================================
+# AUTHENTICATION
+# ==========================================================
+
+def get_current_user_id():
+    """
+    Lấy user_id từ JWT trong Authorization header.
+
+    Header:
+        Authorization: Bearer <token>
+
+    JWT được tạo tại auth_controller.py:
+        jwt.encode(
+            payload,
+            current_app.config['SECRET_KEY'],
+            algorithm='HS256'
+        )
+    """
+
+    auth_header = request.headers.get('Authorization')
+
+    # Không có Authorization
+    if not auth_header:
+        return None, 'Thiếu Authorization header'
+
+    # Không đúng format Bearer
+    if not auth_header.startswith('Bearer '):
+        return None, 'Authorization header không hợp lệ'
+
+    token = auth_header.split(' ', 1)[1].strip()
+
+    if not token:
+        return None, 'Token không hợp lệ'
+
+    try:
+
+        payload = jwt.decode(
+            token,
+            current_app.config['SECRET_KEY'],
+            algorithms=['HS256']
+        )
+
+        user_id = payload.get('user_id')
+
+        if user_id is None:
+            return None, 'Token không chứa user_id'
+
+        return int(user_id), None
+
+    except jwt.ExpiredSignatureError:
+
+        return None, 'Token đã hết hạn'
+
+    except jwt.InvalidTokenError:
+
+        return None, 'Token không hợp lệ'
+
+    except (TypeError, ValueError):
+
+        return None, 'user_id trong token không hợp lệ'
+
+
+# ==========================================================
 # PHOTOGRAPHER APIs - GIỮ API CŨ
 # ==========================================================
 
+
 @bp.route('/', methods=['GET'])
 def list_bookings():
-    photographer_id = request.args.get('photographer_id', type=int)
+    """
+    ---
+    get:
+      tags:
+        - Booking
+      summary: Lấy danh sách booking của Photographer hiện tại
+      parameters:
+        - name: space_id
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Danh sách booking
+        401:
+          description: Chưa đăng nhập hoặc token không hợp lệ
+        500:
+          description: Không thể lấy danh sách booking
+    """
+
+    # ------------------------------------------------------
+    # LẤY PHOTOGRAPHER ID TỪ JWT
+    # ------------------------------------------------------
+
+    photographer_id, auth_error = get_current_user_id()
+
+    if auth_error:
+        return jsonify({
+            'message': auth_error
+        }), 401
 
     try:
-        items = booking_service.list_bookings()
 
-        if photographer_id is not None:
-            filtered_items = []
-            for b in items:
-                # 1. Bắt cả 2 trường hợp thuộc tính Python hoặc Column Name
-                b_photographer_id = (
-                    getattr(b, 'photographer_id', None) or 
-                    getattr(b, 'PhotographerID', None)
-                )
+        # --------------------------------------------------
+        # KHÔNG DÙNG photographer_id TỪ QUERY PARAM
+        # --------------------------------------------------
 
-                # 2. Trường hợp Repository trả về dict thay vì Object
-                if b_photographer_id is None and isinstance(b, dict):
-                    b_photographer_id = b.get('photographer_id') or b.get('PhotographerID')
-
-                # 3. So sánh sau khi ép kiểu an toàn
-                if b_photographer_id is not None and int(b_photographer_id) == int(photographer_id):
-                    filtered_items.append(b)
-
-            items = filtered_items
+        items = booking_service.list_bookings(
+            photographer_id=photographer_id
+        )
 
         return jsonify(
             response_schema.dump(items, many=True)
         ), 200
 
     except Exception as e:
+
         session.rollback()
+
         return jsonify({
             'message': 'Không thể lấy danh sách booking',
             'error': str(e)
         }), 500
 
+
+# ==========================================================
+# GET BOOKING BY ID
+# ==========================================================
 
 @bp.route('/<int:booking_id>', methods=['GET'])
 def get_booking(booking_id):
@@ -100,7 +192,7 @@ def get_booking(booking_id):
     get:
       tags:
         - Booking
-      summary: Lấy thông tin booking
+      summary: Lấy thông tin booking của Photographer hiện tại
       parameters:
         - name: booking_id
           in: path
@@ -114,16 +206,34 @@ def get_booking(booking_id):
             application/json:
               schema:
                 $ref: '#/components/schemas/BookingResponse'
+        401:
+          description: Chưa đăng nhập hoặc token không hợp lệ
         404:
           description: Không tìm thấy booking
         500:
           description: Không thể lấy booking
     """
 
+    # ------------------------------------------------------
+    # LẤY USER ID TỪ JWT
+    # ------------------------------------------------------
+
+    photographer_id, auth_error = get_current_user_id()
+
+    if auth_error:
+        return jsonify({
+            'message': auth_error
+        }), 401
+
     try:
 
+        # --------------------------------------------------
+        # CHỈ LẤY BOOKING THUỘC USER HIỆN TẠI
+        # --------------------------------------------------
+
         item = booking_service.get_booking(
-            booking_id
+            booking_id,
+            photographer_id
         )
 
         if not item:
@@ -144,6 +254,10 @@ def get_booking(booking_id):
             'error': str(e)
         }), 500
 
+
+# ==========================================================
+# CREATE BOOKING
+# ==========================================================
 
 @bp.route('/', methods=['POST'])
 def create_booking():
@@ -168,11 +282,47 @@ def create_booking():
                 $ref: '#/components/schemas/BookingResponse'
         400:
           description: Dữ liệu booking không hợp lệ
+        401:
+          description: Chưa đăng nhập hoặc token không hợp lệ
         500:
           description: Không thể tạo booking
     """
 
+    # ------------------------------------------------------
+    # LẤY USER ID TỪ JWT
+    # ------------------------------------------------------
+
+    photographer_id, auth_error = get_current_user_id()
+
+    if auth_error:
+        return jsonify({
+            'message': auth_error
+        }), 401
+
+    # ------------------------------------------------------
+    # GET DATA
+    # ------------------------------------------------------
+
     data = request.get_json() or {}
+
+    # ------------------------------------------------------
+    # QUAN TRỌNG:
+    # Không tin photographer_id từ frontend.
+    #
+    # Nếu frontend gửi:
+    #
+    # {
+    #     "photographer_id": 999
+    # }
+    #
+    # thì vẫn ghi đè bằng user_id trong JWT.
+    # ------------------------------------------------------
+
+    data['photographer_id'] = photographer_id
+
+    # ------------------------------------------------------
+    # VALIDATE
+    # ------------------------------------------------------
 
     errors = request_schema.validate(data)
 
@@ -182,6 +332,9 @@ def create_booking():
     try:
 
         cleaned_data = request_schema.load(data)
+
+        # Đảm bảo photographer_id vẫn là user hiện tại
+        cleaned_data['photographer_id'] = photographer_id
 
         item = booking_service.create_booking(
             **cleaned_data
@@ -207,6 +360,10 @@ def create_booking():
         }), 500
 
 
+# ==========================================================
+# UPDATE BOOKING
+# ==========================================================
+
 @bp.route('/<int:booking_id>', methods=['PUT'])
 def update_booking(booking_id):
     """
@@ -214,7 +371,7 @@ def update_booking(booking_id):
     put:
       tags:
         - Booking
-      summary: Cập nhật booking
+      summary: Cập nhật booking của Photographer hiện tại
       parameters:
         - name: booking_id
           in: path
@@ -236,11 +393,28 @@ def update_booking(booking_id):
                 $ref: '#/components/schemas/BookingResponse'
         400:
           description: Dữ liệu booking không hợp lệ
+        401:
+          description: Chưa đăng nhập hoặc token không hợp lệ
         404:
           description: Không tìm thấy booking
         500:
           description: Không thể cập nhật booking
     """
+
+    # ------------------------------------------------------
+    # LẤY USER ID TỪ JWT
+    # ------------------------------------------------------
+
+    photographer_id, auth_error = get_current_user_id()
+
+    if auth_error:
+        return jsonify({
+            'message': auth_error
+        }), 401
+
+    # ------------------------------------------------------
+    # GET DATA
+    # ------------------------------------------------------
 
     data = request.get_json() or {}
 
@@ -259,8 +433,22 @@ def update_booking(booking_id):
             partial=True
         )
 
+        # --------------------------------------------------
+        # KHÔNG CHO PHÉP ĐỔI photographer_id
+        # --------------------------------------------------
+
+        cleaned_data.pop(
+            'photographer_id',
+            None
+        )
+
+        # --------------------------------------------------
+        # UPDATE CHỈ KHI BOOKING THUỘC USER HIỆN TẠI
+        # --------------------------------------------------
+
         item = booking_service.update_booking(
             booking_id,
+            photographer_id,
             **cleaned_data
         )
 
@@ -289,6 +477,10 @@ def update_booking(booking_id):
         }), 500
 
 
+# ==========================================================
+# DELETE BOOKING
+# ==========================================================
+
 @bp.route('/<int:booking_id>', methods=['DELETE'])
 def delete_booking(booking_id):
     """
@@ -296,7 +488,7 @@ def delete_booking(booking_id):
     delete:
       tags:
         - Booking
-      summary: Xóa booking
+      summary: Xóa booking của Photographer hiện tại
       parameters:
         - name: booking_id
           in: path
@@ -306,16 +498,34 @@ def delete_booking(booking_id):
       responses:
         204:
           description: Xóa booking thành công
+        401:
+          description: Chưa đăng nhập hoặc token không hợp lệ
         404:
           description: Không tìm thấy booking
         500:
           description: Không thể xóa booking
     """
 
+    # ------------------------------------------------------
+    # LẤY USER ID TỪ JWT
+    # ------------------------------------------------------
+
+    photographer_id, auth_error = get_current_user_id()
+
+    if auth_error:
+        return jsonify({
+            'message': auth_error
+        }), 401
+
     try:
 
+        # --------------------------------------------------
+        # CHỈ DELETE BOOKING THUỘC USER HIỆN TẠI
+        # --------------------------------------------------
+
         deleted = booking_service.delete_booking(
-            booking_id
+            booking_id,
+            photographer_id
         )
 
         if not deleted:
@@ -445,6 +655,10 @@ def get_provider_bookings(provider_id):
             'error': str(e)
         }), 500
 
+
+# ==========================================================
+# GET PROVIDER BOOKING
+# ==========================================================
 
 @bp.route(
     '/provider/<int:provider_id>/<int:booking_id>',
@@ -791,4 +1005,3 @@ def check_out_provider_booking(
             'message': 'Không thể check-out booking',
             'error': str(e)
         }), 500
-
