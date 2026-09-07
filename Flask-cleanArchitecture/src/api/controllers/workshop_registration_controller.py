@@ -1,17 +1,21 @@
 from flask import Blueprint, request, jsonify, session
 
-from services.workshop_registration_service import WorkshopRegistrationService
+from services.workshop_registration_service import (
+    WorkshopRegistrationService
+)
+
 from infrastructure.repositories.workshop_registration_repository import (
     WorkshopRegistrationRepository
 )
-from infrastructure.repositories.workshop_repository import WorkshopRepository
+
+from infrastructure.repositories.workshop_repository import (
+    WorkshopRepository
+)
 
 from api.schemas.workshop_registration import (
     WorkshopRegistrationRequestSchema,
     WorkshopRegistrationResponseSchema
 )
-
-from infrastructure.databases.factory_database import FactoryDatabase as db_factory
 
 
 bp = Blueprint(
@@ -21,17 +25,37 @@ bp = Blueprint(
 )
 
 
+# =====================================================
+# REPOSITORIES
+# =====================================================
+
 registration_repository = WorkshopRegistrationRepository(session)
+
 workshop_repository = WorkshopRepository(session)
+
+
+# =====================================================
+# SERVICE
+# =====================================================
 
 workshop_registration_service = WorkshopRegistrationService(
     registration_repository,
     workshop_repository
 )
 
+
+# =====================================================
+# SCHEMAS
+# =====================================================
+
 request_schema = WorkshopRegistrationRequestSchema()
+
 response_schema = WorkshopRegistrationResponseSchema()
 
+
+# =====================================================
+# REGISTER WORKSHOP
+# =====================================================
 
 @bp.route('/', methods=['POST'])
 def register_workshop():
@@ -65,38 +89,71 @@ def register_workshop():
 
     data = request.get_json()
 
+
+    # -------------------------------------------------
+    # Check request body
+    # -------------------------------------------------
+
     if not data:
+
         return jsonify({
             'message': 'Request body is required'
         }), 400
 
+
+    # -------------------------------------------------
+    # Validate request
+    # -------------------------------------------------
+
     errors = request_schema.validate(data)
 
+
     if errors:
+
         return jsonify(errors), 400
 
+
+    # -------------------------------------------------
+    # Register
+    # -------------------------------------------------
+
     try:
-        registration = workshop_registration_service.register(
-            workshop_id=data['workshop_id'],
-            user_id=data['user_id']
+
+        registration = (
+            workshop_registration_service.register(
+                workshop_id=data['workshop_id'],
+                user_id=data['user_id']
+            )
         )
+
 
         return jsonify(
             response_schema.dump(registration)
         ), 201
 
+
     except ValueError as e:
+
         message = str(e)
 
+
+        # Workshop not found
         if message == 'Workshop not found':
+
             return jsonify({
                 'message': message
             }), 404
 
+
+        # Duplicate / full
         return jsonify({
             'message': message
         }), 409
 
+
+# =====================================================
+# LIST USER REGISTRATIONS
+# =====================================================
 
 @bp.route('/user/<int:user_id>', methods=['GET'])
 def list_user_registrations(user_id):
@@ -118,14 +175,24 @@ def list_user_registrations(user_id):
           description: Danh sách workshop đã đăng ký
     """
 
-    registrations = workshop_registration_service.list_by_user(
-        user_id
+    registrations = (
+        workshop_registration_service.list_by_user(
+            user_id
+        )
     )
 
+
     return jsonify(
-        response_schema.dump(registrations, many=True)
+        response_schema.dump(
+            registrations,
+            many=True
+        )
     ), 200
 
+
+# =====================================================
+# LIST WORKSHOP REGISTRATIONS
+# =====================================================
 
 @bp.route('/workshop/<int:workshop_id>', methods=['GET'])
 def list_workshop_registrations(workshop_id):
@@ -144,13 +211,60 @@ def list_workshop_registrations(workshop_id):
             type: integer
       responses:
         200:
-          description: Danh sách đăng ký
+          description: Danh sách người đăng ký workshop
+        404:
+          description: Không tìm thấy workshop
     """
 
-    registrations = workshop_registration_service.list_by_workshop(
+    # -------------------------------------------------
+    # Check workshop exists
+    # -------------------------------------------------
+
+    workshop = workshop_repository.get_by_id(
         workshop_id
     )
 
+
+    if not workshop:
+
+        return jsonify({
+            'message': 'Workshop not found'
+        }), 404
+
+
+    # -------------------------------------------------
+    # Get registrations + user information
+    # -------------------------------------------------
+
+    registrations = (
+        workshop_registration_service
+        .list_by_workshop(
+            workshop_id
+        )
+    )
+
+
+    # -------------------------------------------------
+    # IMPORTANT
+    #
+    # list_by_workshop() now returns dictionaries
+    # containing:
+    #
+    # workshop_registration_id
+    # workshop_id
+    # user_id
+    # username
+    # full_name
+    # email
+    # phone
+    # avatar
+    # registered_at
+    # status
+    #
+    # So we return JSON directly instead of using
+    # WorkshopRegistrationResponseSchema.
+    # -------------------------------------------------
+
     return jsonify(
-        response_schema.dump(registrations, many=True)
+        registrations
     ), 200

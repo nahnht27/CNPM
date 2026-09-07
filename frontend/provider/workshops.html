@@ -241,7 +241,7 @@
 
     .workshop-modal-box {
       width: 100%;
-      max-width: 650px;
+      max-width: 700px;
       max-height: 90vh;
 
       overflow-y: auto;
@@ -311,11 +311,50 @@
     .detail-registration {
       margin-top: 20px;
 
-      padding: 14px;
+      padding: 16px;
       border-radius: 8px;
 
       background: #fafafa;
       border: 1px solid #eee;
+    }
+
+    .detail-registration h3 {
+      margin: 0 0 15px;
+      font-size: 17px;
+      color: #333;
+    }
+
+    .participant-item {
+      padding: 14px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .participant-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .participant-name {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .participant-info {
+      color: #666;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .participant-status {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 3px 8px;
+      border-radius: 12px;
+      background: #fce4f1;
+      color: #e13493;
+      font-size: 12px;
+      font-weight: 600;
     }
 
 
@@ -767,8 +806,6 @@
 
   <main class="provider-page provider-workshop-page">
 
-
-    <!-- HEADER -->
 
     <section class="workshop-header">
 
@@ -1615,10 +1652,8 @@
       loading.style.display =
         "block";
 
-
       empty.style.display =
         "none";
-
 
       error.style.display =
         "none";
@@ -1713,7 +1748,6 @@
 
         loading.style.display =
           "none";
-
 
         error.style.display =
           "block";
@@ -1818,6 +1852,7 @@
               <p class="workshop-info">
 
                 📅
+
                 ${escapeHtml(
                   formatDate(start)
                 )}
@@ -1828,6 +1863,7 @@
               <p class="workshop-info">
 
                 🕐
+
                 ${escapeHtml(
                   formatTimeRange(
                     start,
@@ -1841,6 +1877,7 @@
               <p class="workshop-info">
 
                 📍
+
                 ${escapeHtml(
                   workshop.location ||
                   "Chưa cập nhật"
@@ -1852,7 +1889,9 @@
               <p class="workshop-info">
 
                 👥
+
                 Sức chứa:
+
                 ${escapeHtml(
                   workshop.capacity ??
                   "Chưa cập nhật"
@@ -2465,7 +2504,7 @@
 
 
     /* =========================================
-       VIEW DETAIL
+       VIEW WORKSHOP DETAIL
        ========================================= */
 
     async function viewWorkshopDetail(
@@ -2567,8 +2606,13 @@
           );
 
 
-        let registrationCount =
-          0;
+        /*
+         * =====================================
+         * LOAD PARTICIPANTS
+         * =====================================
+         */
+
+        let registrations = [];
 
 
         try {
@@ -2594,29 +2638,172 @@
             registrationResponse.ok
           ) {
 
-            const registrations =
+            const registrationData =
               await registrationResponse.json();
 
 
-            if (
+            registrations =
               Array.isArray(
-                registrations
+                registrationData
               )
-            ) {
+                ? registrationData
+                : [];
 
-              registrationCount =
-                registrations.length;
+          } else {
 
-            }
+            console.warn(
+              "Không thể tải danh sách người đăng ký."
+            );
 
           }
 
         } catch (registrationError) {
 
           console.warn(
-            "Không lấy được số lượng đăng ký:",
+            "LOAD PARTICIPANTS ERROR:",
             registrationError
           );
+
+        }
+
+
+        const registrationCount =
+          registrations.length;
+
+
+        /*
+         * =====================================
+         * PARTICIPANT HTML
+         * =====================================
+         */
+
+        let participantsHtml = "";
+
+
+        if (
+          registrationCount === 0
+        ) {
+
+          participantsHtml = `
+
+            <p style="
+              color:#777;
+              margin:0;
+            ">
+              Chưa có photographer nào đăng ký.
+            </p>
+
+          `;
+
+        } else {
+
+          participantsHtml =
+            registrations.map(
+              function(
+                registration,
+                index
+              ) {
+
+                const registeredAt =
+                  registration.registered_at
+                    ? new Date(
+                        registration.registered_at
+                      )
+                    : null;
+
+
+                return `
+
+                  <div class="participant-item">
+
+                    <div class="participant-name">
+
+                      ${index + 1}.
+                      ${escapeHtml(
+                        registration.full_name ||
+                        registration.username ||
+                        "Photographer"
+                      )}
+
+                    </div>
+
+
+                    <div class="participant-info">
+
+                      <div>
+
+                        👤
+
+                        Username:
+
+                        ${escapeHtml(
+                          registration.username ||
+                          "Chưa cập nhật"
+                        )}
+
+                      </div>
+
+
+                      <div>
+
+                        ✉️
+
+                        Email:
+
+                        ${escapeHtml(
+                          registration.email ||
+                          "Chưa cập nhật"
+                        )}
+
+                      </div>
+
+
+                      <div>
+
+                        📞
+
+                        SĐT:
+
+                        ${escapeHtml(
+                          registration.phone ||
+                          "Chưa cập nhật"
+                        )}
+
+                      </div>
+
+
+                      <div>
+
+                        📅
+
+                        Đăng ký:
+
+                        ${escapeHtml(
+                          formatDateTime(
+                            registeredAt
+                          )
+                        )}
+
+                      </div>
+
+
+                      <span class="participant-status">
+
+                        ${escapeHtml(
+                          registration.status ||
+                          "Registered"
+                        )}
+
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                `;
+
+              }
+            ).join("");
 
         }
 
@@ -2650,7 +2837,11 @@
           <p class="detail-row">
 
             📅
-            <strong>Ngày:</strong>
+
+            <strong>
+              Ngày:
+            </strong>
+
             ${escapeHtml(
               formatDate(start)
             )}
@@ -2661,7 +2852,11 @@
           <p class="detail-row">
 
             🕐
-            <strong>Thời gian:</strong>
+
+            <strong>
+              Thời gian:
+            </strong>
+
             ${escapeHtml(
               formatTimeRange(
                 start,
@@ -2675,7 +2870,11 @@
           <p class="detail-row">
 
             📍
-            <strong>Địa điểm:</strong>
+
+            <strong>
+              Địa điểm:
+            </strong>
+
             ${escapeHtml(
               workshop.location ||
               "Chưa cập nhật"
@@ -2687,7 +2886,11 @@
           <p class="detail-row">
 
             👥
-            <strong>Sức chứa:</strong>
+
+            <strong>
+              Sức chứa:
+            </strong>
+
             ${escapeHtml(
               workshop.capacity ??
               "Chưa cập nhật"
@@ -2698,7 +2901,10 @@
 
           <p class="detail-row">
 
-            <strong>Trạng thái:</strong>
+            <strong>
+              Trạng thái:
+            </strong>
+
             ${escapeHtml(
               getStatusText(
                 String(
@@ -2713,20 +2919,37 @@
 
           <div class="detail-registration">
 
-            👥
+            <h3>
+              👥 Người đăng ký
+            </h3>
 
-            <strong>
+
+            <p
+              style="
+                margin:0 0 15px;
+                color:#555;
+              "
+            >
+
               Đã đăng ký:
-            </strong>
 
-            ${registrationCount}
+              <strong>
+                ${registrationCount}
+              </strong>
 
-            /
+              /
 
-            ${escapeHtml(
-              workshop.capacity ??
-              "?"
-            )}
+              <strong>
+                ${escapeHtml(
+                  workshop.capacity ??
+                  "?"
+                )}
+              </strong>
+
+            </p>
+
+
+            ${participantsHtml}
 
           </div>
 
@@ -2736,6 +2959,7 @@
             <strong>
               Mô tả
             </strong>
+
 
             <p>
 
@@ -2897,6 +3121,7 @@
             `${API_BASE_URL}/workshops/${deletingWorkshopId}`,
             {
               method: "DELETE",
+
               headers:
                 getAuthHeaders()
             }
@@ -3217,6 +3442,39 @@
           day: "2-digit",
           month: "short",
           year: "numeric"
+        }
+      );
+
+    }
+
+
+    function formatDateTime(
+      date
+    ) {
+
+      if (
+        !date ||
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+
+        return "Chưa cập nhật";
+
+      }
+
+
+      return date.toLocaleString(
+        "en-GB",
+        {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+
+          hour: "2-digit",
+          minute: "2-digit",
+
+          hour12: false
         }
       );
 
