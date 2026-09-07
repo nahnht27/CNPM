@@ -27,11 +27,15 @@ class PaymentRepository:
             invoice_id = payload.get('invoice_id') or payload.get('InvoiceID')
             amount = payload.get('amount')
             
+            # Sửa xử lý status: Chỉ lấy str khi có giá trị thực sự
+            raw_status = payload.get('status')
+            final_status = str(raw_status) if raw_status else 'Đang chờ xử lý'
+
             model = PaymentModel(
                 invoice_id=int(invoice_id) if invoice_id is not None else None,
                 payment_method=str(payload.get('payment_method', '')),
                 amount=float(amount) if amount is not None else 0.0,
-                status=str(payload.get('status', 'Đang chờ xử lý')),
+                status=final_status,
                 paid_at=payload.get('paid_at')
             )
 
