@@ -1,11 +1,16 @@
 from flask import Blueprint, request, jsonify, session
+
 from services.notification_service import NotificationService
-from infrastructure.repositories.notification_repository import NotificationRepository
-from infrastructure.databases.factory_database import FactoryDatabase as db_factory
+from infrastructure.repositories.notification_repository import (
+    NotificationRepository
+)
+from infrastructure.databases.factory_database import (
+    FactoryDatabase as db_factory
+)
+
 from services.workshop_registration_service import (
     WorkshopRegistrationService
 )
-
 
 from infrastructure.repositories.workshop_registration_repository import (
     WorkshopRegistrationRepository
@@ -26,29 +31,46 @@ bp = Blueprint(
     __name__,
     url_prefix='/workshop-registrations'
 )
+
+
+# =====================================================
+# NOTIFICATION SERVICE
+# =====================================================
+
 notification_service = NotificationService(
+
     NotificationRepository(
         db_factory.get_database('POSTGREE').session
     )
+
 )
+
 
 # =====================================================
 # REPOSITORIES
 # =====================================================
 
-registration_repository = WorkshopRegistrationRepository(session)
+registration_repository = WorkshopRegistrationRepository(
+    session
+)
 
-workshop_repository = WorkshopRepository(session)
+workshop_repository = WorkshopRepository(
+    session
+)
 
 
 # =====================================================
-# SERVICE
+# WORKSHOP REGISTRATION SERVICE
 # =====================================================
 
 workshop_registration_service = WorkshopRegistrationService(
+
     registration_repository,
+
     workshop_repository,
+
     notification_service
+
 )
 
 
@@ -83,10 +105,6 @@ def register_workshop():
       responses:
         201:
           description: Đăng ký workshop thành công
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/WorkshopRegistrationResponse'
         400:
           description: Dữ liệu không hợp lệ
         404:
@@ -98,9 +116,9 @@ def register_workshop():
     data = request.get_json()
 
 
-    # -------------------------------------------------
+    # =================================================
     # Check request body
-    # -------------------------------------------------
+    # =================================================
 
     if not data:
 
@@ -109,34 +127,40 @@ def register_workshop():
         }), 400
 
 
-    # -------------------------------------------------
+    # =================================================
     # Validate request
-    # -------------------------------------------------
+    # =================================================
 
-    errors = request_schema.validate(data)
-
+    errors = request_schema.validate(
+        data
+    )
 
     if errors:
 
         return jsonify(errors), 400
 
 
-    # -------------------------------------------------
+    # =================================================
     # Register
-    # -------------------------------------------------
+    # =================================================
 
     try:
 
         registration = (
             workshop_registration_service.register(
+
                 workshop_id=data['workshop_id'],
+
                 user_id=data['user_id']
+
             )
         )
 
 
         return jsonify(
-            response_schema.dump(registration)
+            response_schema.dump(
+                registration
+            )
         ), 201
 
 
@@ -146,6 +170,7 @@ def register_workshop():
 
 
         # Workshop not found
+
         if message == 'Workshop not found':
 
             return jsonify({
@@ -154,6 +179,7 @@ def register_workshop():
 
 
         # Duplicate / full
+
         return jsonify({
             'message': message
         }), 409
@@ -167,34 +193,26 @@ def register_workshop():
 def list_user_registrations(user_id):
     """
     List user's workshop registrations
-    ---
-    get:
-      summary: Lấy danh sách workshop đã đăng ký
-      tags:
-        - Workshop Registration
-      parameters:
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        200:
-          description: Danh sách workshop đã đăng ký
     """
 
     registrations = (
-        workshop_registration_service.list_by_user(
+        workshop_registration_service
+        .list_by_user(
             user_id
         )
     )
 
 
     return jsonify(
+
         response_schema.dump(
+
             registrations,
+
             many=True
+
         )
+
     ), 200
 
 
@@ -202,34 +220,24 @@ def list_user_registrations(user_id):
 # LIST WORKSHOP REGISTRATIONS
 # =====================================================
 
-@bp.route('/workshop/<int:workshop_id>', methods=['GET'])
+@bp.route(
+    '/workshop/<int:workshop_id>',
+    methods=['GET']
+)
 def list_workshop_registrations(workshop_id):
     """
     List workshop registrations
-    ---
-    get:
-      summary: Lấy danh sách người đăng ký workshop
-      tags:
-        - Workshop Registration
-      parameters:
-        - name: workshop_id
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        200:
-          description: Danh sách người đăng ký workshop
-        404:
-          description: Không tìm thấy workshop
     """
 
-    # -------------------------------------------------
+    # =================================================
     # Check workshop exists
-    # -------------------------------------------------
+    # =================================================
 
-    workshop = workshop_repository.get_by_id(
-        workshop_id
+    workshop = (
+        workshop_repository
+        .get_by_id(
+            workshop_id
+        )
     )
 
 
@@ -240,9 +248,9 @@ def list_workshop_registrations(workshop_id):
         }), 404
 
 
-    # -------------------------------------------------
+    # =================================================
     # Get registrations + user information
-    # -------------------------------------------------
+    # =================================================
 
     registrations = (
         workshop_registration_service
@@ -252,26 +260,9 @@ def list_workshop_registrations(workshop_id):
     )
 
 
-    # -------------------------------------------------
-    # IMPORTANT
-    #
-    # list_by_workshop() now returns dictionaries
-    # containing:
-    #
-    # workshop_registration_id
-    # workshop_id
-    # user_id
-    # username
-    # full_name
-    # email
-    # phone
-    # avatar
-    # registered_at
-    # status
-    #
-    # So we return JSON directly instead of using
-    # WorkshopRegistrationResponseSchema.
-    # -------------------------------------------------
+    # =================================================
+    # Return directly
+    # =================================================
 
     return jsonify(
         registrations

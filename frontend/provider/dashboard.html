@@ -50,15 +50,54 @@
 
       <div class="nav-actions">
 
-        <span class="provider-nav-name" id="navProviderName">
-          Provider
-        </span>
+  <a
+    href="notifications.html"
+    style="
+      position:relative;
+      text-decoration:none;
+      font-size:21px;
+      color:#333;
+      display:inline-flex;
+      align-items:center;
+      margin-right:12px;
+    "
+    aria-label="Notifications"
+    title="Notifications"
+  >
+    🔔
 
-        <button type="button" class="provider-logout" onclick="logout()">
-          Đăng xuất
-        </button>
+    <span
+      id="notificationBadge"
+      style="
+        display:none;
+        position:absolute;
+        top:-7px;
+        right:-9px;
+        min-width:18px;
+        height:18px;
+        padding:0 4px;
+        border-radius:10px;
+        background:#e13493;
+        color:#fff;
+        font-size:10px;
+        font-weight:700;
+        line-height:18px;
+        text-align:center;
+      "
+    >
+      0
+    </span>
+  </a>
 
-      </div>
+  <span class="provider-nav-name" id="navProviderName">
+    Provider
+  </span>
+
+  <button type="button" class="provider-logout" onclick="logout()">
+    Đăng xuất
+  </button>
+
+</div>
     </div>
   </nav>
 
@@ -560,6 +599,59 @@
 
     }
 
+    async function loadNotificationBadge() {
+
+  const user = getLoggedInUser();
+
+  const badge =
+    document.getElementById("notificationBadge");
+
+  if (!badge || !user.userId) {
+    return;
+  }
+
+  try {
+
+    const response =
+      await apiFetch(
+        `${API_BASE_URL}/notifications/user/${user.userId}/unread-count`
+      );
+
+    if (!response.ok) {
+      return;
+    }
+
+    const data =
+      await response.json();
+
+    const count =
+      Number(data.count || 0);
+
+    if (count > 0) {
+
+      badge.textContent =
+        count > 99 ? "99+" : String(count);
+
+      badge.style.display =
+        "block";
+
+    } else {
+
+      badge.style.display =
+        "none";
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      "LOAD NOTIFICATION BADGE ERROR:",
+      error
+    );
+
+  }
+
+}
 
     /* =========================================================
        API FETCH
@@ -1619,20 +1711,21 @@
     ========================================================= */
 
     document.addEventListener(
-      "DOMContentLoaded",
-      function () {
+  "DOMContentLoaded",
+  async function () {
 
-        const isLoggedIn =
-          loadProviderInfo();
+    const isLoggedIn =
+      loadProviderInfo();
 
+    if (isLoggedIn) {
 
-        if (isLoggedIn) {
+      await loadNotificationBadge();
 
-          loadDashboardData();
+      loadDashboardData();
 
-        }
+    }
 
-      }
-    );
+  }
+);
 
   </script>
