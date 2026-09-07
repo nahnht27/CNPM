@@ -21,7 +21,8 @@ class PaymentModel(Base):
     id = Column(
         'PaymentID',
         Integer,
-        primary_key=True
+        primary_key=True,
+        autoincrement=True
     )
 
     invoice_id = Column(
@@ -43,14 +44,16 @@ class PaymentModel(Base):
         nullable=False
     )
 
+    # Đặt giá trị mặc định khi INSERT vào DB là 'Đang chờ xử lý'
+    # Đăng ký độ dài String(50) để tránh bị cắt chuỗi Tiếng Việt
     status = Column(
         'Status',
-        String(20),
+        String(50),
+        default='Đang chờ xử lý',
         nullable=False
     )
 
-    # Payment mới tạo sẽ chưa được Provider xác nhận
-    # nên PaidAt phải cho phép NULL.
+    # Payment mới tạo chưa được Provider duyệt nên để NULL
     paid_at = Column(
         'PaidAt',
         DateTime,

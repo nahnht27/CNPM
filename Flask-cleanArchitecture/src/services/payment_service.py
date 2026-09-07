@@ -41,7 +41,7 @@ class PaymentService:
         return self.repository.get_by_invoice_id(invoice_id)
 
     # ==========================================================
-    # CREATE PAYMENT (TỰ ĐỘNG THÀNH CÔNG)
+    # CREATE PAYMENT (CHUẨN NGHIỆP VỤ - CHỜ PROVIDER DUYỆT)
     # ==========================================================
     def create_payment(self, **data):
         invoice_id = data.get('invoice_id', 0)
@@ -50,7 +50,13 @@ class PaymentService:
         if payment_amount is None:
             raise ValueError('amount là bắt buộc')
 
-        # TỰ ĐỘNG TẠO INVOICE NẾU CHƯA CÓ INVOICE_ID HOẶC INVOICE_ID == 0
+        # 1. KIỂM TRA NẾU ĐÃ CÓ PAYMENT ĐANG CHỜ TRÊN INVOICE NÀY THÌ TRẢ VỀ LUÔN
+        if invoice_id and int(invoice_id) > 0:
+            existing = self.repository.get_by_invoice_id(int(invoice_id))
+            if existing:
+                return existing
+
+        # 2. TỰ ĐỘNG TẠO INVOICE NẾU CHƯA CÓ INVOICE_ID HOẶC INVOICE_ID == 0
         if invoice_id is None or int(invoice_id) == 0:
             if not self.invoice_repository:
                 raise ValueError('InvoiceRepository chưa được cấu hình')
@@ -92,15 +98,15 @@ class PaymentService:
             invoice_id = created_invoice_id
             data['invoice_id'] = invoice_id
 
-        # TỰ ĐỘNG CHUYỂN TRẠNG THÁI SANG THÀNH CÔNG
+        # 3. ĐẶT TRẠNG THÁI LÀ 'Đang chờ xử lý' (PENDING) ĐỂ PROVIDER DUYỆT
         data['payment_method'] = data.get('payment_method') or self.PAYMENT_METHOD
-        data['status'] = self.SUCCESS
-        data['paid_at'] = datetime.now()
+        data['status'] = data.get('status') or self.PENDING
+        data['paid_at'] = None  # Chưa duyệt nên không ghi nhận thời gian paid_at
 
         return self.repository.add(data)
 
     # ==========================================================
-    # UPDATE PAYMENT
+    # UPDATE PAYMENT (PROVIDER BẤM DỦYỆT TẠI ĐÂY)
     # ==========================================================
     def update_payment(self, pay_id: int, **data):
         status = data.get('status')
@@ -108,6 +114,8 @@ class PaymentService:
             raise ValueError(f'Trạng thái không hợp lệ. Chỉ chấp nhận: {", ".join(self.ALLOWED_STATUSES)}')
 
         payload = {'id': pay_id, **data}
+        
+        # Chỉ khi Provider xác nhận 'Thành công' mới gán mốc thời gian paid_at
         if status == self.SUCCESS and 'paid_at' not in payload:
             payload['paid_at'] = datetime.now()
 
