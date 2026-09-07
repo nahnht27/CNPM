@@ -2,9 +2,10 @@ from datetime import datetime
 
 
 class WorkshopRegistrationService:
-    def __init__(self, repository, workshop_repository):
+    def __init__(self, repository, workshop_repository, notification_service):
         self.repository = repository
         self.workshop_repository = workshop_repository
+        self.notification_service = notification_service
 
     def register(self, workshop_id: int, user_id: int):
         # 1. Check workshop exists
@@ -36,7 +37,17 @@ class WorkshopRegistrationService:
             'status': 'Registered'
         }
 
-        return self.repository.add(data)
+        registration = self.repository.add(data)
+
+        # 5. Create notification for Photographer
+        self.notification_service.create_notification(
+            user_id=user_id,
+            title='Đăng ký workshop thành công',
+            content=f'Bạn đã đăng ký workshop "{workshop.title}" thành công.',
+            type='workshop'
+        )
+
+        return registration
 
     def get_registration(self, id: int):
         return self.repository.get_by_id(id)

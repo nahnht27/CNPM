@@ -63,24 +63,66 @@
  
  
       <!-- User --> 
-      <div class="nav-actions"> 
- 
-        <span 
-          class="photographer-nav-name" 
-          id="navPhotographerName" 
-        > 
-          Photographer 
-        </span> 
- 
-        <button 
-          type="button" 
-          class="photographer-logout" 
-          onclick="logout()" 
-        > 
-          Đăng xuất 
-        </button> 
- 
-      </div> 
+      <div class="nav-actions">
+
+  <a
+    href="notifications.html"
+    style="
+      position: relative;
+      text-decoration: none;
+      font-size: 21px;
+      color: #333;
+      display: inline-flex;
+      align-items: center;
+    "
+    aria-label="Notifications"
+    title="Notifications"
+  >
+
+    🔔
+
+    <span
+      id="notificationBadge"
+      style="
+        display: none;
+        position: absolute;
+        top: -7px;
+        right: -9px;
+        min-width: 18px;
+        height: 18px;
+        padding: 0 4px;
+        border-radius: 10px;
+        background: #e13493;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 700;
+        line-height: 18px;
+        text-align: center;
+      "
+    >
+      0
+    </span>
+
+  </a>
+
+
+  <span
+    class="photographer-nav-name"
+    id="navPhotographerName"
+  >
+    Photographer
+  </span>
+
+
+  <button
+    type="button"
+    class="photographer-logout"
+    onclick="logout()"
+  >
+    Đăng xuất
+  </button>
+
+</div> 
  
     </div> 
  
@@ -611,6 +653,91 @@
       });
 
 
+
+      async function loadNotificationBadge() {
+
+  const user =
+    getLoggedInUser();
+
+
+  const badge =
+    document.getElementById(
+      "notificationBadge"
+    );
+
+
+  if (
+    !badge ||
+    !user.userId
+  ) {
+
+    return;
+
+  }
+
+
+  try {
+
+    const response =
+      await fetch(
+        `${API_BASE_URL}/notifications/user/${user.userId}/unread-count`,
+        {
+          headers: {
+            "Authorization":
+              `Bearer ${user.token}`,
+
+            "Accept":
+              "application/json"
+          }
+        }
+      );
+
+
+    if (!response.ok) {
+
+      return;
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    const count =
+      Number(
+        data.count || 0
+      );
+
+
+    if (count > 0) {
+
+      badge.textContent =
+        count > 99
+          ? "99+"
+          : String(count);
+
+      badge.style.display =
+        "block";
+
+    } else {
+
+      badge.style.display =
+        "none";
+
+    }
+
+  } catch (errorObject) {
+
+    console.error(
+      "LOAD NOTIFICATION BADGE ERROR:",
+      errorObject
+    );
+
+  }
+
+}
+
     /* =====================================================
        CREATIVE SPACES
        Cùng API với Search
@@ -672,7 +799,6 @@
       }
 
     }
-
 
     function renderHomeSpaces(spaces) {
 
