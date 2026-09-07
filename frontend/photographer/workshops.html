@@ -189,8 +189,6 @@
     }
 
 
-    /* Đã đăng ký / Full */
-
     .workshop-register-btn:disabled {
       background: #aaa;
 
@@ -657,8 +655,6 @@
 
     <div class="navbar-container container">
 
-      <!-- Logo -->
-
       <a
         class="logo"
         href="home.html"
@@ -667,8 +663,6 @@
         FilmSpace
       </a>
 
-
-      <!-- Photographer Navigation -->
 
       <div
         class="menu"
@@ -701,8 +695,6 @@
       </div>
 
 
-      <!-- User -->
-
       <div class="nav-actions">
 
         <span
@@ -734,9 +726,7 @@
   <main class="photographer-page workshop-page">
 
 
-    <!-- ===================================================
-         HERO
-         =================================================== -->
+    <!-- HERO -->
 
     <section class="workshop-hero">
 
@@ -764,9 +754,7 @@
     </section>
 
 
-    <!-- ===================================================
-         WORKSHOP LIST
-         =================================================== -->
+    <!-- WORKSHOP LIST -->
 
     <section class="dashboard-section">
 
@@ -776,13 +764,15 @@
           class="workshop-page-grid"
           id="workshopGrid"
         >
-          <!-- Workshop sẽ được load từ Backend -->
         </div>
 
 
         <p
           id="workshopLoading"
-          style="text-align: center; display: none;"
+          style="
+            text-align: center;
+            display: none;
+          "
         >
           Đang tải workshop...
         </p>
@@ -790,7 +780,10 @@
 
         <p
           id="workshopEmpty"
-          style="text-align: center; display: none;"
+          style="
+            text-align: center;
+            display: none;
+          "
         >
           Hiện chưa có workshop nào.
         </p>
@@ -798,7 +791,10 @@
 
         <p
           id="workshopError"
-          style="text-align: center; display: none;"
+          style="
+            text-align: center;
+            display: none;
+          "
         >
           Không thể tải workshop từ Backend.
         </p>
@@ -806,7 +802,6 @@
       </div>
 
     </section>
-
 
   </main>
 
@@ -832,9 +827,7 @@
 
 
       <div id="workshopDetailContent">
-        <!-- Detail sẽ được load -->
       </div>
-
 
     </div>
 
@@ -956,7 +949,6 @@
             Photography<span>Platform</span>
           </div>
 
-
           <p>
             Kết nối các nhiếp ảnh gia phim với các
             phòng tối và studio đáng tin cậy.
@@ -1034,33 +1026,59 @@
 
     let allWorkshops = [];
 
+
     /*
-     * Lưu ID các workshop mà photographer
-     * hiện tại đã đăng ký.
+     * ID các workshop mà photographer hiện tại
+     * đã đăng ký.
      */
     let registeredWorkshopIds =
       new Set();
 
 
     /*
-     * Workshop đang chờ xác nhận đăng ký.
+     * Số lượng người đã đăng ký
+     * theo từng Workshop ID.
+     *
+     * Ví dụ:
+     * 1 => 5
+     * 7 => 3
      */
-    let pendingWorkshopId = null;
+    let registrationCountByWorkshop =
+      new Map();
+
+
+    /*
+     * Workshop đang chờ xác nhận.
+     */
+    let pendingWorkshopId =
+      null;
 
 
     /* =====================================================
        WORKSHOP IMAGES
        ===================================================== */
 
-    const WORKSHOP_IMAGES = [
+    const WORKSHOP_IMAGES = {
 
-      "../assets/images/2.webp",
+      1: "../assets/images/15.jpe",
 
-      "../assets/images/5.jpg",
+      2: "../assets/images/16.jpe",
 
-      "../assets/images/6.jpg"
+      3: "../assets/images/17.jpe",
 
-    ];
+      6: "../assets/images/18.jpe",
+
+      7: "../assets/images/19.jpe",
+
+      8: "../assets/images/20.jpe",
+
+      9: "../assets/images/21.jpg",
+
+      10: "../assets/images/22.jpg",
+
+      12: "../assets/images/23.jpg"
+
+    };
 
 
     /* =====================================================
@@ -1145,9 +1163,6 @@
         getLoggedInUser();
 
 
-      /*
-       * Reset danh sách trước khi load.
-       */
       registeredWorkshopIds =
         new Set();
 
@@ -1203,16 +1218,23 @@
 
 
         registrations.forEach(
-          registration => {
+          function(registration) {
+
+            const workshopId =
+              registration.workshop_id ??
+              registration.WorkshopID ??
+              registration.workshopId;
+
 
             if (
-              registration.workshop_id !==
-              undefined
+              workshopId !==
+              undefined &&
+              workshopId !== null
             ) {
 
               registeredWorkshopIds.add(
                 Number(
-                  registration.workshop_id
+                  workshopId
                 )
               );
 
@@ -1236,6 +1258,133 @@
         );
 
       }
+
+    }
+
+
+    /* =====================================================
+       LOAD REGISTRATION COUNTS
+       ===================================================== */
+
+    async function loadRegistrationCounts(
+      workshops
+    ) {
+
+      registrationCountByWorkshop =
+        new Map();
+
+
+      if (
+        !Array.isArray(workshops) ||
+        workshops.length === 0
+      ) {
+
+        return;
+
+      }
+
+
+      const results =
+        await Promise.all(
+          workshops.map(
+            async function(workshop) {
+
+              const workshopId =
+                Number(
+                  workshop.id
+                );
+
+
+              try {
+
+                const response =
+                  await fetch(
+                    `${API_BASE_URL}/workshop-registrations/workshop/${workshopId}`,
+                    {
+                      method: "GET",
+
+                      headers: {
+                        "Accept":
+                          "application/json"
+                      }
+                    }
+                  );
+
+
+                if (!response.ok) {
+
+                  return {
+                    workshopId,
+                    count: 0
+                  };
+
+                }
+
+
+                const data =
+                  await response.json();
+
+
+                const registrations =
+                  Array.isArray(data)
+                    ? data
+                    : [];
+
+
+                return {
+
+                  workshopId,
+
+                  count:
+                    registrations.length
+
+                };
+
+              } catch (errorObject) {
+
+                console.warn(
+                  `Không lấy được số lượng đăng ký của workshop ${workshopId}:`,
+                  errorObject
+                );
+
+
+                return {
+
+                  workshopId,
+
+                  count: 0
+
+                };
+
+              }
+
+            }
+          )
+        );
+
+
+      results.forEach(
+        function(result) {
+
+          registrationCountByWorkshop.set(
+            Number(
+              result.workshopId
+            ),
+            Number(
+              result.count
+            )
+          );
+
+        }
+      );
+
+
+      console.log(
+        "Registration counts:",
+        Object.fromEntries(
+          registrationCountByWorkshop
+        )
+      );
 
     }
 
@@ -1309,11 +1458,48 @@
             : [];
 
 
+        console.log(
+          "WORKSHOP DATA:",
+          allWorkshops
+        );
+
+
         /*
-         * Load danh sách workshop
-         * photographer đã đăng ký.
+         * Load workshop mà photographer
+         * đã đăng ký.
          */
         await loadRegisteredWorkshops();
+
+
+        /*
+         * Chỉ lấy workshop chưa cancelled
+         * để kiểm tra số lượng đăng ký.
+         */
+        const availableWorkshops =
+          allWorkshops.filter(
+            function(workshop) {
+
+              const status =
+                String(
+                  workshop.status ||
+                  ""
+                ).toLowerCase();
+
+
+              return status !==
+                "cancelled";
+
+            }
+          );
+
+
+        /*
+         * Load số lượng người đăng ký
+         * của từng workshop.
+         */
+        await loadRegistrationCounts(
+          availableWorkshops
+        );
 
 
         loading.style.display =
@@ -1335,27 +1521,6 @@
           return;
 
         }
-
-
-        /*
-         * Chỉ hiển thị workshop
-         * chưa bị cancelled.
-         */
-        const availableWorkshops =
-          allWorkshops.filter(
-            workshop => {
-
-              const status =
-                String(
-                  workshop.status || ""
-                ).toLowerCase();
-
-
-              return status !==
-                "cancelled";
-
-            }
-          );
 
 
         renderWorkshops(
@@ -1411,7 +1576,7 @@
 
 
       workshops.forEach(
-        (workshop, index) => {
+        function(workshop) {
 
           const card =
             document.createElement(
@@ -1423,11 +1588,16 @@
             "workshop-page-card";
 
 
+          const workshopId =
+            Number(
+              workshop.id
+            );
+
+
           const imageUrl =
-            WORKSHOP_IMAGES[
-              index %
-              WORKSHOP_IMAGES.length
-            ];
+            getWorkshopImage(
+              workshop
+            );
 
 
           const start =
@@ -1448,23 +1618,63 @@
             ).toLowerCase();
 
 
-          const isFull =
-            status === "full";
+          /*
+           * Số người đã đăng ký thực tế.
+           */
+          const registrationCount =
+            Number(
+              registrationCountByWorkshop.get(
+                workshopId
+              ) || 0
+            );
 
 
           /*
-           * Kiểm tra photographer
-           * đã đăng ký workshop này chưa.
+           * Sức chứa.
+           */
+          const capacity =
+            Number(
+              workshop.capacity
+            );
+
+
+          /*
+           * Full nếu:
+           *
+           * 1. Backend status = full
+           * HOẶC
+           * 2. số người đăng ký >= capacity
+           */
+          const isFull =
+            status === "full" ||
+            (
+              Number.isFinite(capacity) &&
+              capacity > 0 &&
+              registrationCount >= capacity
+            );
+
+
+          /*
+           * Photographer hiện tại đã đăng ký chưa.
            */
           const isRegistered =
             registeredWorkshopIds.has(
-              Number(workshop.id)
+              workshopId
             );
+
+
+          /*
+           * Hiển thị trạng thái.
+           */
+          const displayStatus =
+            isFull
+              ? "full"
+              : status;
 
 
           const statusText =
             getWorkshopStatusText(
-              status
+              displayStatus
             );
 
 
@@ -1513,6 +1723,7 @@
               <p class="workshop-page-info">
 
                 📅
+
                 ${escapeHtml(
                   formatDate(start)
                 )}
@@ -1523,6 +1734,7 @@
               <p class="workshop-page-info">
 
                 🕐
+
                 ${escapeHtml(
                   formatTimeRange(
                     start,
@@ -1536,6 +1748,7 @@
               <p class="workshop-page-info">
 
                 📍
+
                 ${escapeHtml(
                   workshop.location ||
                   "Chưa cập nhật"
@@ -1547,13 +1760,34 @@
               <p class="workshop-page-info">
 
                 👥
+
                 Sức chứa:
+
                 ${escapeHtml(
                   workshop.capacity ??
                   "Chưa cập nhật"
                 )}
 
               </p>
+
+
+              <p class="workshop-page-info">
+
+                👤
+
+                Đã đăng ký:
+
+                ${registrationCount}
+
+                /
+
+                ${escapeHtml(
+                  workshop.capacity ??
+                  "?"
+                )}
+
+              </p>
+
 
               <p class="workshop-page-description">
 
@@ -1573,7 +1807,7 @@
                   type="button"
                   class="workshop-detail-btn"
                   onclick="viewWorkshopDetail(
-                    ${Number(workshop.id)}
+                    ${workshopId}
                   )"
                 >
                   Xem chi tiết
@@ -1586,8 +1820,9 @@
                   type="button"
                   class="workshop-register-btn"
                   onclick="registerWorkshop(
-                    ${Number(workshop.id)}
+                    ${workshopId}
                   )"
+
                   ${
                     isFull ||
                     isRegistered
@@ -1691,20 +1926,104 @@
           );
 
 
+        const workshopNumericId =
+          Number(
+            workshop.id
+          );
+
+
+        /*
+         * Lấy số lượng đăng ký mới nhất
+         * khi mở detail.
+         */
+        let registrationCount =
+          Number(
+            registrationCountByWorkshop.get(
+              workshopNumericId
+            ) || 0
+          );
+
+
+        try {
+
+          const registrationResponse =
+            await fetch(
+              `${API_BASE_URL}/workshop-registrations/workshop/${workshopNumericId}`,
+              {
+                method: "GET",
+
+                headers: {
+                  "Accept":
+                    "application/json"
+                }
+              }
+            );
+
+
+          if (
+            registrationResponse.ok
+          ) {
+
+            const registrations =
+              await registrationResponse.json();
+
+
+            registrationCount =
+              Array.isArray(
+                registrations
+              )
+                ? registrations.length
+                : 0;
+
+
+            registrationCountByWorkshop.set(
+              workshopNumericId,
+              registrationCount
+            );
+
+          }
+
+        } catch (registrationError) {
+
+          console.warn(
+            "Không lấy được số lượng đăng ký:",
+            registrationError
+          );
+
+        }
+
+
         const status =
           String(
             workshop.status || ""
           ).toLowerCase();
 
 
-        /*
-         * Kiểm tra workshop này đã
-         * được photographer đăng ký chưa.
-         */
+        const capacity =
+          Number(
+            workshop.capacity
+          );
+
+
+        const isFull =
+          status === "full" ||
+          (
+            Number.isFinite(capacity) &&
+            capacity > 0 &&
+            registrationCount >= capacity
+          );
+
+
         const isRegistered =
           registeredWorkshopIds.has(
-            Number(workshop.id)
+            workshopNumericId
           );
+
+
+        const displayStatus =
+          isFull
+            ? "full"
+            : status;
 
 
         const imageUrl =
@@ -1742,7 +2061,11 @@
           <p class="workshop-detail-row">
 
             📅
-            <strong>Ngày:</strong>
+
+            <strong>
+              Ngày:
+            </strong>
+
             ${escapeHtml(
               formatDate(start)
             )}
@@ -1753,7 +2076,11 @@
           <p class="workshop-detail-row">
 
             🕐
-            <strong>Thời gian:</strong>
+
+            <strong>
+              Thời gian:
+            </strong>
+
             ${escapeHtml(
               formatTimeRange(
                 start,
@@ -1767,7 +2094,11 @@
           <p class="workshop-detail-row">
 
             📍
-            <strong>Địa điểm:</strong>
+
+            <strong>
+              Địa điểm:
+            </strong>
+
             ${escapeHtml(
               workshop.location ||
               "Chưa cập nhật"
@@ -1779,7 +2110,11 @@
           <p class="workshop-detail-row">
 
             👥
-            <strong>Sức chứa:</strong>
+
+            <strong>
+              Sức chứa:
+            </strong>
+
             ${escapeHtml(
               workshop.capacity ??
               "Chưa cập nhật"
@@ -1790,10 +2125,31 @@
 
           <p class="workshop-detail-row">
 
-            <strong>Trạng thái:</strong>
+            👤
+
+            <strong>
+              Đã đăng ký:
+            </strong>
+
+            ${registrationCount}
+            /
+            ${escapeHtml(
+              workshop.capacity ??
+              "?"
+            )}
+
+          </p>
+
+
+          <p class="workshop-detail-row">
+
+            <strong>
+              Trạng thái:
+            </strong>
+
             ${escapeHtml(
               getWorkshopStatusText(
-                status
+                displayStatus
               )
             )}
 
@@ -1802,7 +2158,9 @@
 
           <div class="workshop-modal-description">
 
-            <strong>Mô tả</strong>
+            <strong>
+              Mô tả
+            </strong>
 
             <p>
 
@@ -1821,12 +2179,14 @@
           <button
             type="button"
             class="modal-register-btn"
+
             onclick="registerWorkshop(
-              ${Number(workshop.id)}
+              ${workshopNumericId}
             )"
+
             ${
               isRegistered ||
-              status === "full" ||
+              isFull ||
               status === "cancelled"
                 ? "disabled"
                 : ""
@@ -1836,7 +2196,7 @@
             ${
               isRegistered
                 ? "Đã đăng ký"
-                : status === "full"
+                : isFull
                   ? "Đã đầy"
                   : status === "cancelled"
                     ? "Đã hủy"
@@ -1858,9 +2218,7 @@
         content.innerHTML = `
 
           <p style="text-align:center;">
-
             Không thể tải chi tiết workshop.
-
           </p>
 
         `;
@@ -1874,7 +2232,7 @@
        OPEN CONFIRM MODAL
        ===================================================== */
 
-    function registerWorkshop(
+    async function registerWorkshop(
       workshopId
     ) {
 
@@ -1906,12 +2264,13 @@
 
 
       const numericWorkshopId =
-        Number(workshopId);
+        Number(
+          workshopId
+        );
 
 
       /*
-       * Không cho đăng ký lại nếu
-       * workshop đã được đăng ký.
+       * Không cho đăng ký lại.
        */
       if (
         registeredWorkshopIds.has(
@@ -1930,50 +2289,144 @@
       }
 
 
-      /*
-       * Không cho đăng ký nếu workshop
-       * đã Full.
-       */
       const workshop =
         allWorkshops.find(
-          item =>
-            Number(item.id) ===
-            numericWorkshopId
+          function(item) {
+
+            return Number(
+              item.id
+            ) ===
+              numericWorkshopId;
+
+          }
         );
 
 
-      if (workshop) {
+      if (!workshop) {
 
-        const status =
-          String(
-            workshop.status || ""
-          ).toLowerCase();
+        showWorkshopMessage(
+          "Không thể đăng ký",
+          "Không tìm thấy workshop.",
+          "!"
+        );
+
+        return;
+
+      }
 
 
-        if (status === "full") {
+      const status =
+        String(
+          workshop.status || ""
+        ).toLowerCase();
 
-          showWorkshopMessage(
-            "Workshop đã đầy",
-            "Workshop này đã đủ số lượng người đăng ký.",
-            "!"
+
+      /*
+       * Kiểm tra lại số lượng đăng ký
+       * mới nhất trước khi mở confirm.
+       */
+      let registrationCount =
+        Number(
+          registrationCountByWorkshop.get(
+            numericWorkshopId
+          ) || 0
+        );
+
+
+      try {
+
+        const registrationResponse =
+          await fetch(
+            `${API_BASE_URL}/workshop-registrations/workshop/${numericWorkshopId}`,
+            {
+              method: "GET",
+
+              headers: {
+                "Accept":
+                  "application/json"
+              }
+            }
           );
 
-          return;
+
+        if (
+          registrationResponse.ok
+        ) {
+
+          const registrations =
+            await registrationResponse.json();
+
+
+          registrationCount =
+            Array.isArray(
+              registrations
+            )
+              ? registrations.length
+              : 0;
+
+
+          registrationCountByWorkshop.set(
+            numericWorkshopId,
+            registrationCount
+          );
 
         }
 
+      } catch (errorObject) {
 
-        if (status === "cancelled") {
+        console.warn(
+          "Không cập nhật được số lượng đăng ký:",
+          errorObject
+        );
 
-          showWorkshopMessage(
-            "Workshop đã hủy",
-            "Workshop này đã bị hủy.",
-            "!"
-          );
+      }
 
-          return;
 
-        }
+      const capacity =
+        Number(
+          workshop.capacity
+        );
+
+
+      const isFull =
+        status === "full" ||
+        (
+          Number.isFinite(capacity) &&
+          capacity > 0 &&
+          registrationCount >= capacity
+        );
+
+
+      if (isFull) {
+
+        /*
+         * Cập nhật giao diện ngay.
+         */
+        renderAvailableWorkshops();
+
+
+        showWorkshopMessage(
+          "Workshop đã đầy",
+          "Workshop này đã đủ số lượng người đăng ký.",
+          "!"
+        );
+
+        return;
+
+      }
+
+
+      if (
+        status === "cancelled"
+      ) {
+
+        showWorkshopMessage(
+          "Workshop đã hủy",
+          "Workshop này đã bị hủy.",
+          "!"
+        );
+
+        return;
 
       }
 
@@ -1990,6 +2443,36 @@
 
       confirmModal.classList.add(
         "active"
+      );
+
+    }
+
+
+    /* =====================================================
+       RENDER AVAILABLE WORKSHOPS
+       ===================================================== */
+
+    function renderAvailableWorkshops() {
+
+      const availableWorkshops =
+        allWorkshops.filter(
+          function(workshop) {
+
+            const status =
+              String(
+                workshop.status || ""
+              ).toLowerCase();
+
+
+            return status !==
+              "cancelled";
+
+          }
+        );
+
+
+      renderWorkshops(
+        availableWorkshops
       );
 
     }
@@ -2038,6 +2521,64 @@
           "Đang đăng ký...";
 
 
+        /*
+         * Kiểm tra capacity lần cuối trước
+         * khi POST.
+         */
+        const workshop =
+          allWorkshops.find(
+            function(item) {
+
+              return Number(
+                item.id
+              ) === workshopId;
+
+            }
+          );
+
+
+        if (workshop) {
+
+          const currentCount =
+            Number(
+              registrationCountByWorkshop.get(
+                workshopId
+              ) || 0
+            );
+
+
+          const capacity =
+            Number(
+              workshop.capacity
+            );
+
+
+          if (
+            Number.isFinite(capacity) &&
+            capacity > 0 &&
+            currentCount >= capacity
+          ) {
+
+            closeWorkshopConfirm();
+
+
+            showWorkshopMessage(
+              "Workshop đã đầy",
+              "Workshop này đã đủ số lượng người đăng ký.",
+              "!"
+            );
+
+
+            renderAvailableWorkshops();
+
+
+            return;
+
+          }
+
+        }
+
+
         const response =
           await fetch(
             `${API_BASE_URL}/workshop-registrations/`,
@@ -2074,16 +2615,23 @@
           );
 
 
-        const data =
-          await response.json();
+        let data = {};
+
+
+        try {
+
+          data =
+            await response.json();
+
+        } catch {
+
+          data = {};
+
+        }
 
 
         if (!response.ok) {
 
-          /*
-           * Nếu Backend báo đã đăng ký
-           * thì đồng bộ luôn trạng thái.
-           */
           const backendMessage =
             String(
               data.message ||
@@ -2092,32 +2640,19 @@
             );
 
 
+          /*
+           * Backend báo đã đăng ký.
+           */
           if (
             backendMessage
               .toLowerCase()
-              .includes("already registered")
+              .includes(
+                "already registered"
+              )
           ) {
 
             registeredWorkshopIds.add(
               workshopId
-            );
-
-
-            renderWorkshops(
-              allWorkshops.filter(
-                workshop => {
-
-                  const status =
-                    String(
-                      workshop.status || ""
-                    ).toLowerCase();
-
-
-                  return status !==
-                    "cancelled";
-
-                }
-              )
             );
 
 
@@ -2131,15 +2666,53 @@
             );
 
 
+            renderAvailableWorkshops();
+
+
             return;
 
           }
 
 
-          const message =
-            data.message ||
-            data.error ||
-            "Không thể đăng ký workshop.";
+          /*
+           * Backend báo full / capacity.
+           */
+          const lowerMessage =
+            backendMessage.toLowerCase();
+
+
+          if (
+            lowerMessage.includes("full") ||
+            lowerMessage.includes("capacity") ||
+            lowerMessage.includes("maximum") ||
+            lowerMessage.includes("limit")
+          ) {
+
+            /*
+             * Cố gắng đồng bộ lại
+             * số lượng đăng ký.
+             */
+            await refreshWorkshopRegistrationCount(
+              workshopId
+            );
+
+
+            closeWorkshopConfirm();
+
+
+            showWorkshopMessage(
+              "Workshop đã đầy",
+              "Workshop này đã đủ số lượng người đăng ký.",
+              "!"
+            );
+
+
+            renderAvailableWorkshops();
+
+
+            return;
+
+          }
 
 
           closeWorkshopConfirm();
@@ -2147,7 +2720,8 @@
 
           showWorkshopMessage(
             "Đăng ký không thành công",
-            message,
+            backendMessage ||
+            "Không thể đăng ký workshop.",
             "!"
           );
 
@@ -2161,31 +2735,35 @@
            ĐĂNG KÝ THÀNH CÔNG
            ===================================== */
 
-        /*
-         * Quan trọng:
-         * Thêm workshop vào danh sách đã đăng ký
-         * NGAY LẬP TỨC.
-         */
+
         registeredWorkshopIds.add(
           workshopId
         );
 
 
         /*
-         * Đóng popup xác nhận.
+         * Tăng số lượng đăng ký ngay lập tức.
          */
+        const currentCount =
+          Number(
+            registrationCountByWorkshop.get(
+              workshopId
+            ) || 0
+          );
+
+
+        registrationCountByWorkshop.set(
+          workshopId,
+          currentCount + 1
+        );
+
+
         closeWorkshopConfirm();
 
 
-        /*
-         * Đóng detail modal nếu đang mở.
-         */
         closeWorkshopDetail();
 
 
-        /*
-         * Hiện popup thành công.
-         */
         showWorkshopMessage(
           "Đăng ký thành công!",
           "Bạn đã đăng ký workshop thành công.",
@@ -2193,59 +2771,18 @@
         );
 
 
+        renderAvailableWorkshops();
+
+
         /*
-         * Render lại card ngay lập tức.
-         *
-         * Register
-         * ↓
-         * Đã đăng ký
+         * Đồng bộ lại dữ liệu thật từ Backend.
          */
-        renderWorkshops(
-          allWorkshops.filter(
-            workshop => {
-
-              const status =
-                String(
-                  workshop.status || ""
-                ).toLowerCase();
-
-
-              return status !==
-                "cancelled";
-
-            }
-          )
+        await refreshWorkshopRegistrationCount(
+          workshopId
         );
 
 
-        /*
-         * Load lại từ Backend để
-         * đồng bộ dữ liệu thật.
-         */
-        await loadRegisteredWorkshops();
-
-
-        /*
-         * Render lại lần cuối sau khi
-         * lấy dữ liệu từ Backend.
-         */
-        renderWorkshops(
-          allWorkshops.filter(
-            workshop => {
-
-              const status =
-                String(
-                  workshop.status || ""
-                ).toLowerCase();
-
-
-              return status !==
-                "cancelled";
-
-            }
-          )
-        );
-
+        renderAvailableWorkshops();
 
       } catch (errorObject) {
 
@@ -2276,6 +2813,64 @@
 
         pendingWorkshopId =
           null;
+
+      }
+
+    }
+
+
+    /* =====================================================
+       REFRESH ONE WORKSHOP COUNT
+       ===================================================== */
+
+    async function refreshWorkshopRegistrationCount(
+      workshopId
+    ) {
+
+      try {
+
+        const response =
+          await fetch(
+            `${API_BASE_URL}/workshop-registrations/workshop/${workshopId}`,
+            {
+              method: "GET",
+
+              headers: {
+                "Accept":
+                  "application/json"
+              }
+            }
+          );
+
+
+        if (!response.ok) {
+
+          return;
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        const count =
+          Array.isArray(data)
+            ? data.length
+            : 0;
+
+
+        registrationCountByWorkshop.set(
+          Number(workshopId),
+          count
+        );
+
+      } catch (errorObject) {
+
+        console.warn(
+          "REFRESH WORKSHOP COUNT ERROR:",
+          errorObject
+        );
 
       }
 
@@ -2479,27 +3074,18 @@
       workshop
     ) {
 
-      const index =
-        allWorkshops.findIndex(
-          item =>
-            Number(item.id) ===
-            Number(workshop.id)
+      const workshopId =
+        Number(
+          workshop.id
         );
 
 
-      if (
-        index >= 0
-      ) {
-
-        return WORKSHOP_IMAGES[
-          index %
-          WORKSHOP_IMAGES.length
-        ];
-
-      }
-
-
-      return WORKSHOP_IMAGES[0];
+      return (
+        WORKSHOP_IMAGES[
+          workshopId
+        ] ||
+        "../assets/images/2.webp"
+      );
 
     }
 
@@ -2529,47 +3115,14 @@
 
 
       return (
-        statusMap[status] ||
+        statusMap[
+          String(
+            status ||
+            ""
+          ).toLowerCase()
+        ] ||
         status ||
         "Sắp diễn ra"
-      );
-
-    }
-
-
-    function formatFee(
-      fee
-    ) {
-
-      if (
-        fee === null ||
-        fee === undefined ||
-        fee === ""
-      ) {
-
-        return "Chưa cập nhật";
-
-      }
-
-
-      const number =
-        Number(fee);
-
-
-      if (
-        Number.isNaN(number)
-      ) {
-
-        return String(fee);
-
-      }
-
-
-      return (
-        new Intl.NumberFormat(
-          "vi-VN"
-        ).format(number) +
-        " VND"
       );
 
     }
@@ -2599,7 +3152,6 @@
           month: "short",
 
           year: "numeric"
-
         }
       );
 
@@ -2630,7 +3182,6 @@
           minute: "2-digit",
 
           hour12: false
-
         }
       );
 

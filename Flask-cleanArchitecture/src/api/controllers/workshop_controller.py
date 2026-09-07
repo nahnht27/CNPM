@@ -106,8 +106,12 @@ def create_workshop():
           description: Dữ liệu không hợp lệ
     """
     data = request.get_json()
+    
+    print("DATA:", data)
 
     errors = request_schema.validate(data)
+
+    print("ERRORS:", errors)
 
     if errors:
         return jsonify(errors), 400

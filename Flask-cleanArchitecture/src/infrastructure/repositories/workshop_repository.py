@@ -1,6 +1,7 @@
 from typing import List, Optional
 from infrastructure.databases.factory_database import FactoryDatabase as db_factory
 from infrastructure.models.workshop_model import WorkshopModel
+from datetime import datetime
 
 class WorkshopRepository:
     def __init__(self, session=None):
@@ -16,7 +17,7 @@ class WorkshopRepository:
             end_time=data.get('end_time'),
             capacity=data.get('capacity'),
             status=data.get('status'),
-            created_at=data.get('created_at')
+            created_at=datetime.now()
         )
         self.session.add(m)
         self.session.commit()
