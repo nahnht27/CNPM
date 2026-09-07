@@ -1052,15 +1052,17 @@
        WORKSHOP IMAGES
        ===================================================== */
 
-    const WORKSHOP_IMAGES = [
-
-      "../assets/images/2.webp",
-
-      "../assets/images/5.jpg",
-
-      "../assets/images/6.jpg"
-
-    ];
+   const WORKSHOP_IMAGES = {
+  1: "../assets/images/15.jpe",
+  2: "../assets/images/16.jpe",
+  3: "../assets/images/17.jpe",
+  6: "../assets/images/18.jpe",
+  7: "../assets/images/19.jpe",
+  8: "../assets/images/20.jpe",
+  9: "../assets/images/21.jpg",
+  10: "../assets/images/22.jpg",
+  12: "../assets/images/23.jpg"
+};
 
 
     /* =====================================================
@@ -1304,9 +1306,12 @@
 
 
         allWorkshops =
-          Array.isArray(data)
-            ? data
-            : [];
+  Array.isArray(data)
+    ? data
+    : [];
+
+console.log("WORKSHOP DATA:", allWorkshops);
+console.log("FIRST WORKSHOP:", allWorkshops[0]);
 
 
         /*
@@ -1424,10 +1429,7 @@
 
 
           const imageUrl =
-            WORKSHOP_IMAGES[
-              index %
-              WORKSHOP_IMAGES.length
-            ];
+  getWorkshopImage(workshop);
 
 
           const start =
@@ -2475,33 +2477,25 @@
        HELPERS
        ===================================================== */
 
-    function getWorkshopImage(
-      workshop
-    ) {
+    function getWorkshopImage(workshop) {
 
-      const index =
-        allWorkshops.findIndex(
-          item =>
-            Number(item.id) ===
-            Number(workshop.id)
-        );
+  const workshopId =
+    Number(workshop.id);
 
+  console.log(
+    "Workshop ID:",
+    workshopId,
+    "Title:",
+    workshop.title,
+    "Image:",
+    WORKSHOP_IMAGES[workshopId]
+  );
 
-      if (
-        index >= 0
-      ) {
-
-        return WORKSHOP_IMAGES[
-          index %
-          WORKSHOP_IMAGES.length
-        ];
-
-      }
-
-
-      return WORKSHOP_IMAGES[0];
-
-    }
+  return (
+    WORKSHOP_IMAGES[workshopId] ||
+    "../assets/images/2.webp"
+  );
+}
 
 
     function getWorkshopStatusText(
