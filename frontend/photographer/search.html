@@ -744,7 +744,7 @@
 
     const LOCAL_SPACE_IMAGES = [
       "../assets/images/12.jpe",
-      "../assets/images/10.jpg",
+      "../assets/images/14.png",
       "../assets/images/9.jpe",
       "../assets/images/11.jpg",
       "../assets/images/8.jpe",
@@ -917,14 +917,7 @@
             ${escapeHtml(typeName)}
           </span>
 
-          <button
-            class="favorite-btn"
-            type="button"
-            aria-label="Yêu thích"
-            onclick="toggleFavorite(this)"
-          >
-            ♡
-          </button>
+          
 
         </div>
 
@@ -1142,44 +1135,6 @@
 
         }
       );
-
-
-    /* =========================
-       FAVORITE
-    ========================= */
-
-
-
-    function toggleFavorite(
-      button
-    ) {
-
-      if (!button) {
-        return;
-      }
-
-
-      const active =
-        button.classList.toggle(
-          "active"
-        );
-
-
-      button.textContent =
-        active
-          ? "♥"
-          : "♡";
-
-
-      button.setAttribute(
-        "aria-label",
-        active
-          ? "Bỏ yêu thích"
-          : "Yêu thích"
-      );
-
-    }
-
 
     /* =========================
        ESCAPE HTML

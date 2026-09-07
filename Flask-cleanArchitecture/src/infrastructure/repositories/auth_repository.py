@@ -38,6 +38,12 @@ class AuthRepository(IAuthRepository):
         if not selected_user:
             return None
 
+        print("DEBUG LOGIN USERNAME:", repr(auth.username))
+        print("DEBUG USER FOUND:", selected_user is not None)
+
+
+        print("DEBUG USER ID:", selected_user.ID)
+        print("DEBUG PASSWORD HASH EXISTS:", bool(selected_user.password_hash))
         # Kiểm tra password
         if not check_password_hash(
             selected_user.password_hash,
