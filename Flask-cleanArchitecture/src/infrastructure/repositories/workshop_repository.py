@@ -15,7 +15,6 @@ class WorkshopRepository:
             start_time=data.get('start_time'),
             end_time=data.get('end_time'),
             capacity=data.get('capacity'),
-            fee=data.get('fee'),
             status=data.get('status'),
             created_at=data.get('created_at')
         )
