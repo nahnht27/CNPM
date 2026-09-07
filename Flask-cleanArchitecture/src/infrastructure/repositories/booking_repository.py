@@ -110,12 +110,43 @@ class BookingRepository:
 
         return self._attach_invoice_id(booking)
 
-    def list(self, photographer_id: Optional[int] = None) -> List[BookingModel]:
+    # ==========================================================
+    # LẤY BOOKING THEO PHOTOGRAPHER
+    # ==========================================================
+    #
+    # Đây là phần thêm mới để tránh Photographer này
+    # truy cập Booking của Photographer khác.
+    #
+
+    def get_by_id_and_photographer(
+        self,
+        booking_id: int,
+        photographer_id: int
+    ) -> Optional[BookingModel]:
+
+        booking = (
+            self.session.query(BookingModel)
+            .filter(
+                BookingModel.id == booking_id,
+                BookingModel.photographer_id == photographer_id
+            )
+            .first()
+        )
+
+        return self._attach_invoice_id(booking)
+
+    def list(
+        self,
+        photographer_id: Optional[int] = None
+    ) -> List[BookingModel]:
+
         query = self.session.query(BookingModel)
 
-        # Nếu có truyền photographer_id -> Lọc đúng theo user đó
-        if photographer_id:
-            query = query.filter(BookingModel.photographer_id == photographer_id)
+        # Nếu có photographer_id thì bắt buộc lọc theo photographer đó
+        if photographer_id is not None:
+            query = query.filter(
+                BookingModel.photographer_id == photographer_id
+            )
 
         bookings = query.all()
 

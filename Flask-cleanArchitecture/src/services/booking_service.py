@@ -20,10 +20,12 @@ class BookingService:
     # ==========================================================
 
     def create_booking(self, **data):
+
         start_time = data.get('start_time')
         end_time = data.get('end_time')
 
         if start_time and end_time:
+
             if start_time >= end_time:
                 raise ValueError(
                     'Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc'
@@ -34,15 +36,50 @@ class BookingService:
 
         return self.repository.add(data)
 
-    def get_booking(self, id: int):
-        return self.repository.get_by_id(id)
+    # ==========================================================
+    # LẤY BOOKING CỦA PHOTOGRAPHER
+    # ==========================================================
 
-    def list_bookings(self) -> List:
-        return self.repository.list()
+    def get_booking(
+        self,
+        id: int,
+        photographer_id: int
+    ):
 
-    def update_booking(self, id: int, **data):
+        # Chỉ lấy booking nếu booking thuộc photographer hiện tại
+        return self.repository.get_by_id_and_photographer(
+            booking_id=id,
+            photographer_id=photographer_id
+        )
 
-        booking = self.repository.get_by_id(id)
+    def list_bookings(
+        self,
+        photographer_id=None
+    ) -> List:
+
+        return self.repository.list(
+            photographer_id=photographer_id
+        )
+
+    # ==========================================================
+    # UPDATE BOOKING CỦA PHOTOGRAPHER
+    # ==========================================================
+
+    def update_booking(
+        self,
+        id: int,
+        photographer_id: int,
+        **data
+    ):
+
+        # ------------------------------------------------------
+        # KIỂM TRA OWNERSHIP
+        # ------------------------------------------------------
+
+        booking = self.repository.get_by_id_and_photographer(
+            booking_id=id,
+            photographer_id=photographer_id
+        )
 
         if not booking:
             return None
@@ -90,10 +127,44 @@ class BookingService:
                     'Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc'
                 )
 
-        return self.repository.update(id, data)
+        return self.repository.update(
+            id,
+            data
+        )
 
-    def delete_booking(self, id: int):
-        return self.repository.delete(id)
+    # ==========================================================
+    # DELETE BOOKING CỦA PHOTOGRAPHER
+    # ==========================================================
+
+    def delete_booking(
+        self,
+        id: int,
+        photographer_id: int
+    ):
+
+        # ------------------------------------------------------
+        # KIỂM TRA OWNERSHIP
+        # ------------------------------------------------------
+
+        booking = self.repository.get_by_id_and_photographer(
+            booking_id=id,
+            photographer_id=photographer_id
+        )
+
+        if not booking:
+            return False
+
+        try:
+
+            self.repository.session.delete(booking)
+            self.repository.session.commit()
+
+            return True
+
+        except Exception:
+
+            self.repository.session.rollback()
+            raise
 
     # ==========================================================
     # PROVIDER BOOKING MANAGEMENT
@@ -474,8 +545,10 @@ class BookingService:
 
                 if not existing_invoice:
 
+                    # SỬA LỖI:
+                    # updated_booking chưa tồn tại ở thời điểm này.
                     subtotal = (
-                        updated_booking.total_price or 0
+                        booking.total_price or 0
                     )
 
                     self.invoice_repository.add({
@@ -501,7 +574,7 @@ class BookingService:
                 )
 
                 if invoice:
-                    updated_booking.invoice_id = invoice.id
+                    booking.invoice_id = invoice.id
 
         # ------------------------------------------------------
         # UPDATE BOOKING
