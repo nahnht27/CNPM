@@ -7,8 +7,7 @@ from api.schemas.service_provider import (
     ServiceProviderRequestSchema,
     ServiceProviderResponseSchema
 )
-from datetime import datetime
-from infrastructure.databases.mssql import session
+from infrastructure.databases.postgres import session
 
 bp = Blueprint(
     'service_provider',
