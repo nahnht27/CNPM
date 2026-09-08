@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Provider - Packages | FilmSpace</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/provider-packages.css">
+</head>
+<body>
+  <nav class="navbar" id="mainNavbar">
+    <div class="navbar-container container">
+      <a class="logo" href="dashboard.html" aria-label="FilmSpace">FilmSpace</a>
+      <div class="menu" aria-label="Provider navigation">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="spaces.html">Spaces</a>
+        <a href="equipment.html">Equipment</a>
+        <a href="packages.html" class="active">Packages</a>
+        <a href="bookings.html">Bookings</a>
+        <a href="profile.html">Profile</a>
+      </div>
+      <div class="nav-actions">
+        <span class="provider-nav-name" id="navProviderName">Provider</span>
+        <button type="button" class="provider-logout" onclick="logout()">Đăng xuất</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="provider-packages-page">
+    <section class="packages-header">
+      <div class="container">
+        <div class="packages-header-content">
+          <div>
+            <span class="packages-kicker">MY PACKAGES</span>
+            <h1>Manage your <span>packages.</span></h1>
+            <p>Quản lý các gói dịch vụ và mức giá dành cho Photographer trên FilmSpace.</p>
+          </div>
+          <button type="button" class="create-package-btn" onclick="openCreatePackage()">+ Add New Package</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="provider-section packages-content">
+      <div class="container">
+        <div class="packages-section-heading">
+          <div>
+            <h2>Your Packages</h2>
+            <p>Danh sách gói dịch vụ bạn đang quản lý.</p>
+          </div>
+          <span class="package-count" id="packageCount">0 packages</span>
+        </div>
+
+        <div class="package-state" id="loadingState">
+          <div class="package-state-icon">◷</div>
+          <p>Đang tải packages...</p>
+        </div>
+
+        <div class="package-state" id="errorState" style="display:none;">
+          <div class="package-state-icon">!</div>
+          <h3>Không thể tải packages</h3>
+          <p>Vui lòng kiểm tra Backend.</p>
+          <button type="button" onclick="loadPackages()">Thử lại</button>
+        </div>
+
+        <div class="package-empty" id="emptyState" style="display:none;">
+          <div class="package-state-icon">◇</div>
+          <h3>Chưa có package</h3>
+          <p>Hãy tạo gói dịch vụ đầu tiên của bạn.</p>
+          <button type="button" onclick="openCreatePackage()">+ Add New Package</button>
+        </div>
+
+        <div class="packages-grid" id="packagesGrid"></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="package-modal" id="packageModal">
+    <div class="package-modal-overlay" onclick="closePackageModal()"></div>
+    <div class="package-modal-content">
+      <div class="package-modal-header">
+        <div>
+          <span class="package-modal-kicker">PACKAGE</span>
+          <h2 id="modalTitle">Add New Package</h2>
+        </div>
+        <button type="button" class="package-close-btn" onclick="closePackageModal()">×</button>
+      </div>
+
+      <form id="packageForm" onsubmit="savePackage(event)">
+        <input type="hidden" id="packageId">
+
+        <div class="package-form-field full-width">
+          <label for="packageName">Package Name</label>
+          <input id="packageName" type="text" placeholder="Ví dụ: Basic Film Package" required>
+        </div>
+
+        <div class="package-form-field">
+          <label for="packagePrice">Price</label>
+          <input id="packagePrice" type="number" min="0" step="1000" placeholder="1000000" required>
+        </div>
+
+        <div class="package-form-field">
+          <label for="packageStatus">Status</label>
+          <select id="packageStatus">
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+
+        <div class="package-form-field full-width">
+          <label for="packageSpace">Space</label>
+          <select id="packageSpace">
+            <option value="">Không gắn với space</option>
+          </select>
+        </div>
+
+        <div class="package-form-field full-width">
+          <label for="packageDescription">Description</label>
+          <textarea id="packageDescription" placeholder="Mô tả nội dung gói dịch vụ..."></textarea>
+        </div>
+
+        <div class="package-form-actions">
+          <button type="button" class="package-cancel-btn" onclick="closePackageModal()">Hủy</button>
+          <button type="submit" class="package-save-btn" id="savePackageBtn">Lưu package</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="package-modal" id="deleteModal">
+    <div class="package-modal-overlay" onclick="closeDeleteModal()"></div>
+    <div class="package-confirm-modal">
+      <div class="package-confirm-icon">!</div>
+      <h2>Xóa package?</h2>
+      <p id="deleteMessage">Bạn có chắc muốn xóa package này không?</p>
+      <div class="package-confirm-actions">
+        <button type="button" class="package-cancel-btn" onclick="closeDeleteModal()">Hủy</button>
+        <button type="button" class="package-delete-btn" onclick="confirmDelete()">Xóa package</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="package-modal" id="messageModal">
+    <div class="package-modal-overlay" onclick="closeMessageModal()"></div>
+    <div class="package-confirm-modal">
+      <div class="package-confirm-icon" id="messageIcon">✓</div>
+      <h2 id="messageTitle">Thành công</h2>
+      <p id="messageText">Thao tác thành công.</p>
+      <div class="package-confirm-actions">
+        <button type="button" class="package-save-btn" onclick="closeMessageModal()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-logo">Photography<span>Platform</span></div>
+          <p>Kết nối các nhiếp ảnh gia phim với các phòng tối và studio đáng tin cậy.</p>
+        </div>
+        <div class="footer-menu">
+          <a href="dashboard.html">Dashboard</a>
+          <a href="spaces.html">Spaces</a>
+          <a href="equipment.html">Equipment</a>
+          <a href="packages.html">Packages</a>
+          <a href="bookings.html">Bookings</a>
+          <a href="profile.html">Profile</a>
+        </div>
+      </div>
+      <hr class="footer-line">
+      <div class="footer-bottom">
+        <span>Copyright © 2026 Photography Platform. All rights reserved.</span>
+        <div class="footer-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script>
+const API_BASE_URL = "http://127.0.0.1:9999";
+let currentProviderId = null;
+let packageList = [];
+let deletePackageId = null;
+
+function getStorage() {
+  return localStorage.getItem("auth_token") ? localStorage : sessionStorage;
+}
+function getLoggedInUser() {
+  const storage = getStorage();
+  return {
+    storage,
+    token: storage.getItem("auth_token"),
+    userId: storage.getItem("user_id"),
+    username: storage.getItem("username") || "",
+    fullName: storage.getItem("full_name") || "",
+    providerId: storage.getItem("provider_id")
+  };
+}
+async function apiFetch(url, options = {}) {
+  const user = getLoggedInUser();
+  const headers = { Accept: "application/json", ...(options.headers || {}) };
+  if (user.token) headers.Authorization = `Bearer ${user.token}`;
+  return fetch(url, { ...options, headers });
+}
+function loadProviderInfo() {
+  const user = getLoggedInUser();
+  if (!user.token || !user.providerId) {
+    window.location.href = "../auth.html";
+    return false;
+  }
+  currentProviderId = Number(user.providerId);
+  document.getElementById("navProviderName").textContent = user.fullName || user.username || `Provider #${user.providerId}`;
+  return true;
+}
+function logout() {
+  localStorage.clear(); sessionStorage.clear(); window.location.href = "../auth.html";
+}
+function escapeHtml(value) {
+  if (value === null || value === undefined) return "";
+  return String(value).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+}
+function formatCurrency(value) { return Number(value || 0).toLocaleString("vi-VN") + " ₫"; }
+function statusText(status) { return String(status || "active").toLowerCase() === "inactive" ? "Inactive" : "Active"; }
+function statusClass(status) { return String(status || "active").toLowerCase() === "inactive" ? "inactive" : "active"; }
+
+async function loadSpaces() {
+  const select = document.getElementById("packageSpace");
+  try {
+    const response = await apiFetch(`${API_BASE_URL}/creative-spaces/`);
+    if (!response.ok) throw new Error(`Space API HTTP ${response.status}`);
+    const data = await response.json();
+    const spaces = Array.isArray(data) ? data : [];
+    select.innerHTML = '<option value="">Không gắn với space</option>';
+    spaces.filter(s => String(s.provider_id) === String(currentProviderId)).forEach(space => {
+      select.innerHTML += `<option value="${escapeHtml(space.id)}">${escapeHtml(space.name || `Space #${space.id}`)}</option>`;
+    });
+  } catch (error) { console.error("LOAD SPACES ERROR:", error); }
+}
+
+async function loadPackages() {
+  const grid = document.getElementById("packagesGrid");
+  const loading = document.getElementById("loadingState");
+  const empty = document.getElementById("emptyState");
+  const errorState = document.getElementById("errorState");
+  loading.style.display = "block"; empty.style.display = "none"; errorState.style.display = "none"; grid.innerHTML = "";
+  try {
+    const response = await apiFetch(`${API_BASE_URL}/service-packages/`);
+    if (response.status === 401 || response.status === 403) { window.location.href = "../auth.html"; return; }
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || `HTTP ${response.status}`);
+    packageList = (Array.isArray(data) ? data : []).filter(p => String(p.provider_id) === String(currentProviderId));
+    renderPackages();
+  } catch (error) { console.error("LOAD PACKAGES ERROR:", error); errorState.style.display = "block"; }
+  finally { loading.style.display = "none"; }
+}
+function renderPackages() {
+  const grid = document.getElementById("packagesGrid");
+  const empty = document.getElementById("emptyState");
+  document.getElementById("packageCount").textContent = `${packageList.length} packages`;
+  if (!packageList.length) { grid.innerHTML = ""; empty.style.display = "block"; return; }
+  empty.style.display = "none";
+  grid.innerHTML = packageList.map(p => `
+    <article class="package-card">
+      <div class="package-card-top">
+        <div class="package-icon">◇</div>
+        <span class="package-status ${statusClass(p.status)}">${escapeHtml(statusText(p.status))}</span>
+      </div>
+      <div class="package-card-body">
+        <span class="package-space">${escapeHtml(p.space_name || (p.space_id ? `Space #${p.space_id}` : "No space"))}</span>
+        <h3>${escapeHtml(p.name)}</h3>
+        <p class="package-description">${escapeHtml(p.description || "Chưa có mô tả cho package này.")}</p>
+        <div class="package-price"><strong>${escapeHtml(formatCurrency(p.price))}</strong><span>/ package</span></div>
+      </div>
+      <div class="package-card-actions">
+        <button type="button" class="package-edit-btn" onclick="openEditPackage(${Number(p.id)})">Edit</button>
+        <button type="button" class="package-delete-link" onclick="openDeletePackage(${Number(p.id)})">Delete</button>
+      </div>
+    </article>`).join("");
+}
+async function openCreatePackage() {
+  document.getElementById("packageForm").reset();
+  document.getElementById("packageId").value = "";
+  document.getElementById("modalTitle").textContent = "Add New Package";
+  await loadSpaces();
+  document.getElementById("packageModal").classList.add("show");
+}
+async function openEditPackage(id) {
+  const p = packageList.find(item => Number(item.id) === Number(id));
+  if (!p) return showMessage("Lỗi", "Không tìm thấy package.", "!");
+  document.getElementById("modalTitle").textContent = "Edit Package";
+  await loadSpaces();
+  document.getElementById("packageId").value = p.id || "";
+  document.getElementById("packageName").value = p.name || "";
+  document.getElementById("packagePrice").value = p.price ?? "";
+  document.getElementById("packageStatus").value = p.status || "active";
+  document.getElementById("packageSpace").value = p.space_id || "";
+  document.getElementById("packageDescription").value = p.description || "";
+  document.getElementById("packageModal").classList.add("show");
+}
+function closePackageModal() { document.getElementById("packageModal").classList.remove("show"); }
+async function savePackage(event) {
+  event.preventDefault();
+  const id = document.getElementById("packageId").value;
+  const btn = document.getElementById("savePackageBtn");
+  const payload = {
+    provider_id: currentProviderId,
+    name: document.getElementById("packageName").value.trim(),
+    price: Number(document.getElementById("packagePrice").value),
+    status: document.getElementById("packageStatus").value,
+    space_id: document.getElementById("packageSpace").value ? Number(document.getElementById("packageSpace").value) : null,
+    description: document.getElementById("packageDescription").value.trim() || null
+  };
+  if (!payload.name || Number.isNaN(payload.price)) return showMessage("Thiếu thông tin", "Vui lòng nhập tên và giá package.", "!");
+  btn.disabled = true; btn.textContent = "Đang lưu...";
+  try {
+    const response = await apiFetch(`${API_BASE_URL}/service-packages/${id || ""}`, {
+      method: id ? "PUT" : "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload)
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.message || JSON.stringify(data) || `HTTP ${response.status}`);
+    closePackageModal(); await loadPackages(); showMessage("Thành công", id ? "Package đã được cập nhật." : "Package đã được tạo.", "✓");
+  } catch (error) { console.error("SAVE PACKAGE ERROR:", error); showMessage("Không thể lưu", error.message || "Đã xảy ra lỗi.", "!"); }
+  finally { btn.disabled = false; btn.textContent = "Lưu package"; }
+}
+function openDeletePackage(id) {
+  const p = packageList.find(item => Number(item.id) === Number(id));
+  if (!p) return;
+  deletePackageId = Number(id);
+  document.getElementById("deleteMessage").textContent = `Bạn có chắc muốn xóa "${p.name}" không?`;
+  document.getElementById("deleteModal").classList.add("show");
+}
+function closeDeleteModal() { document.getElementById("deleteModal").classList.remove("show"); deletePackageId = null; }
+async function confirmDelete() {
+  if (!deletePackageId) return;
+  try {
+    const response = await apiFetch(`${API_BASE_URL}/service-packages/${deletePackageId}`, { method: "DELETE" });
+    if (!response.ok && response.status !== 204) { const data = await response.json().catch(() => ({})); throw new Error(data.message || `HTTP ${response.status}`); }
+    closeDeleteModal(); await loadPackages(); showMessage("Đã xóa", "Package đã được xóa.", "✓");
+  } catch (error) { showMessage("Không thể xóa", error.message || "Đã xảy ra lỗi.", "!"); }
+}
+function showMessage(title, text, icon) {
+  document.getElementById("messageTitle").textContent = title;
+  document.getElementById("messageText").textContent = text;
+  document.getElementById("messageIcon").textContent = icon || "✓";
+  document.getElementById("messageModal").classList.add("show");
+}
+function closeMessageModal() { document.getElementById("messageModal").classList.remove("show"); }
+
+document.addEventListener("DOMContentLoaded", async () => {
+  if (!loadProviderInfo()) return;
+  await loadPackages();
+});
+</script>
+</body>
+</html>
