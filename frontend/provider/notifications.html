@@ -2,307 +2,229 @@
 <html lang="vi">
 
 <head>
-
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <title>Notifications | FilmSpace</title>
 
-  <title>
-    Notifications | FilmSpace
-  </title>
-
-  <link
-    rel="stylesheet"
-    href="../assets/css/styles.css"
-  >
-
-  <link
-    rel="stylesheet"
-    href="../assets/css/provider-dashboard.css"
-  >
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/provider-dashboard.css">
 
   <style>
-
-    /* =========================================
-       NOTIFICATIONS PAGE
-       ========================================= */
 
     .notifications-page {
       padding-bottom: 70px;
     }
 
-
     .notifications-hero {
       padding: 55px 0 25px;
     }
 
-
     .notifications-hero h1 {
       margin-bottom: 10px;
     }
-
 
     .notifications-hero p {
       color: #666;
       max-width: 650px;
     }
 
-
     .notifications-wrapper {
       max-width: 850px;
       margin: 0 auto;
     }
 
+    .notif-filter-banner {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      background: #fff7fb;
+      border: 1px solid #f6d9ea;
+      color: #9c3d68;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .notif-filter-banner a {
+      color: #e13493;
+      text-decoration: underline;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
 
     .notifications-list {
       display: grid;
       gap: 14px;
     }
 
-
     .notification-card {
       display: flex;
       gap: 16px;
-
       padding: 20px;
-
       background: #fff;
-
       border: 1px solid #e5e5e5;
       border-radius: 12px;
-
-      box-shadow:
-        0 4px 14px rgba(0, 0, 0, 0.05);
-
-      transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-
 
     .notification-card:hover {
       transform: translateY(-2px);
-
-      box-shadow:
-        0 7px 20px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 7px 20px rgba(0, 0, 0, 0.08);
     }
-
 
     .notification-card.unread {
       border-left: 4px solid #e13493;
       background: #fffafd;
     }
 
-
     .notification-icon {
       width: 46px;
       height: 46px;
-
       flex-shrink: 0;
-
       border-radius: 50%;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
       background: #fce4f1;
       color: #e13493;
-
       font-size: 21px;
     }
-
 
     .notification-content {
       flex: 1;
       min-width: 0;
     }
 
-
     .notification-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-
       gap: 12px;
     }
 
-
     .notification-title {
       margin: 0;
-
       font-size: 17px;
-
       color: #333;
     }
 
-
     .notification-time {
       flex-shrink: 0;
-
       font-size: 12px;
-
       color: #999;
     }
 
-
     .notification-message {
       margin: 8px 0 10px;
-
       color: #666;
-
       line-height: 1.5;
-
       white-space: pre-wrap;
     }
-
 
     .notification-footer {
       display: flex;
       align-items: center;
-
       gap: 8px;
     }
 
-
     .notification-type {
       display: inline-block;
-
       padding: 4px 9px;
-
       border-radius: 20px;
-
       background: #f5f5f5;
       color: #666;
-
       font-size: 11px;
       font-weight: 600;
     }
 
-
     .notification-unread-label {
       color: #e13493;
-
       font-size: 11px;
-
       font-weight: 700;
     }
-
 
     .notification-view-btn,
     .notification-read-btn {
       border: none;
       background: transparent;
-
       color: #e13493;
-
       cursor: pointer;
-
       font-size: 12px;
-
       font-weight: 600;
     }
-
 
     .notification-view-btn {
       margin-left: auto;
     }
-
 
     .notification-view-btn:hover,
     .notification-read-btn:hover {
       text-decoration: underline;
     }
 
-
     .notification-state {
       text-align: center;
-
       padding: 60px 20px;
-
       color: #777;
     }
 
-
     .notification-state-icon {
       margin-bottom: 12px;
-
       font-size: 40px;
-
       color: #e13493;
     }
 
-
-    /* =========================================
-       NOTIFICATION BADGE
-       ========================================= */
-
     .notification-nav {
       position: relative;
-
       text-decoration: none;
-
       font-size: 21px;
-
       color: #333;
-
       display: inline-flex;
       align-items: center;
-
       margin-right: 12px;
     }
 
-
     .notification-badge {
       display: none;
-
       position: absolute;
-
       top: -7px;
       right: -9px;
-
       min-width: 18px;
       height: 18px;
-
       padding: 0 4px;
-
       border-radius: 10px;
-
       background: #e13493;
       color: #fff;
-
       font-size: 10px;
       font-weight: 700;
-
       line-height: 18px;
-
       text-align: center;
     }
 
-
     @media (max-width: 650px) {
-
       .notification-card {
         padding: 15px;
       }
 
-
       .notification-top {
         flex-direction: column;
-
         align-items: flex-start;
-
         gap: 5px;
       }
-
 
       .notification-time {
         order: 2;
       }
 
+      .notif-filter-banner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
 
   </style>
@@ -312,1389 +234,505 @@
 
 <body>
 
-
-  <!-- =========================================
-       NAVBAR
-       ========================================= -->
-
-  <nav
-    class="navbar"
-    id="mainNavbar"
-  >
-
+  <!-- NAVBAR -->
+  <nav class="navbar" id="mainNavbar">
     <div class="navbar-container container">
 
-
-      <a
-        class="logo"
-        href="dashboard.html"
-        aria-label="FilmSpace"
-      >
+      <a class="logo" href="dashboard.html" aria-label="FilmSpace">
         Film<span>Space</span>
       </a>
 
-
-      <div
-        class="menu"
-        aria-label="Provider navigation"
-      >
-
-        <a href="dashboard.html">
-          Dashboard
-        </a>
-
-
-        <a href="spaces.html">
-          Spaces
-        </a>
-
-
-        <a href="equipment.html">
-          Equipment
-        </a>
-
-
-        <a href="packages.html">
-          Packages
-        </a>
-
-
-        <a href="bookings.html">
-          Bookings
-        </a>
-
-
-        <a
-          href="notifications.html"
-          class="active"
-        >
-          Notifications
-        </a>
-
-
-        <a href="profile.html">
-          Profile
-        </a>
-
+      <div class="menu" aria-label="Provider navigation">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="spaces.html">Spaces</a>
+        <a href="equipment.html">Equipment</a>
+        <a href="packages.html">Packages</a>
+        <a href="bookings.html">Bookings</a>
+        <a href="notifications.html" class="active">Notifications</a>
+        <a href="profile.html">Profile</a>
       </div>
-
 
       <div class="nav-actions">
 
-
-        <a
-          href="notifications.html"
-          class="notification-nav"
-          aria-label="Notifications"
-          title="Notifications"
-        >
-
+        <a href="notifications.html" class="notification-nav" aria-label="Notifications" title="Notifications">
           🔔
-
-          <span
-            id="notificationBadge"
-            class="notification-badge"
-          >
-            0
-          </span>
-
+          <span id="notificationBadge" class="notification-badge">0</span>
         </a>
 
+        <span class="provider-nav-name" id="navProviderName">Provider</span>
 
-        <span
-          class="provider-nav-name"
-          id="navProviderName"
-        >
-          Provider
-        </span>
-
-
-        <button
-          type="button"
-          class="provider-logout"
-          onclick="logout()"
-        >
-          Đăng xuất
-        </button>
+        <button type="button" class="provider-logout" onclick="logout()">Đăng xuất</button>
 
       </div>
 
     </div>
-
   </nav>
 
 
-  <!-- =========================================
-       MAIN
-       ========================================= -->
-
+  <!-- MAIN -->
   <main class="provider-page notifications-page">
 
-
     <section class="notifications-hero">
-
       <div class="container">
-
         <div class="provider-section-heading">
-
           <div>
-
-            <h1>
-              Notifications
-            </h1>
-
-            <p>
-              Xem các thông báo và cập nhật
-              liên quan đến hoạt động Provider của bạn.
-            </p>
-
+            <h1>Notifications</h1>
+            <p>Xem các thông báo và cập nhật liên quan đến hoạt động Provider của bạn.</p>
           </div>
-
         </div>
-
       </div>
-
     </section>
 
-
     <section class="provider-section">
-
       <div class="container">
-
         <div class="notifications-wrapper">
 
-
-          <!-- NOTIFICATION LIST -->
-
-          <div
-            id="notificationsList"
-            class="notifications-list"
-          >
+          <!-- BANNER: hiện khi cài đặt "Nhắc lịch booking" đang tắt,
+               liên kết trực tiếp tới mục Cài đặt tài khoản trong Profile -->
+          <div id="notifFilterBanner" class="notif-filter-banner">
+            <span>
+              🔕 Bạn đã tắt "Nhắc lịch booking sắp tới" trong Cài đặt tài khoản,
+              nên các thông báo loại Booking đang được ẩn bớt tại đây.
+            </span>
+            <a href="profile.html#settingsCard">Mở lại trong Cài đặt →</a>
           </div>
 
+          <div id="notificationsList" class="notifications-list"></div>
 
-          <!-- LOADING -->
-
-          <div
-            id="notificationsLoading"
-            class="notification-state"
-            style="display:none;"
-          >
-
-            <div class="notification-state-icon">
-              ◷
-            </div>
-
-            <p>
-              Đang tải thông báo...
-            </p>
-
+          <div id="notificationsLoading" class="notification-state" style="display:none;">
+            <div class="notification-state-icon">◷</div>
+            <p>Đang tải thông báo...</p>
           </div>
 
-
-          <!-- EMPTY -->
-
-          <div
-            id="notificationsEmpty"
-            class="notification-state"
-            style="display:none;"
-          >
-
-            <div class="notification-state-icon">
-              🔔
-            </div>
-
-            <h3>
-              Chưa có thông báo
-            </h3>
-
-            <p>
-              Bạn hiện chưa có thông báo nào.
-            </p>
-
+          <div id="notificationsEmpty" class="notification-state" style="display:none;">
+            <div class="notification-state-icon">🔔</div>
+            <h3>Chưa có thông báo</h3>
+            <p>Bạn hiện chưa có thông báo nào.</p>
           </div>
 
-
-          <!-- ERROR -->
-
-          <div
-            id="notificationsError"
-            class="notification-state"
-            style="display:none;"
-          >
-
-            <div class="notification-state-icon">
-              !
-            </div>
-
-            <h3>
-              Không thể tải thông báo
-            </h3>
-
-            <p>
-              Vui lòng kiểm tra Backend.
-            </p>
-
+          <div id="notificationsError" class="notification-state" style="display:none;">
+            <div class="notification-state-icon">!</div>
+            <h3>Không thể tải thông báo</h3>
+            <p>Vui lòng kiểm tra Backend.</p>
           </div>
 
         </div>
-
       </div>
-
     </section>
 
   </main>
 
 
-  <!-- =========================================
-       FOOTER
-       ========================================= -->
-
+  <!-- FOOTER -->
   <footer class="footer">
-
     <div class="container">
-
       <div class="footer-top">
-
         <div class="footer-brand">
-
-          <div class="footer-logo">
-            Photography<span>Platform</span>
-          </div>
-
-
-          <p>
-            Kết nối các nhiếp ảnh gia phim
-            với các phòng tối và studio
-            đáng tin cậy.
-          </p>
-
+          <div class="footer-logo">Photography<span>Platform</span></div>
+          <p>Kết nối các nhiếp ảnh gia phim với các phòng tối và studio đáng tin cậy.</p>
         </div>
-
-
         <div class="footer-menu">
-
-          <a href="dashboard.html">
-            Dashboard
-          </a>
-
-
-          <a href="spaces.html">
-            Spaces
-          </a>
-
-
-          <a href="equipment.html">
-            Equipment
-          </a>
-
-
-          <a href="packages.html">
-            Packages
-          </a>
-
-
-          <a href="bookings.html">
-            Bookings
-          </a>
-
-
-          <a href="notifications.html">
-            Notifications
-          </a>
-
-
-          <a href="profile.html">
-            Profile
-          </a>
-
+          <a href="dashboard.html">Dashboard</a>
+          <a href="spaces.html">Spaces</a>
+          <a href="equipment.html">Equipment</a>
+          <a href="packages.html">Packages</a>
+          <a href="bookings.html">Bookings</a>
+          <a href="notifications.html">Notifications</a>
+          <a href="profile.html">Profile</a>
         </div>
-
       </div>
-
-
       <hr class="footer-line">
-
-
       <div class="footer-bottom">
-
-        <span>
-          Copyright © 2026 Photography Platform.
-          All rights reserved.
-        </span>
-
-
+        <span>Copyright © 2026 Photography Platform. All rights reserved.</span>
         <div class="footer-links">
-
-          <a href="#">
-            Privacy Policy
-          </a>
-
-
-          <a href="#">
-            Terms of Use
-          </a>
-
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
         </div>
-
       </div>
-
     </div>
-
   </footer>
 
 
-  <!-- =========================================
-       JAVASCRIPT
-       ========================================= -->
-
+  <!-- JAVASCRIPT -->
   <script>
 
-    const API_BASE_URL =
-      "http://127.0.0.1:9999";
-
-
-    /* =========================================
-       AUTH
-       ========================================= */
+    const API_BASE_URL = "http://127.0.0.1:9999";
 
     function getLoggedInUser() {
-
-      const storage =
-        localStorage.getItem("auth_token")
-          ? localStorage
-          : sessionStorage;
-
-
+      const storage = localStorage.getItem("auth_token") ? localStorage : sessionStorage;
       return {
-
         storage,
-
-        token:
-          storage.getItem("auth_token"),
-
-        userId:
-          storage.getItem("user_id"),
-
-        username:
-          storage.getItem("username") || "",
-
-        fullName:
-          storage.getItem("full_name") || "",
-
-        providerId:
-          storage.getItem("provider_id")
-
+        token: storage.getItem("auth_token"),
+        userId: storage.getItem("user_id"),
+        username: storage.getItem("username") || "",
+        fullName: storage.getItem("full_name") || "",
+        providerId: storage.getItem("provider_id")
       };
-
     }
 
+    /*
+     * LIÊN KẾT VỚI CÀI ĐẶT TÀI KHOẢN (profile.html):
+     * đọc chung key "provider_notification_settings" mà
+     * trang Profile đang ghi khi bật/tắt 2 toggle.
+     */
+    function getNotificationSettings() {
+      const user = getLoggedInUser();
+      const raw = user.storage.getItem("provider_notification_settings");
 
-    /* =========================================
-       PROVIDER INFO
-       ========================================= */
+      if (!raw) {
+        return { notifyEmail: true, notifyBooking: true };
+      }
+
+      try {
+        const parsed = JSON.parse(raw);
+        return {
+          notifyEmail: parsed.notifyEmail !== false,
+          notifyBooking: parsed.notifyBooking !== false
+        };
+      } catch (error) {
+        return { notifyEmail: true, notifyBooking: true };
+      }
+    }
 
     function loadProviderInfo() {
-
-      const user =
-        getLoggedInUser();
-
+      const user = getLoggedInUser();
 
       if (!user.token) {
-
-        window.location.href =
-          "../auth.html";
-
+        window.location.href = "../auth.html";
         return false;
-
       }
 
-
-      const displayName =
-        user.fullName ||
-        user.username ||
-        "Provider";
-
-
-      const navName =
-        document.getElementById(
-          "navProviderName"
-        );
-
-
-      if (navName) {
-
-        navName.textContent =
-          displayName;
-
-      }
-
+      const displayName = user.fullName || user.username || "Provider";
+      const navName = document.getElementById("navProviderName");
+      if (navName) navName.textContent = displayName;
 
       return true;
-
     }
-
-
-    /* =========================================
-       LOAD NOTIFICATION BADGE
-       ========================================= */
 
     async function loadNotificationBadge() {
+      const user = getLoggedInUser();
+      const badge = document.getElementById("notificationBadge");
 
-      const user =
-        getLoggedInUser();
-
-
-      const badge =
-        document.getElementById(
-          "notificationBadge"
-        );
-
-
-      if (
-        !badge ||
-        !user.userId
-      ) {
-
-        return;
-
-      }
-
+      if (!badge || !user.userId) return;
 
       try {
-
-        const response =
-          await fetch(
-            `${API_BASE_URL}/notifications/user/${user.userId}/unread-count`,
-            {
-              method: "GET",
-
-              headers: {
-
-                "Authorization":
-                  `Bearer ${user.token}`,
-
-                "Accept":
-                  "application/json"
-
-              }
-
+        const response = await fetch(
+          `${API_BASE_URL}/notifications/user/${user.userId}/unread-count`,
+          {
+            method: "GET",
+            headers: {
+              "Authorization": `Bearer ${user.token}`,
+              "Accept": "application/json"
             }
-          );
+          }
+        );
 
+        if (!response.ok) return;
 
-        if (!response.ok) {
-
-          return;
-
-        }
-
-
-        const data =
-          await response.json();
-
-
-        const count =
-          Number(
-            data.count || 0
-          );
-
+        const data = await response.json();
+        const count = Number(data.count || 0);
 
         if (count > 0) {
-
-          badge.textContent =
-            count > 99
-              ? "99+"
-              : String(count);
-
-          badge.style.display =
-            "block";
-
+          badge.textContent = count > 99 ? "99+" : String(count);
+          badge.style.display = "block";
         } else {
-
-          badge.style.display =
-            "none";
-
+          badge.style.display = "none";
         }
 
       } catch (errorObject) {
-
-        console.error(
-          "LOAD NOTIFICATION BADGE ERROR:",
-          errorObject
-        );
-
+        console.error("LOAD NOTIFICATION BADGE ERROR:", errorObject);
       }
-
     }
-
-
-    /* =========================================
-       LOAD NOTIFICATIONS
-       ========================================= */
 
     async function loadNotifications() {
-
-      const user =
-        getLoggedInUser();
-
+      const user = getLoggedInUser();
 
       if (!user.userId) {
-
-        showError(
-          "Không tìm thấy thông tin người dùng."
-        );
-
+        showError("Không tìm thấy thông tin người dùng.");
         return;
-
       }
 
+      const list = document.getElementById("notificationsList");
+      const loading = document.getElementById("notificationsLoading");
+      const empty = document.getElementById("notificationsEmpty");
+      const error = document.getElementById("notificationsError");
+      const filterBanner = document.getElementById("notifFilterBanner");
 
-      const list =
-        document.getElementById(
-          "notificationsList"
-        );
-
-
-      const loading =
-        document.getElementById(
-          "notificationsLoading"
-        );
-
-
-      const empty =
-        document.getElementById(
-          "notificationsEmpty"
-        );
-
-
-      const error =
-        document.getElementById(
-          "notificationsError"
-        );
-
-
-      list.innerHTML =
-        "";
-
-
-      loading.style.display =
-        "block";
-
-
-      empty.style.display =
-        "none";
-
-
-      error.style.display =
-        "none";
-
+      list.innerHTML = "";
+      loading.style.display = "block";
+      empty.style.display = "none";
+      error.style.display = "none";
+      filterBanner.style.display = "none";
 
       try {
-
-        const response =
-          await fetch(
-            `${API_BASE_URL}/notifications/user/${user.userId}`,
-            {
-              method: "GET",
-
-              headers: {
-
-                "Authorization":
-                  `Bearer ${user.token}`,
-
-                "Accept":
-                  "application/json"
-
-              }
-
+        const response = await fetch(
+          `${API_BASE_URL}/notifications/user/${user.userId}`,
+          {
+            method: "GET",
+            headers: {
+              "Authorization": `Bearer ${user.token}`,
+              "Accept": "application/json"
             }
-          );
-
+          }
+        );
 
         if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
 
-          throw new Error(
-            `HTTP ${response.status}`
+        const data = await response.json();
+        const allNotifications = Array.isArray(data) ? data : [];
+
+        loading.style.display = "none";
+
+        /*
+         * ÁP DỤNG CÀI ĐẶT TỪ profile.html:
+         * nếu "Nhắc lịch booking sắp tới" đang tắt, ẩn bớt
+         * các thông báo type="booking" và hiện banner giải thích.
+         */
+        const settings = getNotificationSettings();
+
+        let notifications = allNotifications;
+
+        if (!settings.notifyBooking) {
+          const bookingCount = allNotifications.filter(
+            n => String(n.type || "").toLowerCase() === "booking"
+          ).length;
+
+          notifications = allNotifications.filter(
+            n => String(n.type || "").toLowerCase() !== "booking"
           );
 
+          if (bookingCount > 0) {
+            filterBanner.style.display = "flex";
+          }
         }
 
-
-        const data =
-          await response.json();
-
-
-        const notifications =
-          Array.isArray(data)
-            ? data
-            : [];
-
-
-        loading.style.display =
-          "none";
-
-
-        if (
-          notifications.length === 0
-        ) {
-
-          empty.style.display =
-            "block";
-
+        if (notifications.length === 0) {
+          empty.style.display = "block";
           return;
-
         }
 
-
-        renderNotifications(
-          notifications
-        );
-
+        renderNotifications(notifications);
 
       } catch (errorObject) {
-
-        console.error(
-          "LOAD NOTIFICATIONS ERROR:",
-          errorObject
-        );
-
-
-        loading.style.display =
-          "none";
-
-
-        error.style.display =
-          "block";
-
+        console.error("LOAD NOTIFICATIONS ERROR:", errorObject);
+        loading.style.display = "none";
+        error.style.display = "block";
       }
-
     }
 
+    function renderNotifications(notifications) {
+      const list = document.getElementById("notificationsList");
+      list.innerHTML = "";
 
-    /* =========================================
-       RENDER NOTIFICATIONS
-       ========================================= */
+      notifications.forEach(function (notification) {
 
-    function renderNotifications(
-      notifications
-    ) {
+        const card = document.createElement("article");
+        const isRead = Boolean(notification.is_read);
 
-      const list =
-        document.getElementById(
-          "notificationsList"
-        );
+        card.className = isRead ? "notification-card" : "notification-card unread";
 
+        const icon = getNotificationIcon(notification.type);
+        const typeText = getNotificationTypeText(notification.type);
+        const date = notification.created_at ? new Date(notification.created_at) : null;
 
-      list.innerHTML =
-        "";
+        card.innerHTML = `
+          <div class="notification-icon">${icon}</div>
 
-
-      notifications.forEach(
-        function(notification) {
-
-          const card =
-            document.createElement(
-              "article"
-            );
-
-
-          const isRead =
-            Boolean(
-              notification.is_read
-            );
-
-
-          card.className =
-            isRead
-              ? "notification-card"
-              : "notification-card unread";
-
-
-          const icon =
-            getNotificationIcon(
-              notification.type
-            );
-
-
-          const typeText =
-            getNotificationTypeText(
-              notification.type
-            );
-
-
-          const date =
-            notification.created_at
-              ? new Date(
-                  notification.created_at
-                )
-              : null;
-
-
-          card.innerHTML = `
-
-            <div class="notification-icon">
-
-              ${icon}
-
+          <div class="notification-content">
+            <div class="notification-top">
+              <h3 class="notification-title">${escapeHtml(notification.title || "Thông báo")}</h3>
+              <span class="notification-time">${escapeHtml(formatDateTime(date))}</span>
             </div>
 
+            <p class="notification-message">${escapeHtml(notification.content || "")}</p>
 
-            <div class="notification-content">
+            <div class="notification-footer">
+              <span class="notification-type">${escapeHtml(typeText)}</span>
 
-              <div class="notification-top">
+              <span class="notification-unread-label" style="color:${isRead ? "#999" : "#e13493"};">
+                ${isRead ? "Đã đọc" : "Chưa đọc"}
+              </span>
 
-                <h3 class="notification-title">
+              ${String(notification.type || "").toLowerCase() === "workshop"
+                ? `<button type="button" class="notification-view-btn">Xem</button>`
+                : ""}
 
-                  ${escapeHtml(
-                    notification.title ||
-                    "Thông báo"
-                  )}
-
-                </h3>
-
-
-                <span class="notification-time">
-
-                  ${escapeHtml(
-                    formatDateTime(date)
-                  )}
-
-                </span>
-
-              </div>
-
-
-              <p class="notification-message">
-
-                ${escapeHtml(
-                  notification.content ||
-                  ""
-                )}
-
-              </p>
-
-
-              <div class="notification-footer">
-
-                <span class="notification-type">
-
-                  ${escapeHtml(
-                    typeText
-                  )}
-
-                </span>
-
-
-                <span
-                  class="notification-unread-label"
-                  style="
-                    color:${isRead ? "#999" : "#e13493"};
-                  "
-                >
-                  ${isRead ? "Đã đọc" : "Chưa đọc"}
-                </span>
-
-
-                ${
-                  String(
-                    notification.type || ""
-                  ).toLowerCase() === "workshop"
-                    ? `
-                      <button
-                        type="button"
-                        class="notification-view-btn"
-                      >
-                        Xem
-                      </button>
-                    `
-                    : ""
-                }
-
-
-                ${
-                  !isRead
-                    ? `
-                      <button
-                        type="button"
-                        class="notification-read-btn"
-                      >
-                        Đánh dấu đã đọc
-                      </button>
-                    `
-                    : ""
-                }
-
-              </div>
-
+              ${!isRead
+                ? `<button type="button" class="notification-read-btn">Đánh dấu đã đọc</button>`
+                : ""}
             </div>
+          </div>
+        `;
 
-          `;
-
-
-          /* =====================================
-             XEM WORKSHOP
-             ===================================== */
-
-          const viewButton =
-            card.querySelector(
-              ".notification-view-btn"
-            );
-
-
-          if (viewButton) {
-
-            viewButton.addEventListener(
-              "click",
-              function(event) {
-
-                event.stopPropagation();
-
-
-                openWorkshopFromNotification(
-                  notification.content
-                );
-
-              }
-            );
-
-          }
-
-
-          /* =====================================
-             ĐÁNH DẤU ĐÃ ĐỌC
-             ===================================== */
-
-          const readButton =
-            card.querySelector(
-              ".notification-read-btn"
-            );
-
-
-          if (readButton) {
-
-            readButton.addEventListener(
-              "click",
-              function(event) {
-
-                event.stopPropagation();
-
-
-                markNotificationAsRead(
-                  Number(
-                    notification.id
-                  )
-                );
-
-              }
-            );
-
-          }
-
-
-          list.appendChild(
-            card
-          );
-
+        const viewButton = card.querySelector(".notification-view-btn");
+        if (viewButton) {
+          viewButton.addEventListener("click", function (event) {
+            event.stopPropagation();
+            openWorkshopFromNotification(notification.content);
+          });
         }
-      );
 
+        const readButton = card.querySelector(".notification-read-btn");
+        if (readButton) {
+          readButton.addEventListener("click", function (event) {
+            event.stopPropagation();
+            markNotificationAsRead(Number(notification.id));
+          });
+        }
+
+        list.appendChild(card);
+      });
     }
 
+    async function openWorkshopFromNotification(content) {
+      const user = getLoggedInUser();
 
-    /* =========================================
-       OPEN WORKSHOP
-       ========================================= */
-
-    async function openWorkshopFromNotification(
-      content
-    ) {
-
-      const user =
-        getLoggedInUser();
-
-
-      /*
-       * Notification hiện tại có dạng:
-       *
-       * Một photographer vừa đăng ký workshop
-       * "Workshop Chỉnh màu ảnh film" của bạn.
-       */
-
-      const match =
-        String(
-          content || ""
-        ).match(
-          /workshop\s+"([^"]+)"/i
-        );
-
+      const match = String(content || "").match(/workshop\s+"([^"]+)"/i);
 
       if (!match) {
-
-        alert(
-          "Không xác định được workshop."
-        );
-
+        alert("Không xác định được workshop.");
         return;
-
       }
 
-
-      const workshopTitle =
-        match[1].trim();
-
+      const workshopTitle = match[1].trim();
 
       try {
-
-        const response =
-          await fetch(
-            `${API_BASE_URL}/workshops/`,
-            {
-              method: "GET",
-
-              headers: {
-
-                "Authorization":
-                  `Bearer ${user.token}`,
-
-                "Accept":
-                  "application/json"
-
-              }
-
-            }
-          );
-
+        const response = await fetch(`${API_BASE_URL}/workshops/`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${user.token}`,
+            "Accept": "application/json"
+          }
+        });
 
         if (!response.ok) {
-
-          throw new Error(
-            `HTTP ${response.status}`
-          );
-
+          throw new Error(`HTTP ${response.status}`);
         }
 
+        const data = await response.json();
+        const workshops = Array.isArray(data) ? data : [];
 
-        const data =
-          await response.json();
-
-
-        const workshops =
-          Array.isArray(data)
-            ? data
-            : [];
-
-
-        /*
-         * Chỉ tìm Workshop thuộc Provider hiện tại
-         */
-
-        const workshop =
-          workshops.find(
-            function(item) {
-
-              return (
-
-                String(
-                  item.provider_id
-                ) ===
-                String(
-                  user.providerId
-                )
-
-                &&
-
-                String(
-                  item.title || ""
-                ).trim() ===
-                workshopTitle
-
-              );
-
-            }
+        const workshop = workshops.find(function (item) {
+          return (
+            String(item.provider_id) === String(user.providerId) &&
+            String(item.title || "").trim() === workshopTitle
           );
-
+        });
 
         if (!workshop) {
-
-          alert(
-            "Không tìm thấy workshop."
-          );
-
+          alert("Không tìm thấy workshop.");
           return;
-
         }
 
-
-        /*
-         * Chuyển sang trang Workshop
-         * và truyền WorkshopID.
-         */
-
-        window.location.href =
-          `workshops.html?workshop_id=${encodeURIComponent(
-            workshop.id
-          )}`;
+        window.location.href = `workshops.html?workshop_id=${encodeURIComponent(workshop.id)}`;
 
       } catch (errorObject) {
-
-        console.error(
-          "OPEN WORKSHOP ERROR:",
-          errorObject
-        );
-
-
-        alert(
-          "Không thể mở workshop."
-        );
-
+        console.error("OPEN WORKSHOP ERROR:", errorObject);
+        alert("Không thể mở workshop.");
       }
-
     }
 
-
-    /* =========================================
-       MARK AS READ
-       ========================================= */
-
-    async function markNotificationAsRead(
-      notificationId
-    ) {
-
-      const user =
-        getLoggedInUser();
-
+    async function markNotificationAsRead(notificationId) {
+      const user = getLoggedInUser();
 
       try {
-
-        const response =
-          await fetch(
-            `${API_BASE_URL}/notifications/${notificationId}/read`,
-            {
-              method: "PUT",
-
-              headers: {
-
-                "Authorization":
-                  `Bearer ${user.token}`,
-
-                "Accept":
-                  "application/json"
-
-              }
-
-            }
-          );
-
+        const response = await fetch(`${API_BASE_URL}/notifications/${notificationId}/read`, {
+          method: "PUT",
+          headers: {
+            "Authorization": `Bearer ${user.token}`,
+            "Accept": "application/json"
+          }
+        });
 
         if (!response.ok) {
-
-          throw new Error(
-            `HTTP ${response.status}`
-          );
-
+          throw new Error(`HTTP ${response.status}`);
         }
 
-
         await loadNotifications();
-
         await loadNotificationBadge();
 
       } catch (errorObject) {
-
-        console.error(
-          "MARK NOTIFICATION READ ERROR:",
-          errorObject
-        );
-
+        console.error("MARK NOTIFICATION READ ERROR:", errorObject);
       }
-
     }
 
+    function getNotificationIcon(type) {
+      const value = String(type || "").toLowerCase();
 
-    /* =========================================
-       ICON
-       ========================================= */
-
-    function getNotificationIcon(
-      type
-    ) {
-
-      const value =
-        String(
-          type || ""
-        ).toLowerCase();
-
-
-      if (
-        value.includes("booking")
-      ) {
-
-        return "📅";
-
-      }
-
-
-      if (
-        value.includes("workshop")
-      ) {
-
-        return "◉";
-
-      }
-
-
-      if (
-        value.includes("payment")
-      ) {
-
-        return "💳";
-
-      }
-
-
-      if (
-        value.includes("review")
-      ) {
-
-        return "★";
-
-      }
-
-
-      if (
-        value.includes("approval")
-      ) {
-
-        return "✓";
-
-      }
-
+      if (value.includes("booking")) return "📅";
+      if (value.includes("workshop")) return "◉";
+      if (value.includes("payment")) return "💳";
+      if (value.includes("review")) return "★";
+      if (value.includes("approval")) return "✓";
 
       return "🔔";
-
     }
 
-
-    /* =========================================
-       TYPE TEXT
-       ========================================= */
-
-    function getNotificationTypeText(
-      type
-    ) {
-
-      const value =
-        String(
-          type || ""
-        ).toLowerCase();
-
+    function getNotificationTypeText(type) {
+      const value = String(type || "").toLowerCase();
 
       const typeMap = {
-
-        booking:
-          "Booking",
-
-        workshop:
-          "Workshop",
-
-        payment:
-          "Payment",
-
-        review:
-          "Review",
-
-        approval:
-          "Approval",
-
-        general:
-          "General"
-
+        booking: "Booking",
+        workshop: "Workshop",
+        payment: "Payment",
+        review: "Review",
+        approval: "Approval",
+        general: "General"
       };
 
-
-      return (
-        typeMap[value] ||
-        type ||
-        "General"
-      );
-
+      return typeMap[value] || type || "General";
     }
 
-
-    /* =========================================
-       DATE
-       ========================================= */
-
-    function formatDateTime(
-      date
-    ) {
-
-      if (
-        !date ||
-        Number.isNaN(
-          date.getTime()
-        )
-      ) {
-
+    function formatDateTime(date) {
+      if (!date || Number.isNaN(date.getTime())) {
         return "Chưa cập nhật";
-
       }
 
-
-      return date.toLocaleString(
-        "vi-VN",
-        {
-          day: "2-digit",
-
-          month: "2-digit",
-
-          year: "numeric",
-
-          hour: "2-digit",
-
-          minute: "2-digit",
-
-          hour12: false
-        }
-      );
-
+      return date.toLocaleString("vi-VN", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
+      });
     }
 
-
-    /* =========================================
-       ERROR
-       ========================================= */
-
-    function showError(
-      message
-    ) {
-
-      const error =
-        document.getElementById(
-          "notificationsError"
-        );
-
-
-      error.style.display =
-        "block";
-
-
-      error.querySelector(
-        "p"
-      ).textContent =
-        message;
-
+    function showError(message) {
+      const error = document.getElementById("notificationsError");
+      error.style.display = "block";
+      error.querySelector("p").textContent = message;
     }
 
-
-    /* =========================================
-       ESCAPE HTML
-       ========================================= */
-
-    function escapeHtml(
-      value
-    ) {
-
-      return String(
-        value ?? ""
-      )
-
-        .replace(
-          /&/g,
-          "&amp;"
-        )
-
-        .replace(
-          /</g,
-          "&lt;"
-        )
-
-        .replace(
-          />/g,
-          "&gt;"
-        )
-
-        .replace(
-          /"/g,
-          "&quot;"
-        )
-
-        .replace(
-          /'/g,
-          "&#039;"
-        );
-
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
     }
-
-
-    /* =========================================
-       LOGOUT
-       ========================================= */
 
     function logout() {
+      const keys = ["auth_token", "user_id", "role_id", "provider_id", "username", "full_name"];
 
-      const keys = [
+      keys.forEach(function (key) {
+        localStorage.removeItem(key);
+        sessionStorage.removeItem(key);
+      });
 
-        "auth_token",
-
-        "user_id",
-
-        "role_id",
-
-        "provider_id",
-
-        "username",
-
-        "full_name"
-
-      ];
-
-
-      keys.forEach(
-        function(key) {
-
-          localStorage.removeItem(
-            key
-          );
-
-          sessionStorage.removeItem(
-            key
-          );
-
-        }
-      );
-
-
-      window.location.href =
-        "../auth.html";
-
+      window.location.href = "../auth.html";
     }
-
-
-    /* =========================================
-       INITIALIZE
-       ========================================= */
 
     async function initialize() {
-
-      const loggedIn =
-        loadProviderInfo();
-
-
-      if (!loggedIn) {
-
-        return;
-
-      }
-
+      const loggedIn = loadProviderInfo();
+      if (!loggedIn) return;
 
       await loadNotifications();
-
       await loadNotificationBadge();
-
     }
-
 
     initialize();
 
