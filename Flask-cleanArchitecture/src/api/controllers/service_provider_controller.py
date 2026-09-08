@@ -75,6 +75,7 @@ MAX_FILE_SIZE = 10 * 1024 * 1024
 # =========================================================
 # BLUEPRINT
 # =========================================================
+from infrastructure.databases.postgres import session
 
 bp = Blueprint(
     "service_provider",
