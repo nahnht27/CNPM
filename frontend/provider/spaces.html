@@ -125,7 +125,11 @@
 
     <section class="spaces-header">
 
-      <div class="container">
+  <div class="container">
+
+    <div class="spaces-header-content">
+
+      <div>
 
         <span class="spaces-kicker">
           MY CREATIVE SPACES
@@ -142,7 +146,19 @@
 
       </div>
 
-    </section>
+      <button
+        type="button"
+        class="add-space-btn"
+        onclick="openCreateModal()"
+      >
+        + Add New Space
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
 
 
 
@@ -159,28 +175,19 @@
 
         <div class="spaces-section-heading">
 
-          <div>
+  <div>
+    <h2>Your Spaces</h2>
 
-            <h2>
-              Your Spaces
-            </h2>
+    <p>
+      Danh sách các không gian bạn đang quản lý.
+    </p>
+  </div>
 
-            <p id="spaceCount">
-              Đang tải...
-            </p>
+  <span id="spaceCount" class="space-count">
+    4 spaces
+  </span>
 
-          </div>
-
-
-          <button
-            type="button"
-            class="add-space-btn"
-            onclick="openCreateModal()"
-          >
-            + Add New Space
-          </button>
-
-        </div>
+</div>
 
 
 
