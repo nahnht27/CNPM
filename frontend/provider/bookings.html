@@ -12,1158 +12,1189 @@
 
 <body>
 
-<nav class="navbar" id="mainNavbar">
-  <div class="navbar-container container">
+  <nav class="navbar" id="mainNavbar">
+    <div class="navbar-container container">
 
-    <a class="logo" href="dashboard.html" aria-label="FilmSpace">
-      FilmSpace
-    </a>
+      <a class="logo" href="dashboard.html" aria-label="FilmSpace">
+        FilmSpace
+      </a>
 
-    <div class="menu" aria-label="Provider navigation">
-      <a href="dashboard.html">Home</a>
-      <a href="spaces.html">Spaces</a>
-      <a href="equipment.html">Equipment</a>
-      <a href="packages.html">Packages</a>
-      <a href="bookings.html" class="active">Bookings</a>
-      <a href="profile.html">Profile</a>
-    </div>
-
-    <div class="nav-actions">
-      <span class="photographer-nav-name" id="navProviderName">
-        Provider
-      </span>
-
-      <button
-        type="button"
-        class="photographer-logout"
-        onclick="logout()"
-      >
-        Đăng xuất
-      </button>
-    </div>
-
-  </div>
-</nav>
-
-<!-- =========================
-     MAIN
-     ========================= -->
-
-<main class="container booking-page">
-
-  <div class="booking-header">
-    <h1>Quản lý Booking</h1>
-    <p>
-      Theo dõi và xử lý các yêu cầu đặt chỗ từ Photographer.
-    </p>
-  </div>
-
-  <!-- =========================
-       STATS
-       ========================= -->
-
-  <section class="booking-stats">
-
-    <div class="booking-stat">
-      <div class="booking-stat-label">Tổng booking</div>
-      <div class="booking-stat-value" id="statTotal">0</div>
-    </div>
-
-    <div class="booking-stat">
-      <div class="booking-stat-label">Chờ xác nhận</div>
-      <div class="booking-stat-value" id="statPending">0</div>
-    </div>
-
-    <div class="booking-stat">
-      <div class="booking-stat-label">Đã xác nhận</div>
-      <div class="booking-stat-value" id="statConfirmed">0</div>
-    </div>
-
-    <div class="booking-stat">
-      <div class="booking-stat-label">Đang sử dụng</div>
-      <div class="booking-stat-value" id="statCheckedIn">0</div>
-    </div>
-
-    <div class="booking-stat">
-      <div class="booking-stat-label">Hoàn thành</div>
-      <div class="booking-stat-value" id="statCompleted">0</div>
-    </div>
-
-  </section>
-
-  <!-- =========================
-       FILTER
-       ========================= -->
-
-  <div class="booking-toolbar">
-
-    <div class="booking-filters">
-
-      <select id="statusFilter" class="booking-filter">
-        <option value="">Tất cả trạng thái</option>
-        <option value="pending">Chờ xác nhận</option>
-        <option value="confirmed">Đã xác nhận</option>
-        <option value="checked_in">Đang sử dụng</option>
-        <option value="completed">Hoàn thành</option>
-        <option value="cancelled">Đã huỷ</option>
-      </select>
-
-      <input
-        type="date"
-        id="dateFilter"
-        class="booking-filter booking-filter-date"
-      >
-
-      <select id="spaceFilter" class="booking-filter">
-        <option value="">Tất cả không gian</option>
-      </select>
-
-      <button
-        type="button"
-        class="booking-filter-btn"
-        onclick="applyFilters()"
-      >
-        Lọc
-      </button>
-
-      <button
-        type="button"
-        class="booking-clear-btn"
-        onclick="clearFilters()"
-      >
-        Xoá
-      </button>
-
-    </div>
-
-    <button
-      type="button"
-      class="booking-refresh-btn"
-      onclick="loadBookings()"
-    >
-      ↻ Làm mới
-    </button>
-
-  </div>
-
-  <!-- =========================
-       BOOKING TABLE
-       ========================= -->
-
-  <section class="provider-booking-panel">
-
-    <div
-      class="provider-booking-table-wrapper"
-      id="bookingContent"
-    >
-      <div class="provider-loading-state">
-        Đang tải danh sách booking...
-      </div>
-    </div>
-
-  </section>
-
-</main>
-
-<!-- =========================
-     DETAIL MODAL
-     ========================= -->
-
-<div
-  class="provider-booking-modal"
-  id="detailModal"
-  onclick="closeDetailOutside(event)"
->
-
-  <div class="provider-booking-modal-box">
-
-    <button
-      type="button"
-      class="provider-booking-modal-close"
-      onclick="closeDetail()"
-      aria-label="Đóng"
-    >
-      ×
-    </button>
-
-    <h2
-      class="provider-booking-modal-title"
-      id="modalBookingTitle"
-    >
-      Chi tiết Booking
-    </h2>
-
-    <p
-      class="provider-booking-modal-subtitle"
-      id="modalBookingSubtitle"
-    >
-      Chi tiết đơn đặt chỗ
-    </p>
-
-    <div class="provider-booking-detail-grid">
-
-      <div class="provider-booking-detail">
-        <span class="provider-booking-detail-label">
-          Booking ID
-        </span>
-
-        <span
-          class="provider-booking-detail-value"
-          id="detailId"
-        >
-          -
-        </span>
+      <div class="menu" aria-label="Provider navigation">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="spaces.html">Spaces</a>
+        <a href="equipment.html">Equipment</a>
+        <a href="packages.html">Packages</a>
+        <a href="bookings.html" class="active">Bookings</a>
+        <a href="profile.html">Profile</a>
       </div>
 
-      <div class="provider-booking-detail">
-        <span class="provider-booking-detail-label">
-          Trạng thái
-        </span>
-
-        <span
-          class="provider-booking-detail-value"
-          id="detailStatus"
-        >
-          -
-        </span>
-      </div>
-
-      <div class="provider-booking-detail">
-        <span class="provider-booking-detail-label">
-          Photographer
-        </span>
-
-        <span
-          class="provider-booking-detail-value"
-          id="detailPhotographer"
-        >
-          -
-        </span>
-      </div>
-
-      <div class="provider-booking-detail">
-        <span class="provider-booking-detail-label">
-          Không gian
-        </span>
-
-        <span
-          class="provider-booking-detail-value"
-          id="detailSpace"
-        >
-          -
-        </span>
-      </div>
-
-      <div class="provider-booking-detail">
-        <span class="provider-booking-detail-label">
-          Gói dịch vụ
-        </span>
-
-        <span
-          class="provider-booking-detail-value"
-          id="detailPackage"
-        >
-          -
-        </span>
-      </div>
-
-      <div class="provider-booking-detail">
-        <span class="provider-booking-detail-label">
-          Tổng tiền
-        </span>
-
-        <span
-          class="provider-booking-detail-value"
-          id="detailPrice"
-        >
-          -
-        </span>
-      </div>
-
-      <div class="provider-booking-detail">
-        <span class="provider-booking-detail-label">
-          Thời gian bắt đầu
-        </span>
-
-        <span
-          class="provider-booking-detail-value"
-          id="detailStart"
-        >
-          -
-        </span>
-      </div>
-
-      <div class="provider-booking-detail">
-        <span class="provider-booking-detail-label">
-          Thời gian kết thúc
-        </span>
-
-        <span
-          class="provider-booking-detail-value"
-          id="detailEnd"
-        >
-          -
-        </span>
-      </div>
-
-      <div class="provider-booking-detail">
-        <span class="provider-booking-detail-label">
-          Ngày tạo
-        </span>
-
-        <span
-          class="provider-booking-detail-value"
-          id="detailCreated"
-        >
-          -
-        </span>
-      </div>
-
-      <div class="provider-booking-detail">
-        <span class="provider-booking-detail-label">
+      <div class="nav-actions">
+        <span class="photographer-nav-name" id="navProviderName">
           Provider
         </span>
 
-        <span
-          class="provider-booking-detail-value"
-          id="detailProvider"
-        >
-          -
-        </span>
-      </div>
-
-      <!-- PAYMENT -->
-
-      <div class="provider-booking-detail">
-        <span class="provider-booking-detail-label">
-          Invoice ID
-        </span>
-
-        <span
-          class="provider-booking-detail-value"
-          id="detailInvoice"
-        >
-          -
-        </span>
-      </div>
-
-      <div class="provider-booking-detail">
-        <span class="provider-booking-detail-label">
-          Thanh toán
-        </span>
-
-        <span
-          class="provider-booking-detail-value"
-          id="detailPayment"
-        >
-          Chưa có thông tin
-        </span>
-      </div>
-
-      <div class="provider-booking-detail">
-        <span class="provider-booking-detail-label">
-          Thời gian thanh toán
-        </span>
-
-        <span
-          class="provider-booking-detail-value"
-          id="detailPaidAt"
-        >
-          -
-        </span>
+        <button type="button" class="photographer-logout" onclick="logout()">
+          Đăng xuất
+        </button>
       </div>
 
     </div>
+  </nav>
 
-    <div id="detailNote"></div>
+  <!-- =========================
+     MAIN
+     ========================= -->
 
-    <div
-      class="provider-booking-modal-actions"
-      id="modalActions"
-    ></div>
+  <main class="container booking-page">
 
+    <div class="booking-header">
+      <h1>Quản lý Booking</h1>
+      <p>
+        Theo dõi và xử lý các yêu cầu đặt chỗ từ Photographer.
+      </p>
+    </div>
+
+    <!-- =========================
+       STATS
+       ========================= -->
+
+    <section class="booking-stats">
+
+      <div class="booking-stat">
+        <div class="booking-stat-label">Tổng booking</div>
+        <div class="booking-stat-value" id="statTotal">0</div>
+      </div>
+
+      <div class="booking-stat">
+        <div class="booking-stat-label">Chờ xác nhận</div>
+        <div class="booking-stat-value" id="statPending">0</div>
+      </div>
+
+      <div class="booking-stat">
+        <div class="booking-stat-label">Đã xác nhận</div>
+        <div class="booking-stat-value" id="statConfirmed">0</div>
+      </div>
+
+      <div class="booking-stat">
+        <div class="booking-stat-label">Đang sử dụng</div>
+        <div class="booking-stat-value" id="statCheckedIn">0</div>
+      </div>
+
+      <div class="booking-stat">
+        <div class="booking-stat-label">Hoàn thành</div>
+        <div class="booking-stat-value" id="statCompleted">0</div>
+      </div>
+
+    </section>
+
+    <!-- =========================
+       FILTER
+       ========================= -->
+
+    <div class="booking-toolbar">
+
+      <div class="booking-filters">
+
+        <select id="statusFilter" class="booking-filter">
+          <option value="">Tất cả trạng thái</option>
+          <option value="pending">Chờ xác nhận</option>
+          <option value="confirmed">Đã xác nhận</option>
+          <option value="checked_in">Đang sử dụng</option>
+          <option value="completed">Hoàn thành</option>
+          <option value="cancelled">Đã huỷ</option>
+        </select>
+
+        <input type="date" id="dateFilter" class="booking-filter booking-filter-date">
+
+        <select id="spaceFilter" class="booking-filter">
+          <option value="">Tất cả không gian</option>
+        </select>
+
+        <button type="button" class="booking-filter-btn" onclick="applyFilters()">
+          Lọc
+        </button>
+
+        <button type="button" class="booking-clear-btn" onclick="clearFilters()">
+          Xoá
+        </button>
+
+      </div>
+
+      <button type="button" class="booking-refresh-btn" onclick="loadBookings()">
+        ↻ Làm mới
+      </button>
+
+    </div>
+
+    <!-- =========================
+       BOOKING TABLE
+       ========================= -->
+
+    <section class="provider-booking-panel">
+
+      <div class="provider-booking-table-wrapper" id="bookingContent">
+        <div class="provider-loading-state">
+          Đang tải danh sách booking...
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- =========================
+     DETAIL MODAL
+     ========================= -->
+
+  <div class="provider-booking-modal" id="detailModal" onclick="closeDetailOutside(event)">
+
+    <div class="provider-booking-modal-box">
+
+      <button type="button" class="provider-booking-modal-close" onclick="closeDetail()" aria-label="Đóng">
+        ×
+      </button>
+
+      <h2 class="provider-booking-modal-title" id="modalBookingTitle">
+        Chi tiết Booking
+      </h2>
+
+      <p class="provider-booking-modal-subtitle" id="modalBookingSubtitle">
+        Chi tiết đơn đặt chỗ
+      </p>
+
+      <div class="provider-booking-detail-grid">
+
+        <div class="provider-booking-detail">
+          <span class="provider-booking-detail-label">
+            Booking ID
+          </span>
+
+          <span class="provider-booking-detail-value" id="detailId">
+            -
+          </span>
+        </div>
+
+        <div class="provider-booking-detail">
+          <span class="provider-booking-detail-label">
+            Trạng thái
+          </span>
+
+          <span class="provider-booking-detail-value" id="detailStatus">
+            -
+          </span>
+        </div>
+
+        <div class="provider-booking-detail">
+          <span class="provider-booking-detail-label">
+            Photographer
+          </span>
+
+          <span class="provider-booking-detail-value" id="detailPhotographer">
+            -
+          </span>
+        </div>
+
+        <div class="provider-booking-detail">
+          <span class="provider-booking-detail-label">
+            Không gian
+          </span>
+
+          <span class="provider-booking-detail-value" id="detailSpace">
+            -
+          </span>
+        </div>
+
+        <div class="provider-booking-detail">
+          <span class="provider-booking-detail-label">
+            Gói dịch vụ
+          </span>
+
+          <span class="provider-booking-detail-value" id="detailPackage">
+            -
+          </span>
+        </div>
+
+        <div class="provider-booking-detail">
+          <span class="provider-booking-detail-label">
+            Tổng tiền
+          </span>
+
+          <span class="provider-booking-detail-value" id="detailPrice">
+            -
+          </span>
+        </div>
+
+        <div class="provider-booking-detail">
+          <span class="provider-booking-detail-label">
+            Thời gian bắt đầu
+          </span>
+
+          <span class="provider-booking-detail-value" id="detailStart">
+            -
+          </span>
+        </div>
+
+        <div class="provider-booking-detail">
+          <span class="provider-booking-detail-label">
+            Thời gian kết thúc
+          </span>
+
+          <span class="provider-booking-detail-value" id="detailEnd">
+            -
+          </span>
+        </div>
+
+        <div class="provider-booking-detail">
+          <span class="provider-booking-detail-label">
+            Ngày tạo
+          </span>
+
+          <span class="provider-booking-detail-value" id="detailCreated">
+            -
+          </span>
+        </div>
+
+        <div class="provider-booking-detail">
+          <span class="provider-booking-detail-label">
+            Provider
+          </span>
+
+          <span class="provider-booking-detail-value" id="detailProvider">
+            -
+          </span>
+        </div>
+
+        <!-- PAYMENT -->
+
+        <div class="provider-booking-detail">
+          <span class="provider-booking-detail-label">
+            Invoice ID
+          </span>
+
+          <span class="provider-booking-detail-value" id="detailInvoice">
+            -
+          </span>
+        </div>
+
+        <div class="provider-booking-detail">
+          <span class="provider-booking-detail-label">
+            Thanh toán
+          </span>
+
+          <span class="provider-booking-detail-value" id="detailPayment">
+            Chưa có thông tin
+          </span>
+        </div>
+
+        <div class="provider-booking-detail">
+          <span class="provider-booking-detail-label">
+            Thời gian thanh toán
+          </span>
+
+          <span class="provider-booking-detail-value" id="detailPaidAt">
+            -
+          </span>
+        </div>
+
+      </div>
+
+      <div id="detailNote"></div>
+
+      <div class="provider-booking-modal-actions" id="modalActions"></div>
+
+    </div>
   </div>
-</div>
 
-<!-- =========================
+  <!-- =========================
      CONFIRM MODAL
      ========================= -->
 
-<div
-  class="overlay"
-  id="confirmModal"
-  onclick="closeConfirmOutside(event)"
->
+  <div class="overlay" id="confirmModal" onclick="closeConfirmOutside(event)">
 
-  <div class="confirm-modal">
+    <div class="confirm-modal">
 
-    <div class="confirm-modal-head">
+      <div class="confirm-modal-head">
 
-      <div
-        class="confirm-icon"
-        id="confirmIcon"
-      >
-        ?
+        <div class="confirm-icon" id="confirmIcon">
+          ?
+        </div>
+
+        <div>
+          <h2 id="confirmTitle">
+            Xác nhận thao tác
+          </h2>
+        </div>
+
       </div>
 
-      <div>
-        <h2 id="confirmTitle">
-          Xác nhận thao tác
-        </h2>
+      <div class="confirm-modal-body">
+        <span id="confirmMessage">
+          Bạn có chắc chắn muốn thực hiện thao tác này?
+        </span>
+      </div>
+
+      <div class="confirm-modal-actions">
+
+        <button type="button" class="confirm-btn confirm-cancel" onclick="closeConfirm()">
+          Hủy
+        </button>
+
+        <button type="button" class="confirm-btn confirm-ok" id="confirmOkBtn" onclick="executeConfirmedAction()">
+          Xác nhận
+        </button>
+
       </div>
 
     </div>
-
-    <div class="confirm-modal-body">
-      <span id="confirmMessage">
-        Bạn có chắc chắn muốn thực hiện thao tác này?
-      </span>
-    </div>
-
-    <div class="confirm-modal-actions">
-
-      <button
-        type="button"
-        class="confirm-btn confirm-cancel"
-        onclick="closeConfirm()"
-      >
-        Hủy
-      </button>
-
-      <button
-        type="button"
-        class="confirm-btn confirm-ok"
-        id="confirmOkBtn"
-        onclick="executeConfirmedAction()"
-      >
-        Xác nhận
-      </button>
-
-    </div>
-
   </div>
-</div>
 
-<!-- =========================
+  <!-- =========================
      TOAST
      ========================= -->
 
-<div
-  class="toast-stack"
-  id="toastStack"
-></div>
+  <div class="toast-stack" id="toastStack"></div>
 
-<script>
+  <script>
 
-/* =========================================================
-   CONFIG
-   ========================================================= */
+    /* =========================================================
+       CONFIG
+       ========================================================= */
 
-const API_BASE_URL = "http://127.0.0.1:9999";
+    const API_BASE_URL = "http://127.0.0.1:9999";
 
-let currentProviderId = null;
-let currentToken = null;
+    let currentProviderId = null;
+    let currentToken = null;
 
-let currentBookings = [];
-let selectedBooking = null;
+    let currentBookings = [];
+    let selectedBooking = null;
 
-let pendingAction = null;
-let pendingBookingId = null;
-let pendingFromModal = false;
+    let pendingAction = null;
+    let pendingBookingId = null;
+    let pendingFromModal = false;
 
 
-/* =========================================================
-   AUTH
-   ========================================================= */
+    /* =========================================================
+       AUTH
+       ========================================================= */
 
-function getStorage() {
+    function getStorage() {
 
-  if (localStorage.getItem("auth_token")) {
-    return localStorage;
-  }
-
-  return sessionStorage;
-}
-
-
-function getUserData() {
-
-  const storage = getStorage();
-
-  return {
-    storage,
-    token: storage.getItem("auth_token"),
-    userId: storage.getItem("user_id"),
-    providerId: storage.getItem("provider_id"),
-    username: storage.getItem("username") || "",
-    fullName: storage.getItem("full_name") || ""
-  };
-}
-
-
-function loadProviderInfo() {
-
-  const user = getUserData();
-
-  if (!user.token || !user.providerId) {
-
-    window.location.href = "../auth.html";
-
-    return false;
-  }
-
-  currentToken = user.token;
-  currentProviderId = Number(user.providerId);
-
-  document.getElementById("navProviderName").textContent =
-    user.fullName ||
-    user.username ||
-    "Provider";
-
-  return true;
-}
-
-
-function logout() {
-  localStorage.clear();
-  sessionStorage.clear();
-  
-  // Xóa toàn bộ Cookie
-  document.cookie.split(";").forEach((c) => {
-    document.cookie = c
-      .replace(/^ +/, "")
-      .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-  });
-
-  window.location.href = "../auth.html";
-}
-
-
-/* =========================================================
-   API
-   ========================================================= */
-
-async function apiFetch(url, options = {}) {
-
-  const headers = {
-    Accept: "application/json",
-    ...(options.headers || {})
-  };
-
-  if (currentToken) {
-    headers.Authorization = `Bearer ${currentToken}`;
-  }
-
-  return fetch(url, {
-    ...options,
-    headers
-  });
-}
-
-
-/* =========================================================
-   FORMAT
-   ========================================================= */
-
-function escapeHtml(value) {
-
-  if (
-    value === null ||
-    value === undefined
-  ) {
-    return "";
-  }
-
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-
-function normalizeStatus(status) {
-
-  return String(status || "")
-    .toLowerCase()
-    .trim();
-}
-
-
-function statusText(status) {
-
-  const normalized = normalizeStatus(status);
-
-  const map = {
-
-    pending: "Chờ xác nhận",
-
-    confirmed: "Đã xác nhận",
-
-    checked_in: "Đang sử dụng",
-
-    completed: "Hoàn thành",
-
-    cancelled: "Đã huỷ",
-
-    canceled: "Đã huỷ"
-  };
-
-  return map[normalized] ||
-    status ||
-    "Không xác định";
-}
-
-
-function formatCurrency(value) {
-
-  const number = Number(value || 0);
-
-  return number.toLocaleString("vi-VN") + " ₫";
-}
-
-
-function formatDateTime(value) {
-
-  if (!value) {
-    return "-";
-  }
-
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return value;
-  }
-
-  return date.toLocaleString("vi-VN", {
-
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-
-    hour: "2-digit",
-    minute: "2-digit"
-  });
-}
-
-
-function formatDate(value) {
-
-  if (!value) {
-    return "-";
-  }
-
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return value;
-  }
-
-  return date.toLocaleDateString("vi-VN");
-}
-
-
-function getTime(value) {
-
-  if (!value) {
-    return "-";
-  }
-
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return value;
-  }
-
-  return date.toLocaleTimeString("vi-VN", {
-
-    hour: "2-digit",
-    minute: "2-digit"
-  });
-}
-
-
-/* =========================================================
-   PAYMENT HELPERS
-   ========================================================= */
-
-/*
- * Booking không có payment_status trực tiếp trong DB.
- *
- * Quan hệ:
- *
- * Booking
- *    ↓
- * ServiceSession
- *    ↓
- * Invoice
- *    ↓
- * Payment
- *
- * Vì vậy frontend sẽ lấy InvoiceID từ Booking
- * rồi ghép với Payment.
- */
-
-function getInvoiceId(booking) {
-
-  if (!booking) {
-    return null;
-  }
-
-  return (
-    booking.invoice_id ??
-    booking.InvoiceID ??
-    booking.invoiceId ??
-    null
-  );
-}
-
-
-function getPaymentStatus(booking) {
-
-  if (!booking) {
-    return "";
-  }
-
-  const rawStatus =
-    booking.payment_status ??
-    booking.PaymentStatus ??
-    booking.paymentStatus ??
-    booking.payment?.status ??
-    booking.Payment?.status ??
-    "";
-
-  return String(rawStatus)
-    .toLowerCase()
-    .trim();
-}
-
-
-function isPaymentSuccessful(booking) {
-
-  const status = getPaymentStatus(booking);
-
-  return [
-
-    "success",
-    "successful",
-    "completed",
-    "paid",
-    "succeeded",
-
-    "thành công",
-    "đã thanh toán"
-
-  ].includes(status);
-}
-
-
-function isPaymentPending(booking) {
-
-  const status = getPaymentStatus(booking);
-
-  return [
-
-    "pending",
-    "processing",
-    "confirming",
-    "waiting",
-
-    "chờ xác nhận",
-    "đang xử lý",
-    "đang chờ xử lý"
-
-  ].includes(status);
-}
-
-
-function getPaymentStatusLabel(booking) {
-
-  const status = getPaymentStatus(booking);
-
-  if (!status) {
-    return "Chưa thanh toán";
-  }
-
-  const map = {
-
-    "success": "Đã thanh toán",
-    "successful": "Đã thanh toán",
-    "completed": "Đã thanh toán",
-    "paid": "Đã thanh toán",
-    "succeeded": "Đã thanh toán",
-
-    "thành công": "Đã thanh toán",
-    "đã thanh toán": "Đã thanh toán",
-
-    "pending": "Đang chờ xử lý",
-    "processing": "Đang chờ xử lý",
-    "confirming": "Đang chờ xử lý",
-    "waiting": "Đang chờ xử lý",
-
-    "chờ xác nhận": "Đang chờ xử lý",
-    "đang xử lý": "Đang chờ xử lý",
-    "đang chờ xử lý": "Đang chờ xử lý",
-
-    "failed": "Thanh toán thất bại",
-    "thất bại": "Thanh toán thất bại",
-
-    "refunded": "Đã hoàn tiền",
-    "đã hoàn tiền": "Đã hoàn tiền"
-  };
-
-  return map[status] || booking.payment_status || status;
-}
-
-
-/*
- * Lấy danh sách Payment và ghép vào Booking.
- *
- * Đây là phần quan trọng để Provider nhìn thấy
- * Payment vừa được Photographer thanh toán.
- */
-
-async function attachPaymentStatuses(bookings) {
-
-  if (
-    !Array.isArray(bookings) ||
-    bookings.length === 0
-  ) {
-    return bookings;
-  }
-
-  try {
-
-    const response = await apiFetch(
-      `${API_BASE_URL}/payments/`
-    );
-
-    if (
-      response.status === 401 ||
-      response.status === 403
-    ) {
-
-      window.location.href = "../auth.html";
-
-      return bookings;
-    }
-
-    if (!response.ok) {
-
-      console.warn(
-        "Không thể tải danh sách Payment:",
-        response.status
-      );
-
-      return bookings;
-    }
-
-    const data =
-      await response.json().catch(() => []);
-
-    /*
-     * Hỗ trợ nhiều kiểu response:
-     *
-     * []
-     *
-     * hoặc
-     *
-     * {
-     *   data: []
-     * }
-     */
-
-    const payments = Array.isArray(data)
-      ? data
-      : Array.isArray(data.data)
-        ? data.data
-        : Array.isArray(data.items)
-          ? data.items
-          : [];
-
-    console.log(
-      "Danh sách Payment từ API:",
-      payments
-    );
-
-
-    bookings.forEach(booking => {
-
-      const invoiceId =
-        getInvoiceId(booking);
-
-      if (!invoiceId) {
-        return;
+      if (localStorage.getItem("auth_token")) {
+        return localStorage;
       }
 
+      return sessionStorage;
+    }
+
+
+    function getUserData() {
+
+      const storage = getStorage();
+
+      return {
+        storage,
+        token: storage.getItem("auth_token"),
+        userId: storage.getItem("user_id"),
+        providerId: storage.getItem("provider_id"),
+        username: storage.getItem("username") || "",
+        fullName: storage.getItem("full_name") || ""
+      };
+    }
+
+
+    async function loadProviderInfo() {
+
+      const user = getUserData();
+
+      if (!user.token || !user.providerId || !user.userId) {
+
+        window.location.href = "../auth.html";
+
+        return false;
+      }
+
+      currentToken = user.token;
+      currentProviderId = Number(user.providerId);
 
       /*
-       * Tìm Payment thuộc Invoice của Booking.
+       * Hiển thị tạm thời tên đã lưu trong storage
+       * để navbar không bị trống trong lúc gọi API.
        */
+      const navName = document.getElementById("navProviderName");
 
-      const matchingPayments =
-        payments.filter(payment => {
+      if (navName) {
+        navName.textContent =
+          user.fullName ||
+          user.username ||
+          "Provider";
+      }
 
-          const paymentInvoiceId =
-            payment.invoice_id ??
-            payment.InvoiceID ??
-            payment.invoiceId;
+      /*
+       * Lấy thông tin User mới nhất từ backend.
+       *
+       * Quan trọng:
+       * Không dùng username làm tên hiển thị nếu
+       * User có full_name.
+       */
+      try {
 
-          return String(paymentInvoiceId) ===
-            String(invoiceId);
+        const response = await fetch(
+          `${API_BASE_URL}/users/${user.userId}`,
+          {
+            method: "GET",
+
+            headers: {
+              "Accept": "application/json",
+              "Authorization": `Bearer ${user.token}`
+            }
+          }
+        );
+
+        const data = await response.json()
+          .catch(() => ({}));
+
+        /*
+         * Token hết hạn / không có quyền
+         */
+        if (
+          response.status === 401 ||
+          response.status === 403
+        ) {
+
+          window.location.href = "../auth.html";
+
+          return false;
+        }
+
+        /*
+         * API thành công
+         */
+        if (response.ok) {
+
+          const fullName =
+            data.full_name ||
+            user.fullName ||
+            user.username ||
+            "Provider";
+
+          const username =
+            data.username ||
+            user.username ||
+            "";
+
+          /*
+           * Cập nhật navbar
+           */
+          if (navName) {
+            navName.textContent = fullName;
+          }
+
+          /*
+           * Lưu lại full_name để các trang khác
+           * có thể sử dụng ngay.
+           */
+          user.storage.setItem(
+            "full_name",
+            fullName
+          );
+
+          /*
+           * Đồng bộ username nếu backend trả về
+           * username mới.
+           */
+          if (username) {
+            user.storage.setItem(
+              "username",
+              username
+            );
+          }
+
+          console.log(
+            "Provider user info:",
+            {
+              userId: user.userId,
+              username: username,
+              fullName: fullName
+            }
+          );
+
+        } else {
+
+          /*
+           * Nếu API User lỗi nhưng storage vẫn có
+           * full_name thì giữ tên đó.
+           */
+          if (navName) {
+            navName.textContent =
+              user.fullName ||
+              user.username ||
+              "Provider";
+          }
+        }
+
+      } catch (error) {
+
+        console.error(
+          "LOAD PROVIDER USER INFO ERROR:",
+          error
+        );
+
+        /*
+         * Không làm trang Booking chết chỉ vì
+         * API User không tải được.
+         */
+        if (navName) {
+          navName.textContent =
+            user.fullName ||
+            user.username ||
+            "Provider";
+        }
+      }
+
+      return true;
+    }
+
+
+    function logout() {
+      localStorage.clear();
+      sessionStorage.clear();
+
+      // Xóa toàn bộ Cookie
+      document.cookie.split(";").forEach((c) => {
+        document.cookie = c
+          .replace(/^ +/, "")
+          .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+      });
+
+      window.location.href = "../auth.html";
+    }
+
+
+    /* =========================================================
+       API
+       ========================================================= */
+
+    async function apiFetch(url, options = {}) {
+
+      const headers = {
+        Accept: "application/json",
+        ...(options.headers || {})
+      };
+
+      if (currentToken) {
+        headers.Authorization = `Bearer ${currentToken}`;
+      }
+
+      return fetch(url, {
+        ...options,
+        headers
+      });
+    }
+
+
+    /* =========================================================
+       FORMAT
+       ========================================================= */
+
+    function escapeHtml(value) {
+
+      if (
+        value === null ||
+        value === undefined
+      ) {
+        return "";
+      }
+
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+
+    function normalizeStatus(status) {
+
+      return String(status || "")
+        .toLowerCase()
+        .trim();
+    }
+
+
+    function statusText(status) {
+
+      const normalized = normalizeStatus(status);
+
+      const map = {
+
+        pending: "Chờ xác nhận",
+
+        confirmed: "Đã xác nhận",
+
+        checked_in: "Đang sử dụng",
+
+        completed: "Hoàn thành",
+
+        cancelled: "Đã huỷ",
+
+        canceled: "Đã huỷ"
+      };
+
+      return map[normalized] ||
+        status ||
+        "Không xác định";
+    }
+
+
+    function formatCurrency(value) {
+
+      const number = Number(value || 0);
+
+      return number.toLocaleString("vi-VN") + " ₫";
+    }
+
+
+    function formatDateTime(value) {
+
+      if (!value) {
+        return "-";
+      }
+
+      const date = new Date(value);
+
+      if (Number.isNaN(date.getTime())) {
+        return value;
+      }
+
+      return date.toLocaleString("vi-VN", {
+
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    }
+
+
+    function formatDate(value) {
+
+      if (!value) {
+        return "-";
+      }
+
+      const date = new Date(value);
+
+      if (Number.isNaN(date.getTime())) {
+        return value;
+      }
+
+      return date.toLocaleDateString("vi-VN");
+    }
+
+
+    function getTime(value) {
+
+      if (!value) {
+        return "-";
+      }
+
+      const date = new Date(value);
+
+      if (Number.isNaN(date.getTime())) {
+        return value;
+      }
+
+      return date.toLocaleTimeString("vi-VN", {
+
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    }
+
+
+    /* =========================================================
+       PAYMENT HELPERS
+       ========================================================= */
+
+    /*
+     * Booking không có payment_status trực tiếp trong DB.
+     *
+     * Quan hệ:
+     *
+     * Booking
+     *    ↓
+     * ServiceSession
+     *    ↓
+     * Invoice
+     *    ↓
+     * Payment
+     *
+     * Vì vậy frontend sẽ lấy InvoiceID từ Booking
+     * rồi ghép với Payment.
+     */
+
+    function getInvoiceId(booking) {
+
+      if (!booking) {
+        return null;
+      }
+
+      return (
+        booking.invoice_id ??
+        booking.InvoiceID ??
+        booking.invoiceId ??
+        null
+      );
+    }
+
+
+    function getPaymentStatus(booking) {
+
+      if (!booking) {
+        return "";
+      }
+
+      const rawStatus =
+        booking.payment_status ??
+        booking.PaymentStatus ??
+        booking.paymentStatus ??
+        booking.payment?.status ??
+        booking.Payment?.status ??
+        "";
+
+      return String(rawStatus)
+        .toLowerCase()
+        .trim();
+    }
+
+
+    function isPaymentSuccessful(booking) {
+
+      const status = getPaymentStatus(booking);
+
+      return [
+
+        "success",
+        "successful",
+        "completed",
+        "paid",
+        "succeeded",
+
+        "thành công",
+        "đã thanh toán"
+
+      ].includes(status);
+    }
+
+
+    function isPaymentPending(booking) {
+
+      const status = getPaymentStatus(booking);
+
+      return [
+
+        "pending",
+        "processing",
+        "confirming",
+        "waiting",
+
+        "chờ xác nhận",
+        "đang xử lý",
+        "đang chờ xử lý"
+
+      ].includes(status);
+    }
+
+
+    function getPaymentStatusLabel(booking) {
+
+      const status = getPaymentStatus(booking);
+
+      if (!status) {
+        return "Chưa thanh toán";
+      }
+
+      const map = {
+
+        "success": "Đã thanh toán",
+        "successful": "Đã thanh toán",
+        "completed": "Đã thanh toán",
+        "paid": "Đã thanh toán",
+        "succeeded": "Đã thanh toán",
+
+        "thành công": "Đã thanh toán",
+        "đã thanh toán": "Đã thanh toán",
+
+        "pending": "Đang chờ xử lý",
+        "processing": "Đang chờ xử lý",
+        "confirming": "Đang chờ xử lý",
+        "waiting": "Đang chờ xử lý",
+
+        "chờ xác nhận": "Đang chờ xử lý",
+        "đang xử lý": "Đang chờ xử lý",
+        "đang chờ xử lý": "Đang chờ xử lý",
+
+        "failed": "Thanh toán thất bại",
+        "thất bại": "Thanh toán thất bại",
+
+        "refunded": "Đã hoàn tiền",
+        "đã hoàn tiền": "Đã hoàn tiền"
+      };
+
+      return map[status] || booking.payment_status || status;
+    }
+
+
+    /*
+     * Lấy danh sách Payment và ghép vào Booking.
+     *
+     * Đây là phần quan trọng để Provider nhìn thấy
+     * Payment vừa được Photographer thanh toán.
+     */
+
+    async function attachPaymentStatuses(bookings) {
+
+      if (
+        !Array.isArray(bookings) ||
+        bookings.length === 0
+      ) {
+        return bookings;
+      }
+
+      try {
+
+        const response = await apiFetch(
+          `${API_BASE_URL}/payments/`
+        );
+
+        if (
+          response.status === 401 ||
+          response.status === 403
+        ) {
+
+          window.location.href = "../auth.html";
+
+          return bookings;
+        }
+
+        if (!response.ok) {
+
+          console.warn(
+            "Không thể tải danh sách Payment:",
+            response.status
+          );
+
+          return bookings;
+        }
+
+        const data =
+          await response.json().catch(() => []);
+
+        /*
+         * Hỗ trợ nhiều kiểu response:
+         *
+         * []
+         *
+         * hoặc
+         *
+         * {
+         *   data: []
+         * }
+         */
+
+        const payments = Array.isArray(data)
+          ? data
+          : Array.isArray(data.data)
+            ? data.data
+            : Array.isArray(data.items)
+              ? data.items
+              : [];
+
+        console.log(
+          "Danh sách Payment từ API:",
+          payments
+        );
+
+
+        bookings.forEach(booking => {
+
+          const invoiceId =
+            getInvoiceId(booking);
+
+          if (!invoiceId) {
+            return;
+          }
+
+
+          /*
+           * Tìm Payment thuộc Invoice của Booking.
+           */
+
+          const matchingPayments =
+            payments.filter(payment => {
+
+              const paymentInvoiceId =
+                payment.invoice_id ??
+                payment.InvoiceID ??
+                payment.invoiceId;
+
+              return String(paymentInvoiceId) ===
+                String(invoiceId);
+            });
+
+
+          if (!matchingPayments.length) {
+
+            booking.payment_status = "";
+            booking.payment = null;
+            booking.payment_id = null;
+
+            return;
+          }
+
+
+          /*
+           * Nếu có nhiều Payment,
+           * lấy Payment mới nhất trong danh sách.
+           */
+
+          const payment =
+            matchingPayments[matchingPayments.length - 1];
+
+
+          booking.payment_status =
+            payment.status ??
+            payment.Status ??
+            "";
+
+          booking.payment =
+            payment;
+
+          booking.payment_id =
+            payment.id ??
+            payment.PaymentID ??
+            null;
+
+          booking.payment_paid_at =
+            payment.paid_at ??
+            payment.PaidAt ??
+            null;
         });
 
 
-      if (!matchingPayments.length) {
+        console.log(
+          "Booking sau khi ghép Payment:",
+          bookings
+        );
 
-        booking.payment_status = "";
-        booking.payment = null;
-        booking.payment_id = null;
+        return bookings;
 
+      } catch (error) {
+
+        console.error(
+          "Lỗi ghép Payment vào Booking:",
+          error
+        );
+
+        return bookings;
+      }
+    }
+
+
+    /* =========================================================
+       TOAST
+       ========================================================= */
+
+    function showToast(
+      message,
+      type = "success"
+    ) {
+
+      const stack =
+        document.getElementById("toastStack");
+
+      const toast =
+        document.createElement("div");
+
+      toast.className =
+        "toast" +
+        (
+          type === "error"
+            ? " error"
+            : ""
+        );
+
+      toast.textContent = message;
+
+      stack.appendChild(toast);
+
+      setTimeout(() => {
+
+        toast.remove();
+
+      }, 3500);
+    }
+
+
+    /* =========================================================
+       LOAD BOOKINGS
+       ========================================================= */
+
+    async function loadBookings() {
+
+      if (!currentProviderId) {
         return;
       }
 
 
-      /*
-       * Nếu có nhiều Payment,
-       * lấy Payment mới nhất trong danh sách.
-       */
-
-      const payment =
-        matchingPayments[matchingPayments.length - 1];
+      const content =
+        document.getElementById(
+          "bookingContent"
+        );
 
 
-      booking.payment_status =
-        payment.status ??
-        payment.Status ??
-        "";
-
-      booking.payment =
-        payment;
-
-      booking.payment_id =
-        payment.id ??
-        payment.PaymentID ??
-        null;
-
-      booking.payment_paid_at =
-        payment.paid_at ??
-        payment.PaidAt ??
-        null;
-    });
-
-
-    console.log(
-      "Booking sau khi ghép Payment:",
-      bookings
-    );
-
-    return bookings;
-
-  } catch (error) {
-
-    console.error(
-      "Lỗi ghép Payment vào Booking:",
-      error
-    );
-
-    return bookings;
-  }
-}
-
-
-/* =========================================================
-   TOAST
-   ========================================================= */
-
-function showToast(
-  message,
-  type = "success"
-) {
-
-  const stack =
-    document.getElementById("toastStack");
-
-  const toast =
-    document.createElement("div");
-
-  toast.className =
-    "toast" +
-    (
-      type === "error"
-        ? " error"
-        : ""
-    );
-
-  toast.textContent = message;
-
-  stack.appendChild(toast);
-
-  setTimeout(() => {
-
-    toast.remove();
-
-  }, 3500);
-}
-
-
-/* =========================================================
-   LOAD BOOKINGS
-   ========================================================= */
-
-async function loadBookings() {
-
-  if (!currentProviderId) {
-    return;
-  }
-
-
-  const content =
-    document.getElementById(
-      "bookingContent"
-    );
-
-
-  content.innerHTML = `
+      content.innerHTML = `
     <div class="provider-loading-state">
       Đang tải danh sách booking...
     </div>
   `;
 
 
-  try {
+      try {
 
-    const status =
-      document.getElementById(
-        "statusFilter"
-      ).value;
-
-
-    const date =
-      document.getElementById(
-        "dateFilter"
-      ).value;
+        const status =
+          document.getElementById(
+            "statusFilter"
+          ).value;
 
 
-    const spaceId =
-      document.getElementById(
-        "spaceFilter"
-      ).value;
+        const date =
+          document.getElementById(
+            "dateFilter"
+          ).value;
 
 
-    const params =
-      new URLSearchParams();
+        const spaceId =
+          document.getElementById(
+            "spaceFilter"
+          ).value;
 
 
-    if (status) {
-      params.set(
-        "status",
-        status
-      );
-    }
+        const params =
+          new URLSearchParams();
 
 
-    if (date) {
-      params.set(
-        "date",
-        date
-      );
-    }
+        if (status) {
+          params.set(
+            "status",
+            status
+          );
+        }
 
 
-    if (spaceId) {
-      params.set(
-        "space_id",
-        spaceId
-      );
-    }
+        if (date) {
+          params.set(
+            "date",
+            date
+          );
+        }
 
 
-    const query =
-      params.toString();
+        if (spaceId) {
+          params.set(
+            "space_id",
+            spaceId
+          );
+        }
 
 
-    const url =
-      `${API_BASE_URL}/bookings/provider/` +
-      `${currentProviderId}` +
-      `${query ? "?" + query : ""}`;
+        const query =
+          params.toString();
 
 
-    /*
-     * 1. Lấy Booking
-     */
-
-    const response =
-      await apiFetch(url);
+        const url =
+          `${API_BASE_URL}/bookings/provider/` +
+          `${currentProviderId}` +
+          `${query ? "?" + query : ""}`;
 
 
-    const data =
-      await response.json()
-        .catch(() => []);
+        /*
+         * 1. Lấy Booking
+         */
+
+        const response =
+          await apiFetch(url);
 
 
-    if (
-      response.status === 401 ||
-      response.status === 403
-    ) {
-
-      window.location.href =
-        "../auth.html";
-
-      return;
-    }
+        const data =
+          await response.json()
+            .catch(() => []);
 
 
-    if (!response.ok) {
+        if (
+          response.status === 401 ||
+          response.status === 403
+        ) {
 
-      throw new Error(
-        data.message ||
-        data.error ||
-        "Không thể tải danh sách booking."
-      );
-    }
+          window.location.href =
+            "../auth.html";
 
-
-    currentBookings =
-      Array.isArray(data)
-        ? data
-        : Array.isArray(data.data)
-          ? data.data
-          : [];
+          return;
+        }
 
 
-    /*
-     * 2. Lấy Payment và ghép vào Booking.
-     *
-     * Đây là bước bắt buộc.
-     */
+        if (!response.ok) {
 
-    await attachPaymentStatuses(
-      currentBookings
-    );
-
-
-    console.log(
-      "Danh sách Booking + Payment:",
-      currentBookings
-    );
+          throw new Error(
+            data.message ||
+            data.error ||
+            "Không thể tải danh sách booking."
+          );
+        }
 
 
-    /*
-     * 3. Render.
-     */
+        currentBookings =
+          Array.isArray(data)
+            ? data
+            : Array.isArray(data.data)
+              ? data.data
+              : [];
 
-    updateStats();
 
-    renderBookings();
+        /*
+         * 2. Lấy Payment và ghép vào Booking.
+         *
+         * Đây là bước bắt buộc.
+         */
+
+        await attachPaymentStatuses(
+          currentBookings
+        );
 
 
-  } catch (error) {
+        console.log(
+          "Danh sách Booking + Payment:",
+          currentBookings
+        );
 
-    console.error(error);
 
-    content.innerHTML = `
+        /*
+         * 3. Render.
+         */
+
+        updateStats();
+
+        renderBookings();
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        content.innerHTML = `
       <div class="provider-booking-error">
         ${escapeHtml(
           error.message ||
@@ -1171,82 +1202,82 @@ async function loadBookings() {
         )}
       </div>
     `;
-  }
-}
+      }
+    }
 
 
-/* =========================================================
-   STATS
-   ========================================================= */
+    /* =========================================================
+       STATS
+       ========================================================= */
 
-function updateStats() {
+    function updateStats() {
 
-  document.getElementById(
-    "statTotal"
-  ).textContent =
-    currentBookings.length;
-
-
-  document.getElementById(
-    "statPending"
-  ).textContent =
-    currentBookings.filter(
-      booking =>
-        normalizeStatus(
-          booking.status
-        ) === "pending"
-    ).length;
+      document.getElementById(
+        "statTotal"
+      ).textContent =
+        currentBookings.length;
 
 
-  document.getElementById(
-    "statConfirmed"
-  ).textContent =
-    currentBookings.filter(
-      booking =>
-        normalizeStatus(
-          booking.status
-        ) === "confirmed"
-    ).length;
+      document.getElementById(
+        "statPending"
+      ).textContent =
+        currentBookings.filter(
+          booking =>
+            normalizeStatus(
+              booking.status
+            ) === "pending"
+        ).length;
 
 
-  document.getElementById(
-    "statCheckedIn"
-  ).textContent =
-    currentBookings.filter(
-      booking =>
-        normalizeStatus(
-          booking.status
-        ) === "checked_in"
-    ).length;
+      document.getElementById(
+        "statConfirmed"
+      ).textContent =
+        currentBookings.filter(
+          booking =>
+            normalizeStatus(
+              booking.status
+            ) === "confirmed"
+        ).length;
 
 
-  document.getElementById(
-    "statCompleted"
-  ).textContent =
-    currentBookings.filter(
-      booking =>
-        normalizeStatus(
-          booking.status
-        ) === "completed"
-    ).length;
-}
+      document.getElementById(
+        "statCheckedIn"
+      ).textContent =
+        currentBookings.filter(
+          booking =>
+            normalizeStatus(
+              booking.status
+            ) === "checked_in"
+        ).length;
 
 
-/* =========================================================
-   RENDER TABLE
-   ========================================================= */
+      document.getElementById(
+        "statCompleted"
+      ).textContent =
+        currentBookings.filter(
+          booking =>
+            normalizeStatus(
+              booking.status
+            ) === "completed"
+        ).length;
+    }
 
-function renderBookings() {
 
-  const content =
-    document.getElementById(
-      "bookingContent"
-    );
+    /* =========================================================
+       RENDER TABLE
+       ========================================================= */
+
+    function renderBookings() {
+
+      const content =
+        document.getElementById(
+          "bookingContent"
+        );
 
 
-  if (!currentBookings.length) {
+      if (!currentBookings.length) {
 
-    content.innerHTML = `
+        content.innerHTML = `
       <div class="provider-booking-empty">
 
         <div class="provider-booking-empty-icon">
@@ -1263,11 +1294,11 @@ function renderBookings() {
       </div>
     `;
 
-    return;
-  }
+        return;
+      }
 
 
-  let html = `
+      let html = `
 
     <table class="provider-booking-table">
 
@@ -1289,19 +1320,19 @@ function renderBookings() {
   `;
 
 
-  currentBookings.forEach(booking => {
+      currentBookings.forEach(booking => {
 
-    const photographer =
-      booking.photographer_name ||
-      `Photographer #${booking.photographer_id}`;
-
-
-    const space =
-      booking.space_name ||
-      `Space #${booking.space_id}`;
+        const photographer =
+          booking.photographer_name ||
+          `Photographer #${booking.photographer_id}`;
 
 
-    html += `
+        const space =
+          booking.space_name ||
+          `Space #${booking.space_id}`;
+
+
+        html += `
 
       <tr>
 
@@ -1313,10 +1344,10 @@ function renderBookings() {
 
           <span class="provider-booking-sub">
             ${escapeHtml(
-              formatDate(
-                booking.created_at
-              )
-            )}
+          formatDate(
+            booking.created_at
+          )
+        )}
           </span>
 
         </td>
@@ -1325,14 +1356,14 @@ function renderBookings() {
         <td>
 
           ${escapeHtml(
-            photographer
-          )}
+          photographer
+        )}
 
           <span class="provider-booking-sub">
             ID:
             ${escapeHtml(
-              booking.photographer_id
-            )}
+          booking.photographer_id
+        )}
           </span>
 
         </td>
@@ -1345,8 +1376,8 @@ function renderBookings() {
           <span class="provider-booking-sub">
             ID:
             ${escapeHtml(
-              booking.space_id
-            )}
+          booking.space_id
+        )}
           </span>
 
         </td>
@@ -1356,27 +1387,27 @@ function renderBookings() {
 
           <strong>
             ${escapeHtml(
-              formatDate(
-                booking.start_time
-              )
-            )}
+          formatDate(
+            booking.start_time
+          )
+        )}
           </strong>
 
           <span class="provider-booking-sub">
 
             ${escapeHtml(
-              getTime(
-                booking.start_time
-              )
-            )}
+          getTime(
+            booking.start_time
+          )
+        )}
 
             -
 
             ${escapeHtml(
-              getTime(
-                booking.end_time
-              )
-            )}
+          getTime(
+            booking.end_time
+          )
+        )}
 
           </span>
 
@@ -1388,10 +1419,10 @@ function renderBookings() {
           <span class="provider-booking-price">
 
             ${escapeHtml(
-              formatCurrency(
-                booking.total_price
-              )
-            )}
+          formatCurrency(
+            booking.total_price
+          )
+        )}
 
           </span>
 
@@ -1404,15 +1435,15 @@ function renderBookings() {
             class="
               provider-booking-status
               ${normalizeStatus(
-                booking.status
-              )}
+          booking.status
+        )}
             "
           >
             ${escapeHtml(
-              statusText(
-                booking.status
-              )
-            )}
+          statusText(
+            booking.status
+          )
+        )}
           </span>
 
           ${renderPaymentBadge(booking)}
@@ -1440,10 +1471,10 @@ function renderBookings() {
 
       </tr>
     `;
-  });
+      });
 
 
-  html += `
+      html += `
 
       </tbody>
 
@@ -1451,23 +1482,23 @@ function renderBookings() {
   `;
 
 
-  content.innerHTML = html;
-}
+      content.innerHTML = html;
+    }
 
 
-/* =========================================================
-   PAYMENT BADGE
-   ========================================================= */
+    /* =========================================================
+       PAYMENT BADGE
+       ========================================================= */
 
-function renderPaymentBadge(booking) {
+    function renderPaymentBadge(booking) {
 
-  const status =
-    getPaymentStatus(booking);
+      const status =
+        getPaymentStatus(booking);
 
 
-  if (isPaymentSuccessful(booking)) {
+      if (isPaymentSuccessful(booking)) {
 
-    return `
+        return `
       <span
         class="provider-booking-sub"
         style="color: #198754; font-weight: 600;"
@@ -1475,12 +1506,12 @@ function renderPaymentBadge(booking) {
         ✓ Đã thanh toán
       </span>
     `;
-  }
+      }
 
 
-  if (isPaymentPending(booking)) {
+      if (isPaymentPending(booking)) {
 
-    return `
+        return `
       <span
         class="provider-booking-sub"
         style="color: #d97706; font-weight: 600;"
@@ -1488,15 +1519,15 @@ function renderPaymentBadge(booking) {
         ⏳ Đang chờ xác nhận thanh toán
       </span>
     `;
-  }
+      }
 
 
-  if (
-    status === "failed" ||
-    status === "thất bại"
-  ) {
+      if (
+        status === "failed" ||
+        status === "thất bại"
+      ) {
 
-    return `
+        return `
       <span
         class="provider-booking-sub"
         style="color: #dc3545; font-weight: 600;"
@@ -1504,36 +1535,36 @@ function renderPaymentBadge(booking) {
         ✕ Thanh toán thất bại
       </span>
     `;
-  }
+      }
 
 
-  return `
+      return `
     <span class="provider-booking-sub">
       Chưa thanh toán
     </span>
   `;
-}
+    }
 
 
-/* =========================================================
-   PROVIDER ACTIONS
-   ========================================================= */
+    /* =========================================================
+       PROVIDER ACTIONS
+       ========================================================= */
 
-function renderActionButtons(booking) {
+    function renderActionButtons(booking) {
 
-  const status =
-    normalizeStatus(
-      booking.status
-    );
+      const status =
+        normalizeStatus(
+          booking.status
+        );
 
 
-  /*
-   * PENDING
-   */
+      /*
+       * PENDING
+       */
 
-  if (status === "pending") {
+      if (status === "pending") {
 
-    return `
+        return `
 
       <button
         type="button"
@@ -1558,23 +1589,23 @@ function renderActionButtons(booking) {
         Từ chối
       </button>
     `;
-  }
+      }
 
 
-  /*
-   * CONFIRMED
-   */
+      /*
+       * CONFIRMED
+       */
 
-  if (status === "confirmed") {
+      if (status === "confirmed") {
 
-    /*
-     * Payment thành công
-     * → được Check-in.
-     */
+        /*
+         * Payment thành công
+         * → được Check-in.
+         */
 
-    if (isPaymentSuccessful(booking)) {
+        if (isPaymentSuccessful(booking)) {
 
-      return `
+          return `
         <button
           type="button"
           class="provider-booking-action-btn checkin"
@@ -1586,17 +1617,17 @@ function renderActionButtons(booking) {
           Check-in
         </button>
       `;
-    }
+        }
 
 
-    /*
-     * Payment đang chờ xử lý
-     * → Provider xác nhận thanh toán.
-     */
+        /*
+         * Payment đang chờ xử lý
+         * → Provider xác nhận thanh toán.
+         */
 
-    if (isPaymentPending(booking)) {
+        if (isPaymentPending(booking)) {
 
-      return `
+          return `
         <button
           type="button"
           class="provider-booking-action-btn confirm-payment"
@@ -1608,28 +1639,28 @@ function renderActionButtons(booking) {
           Xác nhận thanh toán
         </button>
       `;
-    }
+        }
 
 
-    /*
-     * Chưa có Payment.
-     */
+        /*
+         * Chưa có Payment.
+         */
 
-    return `
+        return `
       <span class="provider-booking-payment-waiting">
         Chờ Photographer thanh toán
       </span>
     `;
-  }
+      }
 
 
-  /*
-   * CHECKED IN
-   */
+      /*
+       * CHECKED IN
+       */
 
-  if (status === "checked_in") {
+      if (status === "checked_in") {
 
-    return `
+        return `
       <button
         type="button"
         class="provider-booking-action-btn checkout"
@@ -1641,96 +1672,96 @@ function renderActionButtons(booking) {
         Check-out
       </button>
     `;
-  }
+      }
 
 
-  return "";
-}
-
-
-/* =========================================================
-   DETAIL
-   ========================================================= */
-
-async function openDetail(bookingId) {
-
-  try {
-
-    const response =
-      await apiFetch(
-        `${API_BASE_URL}/bookings/provider/` +
-        `${currentProviderId}/${bookingId}`
-      );
-
-
-    const data =
-      await response.json();
-
-
-    if (
-      response.status === 401 ||
-      response.status === 403
-    ) {
-
-      window.location.href =
-        "../auth.html";
-
-      return;
+      return "";
     }
 
 
-    if (!response.ok) {
+    /* =========================================================
+       DETAIL
+       ========================================================= */
 
-      throw new Error(
-        data.message ||
-        data.error ||
-        "Không thể tải chi tiết booking."
-      );
-    }
+    async function openDetail(bookingId) {
 
+      try {
 
-    selectedBooking = data;
-
-
-    /*
-     * Ghép Payment cho detail.
-     *
-     * Detail endpoint có thể không trả payment_status.
-     */
-
-    await attachPaymentStatuses(
-      [selectedBooking]
-    );
+        const response =
+          await apiFetch(
+            `${API_BASE_URL}/bookings/provider/` +
+            `${currentProviderId}/${bookingId}`
+          );
 
 
-    document.getElementById(
-      "modalBookingTitle"
-    ).textContent =
-      `Booking #${data.id}`;
+        const data =
+          await response.json();
 
 
-    document.getElementById(
-      "modalBookingSubtitle"
-    ).textContent =
-      "Chi tiết đơn đặt chỗ";
+        if (
+          response.status === 401 ||
+          response.status === 403
+        ) {
+
+          window.location.href =
+            "../auth.html";
+
+          return;
+        }
 
 
-    document.getElementById(
-      "detailId"
-    ).textContent =
-      `#${data.id}`;
+        if (!response.ok) {
+
+          throw new Error(
+            data.message ||
+            data.error ||
+            "Không thể tải chi tiết booking."
+          );
+        }
 
 
-    document.getElementById(
-      "detailStatus"
-    ).innerHTML = `
+        selectedBooking = data;
+
+
+        /*
+         * Ghép Payment cho detail.
+         *
+         * Detail endpoint có thể không trả payment_status.
+         */
+
+        await attachPaymentStatuses(
+          [selectedBooking]
+        );
+
+
+        document.getElementById(
+          "modalBookingTitle"
+        ).textContent =
+          `Booking #${data.id}`;
+
+
+        document.getElementById(
+          "modalBookingSubtitle"
+        ).textContent =
+          "Chi tiết đơn đặt chỗ";
+
+
+        document.getElementById(
+          "detailId"
+        ).textContent =
+          `#${data.id}`;
+
+
+        document.getElementById(
+          "detailStatus"
+        ).innerHTML = `
 
       <span
         class="
           provider-booking-status
           ${normalizeStatus(
-            data.status
-          )}
+          data.status
+        )}
         "
       >
         ${escapeHtml(
@@ -1742,217 +1773,217 @@ async function openDetail(bookingId) {
     `;
 
 
-    document.getElementById(
-      "detailPhotographer"
-    ).textContent =
+        document.getElementById(
+          "detailPhotographer"
+        ).textContent =
 
-      data.photographer_name
+          data.photographer_name
 
-        ? `${data.photographer_name} (#${data.photographer_id})`
+            ? `${data.photographer_name} (#${data.photographer_id})`
 
-        : `Photographer #${data.photographer_id}`;
-
-
-    document.getElementById(
-      "detailSpace"
-    ).textContent =
-
-      data.space_name
-
-        ? `${data.space_name} (#${data.space_id})`
-
-        : `Space #${data.space_id}`;
+            : `Photographer #${data.photographer_id}`;
 
 
-    document.getElementById(
-      "detailPackage"
-    ).textContent =
+        document.getElementById(
+          "detailSpace"
+        ).textContent =
 
-      data.package_name
+          data.space_name
 
-        ? `${data.package_name} (#${data.package_id})`
+            ? `${data.space_name} (#${data.space_id})`
 
-        : data.package_id
-
-          ? `Gói dịch vụ #${data.package_id}`
-
-          : "Không sử dụng gói";
+            : `Space #${data.space_id}`;
 
 
-    document.getElementById(
-      "detailPrice"
-    ).textContent =
-      formatCurrency(
-        data.total_price
-      );
+        document.getElementById(
+          "detailPackage"
+        ).textContent =
+
+          data.package_name
+
+            ? `${data.package_name} (#${data.package_id})`
+
+            : data.package_id
+
+              ? `Gói dịch vụ #${data.package_id}`
+
+              : "Không sử dụng gói";
 
 
-    document.getElementById(
-      "detailStart"
-    ).textContent =
-      formatDateTime(
-        data.start_time
-      );
+        document.getElementById(
+          "detailPrice"
+        ).textContent =
+          formatCurrency(
+            data.total_price
+          );
 
 
-    document.getElementById(
-      "detailEnd"
-    ).textContent =
-      formatDateTime(
-        data.end_time
-      );
+        document.getElementById(
+          "detailStart"
+        ).textContent =
+          formatDateTime(
+            data.start_time
+          );
 
 
-    document.getElementById(
-      "detailCreated"
-    ).textContent =
-      formatDateTime(
-        data.created_at
-      );
+        document.getElementById(
+          "detailEnd"
+        ).textContent =
+          formatDateTime(
+            data.end_time
+          );
 
 
-    document.getElementById(
-      "detailProvider"
-    ).textContent =
-      `Provider #${data.provider_id}`;
+        document.getElementById(
+          "detailCreated"
+        ).textContent =
+          formatDateTime(
+            data.created_at
+          );
 
 
-    /*
-     * PAYMENT DETAIL
-     */
-
-    const invoiceId =
-      getInvoiceId(data);
+        document.getElementById(
+          "detailProvider"
+        ).textContent =
+          `Provider #${data.provider_id}`;
 
 
-    document.getElementById(
-      "detailInvoice"
-    ).textContent =
-      invoiceId
-        ? `#${invoiceId}`
-        : "Chưa có Invoice";
+        /*
+         * PAYMENT DETAIL
+         */
+
+        const invoiceId =
+          getInvoiceId(data);
 
 
-    document.getElementById(
-      "detailPayment"
-    ).innerHTML =
-      renderPaymentDetail(data);
+        document.getElementById(
+          "detailInvoice"
+        ).textContent =
+          invoiceId
+            ? `#${invoiceId}`
+            : "Chưa có Invoice";
 
 
-    document.getElementById(
-      "detailPaidAt"
-    ).textContent =
-      data.payment_paid_at
-        ? formatDateTime(
-            data.payment_paid_at
-          )
-        : "-";
+        document.getElementById(
+          "detailPayment"
+        ).innerHTML =
+          renderPaymentDetail(data);
 
 
-    renderDetailNote(data);
-
-    renderModalActions(data);
-
-
-    document.getElementById(
-      "detailModal"
-    ).classList.add("show");
-
-
-  } catch (error) {
-
-    console.error(error);
-
-    showToast(
-      error.message ||
-      "Không thể tải chi tiết booking.",
-      "error"
-    );
-  }
-}
+        document.getElementById(
+          "detailPaidAt"
+        ).textContent =
+          data.payment_paid_at
+            ? formatDateTime(
+              data.payment_paid_at
+            )
+            : "-";
 
 
-/* =========================================================
-   PAYMENT DETAIL
-   ========================================================= */
+        renderDetailNote(data);
 
-function renderPaymentDetail(booking) {
+        renderModalActions(data);
 
-  if (isPaymentSuccessful(booking)) {
 
-    return `
+        document.getElementById(
+          "detailModal"
+        ).classList.add("show");
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        showToast(
+          error.message ||
+          "Không thể tải chi tiết booking.",
+          "error"
+        );
+      }
+    }
+
+
+    /* =========================================================
+       PAYMENT DETAIL
+       ========================================================= */
+
+    function renderPaymentDetail(booking) {
+
+      if (isPaymentSuccessful(booking)) {
+
+        return `
       <span style="color:#198754;font-weight:700;">
         ✓ Đã thanh toán
       </span>
     `;
-  }
+      }
 
 
-  if (isPaymentPending(booking)) {
+      if (isPaymentPending(booking)) {
 
-    return `
+        return `
       <span style="color:#d97706;font-weight:700;">
         ⏳ Đang chờ xác nhận thanh toán
       </span>
     `;
-  }
+      }
 
 
-  const status =
-    getPaymentStatus(booking);
+      const status =
+        getPaymentStatus(booking);
 
 
-  if (
-    status === "failed" ||
-    status === "thất bại"
-  ) {
+      if (
+        status === "failed" ||
+        status === "thất bại"
+      ) {
 
-    return `
+        return `
       <span style="color:#dc3545;font-weight:700;">
         ✕ Thanh toán thất bại
       </span>
     `;
-  }
+      }
 
 
-  if (
-    status === "refunded" ||
-    status === "đã hoàn tiền"
-  ) {
+      if (
+        status === "refunded" ||
+        status === "đã hoàn tiền"
+      ) {
 
-    return `
+        return `
       <span style="color:#6c757d;font-weight:700;">
         ↩ Đã hoàn tiền
       </span>
     `;
-  }
+      }
 
 
-  return "Chưa thanh toán";
-}
+      return "Chưa thanh toán";
+    }
 
 
-/* =========================================================
-   DETAIL NOTE
-   ========================================================= */
+    /* =========================================================
+       DETAIL NOTE
+       ========================================================= */
 
-function renderDetailNote(booking) {
+    function renderDetailNote(booking) {
 
-  const note =
-    document.getElementById(
-      "detailNote"
-    );
-
-
-  const status =
-    normalizeStatus(
-      booking.status
-    );
+      const note =
+        document.getElementById(
+          "detailNote"
+        );
 
 
-  if (status === "pending") {
+      const status =
+        normalizeStatus(
+          booking.status
+        );
 
-    note.innerHTML = `
+
+      if (status === "pending") {
+
+        note.innerHTML = `
 
       <div class="provider-booking-note">
 
@@ -1967,15 +1998,15 @@ function renderDetailNote(booking) {
       </div>
     `;
 
-    return;
-  }
+        return;
+      }
 
 
-  if (status === "confirmed") {
+      if (status === "confirmed") {
 
-    if (isPaymentSuccessful(booking)) {
+        if (isPaymentSuccessful(booking)) {
 
-      note.innerHTML = `
+          note.innerHTML = `
 
         <div class="provider-booking-note success">
 
@@ -1989,13 +2020,13 @@ function renderDetailNote(booking) {
         </div>
       `;
 
-      return;
-    }
+          return;
+        }
 
 
-    if (isPaymentPending(booking)) {
+        if (isPaymentPending(booking)) {
 
-      note.innerHTML = `
+          note.innerHTML = `
 
         <div class="provider-booking-note warning">
 
@@ -2008,11 +2039,11 @@ function renderDetailNote(booking) {
         </div>
       `;
 
-      return;
-    }
+          return;
+        }
 
 
-    note.innerHTML = `
+        note.innerHTML = `
 
       <div class="provider-booking-note warning">
 
@@ -2025,13 +2056,13 @@ function renderDetailNote(booking) {
       </div>
     `;
 
-    return;
-  }
+        return;
+      }
 
 
-  if (status === "checked_in") {
+      if (status === "checked_in") {
 
-    note.innerHTML = `
+        note.innerHTML = `
 
       <div class="provider-booking-note warning">
 
@@ -2045,13 +2076,13 @@ function renderDetailNote(booking) {
       </div>
     `;
 
-    return;
-  }
+        return;
+      }
 
 
-  if (status === "completed") {
+      if (status === "completed") {
 
-    note.innerHTML = `
+        note.innerHTML = `
 
       <div class="provider-booking-note success">
 
@@ -2061,13 +2092,13 @@ function renderDetailNote(booking) {
       </div>
     `;
 
-    return;
-  }
+        return;
+      }
 
 
-  if (status === "cancelled") {
+      if (status === "cancelled") {
 
-    note.innerHTML = `
+        note.innerHTML = `
 
       <div class="provider-booking-note danger">
 
@@ -2077,39 +2108,82 @@ function renderDetailNote(booking) {
       </div>
     `;
 
-    return;
-  }
+        return;
+      }
 
 
-  note.innerHTML = "";
-}
+      note.innerHTML = "";
+    }
 
 
-/* =========================================================
-   MODAL ACTIONS
-   ========================================================= */
+    /* =========================================================
+       MODAL ACTIONS
+       ========================================================= */
+    /* =========================================================
+OPEN BOOKING FROM NOTIFICATION
+========================================================= */
 
-function renderModalActions(booking) {
+    async function openBookingFromUrl() {
 
-  const actions =
-    document.getElementById(
-      "modalActions"
-    );
+      const params =
+        new URLSearchParams(
+          window.location.search
+        );
+
+      const bookingId =
+        params.get("booking_id");
+
+      if (!bookingId) {
+        return;
+      }
+
+      const numericId =
+        Number(bookingId);
+
+      if (
+        !Number.isInteger(numericId) ||
+        numericId <= 0
+      ) {
+        return;
+      }
+
+      /*
+       * Mở đúng booking.
+       * Backend vẫn kiểm tra booking thuộc Provider hiện tại.
+       */
+      await openDetail(numericId);
+
+      /*
+       * Xóa query khỏi URL sau khi mở.
+       */
+      window.history.replaceState(
+        {},
+        document.title,
+        "bookings.html"
+      );
+    }
+
+    function renderModalActions(booking) {
+
+      const actions =
+        document.getElementById(
+          "modalActions"
+        );
 
 
-  const status =
-    normalizeStatus(
-      booking.status
-    );
+      const status =
+        normalizeStatus(
+          booking.status
+        );
 
 
-  /*
-   * PENDING
-   */
+      /*
+       * PENDING
+       */
 
-  if (status === "pending") {
+      if (status === "pending") {
 
-    actions.innerHTML = `
+        actions.innerHTML = `
 
       <button
         type="button"
@@ -2137,23 +2211,23 @@ function renderModalActions(booking) {
       </button>
     `;
 
-    return;
-  }
+        return;
+      }
 
 
-  /*
-   * CONFIRMED
-   */
+      /*
+       * CONFIRMED
+       */
 
-  if (status === "confirmed") {
+      if (status === "confirmed") {
 
-    /*
-     * Payment thành công
-     */
+        /*
+         * Payment thành công
+         */
 
-    if (isPaymentSuccessful(booking)) {
+        if (isPaymentSuccessful(booking)) {
 
-      actions.innerHTML = `
+          actions.innerHTML = `
 
         <button
           type="button"
@@ -2168,17 +2242,17 @@ function renderModalActions(booking) {
         </button>
       `;
 
-      return;
-    }
+          return;
+        }
 
 
-    /*
-     * Payment đang chờ xử lý
-     */
+        /*
+         * Payment đang chờ xử lý
+         */
 
-    if (isPaymentPending(booking)) {
+        if (isPaymentPending(booking)) {
 
-      actions.innerHTML = `
+          actions.innerHTML = `
 
         <button
           type="button"
@@ -2193,15 +2267,15 @@ function renderModalActions(booking) {
         </button>
       `;
 
-      return;
-    }
+          return;
+        }
 
 
-    /*
-     * Chưa thanh toán
-     */
+        /*
+         * Chưa thanh toán
+         */
 
-    actions.innerHTML = `
+        actions.innerHTML = `
 
       <div class="provider-booking-note warning">
 
@@ -2212,17 +2286,17 @@ function renderModalActions(booking) {
       </div>
     `;
 
-    return;
-  }
+        return;
+      }
 
 
-  /*
-   * CHECKED IN
-   */
+      /*
+       * CHECKED IN
+       */
 
-  if (status === "checked_in") {
+      if (status === "checked_in") {
 
-    actions.innerHTML = `
+        actions.innerHTML = `
 
       <button
         type="button"
@@ -2237,11 +2311,11 @@ function renderModalActions(booking) {
       </button>
     `;
 
-    return;
-  }
+        return;
+      }
 
 
-  actions.innerHTML = `
+      actions.innerHTML = `
 
     <button
       type="button"
@@ -2251,723 +2325,711 @@ function renderModalActions(booking) {
       Đóng
     </button>
   `;
-}
-
-
-/* =========================================================
-   CONFIRM MODAL
-   ========================================================= */
-
-function showConfirmModal(
-  bookingId,
-  action,
-  fromModal = false
-) {
-
-  const title =
-    document.getElementById(
-      "confirmTitle"
-    );
-
-
-  const message =
-    document.getElementById(
-      "confirmMessage"
-    );
-
-
-  const icon =
-    document.getElementById(
-      "confirmIcon"
-    );
-
-
-  const ok =
-    document.getElementById(
-      "confirmOkBtn"
-    );
-
-
-  pendingBookingId =
-    Number(bookingId);
-
-  pendingAction =
-    action;
-
-  pendingFromModal =
-    fromModal;
-
-
-  icon.className =
-    "confirm-icon";
-
-
-  ok.className =
-    "confirm-btn confirm-ok";
-
-
-  /*
-   * CONFIRM BOOKING
-   */
-
-  if (action === "confirm") {
-
-    title.textContent =
-      "Xác nhận booking";
-
-
-    message.innerHTML =
-
-      `Bạn có chắc muốn ` +
-      `<strong>xác nhận booking #${bookingId}</strong>?<br>` +
-
-      `Sau khi xác nhận, Photographer sẽ ` +
-      `thực hiện thanh toán QR trước Check-in.`;
-
-
-    icon.textContent = "✓";
-    icon.classList.add("success");
-
-
-    ok.textContent =
-      "Xác nhận";
-
-    ok.classList.add(
-      "success"
-    );
-  }
-
-
-  /*
-   * REJECT
-   */
-
-  else if (action === "reject") {
-
-    title.textContent =
-      "Từ chối booking";
-
-
-    message.innerHTML =
-
-      `Bạn có chắc muốn ` +
-      `<strong>từ chối booking #${bookingId}</strong>?<br>` +
-
-      `Booking sẽ chuyển sang trạng thái ` +
-      `<strong>Đã huỷ</strong>.`;
-
-
-    icon.textContent = "!";
-    icon.classList.add("danger");
-
-
-    ok.textContent =
-      "Từ chối";
-
-    ok.classList.add(
-      "danger"
-    );
-  }
-
-
-  /*
-   * CHECK-IN
-   */
-
-  else if (action === "check-in") {
-
-    title.textContent =
-      "Check-in booking";
-
-
-    message.innerHTML =
-
-      `Bạn có chắc muốn ` +
-      `<strong>Check-in booking #${bookingId}</strong>?<br>` +
-
-      `Chỉ booking đã xác nhận, ` +
-      `đã thanh toán thành công và ` +
-      `đến thời gian sử dụng mới được Check-in.`;
-
-
-    icon.textContent = "✓";
-    icon.classList.add("success");
-
-
-    ok.textContent =
-      "Check-in";
-
-    ok.classList.add(
-      "success"
-    );
-  }
-
-
-  /*
-   * CHECK-OUT
-   */
-
-  else if (action === "check-out") {
-
-    title.textContent =
-      "Check-out booking";
-
-
-    message.innerHTML =
-
-      `Bạn có chắc muốn ` +
-      `<strong>Check-out booking #${bookingId}</strong>?<br>` +
-
-      `Booking chỉ được chuyển sang ` +
-      `<strong>Hoàn thành</strong> ` +
-      `khi thanh toán Invoice đã thành công.`;
-
-
-    icon.textContent = "!";
-    icon.classList.add("danger");
-
-
-    ok.textContent =
-      "Check-out";
-
-    ok.classList.add(
-      "danger"
-    );
-  }
-
-
-  /*
-   * CONFIRM PAYMENT
-   */
-
-  else if (action === "confirm-payment") {
-
-    title.textContent =
-      "Xác nhận thanh toán";
-
-
-    message.innerHTML =
-
-      `Bạn có chắc chắn đã ` +
-      `<strong>nhận được tiền</strong> ` +
-      `của booking #${bookingId}?<br>` +
-
-      `Sau khi xác nhận, Payment sẽ chuyển sang ` +
-      `<strong>Thành công</strong> ` +
-      `và Photographer có thể được Check-in.`;
-
-
-    icon.textContent = "✓";
-    icon.classList.add("success");
-
-
-    ok.textContent =
-      "Xác nhận thanh toán";
-
-    ok.classList.add(
-      "success"
-    );
-  }
-
-
-  document
-    .getElementById("confirmModal")
-    .classList.add("open");
-}
-
-
-function closeConfirm() {
-
-  document
-    .getElementById("confirmModal")
-    .classList.remove("open");
-
-
-  pendingAction = null;
-
-  pendingBookingId = null;
-
-  pendingFromModal = false;
-}
-
-
-function closeConfirmOutside(event) {
-
-  if (
-    event.target.id ===
-    "confirmModal"
-  ) {
-
-    closeConfirm();
-  }
-}
-
-
-/* =========================================================
-   EXECUTE CONFIRMED ACTION
-   ========================================================= */
-
-async function executeConfirmedAction() {
-
-  const bookingId =
-    pendingBookingId;
-
-
-  const action =
-    pendingAction;
-
-
-  const fromModal =
-    pendingFromModal;
-
-
-  if (
-    !bookingId ||
-    !action
-  ) {
-
-    closeConfirm();
-
-    return;
-  }
-
-
-  closeConfirm();
-
-
-  /*
-   * QUAN TRỌNG:
-   *
-   * confirm-payment KHÔNG phải
-   * Booking endpoint.
-   *
-   * Nó phải gọi:
-   *
-   * PUT /payments/{payment_id}
-   *
-   * nên xử lý riêng.
-   */
-
-  if (
-    action ===
-    "confirm-payment"
-  ) {
-
-    const booking =
-      currentBookings.find(
-        item =>
-          Number(item.id) ===
-          Number(bookingId)
-      );
-
-
-    if (!booking) {
-
-      showToast(
-        "Không tìm thấy booking.",
-        "error"
-      );
-
-      return;
     }
 
 
-    await confirmPaymentForBooking(
-      booking
-    );
+    /* =========================================================
+       CONFIRM MODAL
+       ========================================================= */
 
-    return;
-  }
+    function showConfirmModal(
+      bookingId,
+      action,
+      fromModal = false
+    ) {
 
-
-  /*
-   * Các action còn lại:
-   *
-   * confirm
-   * reject
-   * check-in
-   * check-out
-   */
-
-  await updateBookingStatus(
-    bookingId,
-    action,
-    fromModal
-  );
-}
+      const title =
+        document.getElementById(
+          "confirmTitle"
+        );
 
 
-/* =========================================================
-   CONFIRM PAYMENT
-   ========================================================= */
-
-async function confirmPaymentForBooking(
-  booking
-) {
-
-  /*
-   * Payment ID đã được lấy
-   * từ GET /payments/
-   */
-
-  const paymentId =
-    Number(
-      booking.payment_id
-    );
+      const message =
+        document.getElementById(
+          "confirmMessage"
+        );
 
 
-  if (!paymentId) {
-
-    showToast(
-      "Booking này chưa có Payment.",
-      "error"
-    );
-
-    console.error(
-      "Không tìm thấy payment_id:",
-      booking
-    );
-
-    return;
-  }
+      const icon =
+        document.getElementById(
+          "confirmIcon"
+        );
 
 
-  /*
-   * Không cho xác nhận lại
-   * nếu Payment đã thành công.
-   */
-
-  if (
-    isPaymentSuccessful(
-      booking
-    )
-  ) {
-
-    showToast(
-      "Payment này đã được xác nhận thành công.",
-      "error"
-    );
-
-    await loadBookings();
-
-    return;
-  }
+      const ok =
+        document.getElementById(
+          "confirmOkBtn"
+        );
 
 
-  try {
+      pendingBookingId =
+        Number(bookingId);
 
-    /*
-     * API:
-     *
-     * PUT /payments/{payment_id}
-     *
-     * body:
-     *
-     * {
-     *   "status": "Thành công"
-     * }
-     */
+      pendingAction =
+        action;
 
-    const response =
-      await apiFetch(
-        `${API_BASE_URL}/payments/${paymentId}`,
-        {
-          method: "PUT",
+      pendingFromModal =
+        fromModal;
 
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
 
-          body: JSON.stringify({
-            status: "Thành công"
-          })
+      icon.className =
+        "confirm-icon";
+
+
+      ok.className =
+        "confirm-btn confirm-ok";
+
+
+      /*
+       * CONFIRM BOOKING
+       */
+
+      if (action === "confirm") {
+
+        title.textContent =
+          "Xác nhận booking";
+
+
+        message.innerHTML =
+
+          `Bạn có chắc muốn ` +
+          `<strong>xác nhận booking #${bookingId}</strong>?<br>` +
+
+          `Sau khi xác nhận, Photographer sẽ ` +
+          `thực hiện thanh toán QR trước Check-in.`;
+
+
+        icon.textContent = "✓";
+        icon.classList.add("success");
+
+
+        ok.textContent =
+          "Xác nhận";
+
+        ok.classList.add(
+          "success"
+        );
+      }
+
+
+      /*
+       * REJECT
+       */
+
+      else if (action === "reject") {
+
+        title.textContent =
+          "Từ chối booking";
+
+
+        message.innerHTML =
+
+          `Bạn có chắc muốn ` +
+          `<strong>từ chối booking #${bookingId}</strong>?<br>` +
+
+          `Booking sẽ chuyển sang trạng thái ` +
+          `<strong>Đã huỷ</strong>.`;
+
+
+        icon.textContent = "!";
+        icon.classList.add("danger");
+
+
+        ok.textContent =
+          "Từ chối";
+
+        ok.classList.add(
+          "danger"
+        );
+      }
+
+
+      /*
+       * CHECK-IN
+       */
+
+      else if (action === "check-in") {
+
+        title.textContent =
+          "Check-in booking";
+
+
+        message.innerHTML =
+
+          `Bạn có chắc muốn ` +
+          `<strong>Check-in booking #${bookingId}</strong>?<br>` +
+
+          `Chỉ booking đã xác nhận, ` +
+          `đã thanh toán thành công và ` +
+          `đến thời gian sử dụng mới được Check-in.`;
+
+
+        icon.textContent = "✓";
+        icon.classList.add("success");
+
+
+        ok.textContent =
+          "Check-in";
+
+        ok.classList.add(
+          "success"
+        );
+      }
+
+
+      /*
+       * CHECK-OUT
+       */
+
+      else if (action === "check-out") {
+
+        title.textContent =
+          "Check-out booking";
+
+
+        message.innerHTML =
+
+          `Bạn có chắc muốn ` +
+          `<strong>Check-out booking #${bookingId}</strong>?<br>` +
+
+          `Booking chỉ được chuyển sang ` +
+          `<strong>Hoàn thành</strong> ` +
+          `khi thanh toán Invoice đã thành công.`;
+
+
+        icon.textContent = "!";
+        icon.classList.add("danger");
+
+
+        ok.textContent =
+          "Check-out";
+
+        ok.classList.add(
+          "danger"
+        );
+      }
+
+
+      /*
+       * CONFIRM PAYMENT
+       */
+
+      else if (action === "confirm-payment") {
+
+        title.textContent =
+          "Xác nhận thanh toán";
+
+
+        message.innerHTML =
+
+          `Bạn có chắc chắn đã ` +
+          `<strong>nhận được tiền</strong> ` +
+          `của booking #${bookingId}?<br>` +
+
+          `Sau khi xác nhận, Payment sẽ chuyển sang ` +
+          `<strong>Thành công</strong> ` +
+          `và Photographer có thể được Check-in.`;
+
+
+        icon.textContent = "✓";
+        icon.classList.add("success");
+
+
+        ok.textContent =
+          "Xác nhận thanh toán";
+
+        ok.classList.add(
+          "success"
+        );
+      }
+
+
+      document
+        .getElementById("confirmModal")
+        .classList.add("open");
+    }
+
+
+    function closeConfirm() {
+
+      document
+        .getElementById("confirmModal")
+        .classList.remove("open");
+
+
+      pendingAction = null;
+
+      pendingBookingId = null;
+
+      pendingFromModal = false;
+    }
+
+
+    function closeConfirmOutside(event) {
+
+      if (
+        event.target.id ===
+        "confirmModal"
+      ) {
+
+        closeConfirm();
+      }
+    }
+
+
+    /* =========================================================
+       EXECUTE CONFIRMED ACTION
+       ========================================================= */
+
+    async function executeConfirmedAction() {
+
+      const bookingId =
+        pendingBookingId;
+
+
+      const action =
+        pendingAction;
+
+
+      const fromModal =
+        pendingFromModal;
+
+
+      if (
+        !bookingId ||
+        !action
+      ) {
+
+        closeConfirm();
+
+        return;
+      }
+
+
+      closeConfirm();
+
+
+      /*
+       * QUAN TRỌNG:
+       *
+       * confirm-payment KHÔNG phải
+       * Booking endpoint.
+       *
+       * Nó phải gọi:
+       *
+       * PUT /payments/{payment_id}
+       *
+       * nên xử lý riêng.
+       */
+
+      if (
+        action ===
+        "confirm-payment"
+      ) {
+
+        const booking =
+          currentBookings.find(
+            item =>
+              Number(item.id) ===
+              Number(bookingId)
+          );
+
+
+        if (!booking) {
+
+          showToast(
+            "Không tìm thấy booking.",
+            "error"
+          );
+
+          return;
         }
+
+
+        await confirmPaymentForBooking(
+          booking
+        );
+
+        return;
+      }
+
+
+      /*
+       * Các action còn lại:
+       *
+       * confirm
+       * reject
+       * check-in
+       * check-out
+       */
+
+      await updateBookingStatus(
+        bookingId,
+        action,
+        fromModal
       );
+    }
 
 
-    const data =
-      await response.json()
-        .catch(() => ({}));
+    /* =========================================================
+       CONFIRM PAYMENT
+       ========================================================= */
 
-
-    if (
-      response.status === 401 ||
-      response.status === 403
+    async function confirmPaymentForBooking(
+      booking
     ) {
 
-      window.location.href =
-        "../auth.html";
+      /*
+       * Payment ID đã được lấy
+       * từ GET /payments/
+       */
 
-      return;
-    }
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        data.message ||
-        data.error ||
-        "Không thể xác nhận thanh toán."
-      );
-    }
+      const paymentId =
+        Number(
+          booking.payment_id
+        );
 
 
-    console.log(
-      "Payment sau khi xác nhận:",
-      data
-    );
+      if (!paymentId) {
+
+        showToast(
+          "Booking này chưa có Payment.",
+          "error"
+        );
+
+        console.error(
+          "Không tìm thấy payment_id:",
+          booking
+        );
+
+        return;
+      }
 
 
-    showToast(
-      "Đã xác nhận thanh toán thành công."
-    );
+      /*
+       * Không cho xác nhận lại
+       * nếu Payment đã thành công.
+       */
+
+      if (
+        isPaymentSuccessful(
+          booking
+        )
+      ) {
+
+        showToast(
+          "Payment này đã được xác nhận thành công.",
+          "error"
+        );
+
+        await loadBookings();
+
+        return;
+      }
 
 
-    /*
-     * Đóng detail trước khi reload
-     * để tránh dữ liệu cũ.
-     */
+      try {
 
-    if (selectedBooking) {
+        /*
+         * API:
+         *
+         * PUT /payments/{payment_id}
+         *
+         * body:
+         *
+         * {
+         *   "status": "Thành công"
+         * }
+         */
 
-      closeDetail();
-    }
+        const response =
+          await apiFetch(
+            `${API_BASE_URL}/payments/${paymentId}`,
+            {
+              method: "PUT",
 
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
 
-    /*
-     * QUAN TRỌNG:
-     *
-     * loadBookings()
-     * sẽ:
-     *
-     * 1. GET Booking
-     * 2. GET Payment
-     * 3. Ghép Payment
-     * 4. Render lại
-     *
-     * => nút sẽ chuyển từ
-     *
-     * "Xác nhận thanh toán"
-     *
-     * thành
-     *
-     * "Check-in"
-     */
-
-    await loadBookings();
+              body: JSON.stringify({
+                status: "Thành công"
+              })
+            }
+          );
 
 
-  } catch (error) {
-
-    console.error(
-      "Confirm payment error:",
-      error
-    );
+        const data =
+          await response.json()
+            .catch(() => ({}));
 
 
-    showToast(
-      error.message ||
-      "Không thể xác nhận thanh toán.",
-      "error"
-    );
-  }
-}
+        if (
+          response.status === 401 ||
+          response.status === 403
+        ) {
 
+          window.location.href =
+            "../auth.html";
 
-/* =========================================================
-   UPDATE BOOKING STATUS
-   ========================================================= */
-
-async function updateBookingStatus(
-  bookingId,
-  action,
-  fromModal = false
-) {
-
-  const endpointMap = {
-
-    confirm: "confirm",
-
-    reject: "reject",
-
-    "check-in": "check-in",
-
-    "check-out": "check-out"
-  };
-
-
-  const endpoint =
-    endpointMap[action];
-
-
-  if (!endpoint) {
-    return;
-  }
-
-
-  try {
-
-    const response =
-      await apiFetch(
-
-        `${API_BASE_URL}/bookings/provider/` +
-        `${currentProviderId}/` +
-        `${bookingId}/` +
-        `${endpoint}`,
-
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
-
-          body: JSON.stringify({})
+          return;
         }
-      );
 
 
-    const data =
-      await response.json()
-        .catch(() => ({}));
+        if (!response.ok) {
+
+          throw new Error(
+            data.message ||
+            data.error ||
+            "Không thể xác nhận thanh toán."
+          );
+        }
 
 
-    if (
-      response.status === 401 ||
-      response.status === 403
+        console.log(
+          "Payment sau khi xác nhận:",
+          data
+        );
+
+
+        showToast(
+          "Đã xác nhận thanh toán thành công."
+        );
+
+
+        /*
+         * Đóng detail trước khi reload
+         * để tránh dữ liệu cũ.
+         */
+
+        if (selectedBooking) {
+
+          closeDetail();
+        }
+
+
+        /*
+         * QUAN TRỌNG:
+         *
+         * loadBookings()
+         * sẽ:
+         *
+         * 1. GET Booking
+         * 2. GET Payment
+         * 3. Ghép Payment
+         * 4. Render lại
+         *
+         * => nút sẽ chuyển từ
+         *
+         * "Xác nhận thanh toán"
+         *
+         * thành
+         *
+         * "Check-in"
+         */
+
+        await loadBookings();
+
+
+      } catch (error) {
+
+        console.error(
+          "Confirm payment error:",
+          error
+        );
+
+
+        showToast(
+          error.message ||
+          "Không thể xác nhận thanh toán.",
+          "error"
+        );
+      }
+    }
+
+
+    /* =========================================================
+       UPDATE BOOKING STATUS
+       ========================================================= */
+
+    async function updateBookingStatus(
+      bookingId,
+      action,
+      fromModal = false
     ) {
 
-      window.location.href =
-        "../auth.html";
+      const endpointMap = {
 
-      return;
+        confirm: "confirm",
+
+        reject: "reject",
+
+        "check-in": "check-in",
+
+        "check-out": "check-out"
+      };
+
+
+      const endpoint =
+        endpointMap[action];
+
+
+      if (!endpoint) {
+        return;
+      }
+
+
+      try {
+
+        const response =
+          await apiFetch(
+
+            `${API_BASE_URL}/bookings/provider/` +
+            `${currentProviderId}/` +
+            `${bookingId}/` +
+            `${endpoint}`,
+
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body: JSON.stringify({})
+            }
+          );
+
+
+        const data =
+          await response.json()
+            .catch(() => ({}));
+
+
+        if (
+          response.status === 401 ||
+          response.status === 403
+        ) {
+
+          window.location.href =
+            "../auth.html";
+
+          return;
+        }
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.message ||
+            data.error ||
+            "Không thể cập nhật booking."
+          );
+        }
+
+
+        showToast(
+          data.message ||
+          "Cập nhật booking thành công.",
+          "success"
+        );
+
+
+        if (fromModal) {
+
+          closeDetail();
+        }
+
+
+        await loadBookings();
+
+
+      } catch (error) {
+
+        console.error(error);
+
+
+        showToast(
+          error.message ||
+          "Không thể cập nhật booking.",
+          "error"
+        );
+      }
     }
 
 
-    if (!response.ok) {
+    /* =========================================================
+       FILTER
+       ========================================================= */
 
-      throw new Error(
-        data.message ||
-        data.error ||
-        "Không thể cập nhật booking."
-      );
+    function applyFilters() {
+
+      loadBookings();
     }
 
 
-    showToast(
-      data.message ||
-      "Cập nhật booking thành công.",
-      "success"
-    );
+    function clearFilters() {
+
+      document.getElementById(
+        "statusFilter"
+      ).value = "";
 
 
-    if (fromModal) {
+      document.getElementById(
+        "dateFilter"
+      ).value = "";
 
-      closeDetail();
+
+      document.getElementById(
+        "spaceFilter"
+      ).value = "";
+
+
+      loadBookings();
     }
 
 
-    await loadBookings();
+    /* =========================================================
+       SPACE FILTER
+       ========================================================= */
+
+    async function loadProviderSpaces() {
+
+      try {
+
+        const response =
+          await apiFetch(
+            `${API_BASE_URL}/creative-spaces/`
+          );
 
 
-  } catch (error) {
+        if (
+          response.status === 401 ||
+          response.status === 403
+        ) {
 
-    console.error(error);
+          window.location.href =
+            "../auth.html";
 
-
-    showToast(
-      error.message ||
-      "Không thể cập nhật booking.",
-      "error"
-    );
-  }
-}
+          return;
+        }
 
 
-/* =========================================================
-   FILTER
-   ========================================================= */
-
-function applyFilters() {
-
-  loadBookings();
-}
+        if (!response.ok) {
+          return;
+        }
 
 
-function clearFilters() {
-
-  document.getElementById(
-    "statusFilter"
-  ).value = "";
+        const data =
+          await response.json();
 
 
-  document.getElementById(
-    "dateFilter"
-  ).value = "";
+        const spaces =
+          Array.isArray(data)
 
-
-  document.getElementById(
-    "spaceFilter"
-  ).value = "";
-
-
-  loadBookings();
-}
-
-
-/* =========================================================
-   SPACE FILTER
-   ========================================================= */
-
-async function loadProviderSpaces() {
-
-  try {
-
-    const response =
-      await apiFetch(
-        `${API_BASE_URL}/creative-spaces/`
-      );
-
-
-    if (
-      response.status === 401 ||
-      response.status === 403
-    ) {
-
-      window.location.href =
-        "../auth.html";
-
-      return;
-    }
-
-
-    if (!response.ok) {
-      return;
-    }
-
-
-    const data =
-      await response.json();
-
-
-    const spaces =
-      Array.isArray(data)
-
-        ? data.filter(
-            space =>
-              Number(
-                space.provider_id
-              ) ===
-              Number(
-                currentProviderId
-              )
-          )
-
-        : Array.isArray(data.data)
-
-          ? data.data.filter(
+            ? data.filter(
               space =>
                 Number(
                   space.provider_id
@@ -2977,16 +3039,28 @@ async function loadProviderSpaces() {
                 )
             )
 
-          : [];
+            : Array.isArray(data.data)
+
+              ? data.data.filter(
+                space =>
+                  Number(
+                    space.provider_id
+                  ) ===
+                  Number(
+                    currentProviderId
+                  )
+              )
+
+              : [];
 
 
-    const select =
-      document.getElementById(
-        "spaceFilter"
-      );
+        const select =
+          document.getElementById(
+            "spaceFilter"
+          );
 
 
-    select.innerHTML = `
+        select.innerHTML = `
 
       <option value="">
         Tất cả không gian
@@ -2994,109 +3068,110 @@ async function loadProviderSpaces() {
     `;
 
 
-    spaces.forEach(space => {
+        spaces.forEach(space => {
 
-      const option =
-        document.createElement(
-          "option"
+          const option =
+            document.createElement(
+              "option"
+            );
+
+
+          option.value =
+            space.id;
+
+
+          option.textContent =
+            space.name ||
+            `Space #${space.id}`;
+
+
+          select.appendChild(
+            option
+          );
+        });
+
+
+      } catch (error) {
+
+        console.warn(
+          "Không thể tải danh sách không gian:",
+          error
         );
+      }
+    }
 
 
-      option.value =
-        space.id;
+    /* =========================================================
+       MODAL
+       ========================================================= */
+
+    function closeDetail() {
+
+      document
+        .getElementById(
+          "detailModal"
+        )
+        .classList.remove("show");
 
 
-      option.textContent =
-        space.name ||
-        `Space #${space.id}`;
+      selectedBooking = null;
+    }
 
 
-      select.appendChild(
-        option
-      );
-    });
+    function closeDetailOutside(event) {
+
+      if (
+        event.target.id ===
+        "detailModal"
+      ) {
+
+        closeDetail();
+      }
+    }
 
 
-  } catch (error) {
+    /* =========================================================
+       KEYBOARD
+       ========================================================= */
 
-    console.warn(
-      "Không thể tải danh sách không gian:",
-      error
+    document.addEventListener(
+      "keydown",
+      event => {
+
+        if (event.key === "Escape") {
+
+          closeConfirm();
+
+          closeDetail();
+        }
+
+      }
     );
-  }
-}
 
 
-/* =========================================================
-   MODAL
-   ========================================================= */
+    /* =========================================================
+       INIT
+       ========================================================= */
 
-function closeDetail() {
+    document.addEventListener(
+      "DOMContentLoaded",
+      async () => {
 
-  document
-    .getElementById(
-      "detailModal"
-    )
-    .classList.remove("show");
-
-
-  selectedBooking = null;
-}
+        if (!loadProviderInfo()) {
+          return;
+        }
 
 
-function closeDetailOutside(event) {
+        await loadProviderSpaces();
 
-  if (
-    event.target.id ===
-    "detailModal"
-  ) {
+        await loadBookings();
+        await openBookingFromUrl();
 
-    closeDetail();
-  }
-}
+      }
+    );
 
-
-/* =========================================================
-   KEYBOARD
-   ========================================================= */
-
-document.addEventListener(
-  "keydown",
-  event => {
-
-    if (event.key === "Escape") {
-
-      closeConfirm();
-
-      closeDetail();
-    }
-
-  }
-);
-
-
-/* =========================================================
-   INIT
-   ========================================================= */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  async () => {
-
-    if (!loadProviderInfo()) {
-      return;
-    }
-
-
-    await loadProviderSpaces();
-
-    await loadBookings();
-
-  }
-);
-
-</script>
+  </script>
 
 </body>
-</html>
 
+</html>

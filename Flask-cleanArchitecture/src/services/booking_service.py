@@ -1,8 +1,13 @@
 from typing import List
 from datetime import datetime
 
+from infrastructure.models.creative_space_model import CreativeSpaceModel
+from infrastructure.models.service_provider_model import ServiceProviderModel
+from infrastructure.repositories.notification_repository import NotificationRepository
+
 
 class BookingService:
+
     def __init__(
         self,
         repository,
@@ -15,9 +20,169 @@ class BookingService:
         self.invoice_repository = invoice_repository
         self.payment_repository = payment_repository
 
-    # ==========================================================
-    # PHOTOGRAPHER BOOKING
-    # ==========================================================
+
+        self.notification_repository = NotificationRepository(
+            session=self.repository.session
+        )
+
+    def _notify_provider_new_booking(
+        self,
+        booking
+    ):
+        """
+        Tạo Notification cho Provider khi Photographer
+        vừa tạo Booking mới.
+
+        Quan hệ:
+
+            Booking
+                |
+                | SpaceID
+                v
+            CreativeSpaces
+                |
+                | ProviderID
+                v
+            ServiceProviders
+                |
+                | UserID
+                v
+            Notifications
+
+        Notification được gửi đến UserID của Provider.
+        """
+
+        if not booking:
+            return
+
+        try:
+
+            # --------------------------------------------------
+            # 1. Tìm Creative Space của Booking
+            # --------------------------------------------------
+
+            space = (
+                self.repository.session
+                .query(CreativeSpaceModel)
+                .filter(
+                    CreativeSpaceModel.id ==
+                    booking.space_id
+                )
+                .first()
+            )
+
+            if not space:
+                print(
+                    f"[Notification] Không tìm thấy "
+                    f"CreativeSpace ID={booking.space_id}"
+                )
+                return
+
+            # --------------------------------------------------
+            # 2. Tìm Service Provider sở hữu Space
+            # --------------------------------------------------
+
+            provider = (
+                self.repository.session
+                .query(ServiceProviderModel)
+                .filter(
+                    ServiceProviderModel.id ==
+                    space.provider_id
+                )
+                .first()
+            )
+
+            if not provider:
+                print(
+                    f"[Notification] Không tìm thấy "
+                    f"Provider ID={space.provider_id}"
+                )
+                return
+
+            # --------------------------------------------------
+            # 3. Provider phải có UserID
+            # --------------------------------------------------
+
+            provider_user_id = provider.user_id
+
+            if not provider_user_id:
+                print(
+                    f"[Notification] Provider "
+                    f"ID={provider.id} chưa có UserID"
+                )
+                return
+
+            # --------------------------------------------------
+            # 4. Format thời gian booking
+            # --------------------------------------------------
+
+            start_time = booking.start_time
+            end_time = booking.end_time
+
+            if start_time:
+                start_text = start_time.strftime(
+                    "%d/%m/%Y %H:%M"
+                )
+            else:
+                start_text = "Chưa xác định"
+
+            if end_time:
+                end_text = end_time.strftime(
+                    "%d/%m/%Y %H:%M"
+                )
+            else:
+                end_text = "Chưa xác định"
+
+            # --------------------------------------------------
+            # 5. Tên Space
+            # --------------------------------------------------
+
+            space_name = (
+                space.name
+                if getattr(space, "name", None)
+                else f"Space #{booking.space_id}"
+            )
+
+            # --------------------------------------------------
+            # 6. Tạo nội dung Notification
+            # --------------------------------------------------
+
+            title = "Có booking mới"
+
+            content = (
+                f"Booking #{booking.id}: "
+                f"Photographer #{booking.photographer_id} "
+                f"vừa tạo một booking mới cho "
+                f"{space_name}. "
+                f"Thời gian: {start_text} - {end_text}. "
+                f"Vui lòng kiểm tra và xác nhận booking."
+            )
+
+            # --------------------------------------------------
+            # 7. Lưu Notification
+            # --------------------------------------------------
+
+            self.notification_repository.add({
+                "user_id": provider_user_id,
+                "title": title,
+                "content": content,
+                "type": "booking",
+                "is_read": False,
+                "created_at": datetime.now()
+            })
+
+            print(
+                "[Notification] Đã tạo thông báo booking mới "
+                f"cho Provider UserID={provider_user_id}"
+            )
+
+        except Exception as error:
+            self.repository.session.rollback()
+
+            print(
+                "[Notification] Không thể tạo thông báo "
+                f"booking mới: {error}"
+            )
 
     def create_booking(self, **data):
 
@@ -31,14 +196,18 @@ class BookingService:
                     'Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc'
                 )
 
-        # Booking mới luôn bắt đầu ở trạng thái pending
+
         data['status'] = 'pending'
 
-        return self.repository.add(data)
 
-    # ==========================================================
-    # LẤY BOOKING CỦA PHOTOGRAPHER
-    # ==========================================================
+        booking = self.repository.add(data)
+
+
+        self._notify_provider_new_booking(
+            booking
+        )
+
+        return booking
 
     def get_booking(
         self,
@@ -51,6 +220,7 @@ class BookingService:
             booking_id=id,
             photographer_id=photographer_id
         )
+
 
     def list_bookings(
         self,
@@ -166,10 +336,7 @@ class BookingService:
             self.repository.session.rollback()
             raise
 
-    # ==========================================================
-    # PROVIDER BOOKING MANAGEMENT
-    # ==========================================================
-
+ 
     def list_provider_bookings(
         self,
         provider_id: int,
@@ -195,6 +362,10 @@ class BookingService:
             result.append(booking)
 
         return result
+
+    # ==========================================================
+    # PROVIDER GET BOOKING
+    # ==========================================================
 
     def get_provider_booking(
         self,
@@ -254,10 +425,6 @@ class BookingService:
                 f'{booking.status}'
             )
 
-        # ------------------------------------------------------
-        # 1. Confirm Booking
-        # ------------------------------------------------------
-
         updated_booking = self.repository.update(
             booking_id,
             {
@@ -265,10 +432,7 @@ class BookingService:
             }
         )
 
-        # ------------------------------------------------------
-        # 2. Tạo ServiceSession
-        # ------------------------------------------------------
-
+   
         if self.service_session_repository:
 
             existing_session = (
@@ -588,3 +752,4 @@ class BookingService:
         )
 
         return updated_booking, None
+
