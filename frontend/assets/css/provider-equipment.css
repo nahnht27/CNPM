@@ -57,24 +57,19 @@
 }
 
 .create-equipment-btn {
-  flex: 0 0 auto;
-  min-height: 46px;
-  padding: 0 22px;
-  border: 1px solid #e13493;
-  border-radius: 7px;
-  background: #e13493;
+  border: 1px solid #1f2937;
+  background: #1f2937;
   color: #fff;
-  font: inherit;
-  font-size: 14px;
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: .2s ease;
 }
 
 .create-equipment-btn:hover {
-  background: #c92c82;
-  border-color: #c92c82;
-  transform: translateY(-1px);
+  background: #111827;
 }
 
 /* =====================================================
@@ -606,6 +601,46 @@
 /* =====================================================
    NAVBAR ACTIVE STATE
    ===================================================== */
+.provider-nav-name {
+  max-width: 150px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  color: var(--text);
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.provider-logout {
+  border: 0;
+
+  padding: 10px 14px;
+
+  border-radius: 5px;
+
+  background: #f3f3f6;
+
+  color: #55586b;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: .18s ease;
+}
+
+.provider-logout:hover {
+  background: #ececf1;
+  color: var(--pink);
+}
+
+.menu a {
+  position: relative;
+}
 
 .menu a.active {
   color: #111827;
@@ -617,7 +652,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -8px;
+  bottom: -2px;
   height: 2px;
   background: #e13493;
 }
