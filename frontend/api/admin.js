@@ -97,7 +97,9 @@ function statusText(status) {
         approved: "Đã duyệt",
         rejected: "Từ chối",
         resolved: "Đã xử lý",
-        open: "Đang mở"
+        open: "Đang mở",
+        active: "Đang hoạt động",
+        inactive: "Không hoạt động"
     };
 
     const key = String(status || "").toLowerCase();
@@ -118,7 +120,9 @@ function renderAdminName() {
         user.username ||
         "Admin";
 
-    const adminName = document.getElementById("adminName");
+    const adminName =
+        document.getElementById("adminName");
+
     const welcomeAdminName =
         document.getElementById("welcomeAdminName");
 
@@ -161,27 +165,32 @@ async function loadDashboardStats() {
     const totalBookings =
         document.getElementById("totalBookings");
 
-    const totalRevenue =
-        document.getElementById("totalRevenue");
-
     if (totalUsers) {
         totalUsers.textContent =
-            Number(data.total_users || 0).toLocaleString("vi-VN");
+            Number(
+                data.total_users || 0
+            ).toLocaleString("vi-VN");
     }
 
     if (totalProviders) {
         totalProviders.textContent =
-            Number(data.total_providers || 0).toLocaleString("vi-VN");
+            Number(
+                data.total_providers || 0
+            ).toLocaleString("vi-VN");
     }
 
     if (pendingProviders) {
         pendingProviders.textContent =
-            `${Number(data.pending_providers || 0).toLocaleString("vi-VN")} đang chờ duyệt`;
+            `${Number(
+                data.pending_providers || 0
+            ).toLocaleString("vi-VN")} đang chờ duyệt`;
     }
 
     if (totalBookings) {
         totalBookings.textContent =
-            Number(data.total_bookings || 0).toLocaleString("vi-VN");
+            Number(
+                data.total_bookings || 0
+            ).toLocaleString("vi-VN");
     }
 
     if (totalRevenue) {
@@ -219,7 +228,9 @@ async function loadPendingProviders() {
         const providers =
             Array.isArray(data)
                 ? data
-                : data.data || data.providers || [];
+                : data.data ||
+                  data.providers ||
+                  [];
 
         const pending =
             providers
@@ -246,58 +257,61 @@ async function loadPendingProviders() {
             return;
         }
 
-        container.innerHTML = pending
-            .map((provider) => {
-                const providerId =
-                    provider.provider_id ??
-                    provider.ProviderID ??
-                    provider.id ??
-                    "";
+        container.innerHTML =
+            pending
+                .map((provider) => {
+                    const providerId =
+                        provider.provider_id ??
+                        provider.ProviderID ??
+                        provider.id ??
+                        "";
 
-                const businessName =
-                    provider.business_name ??
-                    provider.BusinessName ??
-                    "Provider";
+                    const businessName =
+                        provider.business_name ??
+                        provider.BusinessName ??
+                        "Provider";
 
-                const address =
-                    provider.business_address ??
-                    provider.BusinessAddress ??
-                    "Chưa cập nhật địa chỉ";
+                    const address =
+                        provider.business_address ??
+                        provider.BusinessAddress ??
+                        "Chưa cập nhật địa chỉ";
 
-                const status =
-                    provider.verification_status ??
-                    provider.VerificationStatus ??
-                    provider.status ??
-                    "pending";
+                    const status =
+                        provider.verification_status ??
+                        provider.VerificationStatus ??
+                        provider.status ??
+                        "pending";
 
-                return `
-                    <div class="admin-list-item">
+                    return `
+                        <div class="admin-list-item">
 
-                        <div class="admin-list-main">
+                            <div class="admin-list-main">
 
-                            <p class="admin-list-title">
-                                ${escapeHtml(businessName)}
-                            </p>
+                                <p class="admin-list-title">
+                                    ${escapeHtml(businessName)}
+                                </p>
 
-                            <p class="admin-list-description">
-                                ID: ${escapeHtml(providerId)}
-                                · ${escapeHtml(address)}
-                            </p>
+                                <p class="admin-list-description">
+                                    ID: ${escapeHtml(providerId)}
+                                    · ${escapeHtml(address)}
+                                </p>
+
+                            </div>
+
+                            <div class="admin-list-action">
+
+                                <span class="admin-status">
+                                    ${escapeHtml(
+                                        statusText(status)
+                                    )}
+                                </span>
+
+                            </div>
 
                         </div>
-
-                        <div class="admin-list-action">
-
-                            <span class="admin-status">
-                                ${escapeHtml(statusText(status))}
-                            </span>
-
-                        </div>
-
-                    </div>
-                `;
-            })
-            .join("");
+                    `;
+                })
+                .join("");
 
     } catch (error) {
         console.error(
@@ -342,7 +356,9 @@ async function loadComplaints() {
         const complaints =
             Array.isArray(data)
                 ? data
-                : data.data || data.complaints || [];
+                : data.data ||
+                  data.complaints ||
+                  [];
 
         const recentComplaints =
             complaints.slice(0, 5);
@@ -357,51 +373,56 @@ async function loadComplaints() {
             return;
         }
 
-        container.innerHTML = recentComplaints
-            .map((complaint) => {
-                const complaintId =
-                    complaint.complaint_id ??
-                    complaint.ComplaintID ??
-                    complaint.id ??
-                    "";
+        container.innerHTML =
+            recentComplaints
+                .map((complaint) => {
+                    const complaintId =
+                        complaint.complaint_id ??
+                        complaint.ComplaintID ??
+                        complaint.id ??
+                        "";
 
-                const description =
-                    complaint.description ??
-                    complaint.Description ??
-                    "Không có nội dung";
+                    const description =
+                        complaint.description ??
+                        complaint.Description ??
+                        "Không có nội dung";
 
-                const status =
-                    complaint.status ??
-                    complaint.Status ??
-                    "open";
+                    const status =
+                        complaint.status ??
+                        complaint.Status ??
+                        "open";
 
-                return `
-                    <div class="admin-list-item">
+                    return `
+                        <div class="admin-list-item">
 
-                        <div class="admin-list-main">
+                            <div class="admin-list-main">
 
-                            <p class="admin-list-title">
-                                Khiếu nại #${escapeHtml(complaintId)}
-                            </p>
+                                <p class="admin-list-title">
+                                    Khiếu nại #${escapeHtml(
+                                        complaintId
+                                    )}
+                                </p>
 
-                            <p class="admin-list-description">
-                                ${escapeHtml(description)}
-                            </p>
+                                <p class="admin-list-description">
+                                    ${escapeHtml(description)}
+                                </p>
+
+                            </div>
+
+                            <div class="admin-list-action">
+
+                                <span class="admin-status">
+                                    ${escapeHtml(
+                                        statusText(status)
+                                    )}
+                                </span>
+
+                            </div>
 
                         </div>
-
-                        <div class="admin-list-action">
-
-                            <span class="admin-status">
-                                ${escapeHtml(statusText(status))}
-                            </span>
-
-                        </div>
-
-                    </div>
-                `;
-            })
-            .join("");
+                    `;
+                })
+                .join("");
 
     } catch (error) {
         console.error(
@@ -446,7 +467,9 @@ async function loadRecentBookings() {
         const bookings =
             Array.isArray(data)
                 ? data
-                : data.data || data.bookings || [];
+                : data.data ||
+                  data.bookings ||
+                  [];
 
         const recentBookings =
             bookings.slice(0, 8);
@@ -466,79 +489,88 @@ async function loadRecentBookings() {
             return;
         }
 
-        container.innerHTML = recentBookings
-            .map((booking) => {
-                const bookingId =
-                    booking.booking_id ??
-                    booking.BookingID ??
-                    booking.id ??
-                    "";
+        container.innerHTML =
+            recentBookings
+                .map((booking) => {
+                    const bookingId =
+                        booking.booking_id ??
+                        booking.BookingID ??
+                        booking.id ??
+                        "";
 
-                const photographerId =
-                    booking.photographer_id ??
-                    booking.PhotographerID ??
-                    "";
+                    const photographerId =
+                        booking.photographer_id ??
+                        booking.PhotographerID ??
+                        "";
 
-                const spaceId =
-                    booking.space_id ??
-                    booking.SpaceID ??
-                    "";
+                    const spaceId =
+                        booking.space_id ??
+                        booking.SpaceID ??
+                        "";
 
-                const startTime =
-                    booking.start_time ??
-                    booking.StartTime ??
-                    "";
+                    const startTime =
+                        booking.start_time ??
+                        booking.StartTime ??
+                        "";
 
-                const endTime =
-                    booking.end_time ??
-                    booking.EndTime ??
-                    "";
+                    const endTime =
+                        booking.end_time ??
+                        booking.EndTime ??
+                        "";
 
-                const status =
-                    booking.status ??
-                    booking.Status ??
-                    "";
+                    const status =
+                        booking.status ??
+                        booking.Status ??
+                        "";
 
-                const totalPrice =
-                    booking.total_price ??
-                    booking.TotalPrice ??
-                    0;
+                    const totalPrice =
+                        booking.total_price ??
+                        booking.TotalPrice ??
+                        0;
 
-                return `
-                    <tr>
+                    return `
+                        <tr>
 
-                        <td>
-                            #${escapeHtml(bookingId)}
-                        </td>
+                            <td>
+                                #${escapeHtml(bookingId)}
+                            </td>
 
-                        <td>
-                            ${escapeHtml(photographerId)}
-                        </td>
+                            <td>
+                                ${escapeHtml(
+                                    photographerId
+                                )}
+                            </td>
 
-                        <td>
-                            ${escapeHtml(spaceId)}
-                        </td>
+                            <td>
+                                ${escapeHtml(
+                                    spaceId
+                                )}
+                            </td>
 
-                        <td>
-                            ${escapeHtml(startTime)}
-                            <br>
-                            ${escapeHtml(endTime)}
-                        </td>
+                            <td>
+                                ${escapeHtml(startTime)}
+                                <br>
+                                ${escapeHtml(endTime)}
+                            </td>
 
-                        <td>
-                            <span class="admin-status">
-                                ${escapeHtml(statusText(status))}
-                            </span>
-                        </td>
+                            <td>
+                                <span class="admin-status">
+                                    ${escapeHtml(
+                                        statusText(status)
+                                    )}
+                                </span>
+                            </td>
 
-                        <td>
-                            ${escapeHtml(money(totalPrice))}
-                        </td>
+                            <td>
+                                ${escapeHtml(
+                                    money(totalPrice)
+                                )}
+                            </td>
 
-                    </tr>
-                `;
-            })
-            .join("");
+                        </tr>
+                    `;
+                })
+                .join("");
 
     } catch (error) {
         console.error(
@@ -553,6 +585,163 @@ async function loadRecentBookings() {
                     class="admin-table-empty"
                 >
                     Không thể tải danh sách booking.
+                </td>
+            </tr>
+        `;
+    }
+}
+
+
+/* =========================================================
+   LOAD PAYMENTS
+   ========================================================= */
+
+async function loadPayments() {
+    const tableBody =
+        document.getElementById(
+            "paymentsTableBody"
+        );
+
+    if (!tableBody) {
+        return;
+    }
+
+    try {
+        const response =
+            await apiFetch(
+                `${API_BASE_URL}/payments/`
+            );
+
+        if (!response.ok) {
+            throw new Error(
+                `Payment API error: ${response.status}`
+            );
+        }
+
+        const data =
+            await response.json();
+
+        const payments =
+            Array.isArray(data)
+                ? data
+                : data.data ||
+                  data.payments ||
+                  [];
+
+        if (payments.length === 0) {
+            tableBody.innerHTML = `
+                <tr>
+                    <td
+                        colspan="7"
+                        class="admin-table-empty"
+                    >
+                        Chưa có giao dịch nào.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+        tableBody.innerHTML =
+            payments
+                .map((payment) => {
+                    const paymentId =
+                        payment.id ??
+                        payment.PaymentID ??
+                        "";
+
+                    const invoiceId =
+                        payment.invoice_id ??
+                        payment.InvoiceID ??
+                        "";
+
+                    const paymentMethod =
+                        payment.payment_method ??
+                        payment.PaymentMethod ??
+                        "Không xác định";
+
+                    const amount =
+                        payment.amount ??
+                        payment.Amount ??
+                        0;
+
+                    const status =
+                        payment.status ??
+                        payment.Status ??
+                        "";
+
+                    const createdAt =
+                        payment.created_at ??
+                        payment.CreatedAt ??
+                        "";
+
+                    const paidAt =
+                        payment.paid_at ??
+                        payment.PaidAt ??
+                        "";
+
+                    return `
+                        <tr>
+
+                            <td>
+                                #${escapeHtml(paymentId)}
+                            </td>
+
+                            <td>
+                                #${escapeHtml(invoiceId)}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    paymentMethod
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    money(amount)
+                                )}
+                            </td>
+
+                            <td>
+                                <span class="admin-status">
+                                    ${escapeHtml(
+                                        statusText(status)
+                                    )}
+                                </span>
+                            </td>
+
+                            <td>
+                                ${escapeHtml(createdAt)}
+                            </td>
+
+                            <td>
+                                ${
+                                    paidAt
+                                        ? escapeHtml(paidAt)
+                                        : "Chưa thanh toán"
+                                }
+                            </td>
+
+                        </tr>
+                    `;
+                })
+                .join("");
+
+    } catch (error) {
+        console.error(
+            "Cannot load payments:",
+            error
+        );
+
+        tableBody.innerHTML = `
+            <tr>
+                <td
+                    colspan="7"
+                    class="admin-table-empty"
+                >
+                    Không thể tải danh sách giao dịch.
                 </td>
             </tr>
         `;
@@ -581,6 +770,7 @@ async function loadDashboard() {
     await loadRecentBookings();
 }
 
+
 /* =========================================================
    ADMIN ACCOUNTS
    ========================================================= */
@@ -596,7 +786,9 @@ let selectedProviderId = null;
 
 async function loadAccounts() {
     const tableBody =
-        document.getElementById("accountsTableBody");
+        document.getElementById(
+            "accountsTableBody"
+        );
 
     if (!tableBody) {
         return;
@@ -636,7 +828,9 @@ async function loadAccounts() {
         adminUsers =
             Array.isArray(usersData)
                 ? usersData
-                : usersData.data || usersData.users || [];
+                : usersData.data ||
+                  usersData.users ||
+                  [];
 
         adminProviders =
             Array.isArray(providersData)
@@ -677,14 +871,22 @@ function findProviderByUserId(userId) {
             Number(provider.user_id) === Number(userId)
     );
 }
-////////////////// FIND PHOTOGRAPHER////////
+
+
+/* =========================================================
+   SHOW USER DETAIL
+   ========================================================= */
 
 function showUserDetail(userId) {
     const modal =
-        document.getElementById("providerModal");
+        document.getElementById(
+            "providerModal"
+        );
 
     const modalBody =
-        document.getElementById("providerModalBody");
+        document.getElementById(
+            "providerModalBody"
+        );
 
     const approveButton =
         document.getElementById(
@@ -705,6 +907,10 @@ function showUserDetail(userId) {
         return;
     }
 
+    /*
+     * Tìm Provider trực tiếp từ user hoặc
+     * từ danh sách Provider.
+     */
     const provider =
         user.provider ||
         findProviderByUserId(user.user_id);
@@ -716,6 +922,10 @@ function showUserDetail(userId) {
 
     let providerHtml = "";
 
+    /*
+     * Nếu tài khoản là Provider thì hiển thị
+     * thêm thông tin doanh nghiệp.
+     */
     if (provider) {
         providerHtml = `
             <hr>
@@ -732,6 +942,7 @@ function showUserDetail(userId) {
                 <span>
                     ${escapeHtml(
                         provider.business_name ||
+                        provider.BusinessName ||
                         "Chưa cập nhật"
                     )}
                 </span>
@@ -745,6 +956,7 @@ function showUserDetail(userId) {
                 <span>
                     ${escapeHtml(
                         provider.tax_code ||
+                        provider.TaxCode ||
                         "Chưa cập nhật"
                     )}
                 </span>
@@ -758,6 +970,7 @@ function showUserDetail(userId) {
                 <span>
                     ${escapeHtml(
                         provider.business_address ||
+                        provider.BusinessAddress ||
                         "Chưa cập nhật"
                     )}
                 </span>
@@ -771,7 +984,8 @@ function showUserDetail(userId) {
                 <span>
                     ${escapeHtml(
                         statusText(
-                            provider.verification_status
+                            provider.verification_status ||
+                            provider.VerificationStatus
                         )
                     )}
                 </span>
@@ -784,11 +998,13 @@ function showUserDetail(userId) {
 
                 <span>
                     ${
-                        provider.license_url
+                        provider.license_url ||
+                        provider.LicenseUrl
                             ? `
                                 <a
                                     href="${escapeHtml(
-                                        provider.license_url
+                                        provider.license_url ||
+                                        provider.LicenseUrl
                                     )}"
                                     target="_blank"
                                     rel="noopener noreferrer"
@@ -915,11 +1131,12 @@ function showUserDetail(userId) {
                 </strong>
 
                 <span>
-                    ${user.created_at
-                        ? escapeHtml(
-                            user.created_at
-                        )
-                        : "Chưa cập nhật"
+                    ${
+                        user.created_at
+                            ? escapeHtml(
+                                user.created_at
+                            )
+                            : "Chưa cập nhật"
                     }
                 </span>
             </div>
@@ -929,30 +1146,60 @@ function showUserDetail(userId) {
         </div>
     `;
 
+
     /*
-     * Chỉ hiện nút Duyệt khi đây là Provider
-     * và Provider đang pending.
+     * CHỈ Provider pending mới có nút Duyệt.
+     *
+     * Người dùng / Photographer:
+     * provider = null
+     * => hidden = true
+     *
+     * Provider approved:
+     * status = approved
+     * => hidden = true
+     *
+     * Provider pending:
+     * status = pending
+     * => hidden = false
      */
     if (approveButton) {
+
+        const providerStatus =
+            provider
+                ? (
+                    provider.verification_status ||
+                    provider.VerificationStatus ||
+                    ""
+                )
+                : "";
+
         const isPendingProvider =
-            provider &&
-            String(
-                provider.verification_status
-            ).toLowerCase() === "pending";
+            Boolean(provider) &&
+            String(providerStatus).toLowerCase() === "pending";
 
         approveButton.hidden =
             !isPendingProvider;
+
+        approveButton.disabled = false;
+
+        approveButton.textContent =
+            "Duyệt Provider";
     }
 
     modal.hidden = false;
 }
+
 
 /* =========================================================
    ROLE TEXT
    ========================================================= */
 
 function getRoleText(user) {
-    if (user.is_provider) {
+    const provider =
+        user.provider ||
+        findProviderByUserId(user.user_id);
+
+    if (provider) {
         return "Provider";
     }
 
@@ -966,7 +1213,9 @@ function getRoleText(user) {
 
 function renderAccounts() {
     const tableBody =
-        document.getElementById("accountsTableBody");
+        document.getElementById(
+            "accountsTableBody"
+        );
 
     if (!tableBody) {
         return;
@@ -987,102 +1236,127 @@ function renderAccounts() {
         return;
     }
 
-    tableBody.innerHTML = adminUsers
-        .map((user) => {
-            const provider =
-                user.provider ||
-                findProviderByUserId(user.user_id);
+    tableBody.innerHTML =
+        adminUsers
+            .map((user) => {
 
-            const role =
-                getRoleText(user);
+                /*
+                 * Nếu user có provider object
+                 * thì đây là Provider.
+                 */
+                const provider =
+                    user.provider ||
+                    findProviderByUserId(
+                        user.user_id
+                    );
 
-            const status =
-                user.status || "unknown";
+                const role =
+                    getRoleText(user);
 
-            const userId =
-                user.user_id ?? "";
+                const status =
+                    user.status ||
+                    "unknown";
 
-            const fullName =
-                user.full_name || "Chưa cập nhật";
+                const userId =
+                    user.user_id ??
+                    "";
 
-            const email =
-                user.email || "Chưa cập nhật";
+                const fullName =
+                    user.full_name ||
+                    "Chưa cập nhật";
 
-            const phone =
-                user.phone || "Chưa cập nhật";
+                const email =
+                    user.email ||
+                    "Chưa cập nhật";
 
-            let actionHtml = `
-    <button
-        type="button"
-        class="admin-btn admin-btn-secondary"
-        onclick="showUserDetail(${Number(userId)})"
-    >
-        Xem
-    </button>
-`;
+                const phone =
+                    user.phone ||
+                    "Chưa cập nhật";
 
-if (provider) {
-    const providerStatus =
-        provider.verification_status ||
-        "unknown";
 
-    if (
-        String(providerStatus).toLowerCase()
-        === "pending"
-    ) {
-        actionHtml += `
-            <button
-                type="button"
-                class="admin-btn admin-btn-primary"
-                onclick="showProviderDetail(${Number(provider.id)})"
-            >
-                Duyệt
-            </button>
-        `;
-    }
-}
+                /*
+                 * Tất cả tài khoản đều có nút Xem.
+                 */
+                let actionHtml = `
+                    <button
+                        type="button"
+                        class="admin-view-button"
+                        onclick="showUserDetail(${Number(userId)})"
+                    >
+                        Xem
+                    </button>
+                `;
 
-            return `
-                <tr>
 
-                    <td>
-                        #${escapeHtml(userId)}
-                    </td>
+                /*
+                 * CHỈ Provider pending mới có Duyệt.
+                 */
+                if (provider) {
 
-                    <td>
-                        ${escapeHtml(fullName)}
-                    </td>
+                    const providerStatus =
+                        provider.verification_status ||
+                        provider.VerificationStatus ||
+                        "unknown";
 
-                    <td>
-                        ${escapeHtml(email)}
-                    </td>
+                    if (
+                        String(providerStatus).toLowerCase()
+                        === "pending"
+                    ) {
 
-                    <td>
-                        ${escapeHtml(phone)}
-                    </td>
+                        actionHtml += `
+                            <button
+                                type="button"
+                                class="admin-approve-button"
+                                onclick="showProviderDetail(${Number(provider.id)})"
+                            >
+                                Duyệt
+                            </button>
+                        `;
+                    }
+                }
 
-                    <td>
-                        ${escapeHtml(role)}
-                    </td>
 
-                    <td>
-                        <span class="admin-status">
-                            ${escapeHtml(
-                                statusText(status)
-                            )}
-                        </span>
-                    </td>
+                return `
+                    <tr>
 
-                    <td>
-                        <div class="admin-actions">
-                            ${actionHtml}
-                        </div>
-                    </td>
+                        <td>
+                            #${escapeHtml(userId)}
+                        </td>
 
-                </tr>
-            `;
-        })
-        .join("");
+                        <td>
+                            ${escapeHtml(fullName)}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(email)}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(phone)}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(role)}
+                        </td>
+
+                        <td>
+                            <span class="admin-status">
+                                ${escapeHtml(
+                                    statusText(status)
+                                )}
+                            </span>
+                        </td>
+
+                        <td>
+                            <div class="admin-actions">
+                                ${actionHtml}
+                            </div>
+                        </td>
+
+                    </tr>
+                `;
+            })
+            .join("");
 }
 
 
@@ -1092,10 +1366,14 @@ if (provider) {
 
 function showProviderDetail(providerId) {
     const modal =
-        document.getElementById("providerModal");
+        document.getElementById(
+            "providerModal"
+        );
 
     const modalBody =
-        document.getElementById("providerModalBody");
+        document.getElementById(
+            "providerModalBody"
+        );
 
     const approveButton =
         document.getElementById(
@@ -1121,10 +1399,13 @@ function showProviderDetail(providerId) {
 
     const status =
         provider.verification_status ||
+        provider.VerificationStatus ||
         "unknown";
 
     const licenseUrl =
-        provider.license_url || "";
+        provider.license_url ||
+        provider.LicenseUrl ||
+        "";
 
     modalBody.innerHTML = `
         <div class="admin-provider-detail">
@@ -1137,6 +1418,7 @@ function showProviderDetail(providerId) {
                 <span>
                     ${escapeHtml(
                         provider.business_name ||
+                        provider.BusinessName ||
                         "Chưa cập nhật"
                     )}
                 </span>
@@ -1150,6 +1432,7 @@ function showProviderDetail(providerId) {
                 <span>
                     ${escapeHtml(
                         provider.tax_code ||
+                        provider.TaxCode ||
                         "Chưa cập nhật"
                     )}
                 </span>
@@ -1163,6 +1446,7 @@ function showProviderDetail(providerId) {
                 <span>
                     ${escapeHtml(
                         provider.business_address ||
+                        provider.BusinessAddress ||
                         "Chưa cập nhật"
                     )}
                 </span>
@@ -1190,7 +1474,9 @@ function showProviderDetail(providerId) {
                         licenseUrl
                             ? `
                                 <a
-                                    href="${escapeHtml(licenseUrl)}"
+                                    href="${escapeHtml(
+                                        licenseUrl
+                                    )}"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
@@ -1221,15 +1507,23 @@ function showProviderDetail(providerId) {
         </div>
     `;
 
+
+    /*
+     * Trong modal Provider:
+     * chỉ pending mới được duyệt.
+     */
     if (approveButton) {
-        if (
-            String(status).toLowerCase()
-            === "pending"
-        ) {
-            approveButton.hidden = false;
-        } else {
-            approveButton.hidden = true;
-        }
+
+        const isPending =
+            String(status).toLowerCase() === "pending";
+
+        approveButton.hidden =
+            !isPending;
+
+        approveButton.disabled = false;
+
+        approveButton.textContent =
+            "Duyệt Provider";
     }
 
     modal.hidden = false;
@@ -1242,10 +1536,24 @@ function showProviderDetail(providerId) {
 
 function closeProviderModal() {
     const modal =
-        document.getElementById("providerModal");
+        document.getElementById(
+            "providerModal"
+        );
+
+    const approveButton =
+        document.getElementById(
+            "approveProviderButton"
+        );
 
     if (modal) {
         modal.hidden = true;
+    }
+
+    if (approveButton) {
+        approveButton.hidden = true;
+        approveButton.disabled = false;
+        approveButton.textContent =
+            "Duyệt Provider";
     }
 
     selectedProviderId = null;
@@ -1268,16 +1576,18 @@ async function approveProvider() {
 
     if (approveButton) {
         approveButton.disabled = true;
-        approveButton.textContent = "Đang duyệt...";
+        approveButton.textContent =
+            "Đang duyệt...";
     }
 
     try {
-        const response = await apiFetch(
-            `${API_BASE_URL}/admin/providers/${selectedProviderId}/approve`,
-            {
-                method: "PUT"
-            }
-        );
+        const response =
+            await apiFetch(
+                `${API_BASE_URL}/admin/providers/${selectedProviderId}/approve`,
+                {
+                    method: "PUT"
+                }
+            );
 
         const data =
             await response.json();
@@ -1298,6 +1608,7 @@ async function approveProvider() {
         await loadAccounts();
 
     } catch (error) {
+
         console.error(
             "Cannot approve provider:",
             error
@@ -1316,6 +1627,7 @@ async function approveProvider() {
     }
 }
 
+
 /* =========================================================
    ADMIN SETTINGS
    ========================================================= */
@@ -1323,13 +1635,19 @@ async function approveProvider() {
 async function loadAdminSettings() {
 
     const fullNameInput =
-        document.getElementById("adminFullName");
+        document.getElementById(
+            "adminFullName"
+        );
 
     const emailInput =
-        document.getElementById("adminEmail");
+        document.getElementById(
+            "adminEmail"
+        );
 
     const usernameInput =
-        document.getElementById("adminUsername");
+        document.getElementById(
+            "adminUsername"
+        );
 
     if (
         !fullNameInput ||
@@ -1405,10 +1723,14 @@ async function saveAdminSettings(event) {
     event.preventDefault();
 
     const fullNameInput =
-        document.getElementById("adminFullName");
+        document.getElementById(
+            "adminFullName"
+        );
 
     const emailInput =
-        document.getElementById("adminEmail");
+        document.getElementById(
+            "adminEmail"
+        );
 
     const saveButton =
         document.querySelector(
@@ -1470,8 +1792,11 @@ async function saveAdminSettings(event) {
                     },
 
                     body: JSON.stringify({
-                        full_name: fullName,
-                        email: email
+                        full_name:
+                            fullName,
+
+                        email:
+                            email
                     })
                 }
             );
@@ -1574,7 +1899,6 @@ function showAdminSettingsMessage(
     message,
     type = "success"
 ) {
-
     const messageBox =
         document.getElementById(
             "adminSettingsMessage"
@@ -1614,9 +1938,9 @@ document.addEventListener(
 
             loadAdminSettings();
         }
-
     }
 );
+
 
 /* =========================================================
    INIT
@@ -1629,4 +1953,3 @@ document.addEventListener(
         loadAccounts();
     }
 );
-
