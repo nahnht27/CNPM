@@ -21,7 +21,6 @@ invoice_service = InvoiceService(
     InvoiceRepository(session)
 )
 
-
 request_schema = InvoiceRequestSchema()
 response_schema = InvoiceResponseSchema()
 

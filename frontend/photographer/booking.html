@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="../assets/css/photographer-home.css">
 
   <style>
-
     .confirm-modal {
       background: #fff;
       border-radius: 14px;
@@ -512,7 +511,7 @@
       align-items: center;
     }
 
-    #detailActions > * {
+    #detailActions>* {
       max-width: 100%;
     }
 
@@ -596,18 +595,11 @@
 
       <div class="nav-actions">
 
-        <span
-          class="photographer-nav-name"
-          id="navPhotographerName"
-        >
+        <span class="photographer-nav-name" id="navPhotographerName">
           Photographer
         </span>
 
-        <button
-          type="button"
-          class="photographer-logout"
-          onclick="logout()"
-        >
+        <button type="button" class="photographer-logout" onclick="logout()">
           Đăng xuất
         </button>
 
@@ -660,11 +652,7 @@
                 Địa điểm / Không gian
               </label>
 
-              <select
-                id="selectSpace"
-                onchange="onSpaceSelectChange()"
-                required
-              >
+              <select id="selectSpace" onchange="onSpaceSelectChange()" required>
                 <option value="">
                   -- Đang tải không gian... --
                 </option>
@@ -679,10 +667,7 @@
                 Gói Dịch vụ hỗ trợ
               </label>
 
-              <select
-                id="selectService"
-                onchange="updateBookingSummary()"
-              >
+              <select id="selectService" onchange="updateBookingSummary()">
                 <option value="">
                   -- Chọn dịch vụ --
                 </option>
@@ -697,10 +682,7 @@
                 Gói Thiết bị đi kèm
               </label>
 
-              <select
-                id="selectEquipment"
-                onchange="updateBookingSummary()"
-              >
+              <select id="selectEquipment" onchange="updateBookingSummary()">
                 <option value="">
                   -- Chọn thiết bị (Tùy chọn) --
                 </option>
@@ -715,12 +697,7 @@
                 Ngày sử dụng
               </label>
 
-              <input
-                type="date"
-                id="bookingDate"
-                required
-                onchange="updateBookingSummary()"
-              >
+              <input type="date" id="bookingDate" required onchange="updateBookingSummary()">
 
             </div>
 
@@ -731,10 +708,7 @@
                 Giờ bắt đầu
               </label>
 
-              <select
-                id="bookingTime"
-                onchange="updateBookingSummary()"
-              >
+              <select id="bookingTime" onchange="updateBookingSummary()">
                 <option value="07:00">07:00</option>
                 <option value="08:00">08:00</option>
                 <option value="09:00" selected>09:00</option>
@@ -756,10 +730,7 @@
                 Thời lượng (Giờ)
               </label>
 
-              <select
-                id="bookingDuration"
-                onchange="updateBookingSummary()"
-              >
+              <select id="bookingDuration" onchange="updateBookingSummary()">
                 <option value="1">1 Giờ</option>
                 <option value="2" selected>2 Giờ</option>
                 <option value="3">3 Giờ</option>
@@ -777,25 +748,15 @@
 
           <div class="booking-summary-box">
 
-            <div
-              class="booking-summary-info"
-              id="summaryInfo"
-            >
+            <div class="booking-summary-info" id="summaryInfo">
               Vui lòng chọn không gian để xem chi tiết chi phí.
             </div>
 
-            <div
-              class="booking-summary-price"
-              id="summaryPrice"
-            >
+            <div class="booking-summary-price" id="summaryPrice">
               0 VND
             </div>
 
-            <button
-              type="submit"
-              class="btn btn-primary"
-              id="btnSubmitBooking"
-            >
+            <button type="submit" class="btn btn-primary" id="btnSubmitBooking">
               Xác nhận Đặt chỗ
             </button>
 
@@ -818,61 +779,34 @@
         </div>
 
 
-        <div
-          class="booking-tabs"
-          id="bookingTabs"
-        >
+        <div class="booking-tabs" id="bookingTabs">
 
-          <button
-            type="button"
-            class="booking-tab active"
-            data-status="all"
-          >
+          <button type="button" class="booking-tab active" data-status="all">
             Tất cả
             <span class="tab-count" id="countAll">0</span>
           </button>
 
-          <button
-            type="button"
-            class="booking-tab"
-            data-status="pending"
-          >
+          <button type="button" class="booking-tab" data-status="pending">
             Chờ xử lý
             <span class="tab-count" id="countPending">0</span>
           </button>
 
-          <button
-            type="button"
-            class="booking-tab"
-            data-status="confirmed"
-          >
+          <button type="button" class="booking-tab" data-status="confirmed">
             Sắp tới
             <span class="tab-count" id="countConfirmed">0</span>
           </button>
 
-          <button
-            type="button"
-            class="booking-tab"
-            data-status="checked_in"
-          >
+          <button type="button" class="booking-tab" data-status="checked_in">
             Đang diễn ra
             <span class="tab-count" id="countCheckedIn">0</span>
           </button>
 
-          <button
-            type="button"
-            class="booking-tab"
-            data-status="completed"
-          >
+          <button type="button" class="booking-tab" data-status="completed">
             Hoàn tất
             <span class="tab-count" id="countCompleted">0</span>
           </button>
 
-          <button
-            type="button"
-            class="booking-tab"
-            data-status="cancelled"
-          >
+          <button type="button" class="booking-tab" data-status="cancelled">
             Đã hủy
             <span class="tab-count" id="countCancelled">0</span>
           </button>
@@ -880,11 +814,7 @@
         </div>
 
 
-        <div
-          class="booking-list"
-          id="bookingList"
-          style="margin-top:16px;"
-        ></div>
+        <div class="booking-list" id="bookingList" style="margin-top:16px;"></div>
 
       </section>
 
@@ -897,10 +827,7 @@
        BOOKING DETAIL MODAL
   ========================================================= -->
 
-  <div
-    class="overlay"
-    id="detailOverlay"
-  >
+  <div class="overlay" id="detailOverlay">
 
     <div class="modal">
 
@@ -908,45 +835,28 @@
 
         <div>
 
-          <h2
-            id="detailTitle"
-            style="margin:0 0 4px;font-size:1.1rem;"
-          >
+          <h2 id="detailTitle" style="margin:0 0 4px;font-size:1.1rem;">
             Chi tiết đặt chỗ
           </h2>
 
-          <div
-            style="font-size:.8rem;color:var(--muted);"
-            id="detailSubtitle"
-          >
+          <div style="font-size:.8rem;color:var(--muted);" id="detailSubtitle">
             Mã booking: —
           </div>
 
         </div>
 
-        <button
-          type="button"
-          class="modal-close"
-          onclick="closeModal('detailOverlay')"
-        >
+        <button type="button" class="modal-close" onclick="closeModal('detailOverlay')">
           ✕
         </button>
 
       </div>
 
 
-      <div
-        class="detail-body-scroll"
-        style="margin-bottom:20px;font-size:.9rem;line-height:1.6;"
-        id="detailBodyContent"
-      ></div>
+      <div class="detail-body-scroll" style="margin-bottom:20px;font-size:.9rem;line-height:1.6;"
+        id="detailBodyContent"></div>
 
 
-      <div
-        class="detail-actions-fixed"
-        style="display:flex;gap:8px;justify-content:flex-end;"
-        id="detailActions"
-      ></div>
+      <div class="detail-actions-fixed" style="display:flex;gap:8px;justify-content:flex-end;" id="detailActions"></div>
 
     </div>
 
@@ -957,10 +867,7 @@
        INVOICE DETAIL MODAL
   ========================================================= -->
 
-  <div
-    class="overlay"
-    id="invoiceOverlay"
-  >
+  <div class="overlay" id="invoiceOverlay">
 
     <div class="modal">
 
@@ -968,54 +875,36 @@
 
         <div>
 
-          <h2
-            style="margin:0 0 4px;font-size:1.1rem;"
-          >
+          <h2 style="margin:0 0 4px;font-size:1.1rem;">
             🧾 Chi tiết hóa đơn
           </h2>
 
-          <div
-            style="font-size:.8rem;color:var(--muted);"
-            id="invoiceSubtitle"
-          >
+          <div style="font-size:.8rem;color:var(--muted);" id="invoiceSubtitle">
             Hóa đơn: —
           </div>
 
         </div>
 
-        <button
-          type="button"
-          class="modal-close"
-          onclick="closeModal('invoiceOverlay')"
-        >
+        <button type="button" class="modal-close" onclick="closeModal('invoiceOverlay')">
           ✕
         </button>
 
       </div>
 
 
-      <div
-        id="invoiceBodyContent"
-        style="font-size:.9rem;line-height:1.6;"
-      >
+      <div id="invoiceBodyContent" style="font-size:.9rem;line-height:1.6;">
         Đang tải hóa đơn...
       </div>
 
 
-      <div
-        style="
+      <div style="
           display:flex;
           justify-content:flex-end;
           gap:8px;
           margin-top:18px;
-        "
-      >
+        ">
 
-        <button
-          type="button"
-          class="btn btn-secondary"
-          onclick="closeModal('invoiceOverlay')"
-        >
+        <button type="button" class="btn btn-secondary" onclick="closeModal('invoiceOverlay')">
           Đóng
         </button>
 
@@ -1030,11 +919,7 @@
        CANCEL MODAL
   ========================================================= -->
 
-  <div
-    class="overlay"
-    id="cancelConfirmModal"
-    onclick="closeCancelConfirmOutside(event)"
-  >
+  <div class="overlay" id="cancelConfirmModal" onclick="closeCancelConfirmOutside(event)">
 
     <div class="confirm-modal">
 
@@ -1066,20 +951,11 @@
 
       <div class="confirm-modal-actions">
 
-        <button
-          type="button"
-          class="confirm-btn confirm-cancel"
-          onclick="closeCancelConfirm()"
-        >
+        <button type="button" class="confirm-btn confirm-cancel" onclick="closeCancelConfirm()">
           Hủy
         </button>
 
-        <button
-          type="button"
-          class="confirm-btn confirm-ok"
-          id="cancelConfirmOkBtn"
-          onclick="executeCancelBooking()"
-        >
+        <button type="button" class="confirm-btn confirm-ok" id="cancelConfirmOkBtn" onclick="executeCancelBooking()">
           Xác nhận hủy
         </button>
 
@@ -1094,10 +970,7 @@
        TOAST
   ========================================================= -->
 
-  <div
-    class="toast-stack"
-    id="toastStack"
-  ></div>
+  <div class="toast-stack" id="toastStack"></div>
 
 
   <script src="../api/api.js"></script>
@@ -1804,7 +1677,7 @@
 
             const payment =
               matchingPayments[
-                matchingPayments.length - 1
+              matchingPayments.length - 1
               ];
 
             booking.payment_status =
@@ -1967,10 +1840,21 @@
           .join("");
 
       if (fetchedSpaces.length > 0) {
+        const params =
+          new URLSearchParams(
+            window.location.search
+          );
 
-        spaceSelect.selectedIndex = 1;
+        const requestedSpaceId =
+          params.get("space_id");
 
-        onSpaceSelectChange();
+        if (!requestedSpaceId) {
+
+          spaceSelect.selectedIndex = 1;
+
+          onSpaceSelectChange();
+
+        }
 
       }
 
@@ -2204,8 +2088,8 @@
         parsePrice(
           serviceSelect
             .options[
-              serviceSelect.selectedIndex
-            ]
+            serviceSelect.selectedIndex
+          ]
             ?.dataset
             ?.price
         );
@@ -2214,8 +2098,8 @@
         parsePrice(
           equipSelect
             .options[
-              equipSelect.selectedIndex
-            ]
+            equipSelect.selectedIndex
+          ]
             ?.dataset
             ?.price
         );
@@ -2489,8 +2373,8 @@
         parsePrice(
           serviceSelect
             .options[
-              serviceSelect.selectedIndex
-            ]
+            serviceSelect.selectedIndex
+          ]
             ?.dataset
             ?.price
         );
@@ -2500,8 +2384,8 @@
         parsePrice(
           equipSelect
             .options[
-              equipSelect.selectedIndex
-            ]
+            equipSelect.selectedIndex
+          ]
             ?.dataset
             ?.price
         );
@@ -2959,13 +2843,13 @@
         activeTab === "all"
           ? [...myBookings]
           : myBookings.filter(
-              b =>
-                normalizeStatus(
-                  b.status ||
-                  b.Status
-                ) ===
-                activeTab
-            );
+            b =>
+              normalizeStatus(
+                b.status ||
+                b.Status
+              ) ===
+              activeTab
+          );
 
 
       filtered.sort(
@@ -3053,9 +2937,9 @@
           const spaceName =
             spaceObj
               ? getItemName(
-                  spaceObj,
-                  "Không gian Studio"
-                )
+                spaceObj,
+                "Không gian Studio"
+              )
               : `Không gian #${spaceId || ""}`;
 
           const spaceAddress =
@@ -3124,16 +3008,15 @@
 
             <div class="booking-card-image">
 
-              ${
-                spaceImage
-                  ? `
+              ${spaceImage
+              ? `
                     <img
                       src="${escapeHtml(spaceImage)}"
                       alt="${escapeHtml(spaceName)}"
                       onerror="this.style.display='none'"
                     >
                   `
-                  : `
+              : `
                     <div style="
                       height:100%;
                       display:flex;
@@ -3144,7 +3027,7 @@
                       Chưa có hình ảnh
                     </div>
                   `
-              }
+            }
 
             </div>
 
@@ -3192,17 +3075,16 @@
               </div>
 
 
-              ${
-                paymentBadge
-                  ? `
+              ${paymentBadge
+              ? `
                     <div style="
                       margin-top:9px;
                     ">
                       ${paymentBadge}
                     </div>
                   `
-                  : ""
-              }
+              : ""
+            }
 
             </div>
 
@@ -3385,14 +3267,13 @@
       const spaceName =
         spaceObj
           ? getItemName(
-              spaceObj,
-              "Không gian Studio"
-            )
-          : `Không gian #${
-              b.space_id ||
-              b.SpaceID ||
-              ""
-            }`;
+            spaceObj,
+            "Không gian Studio"
+          )
+          : `Không gian #${b.space_id ||
+          b.SpaceID ||
+          ""
+          }`;
 
 
       const spaceAddress =
@@ -3434,9 +3315,8 @@
         "detailBodyContent"
       ).innerHTML = `
 
-        ${
-          spaceImage
-            ? `
+        ${spaceImage
+          ? `
               <div style="margin-bottom:16px;">
 
                 <img
@@ -3453,7 +3333,7 @@
 
               </div>
             `
-            : ""
+          : ""
         }
 
 
@@ -3484,27 +3364,25 @@
 
         <p style="margin:4px 0;">
           <strong>Mã hóa đơn:</strong>
-          ${
-            invoiceId
-              ? `#INV-${escapeHtml(invoiceId)}`
-              : "Chưa được cấp"
-          }
+          ${invoiceId
+          ? `#INV-${escapeHtml(invoiceId)}`
+          : "Chưa được cấp"
+        }
         </p>
 
 
-        ${
-          paymentStatus
-            ? `
+        ${paymentStatus
+          ? `
               <p style="margin:4px 0;">
                 <strong>Trạng thái thanh toán:</strong>
                 ${escapeHtml(
-                  getPaymentStatusLabel(
-                    paymentStatus
-                  )
-                )}
+            getPaymentStatusLabel(
+              paymentStatus
+            )
+          )}
               </p>
             `
-            : `
+          : `
               <p style="margin:4px 0;">
                 <strong>Trạng thái thanh toán:</strong>
                 Chưa có thanh toán
@@ -3513,19 +3391,18 @@
         }
 
 
-        ${
-          paymentPaidAt
-            ? `
+        ${paymentPaidAt
+          ? `
               <p style="margin:4px 0;">
                 <strong>Thời gian thanh toán:</strong>
                 ${escapeHtml(
-                  formatPaymentDate(
-                    paymentPaidAt
-                  )
-                )}
+            formatPaymentDate(
+              paymentPaidAt
+            )
+          )}
               </p>
             `
-            : ""
+          : ""
         }
 
 
@@ -3540,9 +3417,8 @@
         </p>
 
 
-        ${
-          invoiceId
-            ? `
+        ${invoiceId
+          ? `
               <div class="invoice-box">
 
                 <div class="invoice-box-title">
@@ -3580,22 +3456,21 @@
                   </span>
 
                   <span class="invoice-value">
-                    ${
-                      paymentStatus
-                        ? escapeHtml(
-                            getPaymentStatusLabel(
-                              paymentStatus
-                            )
-                          )
-                        : "Chưa thanh toán"
-                    }
+                    ${paymentStatus
+            ? escapeHtml(
+              getPaymentStatusLabel(
+                paymentStatus
+              )
+            )
+            : "Chưa thanh toán"
+          }
                   </span>
 
                 </div>
 
               </div>
             `
-            : ""
+          : ""
         }
 
       `;
@@ -3740,11 +3615,10 @@
               </div>
 
               <div class="booking-payment-action-text">
-                ${
-                  invoiceId
-                    ? `Hóa đơn <strong>#INV-${escapeHtml(invoiceId)}</strong> đã được cấp. Vui lòng thanh toán qua chuyển khoản QR.`
-                    : `Hệ thống sẽ cập nhật tự động hóa đơn để chuyển sang trang thanh toán.`
-                }
+                ${invoiceId
+              ? `Hóa đơn <strong>#INV-${escapeHtml(invoiceId)}</strong> đã được cấp. Vui lòng thanh toán qua chuyển khoản QR.`
+              : `Hệ thống sẽ cập nhật tự động hóa đơn để chuyển sang trang thanh toán.`
+            }
               </div>
 
 
@@ -3836,9 +3710,8 @@
 
             Buổi chụp đã hoàn tất.
 
-            ${
-              paymentSuccess
-                ? `
+            ${paymentSuccess
+            ? `
                   <br>
 
                   <span style="
@@ -3848,8 +3721,8 @@
                     ✓ Thanh toán đã hoàn tất.
                   </span>
                 `
-                : ""
-            }
+            : ""
+          }
 
           </div>
 
@@ -4562,16 +4435,16 @@
         )
           ? invoice.invoice_details
           : Array.isArray(
-              invoice.InvoiceDetails
-            )
+            invoice.InvoiceDetails
+          )
             ? invoice.InvoiceDetails
             : Array.isArray(
-                invoice.details
-              )
+              invoice.details
+            )
               ? invoice.details
               : Array.isArray(
-                  invoice.items
-                )
+                invoice.items
+              )
                 ? invoice.items
                 : [];
 
@@ -4611,43 +4484,42 @@
 
               <tbody>
 
-                ${
-                  details
-                    .map(
-                      item => {
+                ${details
+            .map(
+              item => {
 
-                        const name =
-                          item.name ??
-                          item.Name ??
-                          item.description ??
-                          item.Description ??
-                          item.item_name ??
-                          item.ItemName ??
-                          item.package_name ??
-                          item.PackageName ??
-                          "Chi tiết dịch vụ";
-
-
-                        const quantity =
-                          item.quantity ??
-                          item.Quantity ??
-                          1;
+                const name =
+                  item.name ??
+                  item.Name ??
+                  item.description ??
+                  item.Description ??
+                  item.item_name ??
+                  item.ItemName ??
+                  item.package_name ??
+                  item.PackageName ??
+                  "Chi tiết dịch vụ";
 
 
-                        const amount =
-                          parsePrice(
-                            item.amount ??
-                            item.total_amount ??
-                            item.total_price ??
-                            item.price ??
-                            item.Amount ??
-                            item.TotalAmount ??
-                            item.TotalPrice ??
-                            0
-                          );
+                const quantity =
+                  item.quantity ??
+                  item.Quantity ??
+                  1;
 
 
-                        return `
+                const amount =
+                  parsePrice(
+                    item.amount ??
+                    item.total_amount ??
+                    item.total_price ??
+                    item.price ??
+                    item.Amount ??
+                    item.TotalAmount ??
+                    item.TotalPrice ??
+                    0
+                  );
+
+
+                return `
 
                           <tr>
 
@@ -4667,10 +4539,10 @@
 
                         `;
 
-                      }
-                    )
-                    .join("")
-                }
+              }
+            )
+            .join("")
+          }
 
               </tbody>
 
@@ -4776,9 +4648,8 @@
           </div>
 
 
-          ${
-            bookingId
-              ? `
+          ${bookingId
+          ? `
                 <div class="invoice-row">
 
                   <span class="invoice-label">
@@ -4791,13 +4662,12 @@
 
                 </div>
               `
-              : ""
-          }
+          : ""
+        }
 
 
-          ${
-            sessionId
-              ? `
+          ${sessionId
+          ? `
                 <div class="invoice-row">
 
                   <span class="invoice-label">
@@ -4810,13 +4680,12 @@
 
                 </div>
               `
-              : ""
-          }
+          : ""
+        }
 
 
-          ${
-            issuedAt
-              ? `
+          ${issuedAt
+          ? `
                 <div class="invoice-row">
 
                   <span class="invoice-label">
@@ -4825,21 +4694,20 @@
 
                   <span class="invoice-value">
                     ${escapeHtml(
-                      formatPaymentDate(
-                        issuedAt
-                      )
-                    )}
+            formatPaymentDate(
+              issuedAt
+            )
+          )}
                   </span>
 
                 </div>
               `
-              : ""
-          }
+          : ""
+        }
 
 
-          ${
-            dueDate
-              ? `
+          ${dueDate
+          ? `
                 <div class="invoice-row">
 
                   <span class="invoice-label">
@@ -4848,21 +4716,20 @@
 
                   <span class="invoice-value">
                     ${escapeHtml(
-                      formatPaymentDate(
-                        dueDate
-                      )
-                    )}
+            formatPaymentDate(
+              dueDate
+            )
+          )}
                   </span>
 
                 </div>
               `
-              : ""
-          }
+          : ""
+        }
 
 
-          ${
-            invoiceStatus
-              ? `
+          ${invoiceStatus
+          ? `
                 <div class="invoice-row">
 
                   <span class="invoice-label">
@@ -4875,13 +4742,12 @@
 
                 </div>
               `
-              : ""
-          }
+          : ""
+        }
 
 
-          ${
-            paymentMethod
-              ? `
+          ${paymentMethod
+          ? `
                 <div class="invoice-row">
 
                   <span class="invoice-label">
@@ -4894,13 +4760,12 @@
 
                 </div>
               `
-              : ""
-          }
+          : ""
+        }
 
 
-          ${
-            paidAt
-              ? `
+          ${paidAt
+          ? `
                 <div class="invoice-row">
 
                   <span class="invoice-label">
@@ -4909,16 +4774,16 @@
 
                   <span class="invoice-value">
                     ${escapeHtml(
-                      formatPaymentDate(
-                        paidAt
-                      )
-                    )}
+            formatPaymentDate(
+              paidAt
+            )
+          )}
                   </span>
 
                 </div>
               `
-              : ""
-          }
+          : ""
+        }
 
 
           <div style="margin-top:16px;">
@@ -4948,24 +4813,22 @@
 
             <strong>
 
-              ${
-                paymentStatus
-                  ? escapeHtml(
-                      getPaymentStatusLabel(
-                        paymentStatus
-                      )
-                    )
-                  : "Chưa thanh toán"
-              }
+              ${paymentStatus
+          ? escapeHtml(
+            getPaymentStatusLabel(
+              paymentStatus
+            )
+          )
+          : "Chưa thanh toán"
+        }
 
             </strong>
 
           </div>
 
 
-          ${
-            !invoiceIsPaid && bookingId
-              ? `
+          ${!invoiceIsPaid && bookingId
+          ? `
                 <div style="margin-top:14px;">
 
                   <button
@@ -4979,8 +4842,8 @@
 
                 </div>
               `
-              : ""
-          }
+          : ""
+        }
 
         </div>
 
@@ -5281,10 +5144,9 @@
 
 
       toast.className =
-        `toast ${
-          type === "error"
-            ? "error"
-            : "success"
+        `toast ${type === "error"
+          ? "error"
+          : "success"
         }`;
 
 
@@ -5377,89 +5239,149 @@
 
     document.addEventListener(
       "DOMContentLoaded",
-      () => {
+      async () => {
 
         loadPhotographerInfo();
 
-
         const dateInput =
-          document.getElementById(
-            "bookingDate"
-          );
-
+          document.getElementById("bookingDate");
 
         if (dateInput) {
-
-          const today =
-            new Date();
-
+          const today = new Date();
 
           dateInput.value =
-            `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
-
+            `${today.getFullYear()}-${String(
+              today.getMonth() + 1
+            ).padStart(2, "0")}-${String(
+              today.getDate()
+            ).padStart(2, "0")}`;
         }
 
-
         document
-          .querySelectorAll(
-            ".booking-tab"
-          )
-          .forEach(
-            tab => {
+          .querySelectorAll(".booking-tab")
+          .forEach(tab => {
+            tab.addEventListener("click", () => {
 
-              tab.addEventListener(
-                "click",
-                () => {
+              document
+                .querySelectorAll(".booking-tab")
+                .forEach(t =>
+                  t.classList.remove("active")
+                );
 
-                  document
-                    .querySelectorAll(
-                      ".booking-tab"
-                    )
-                    .forEach(
-                      t =>
-                        t.classList.remove(
-                          "active"
-                        )
-                    );
+              tab.classList.add("active");
 
+              activeTab =
+                tab.dataset.status;
 
-                  tab.classList.add(
-                    "active"
-                  );
-
-
-                  activeTab =
-                    tab.dataset.status;
-
-
-                  renderList();
-
-                }
-              );
-
-            }
-          );
-
+              renderList();
+            });
+          });
 
         const form =
           document.getElementById(
             "createBookingForm"
           );
 
-
         if (form) {
-
           form.addEventListener(
             "submit",
             handleCreateBooking
           );
+        }
+        await loadCatalogData();
+        await fetchMyBookings();
+
+        const params =
+          new URLSearchParams(
+            window.location.search
+          );
+
+        /* =====================================================
+           NHẬN SPACE ID TỪ SPACE DETAIL
+           URL: booking.html?space_id=123
+        ===================================================== */
+
+        const requestedSpaceId =
+          params.get("space_id");
+
+        if (requestedSpaceId) {
+
+          const spaceSelect =
+            document.getElementById(
+              "selectSpace"
+            );
+
+          if (spaceSelect) {
+
+            const matchedSpace =
+              fetchedSpaces.find(
+                space =>
+                  String(
+                    space.id ??
+                    space.SpaceID ??
+                    space.space_id
+                  ) ===
+                  String(requestedSpaceId)
+              );
+
+            if (matchedSpace) {
+
+              const matchedSpaceId =
+                matchedSpace.id ??
+                matchedSpace.SpaceID ??
+                matchedSpace.space_id;
+
+              spaceSelect.value =
+                String(matchedSpaceId);
+
+              await onSpaceSelectChange();
+
+            } else {
+
+              console.warn(
+                "Không tìm thấy Space ID từ URL:",
+                requestedSpaceId
+              );
+
+              showToast(
+                "Không tìm thấy không gian được yêu cầu.",
+                "error"
+              );
+
+            }
+
+          }
 
         }
 
+        const bookingId =
+          params.get("booking_id");
 
-        loadCatalogData();
+        if (bookingId) {
 
-        fetchMyBookings();
+          const numericBookingId =
+            Number(bookingId);
+
+          if (
+            Number.isInteger(
+              numericBookingId
+            ) &&
+            numericBookingId > 0
+          ) {
+
+            await openDetail(
+              numericBookingId
+            );
+
+            window.history.replaceState(
+              {},
+              document.title,
+              window.location.pathname
+            );
+
+          }
+
+        }
 
       }
     );

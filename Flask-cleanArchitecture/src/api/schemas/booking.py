@@ -21,6 +21,21 @@ class BookingUpdateSchema(Schema):
     status = fields.Str(required=False)
 
 
+class PaymentInfoSchema(Schema):
+    """
+    Thông tin thanh toán của Service Provider
+    được lấy thông qua CreativeSpace của Booking.
+    """
+
+    bank_info = fields.Str(allow_none=True)
+
+    bank_name = fields.Str(allow_none=True)
+    account_number = fields.Str(allow_none=True)
+    account_name = fields.Str(allow_none=True)
+
+    qr_code_url = fields.Str(allow_none=True)
+
+
 class ProviderBookingResponseSchema(Schema):
     id = fields.Int()
     photographer_id = fields.Int()
@@ -56,3 +71,9 @@ class BookingResponseSchema(Schema):
 
     # Invoice của Booking
     invoice_id = fields.Int(allow_none=True)
+
+    # Thông tin thanh toán của Provider
+    payment_info = fields.Nested(
+        PaymentInfoSchema,
+        allow_none=True
+    )
