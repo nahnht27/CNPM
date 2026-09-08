@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,11 +17,7 @@
   <nav class="navbar" id="mainNavbar">
     <div class="navbar-container container">
 
-      <a
-        class="logo"
-        href="home.html"
-        aria-label="FilmSpace"
-      >
+      <a class="logo" href="home.html" aria-label="FilmSpace">
         FilmSpace
       </a>
 
@@ -34,18 +31,11 @@
 
       <div class="nav-actions">
 
-        <span
-          class="photographer-nav-name"
-          id="navPhotographerName"
-        >
+        <span class="photographer-nav-name" id="navPhotographerName">
           User
         </span>
 
-        <button
-          type="button"
-          class="photographer-logout"
-          onclick="logout()"
-        >
+        <button type="button" class="photographer-logout" onclick="logout()">
           Đăng xuất
         </button>
 
@@ -68,10 +58,7 @@
           <div>
 
             <!-- ROLE SẼ ĐƯỢC ĐỔI BẰNG JAVASCRIPT -->
-            <span
-              class="profile-kicker"
-              id="profileKicker"
-            >
+            <span class="profile-kicker" id="profileKicker">
               PROFILE
             </span>
 
@@ -86,12 +73,7 @@
           </div>
 
 
-          <button
-            type="button"
-            class="edit-profile-btn"
-            id="editBtn"
-            onclick="enableEdit()"
-          >
+          <button type="button" class="edit-profile-btn" id="editBtn" onclick="enableEdit()">
             Chỉnh sửa hồ sơ
           </button>
 
@@ -113,10 +95,7 @@
           <!-- PROFILE SUMMARY -->
           <aside class="profile-card profile-summary-card">
 
-            <div
-              class="avatar"
-              id="avatar"
-            >
+            <div class="avatar" id="avatar">
               U
             </div>
 
@@ -127,18 +106,12 @@
 
 
             <!-- ROLE SẼ ĐƯỢC ĐỔI BẰNG JAVASCRIPT -->
-            <span
-              class="role-badge"
-              id="roleBadge"
-            >
+            <span class="role-badge" id="roleBadge">
               User
             </span>
 
 
-            <p
-              class="profile-username"
-              id="profileUsername"
-            >
+            <p class="profile-username" id="profileUsername">
               @user
             </p>
 
@@ -181,10 +154,7 @@
             </div>
 
 
-            <div
-              id="profileMessage"
-              class="profile-message"
-            ></div>
+            <div id="profileMessage" class="profile-message"></div>
 
 
             <form id="profileForm">
@@ -199,12 +169,7 @@
                     Họ và tên
                   </label>
 
-                  <input
-                    id="fullName"
-                    type="text"
-                    placeholder="Nhập họ và tên"
-                    disabled
-                  >
+                  <input id="fullName" type="text" placeholder="Nhập họ và tên" disabled>
 
                 </div>
 
@@ -216,12 +181,7 @@
                     Tên đăng nhập
                   </label>
 
-                  <input
-                    id="username"
-                    type="text"
-                    placeholder="Username"
-                    disabled
-                  >
+                  <input id="username" type="text" placeholder="Username" disabled>
 
                 </div>
 
@@ -233,12 +193,7 @@
                     Email
                   </label>
 
-                  <input
-                    id="email"
-                    type="email"
-                    placeholder="example@email.com"
-                    disabled
-                  >
+                  <input id="email" type="email" placeholder="example@email.com" disabled>
 
                 </div>
 
@@ -250,12 +205,7 @@
                     Số điện thoại
                   </label>
 
-                  <input
-                    id="phone"
-                    type="tel"
-                    placeholder="Nhập số điện thoại"
-                    disabled
-                  >
+                  <input id="phone" type="tel" placeholder="Nhập số điện thoại" disabled>
 
                 </div>
 
@@ -267,12 +217,7 @@
                     Địa điểm
                   </label>
 
-                  <input
-                    id="location"
-                    type="text"
-                    placeholder="TP. Hồ Chí Minh"
-                    disabled
-                  >
+                  <input id="location" type="text" placeholder="TP. Hồ Chí Minh" disabled>
 
                 </div>
 
@@ -284,12 +229,7 @@
                     Giới thiệu
                   </label>
 
-                  <textarea
-                    id="bio"
-                    rows="5"
-                    placeholder="Viết một vài dòng giới thiệu về bạn..."
-                    disabled
-                  ></textarea>
+                  <textarea id="bio" rows="5" placeholder="Viết một vài dòng giới thiệu về bạn..." disabled></textarea>
 
                 </div>
 
@@ -297,23 +237,13 @@
 
 
               <!-- FORM ACTIONS -->
-              <div
-                class="form-actions"
-                id="formActions"
-              >
+              <div class="form-actions" id="formActions">
 
-                <button
-                  type="button"
-                  class="cancel-btn"
-                  onclick="cancelEdit()"
-                >
+                <button type="button" class="cancel-btn" onclick="cancelEdit()">
                   Hủy
                 </button>
 
-                <button
-                  type="submit"
-                  class="save-btn"
-                >
+                <button type="submit" class="save-btn">
                   Lưu thay đổi
                 </button>
 
@@ -350,10 +280,7 @@
 
 
             <!-- BOOKING HISTORY -->
-            <a
-              href="history.html"
-              class="account-action"
-            >
+            <a href="history.html" class="account-action">
 
               <div class="account-icon">
                 ◷
@@ -379,11 +306,7 @@
 
 
             <!-- LOGOUT -->
-            <button
-              type="button"
-              class="account-action danger-action"
-              onclick="logout()"
-            >
+            <button type="button" class="account-action danger-action" onclick="logout()">
 
               <div class="account-icon">
                 ↪
@@ -1039,7 +962,7 @@
           "fullName"
         )
         .value =
-          originalData.fullName;
+        originalData.fullName;
 
 
       document
@@ -1047,7 +970,7 @@
           "username"
         )
         .value =
-          originalData.username;
+        originalData.username;
 
 
       document
@@ -1055,7 +978,7 @@
           "email"
         )
         .value =
-          originalData.email;
+        originalData.email;
 
 
       document
@@ -1063,7 +986,7 @@
           "phone"
         )
         .value =
-          originalData.phone;
+        originalData.phone;
 
 
       document
@@ -1071,7 +994,7 @@
           "location"
         )
         .value =
-          originalData.location;
+        originalData.location;
 
 
       document
@@ -1079,7 +1002,7 @@
           "bio"
         )
         .value =
-          originalData.bio;
+        originalData.bio;
 
 
       document
@@ -1107,7 +1030,7 @@
         )
         .style
         .display =
-          "inline-flex";
+        "inline-flex";
 
     }
 
@@ -1122,7 +1045,7 @@
       )
       .addEventListener(
         "submit",
-        async function(event) {
+        async function (event) {
 
           event.preventDefault();
 
@@ -1385,84 +1308,17 @@
        ===================================================== */
 
     function logout() {
+      localStorage.clear();
+      sessionStorage.clear();
 
-      localStorage.removeItem(
-        "auth_token"
-      );
+      // Xóa toàn bộ Cookie
+      document.cookie.split(";").forEach((c) => {
+        document.cookie = c
+          .replace(/^ +/, "")
+          .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+      });
 
-      localStorage.removeItem(
-        "user_id"
-      );
-
-      localStorage.removeItem(
-        "username"
-      );
-
-      localStorage.removeItem(
-        "full_name"
-      );
-
-      localStorage.removeItem(
-        "email"
-      );
-
-      localStorage.removeItem(
-        "phone"
-      );
-
-      localStorage.removeItem(
-        "role_id"
-      );
-
-      localStorage.removeItem(
-        "location"
-      );
-
-      localStorage.removeItem(
-        "bio"
-      );
-
-
-      sessionStorage.removeItem(
-        "auth_token"
-      );
-
-      sessionStorage.removeItem(
-        "user_id"
-      );
-
-      sessionStorage.removeItem(
-        "username"
-      );
-
-      sessionStorage.removeItem(
-        "full_name"
-      );
-
-      sessionStorage.removeItem(
-        "email"
-      );
-
-      sessionStorage.removeItem(
-        "phone"
-      );
-
-      sessionStorage.removeItem(
-        "role_id"
-      );
-
-      sessionStorage.removeItem(
-        "location"
-      );
-
-      sessionStorage.removeItem(
-        "bio"
-      );
-
-
-      window.location.href =
-        "../auth.html";
-
+      window.location.href = "../auth.html";
     }
 
 
@@ -1475,4 +1331,5 @@
   </script>
 
 </body>
+
 </html>

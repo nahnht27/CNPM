@@ -15,3 +15,8 @@ class ServiceProviderModel(Base):
     approved_at = Column('ApprovedAt', DateTime)
     bank_info = Column('Bank_Info', String(500))
     created_at = Column('CreatedAt', DateTime, nullable=False)
+    qr_code_url = Column('QRCodeUrl',String(500),nullable=True)
+        
+        
+        
+    
