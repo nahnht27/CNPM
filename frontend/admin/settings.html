@@ -40,10 +40,11 @@
     <style>
 
         /* =====================================================
-           GLOBAL
+           VARIABLES
            ===================================================== */
 
         :root {
+
             --text: #26283b;
             --muted: #6f7284;
 
@@ -55,47 +56,63 @@
 
             --line: #e9e9ef;
 
-            --dark-footer: #1d1f2b;
+            --footer-bg: #1d1f2b;
             --footer-text: #aeb4c5;
             --footer-link: #d5d8e2;
             --footer-line: #363946;
+
         }
 
+
+        /* =====================================================
+           RESET
+           ===================================================== */
 
         * {
             box-sizing: border-box;
         }
 
 
-        html {
+        html,
+        body {
             margin: 0;
             padding: 0;
+            min-height: 100%;
         }
 
 
         body {
+
             margin: 0;
             padding: 0;
 
-            font-family: 'Inter', Arial, sans-serif;
+            font-family: "Inter", Arial, sans-serif;
 
             background: var(--bg);
+
             color: var(--text);
 
             font-size: 14px;
+
         }
 
 
         button,
         input,
         select,
-        textarea {
-            font-family: 'Inter', Arial, sans-serif;
+        textarea,
+        a {
+            font-family: "Inter", Arial, sans-serif;
         }
 
 
         a {
-            font-family: 'Inter', Arial, sans-serif;
+            text-decoration: none;
+        }
+
+
+        button {
+            cursor: pointer;
         }
 
 
@@ -104,10 +121,13 @@
            ===================================================== */
 
         .admin-page {
+
             min-height: 100vh;
 
             background: var(--bg);
+
             color: var(--text);
+
         }
 
 
@@ -116,7 +136,9 @@
            ===================================================== */
 
         .admin-navbar {
+
             width: 100%;
+
             height: 74px;
 
             background: rgba(255, 255, 255, .96);
@@ -124,57 +146,73 @@
             border-bottom: 1px solid var(--line);
 
             position: sticky;
+
             top: 0;
 
             z-index: 1000;
+
         }
 
 
-        .admin-navbar-inner {
+        .admin-navbar-container {
+
+            width: 100%;
+
             max-width: 1440px;
+
             height: 100%;
 
             margin: 0 auto;
 
-            padding: 0 32px;
+            padding: 0 40px;
 
             display: flex;
+
             align-items: center;
+
         }
 
 
         .admin-logo {
+
             color: var(--text);
 
             text-decoration: none;
 
             font-size: 22px;
+
             line-height: 1;
 
             font-weight: 700;
 
             letter-spacing: -0.5px;
+
         }
 
 
-        .admin-panel-label {
+        .admin-navbar-title {
+
             margin-left: 28px;
 
             color: var(--muted);
 
             font-size: 11px;
+
             line-height: 1;
 
             font-weight: 700;
 
             letter-spacing: 1.2px;
+
         }
 
 
         .admin-navbar-right {
+
             margin-left: auto;
 
             display: flex;
+
             align-items: center;
 
             gap: 18px;
@@ -182,26 +220,31 @@
             color: var(--muted);
 
             font-size: 12px;
+
             line-height: 1;
 
             font-weight: 500;
+
         }
 
 
-        .admin-navbar-right button {
+        .admin-logout {
+
+            padding: 9px 17px;
+
             border: 1px solid var(--line);
 
-            background: #ffffff;
+            border-radius: 7px;
+
+            background: var(--white);
+
             color: #55586b;
 
-            padding: 8px 14px;
-
-            border-radius: 6px;
-
-            font-family: 'Inter', Arial, sans-serif;
+            font-family: "Inter", Arial, sans-serif;
 
             font-size: 12px;
-            line-height: 1;
+
+            line-height: 1.3;
 
             font-weight: 600;
 
@@ -211,15 +254,18 @@
                 background .2s ease,
                 border-color .2s ease,
                 color .2s ease;
+
         }
 
 
-        .admin-navbar-right button:hover {
+        .admin-logout:hover {
+
             background: #fff1f8;
 
             border-color: #f4b6d4;
 
             color: var(--pink);
+
         }
 
 
@@ -228,6 +274,9 @@
            ===================================================== */
 
         .admin-layout {
+
+            width: 100%;
+
             max-width: 1440px;
 
             min-height: calc(100vh - 74px);
@@ -235,6 +284,7 @@
             margin: 0 auto;
 
             display: flex;
+
         }
 
 
@@ -243,6 +293,7 @@
            ===================================================== */
 
         .admin-sidebar {
+
             width: 220px;
 
             flex-shrink: 0;
@@ -258,28 +309,36 @@
             top: 74px;
 
             height: calc(100vh - 74px);
+
         }
 
 
-        .admin-sidebar-nav {
+        .admin-sidebar-menu {
+
+            width: 100%;
+
             display: flex;
 
             flex-direction: column;
 
             gap: 5px;
+
         }
 
 
-        .admin-sidebar-nav a {
+        .admin-sidebar-link {
+
             width: 100%;
 
             min-height: 42px;
 
-            padding: 0 13px;
+            padding: 0 17px;
 
             display: flex;
 
             align-items: center;
+
+            gap: 16px;
 
             border-radius: 7px;
 
@@ -288,29 +347,56 @@
             text-decoration: none;
 
             font-size: 13px;
-            line-height: 1.2;
+
+            line-height: 1.4;
 
             font-weight: 500;
 
             transition:
                 background .2s ease,
                 color .2s ease;
+
         }
 
 
-        .admin-sidebar-nav a:hover {
+        .admin-sidebar-link:hover {
+
             background: #fff1f8;
 
             color: var(--pink);
+
         }
 
 
-        .admin-sidebar-nav a.active {
+        .admin-sidebar-link.active {
+
             background: #fff1f8;
 
             color: var(--pink);
 
             font-weight: 600;
+
+        }
+
+
+        .sidebar-icon {
+
+            width: 18px;
+
+            min-width: 18px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: currentColor;
+
+            font-size: 15px;
+
+            line-height: 1;
+
         }
 
 
@@ -319,11 +405,13 @@
            ===================================================== */
 
         .admin-content {
+
             flex: 1;
 
             min-width: 0;
 
             padding: 42px 38px 70px;
+
         }
 
 
@@ -332,33 +420,41 @@
            ===================================================== */
 
         .admin-page-header {
+
             margin-bottom: 30px;
+
         }
 
 
         .admin-page-header h1 {
+
             margin: 0 0 8px;
 
             color: var(--text);
 
             font-size: 32px;
+
             line-height: 1.2;
 
             font-weight: 700;
 
             letter-spacing: -1px;
+
         }
 
 
         .admin-page-header p {
+
             margin: 0;
 
             color: var(--muted);
 
             font-size: 13px;
+
             line-height: 1.7;
 
             font-weight: 400;
+
         }
 
 
@@ -367,6 +463,7 @@
            ===================================================== */
 
         .admin-panel {
+
             margin-bottom: 24px;
 
             background: #ffffff;
@@ -379,60 +476,78 @@
                 0 8px 24px rgba(40, 42, 67, .05);
 
             overflow: hidden;
+
         }
 
 
         .admin-panel-header {
+
             padding: 22px 24px;
 
             border-bottom: 1px solid var(--line);
+
         }
 
 
         .admin-panel-header h2 {
+
             margin: 0 0 6px;
 
             color: var(--text);
 
             font-size: 18px;
+
             line-height: 1.3;
 
             font-weight: 700;
 
             letter-spacing: -.3px;
+
         }
 
 
         .admin-panel-header p {
+
             margin: 0;
 
             color: var(--muted);
 
             font-size: 11px;
+
             line-height: 1.5;
+
+            font-weight: 400;
+
         }
 
 
         /* =====================================================
-           FORM
+           SETTINGS FORM
            ===================================================== */
 
         .admin-settings-form {
+
             padding: 24px;
+
         }
 
 
         .admin-form-group {
+
             margin-bottom: 20px;
+
         }
 
 
         .admin-form-group:last-of-type {
+
             margin-bottom: 0;
+
         }
 
 
         .admin-form-group label {
+
             display: block;
 
             margin-bottom: 8px;
@@ -440,13 +555,16 @@
             color: #55586b;
 
             font-size: 11px;
+
             line-height: 1.4;
 
             font-weight: 600;
+
         }
 
 
         .admin-form-group input {
+
             width: 100%;
 
             padding: 11px 13px;
@@ -459,32 +577,39 @@
 
             color: var(--text);
 
-            font-family: 'Inter', Arial, sans-serif;
+            font-family: "Inter", Arial, sans-serif;
 
             font-size: 12px;
+
+            line-height: 1.4;
 
             outline: none;
 
             transition:
                 border-color .2s ease,
                 box-shadow .2s ease;
+
         }
 
 
         .admin-form-group input:focus {
+
             border-color: #f4b6d4;
 
             box-shadow:
                 0 0 0 3px rgba(255, 21, 132, .06);
+
         }
 
 
         .admin-form-group input:read-only {
+
             background: #fafbfc;
 
             color: var(--muted);
 
             cursor: not-allowed;
+
         }
 
 
@@ -493,15 +618,18 @@
            ===================================================== */
 
         .admin-settings-actions {
+
             display: flex;
 
             justify-content: flex-end;
 
             margin-top: 24px;
+
         }
 
 
         .admin-settings-save {
+
             border: none;
 
             padding: 10px 18px;
@@ -512,7 +640,7 @@
 
             color: #ffffff;
 
-            font-family: 'Inter', Arial, sans-serif;
+            font-family: "Inter", Arial, sans-serif;
 
             font-size: 11px;
 
@@ -525,22 +653,27 @@
             transition:
                 background .2s ease,
                 transform .2s ease;
+
         }
 
 
         .admin-settings-save:hover {
+
             background: var(--pink-dark);
 
             transform: translateY(-1px);
+
         }
 
 
         .admin-settings-save:disabled {
+
             opacity: .6;
 
             cursor: not-allowed;
 
             transform: none;
+
         }
 
 
@@ -549,6 +682,7 @@
            ===================================================== */
 
         .admin-settings-message {
+
             min-height: 18px;
 
             margin-top: 15px;
@@ -556,16 +690,21 @@
             font-size: 11px;
 
             line-height: 1.5;
+
         }
 
 
         .admin-settings-message.success {
+
             color: #3d8a5b;
+
         }
 
 
         .admin-settings-message.error {
+
             color: #d9536a;
+
         }
 
 
@@ -574,11 +713,14 @@
            ===================================================== */
 
         .admin-system-info {
+
             padding: 24px;
+
         }
 
 
         .admin-system-row {
+
             display: flex;
 
             align-items: center;
@@ -590,22 +732,28 @@
             padding: 15px 0;
 
             border-bottom: 1px solid var(--line);
+
         }
 
 
         .admin-system-row:first-child {
+
             padding-top: 0;
+
         }
 
 
         .admin-system-row:last-child {
+
             padding-bottom: 0;
 
             border-bottom: none;
+
         }
 
 
         .admin-system-row strong {
+
             display: block;
 
             margin-bottom: 5px;
@@ -614,16 +762,23 @@
 
             font-size: 11px;
 
+            line-height: 1.4;
+
             font-weight: 600;
+
         }
 
 
         .admin-system-row span {
+
             color: var(--muted);
 
             font-size: 11px;
 
             line-height: 1.5;
+
+            font-weight: 400;
+
         }
 
 
@@ -632,6 +787,7 @@
            ===================================================== */
 
         .admin-status {
+
             display: inline-flex;
 
             align-items: center;
@@ -646,7 +802,10 @@
 
             font-size: 10px !important;
 
+            line-height: 1.3;
+
             font-weight: 600;
+
         }
 
 
@@ -655,6 +814,7 @@
            ===================================================== */
 
         .admin-security {
+
             padding: 24px;
 
             display: flex;
@@ -664,10 +824,12 @@
             justify-content: space-between;
 
             gap: 24px;
+
         }
 
 
         .admin-security-info strong {
+
             display: block;
 
             margin-bottom: 6px;
@@ -676,11 +838,15 @@
 
             font-size: 12px;
 
+            line-height: 1.4;
+
             font-weight: 600;
+
         }
 
 
         .admin-security-info p {
+
             margin: 0;
 
             color: var(--muted);
@@ -688,10 +854,14 @@
             font-size: 11px;
 
             line-height: 1.6;
+
+            font-weight: 400;
+
         }
 
 
         .admin-security-button {
+
             flex-shrink: 0;
 
             padding: 9px 16px;
@@ -708,21 +878,26 @@
 
             font-size: 11px;
 
+            line-height: 1.3;
+
             font-weight: 600;
 
             transition:
                 background .2s ease,
                 border-color .2s ease,
                 color .2s ease;
+
         }
 
 
         .admin-security-button:hover {
+
             background: #fff1f8;
 
             border-color: #f4b6d4;
 
             color: var(--pink);
+
         }
 
 
@@ -731,63 +906,77 @@
            ===================================================== */
 
         .admin-footer {
+
             width: 100%;
 
-            background: var(--dark-footer);
+            background: var(--footer-bg);
 
             color: #ffffff;
+
         }
 
 
-        .admin-footer-inner {
+        .admin-footer-container {
+
+            width: 100%;
+
             max-width: 1440px;
 
             margin: 0 auto;
 
             padding: 42px 38px 24px;
+
         }
 
 
         .admin-footer-top {
+
             display: flex;
 
             align-items: flex-start;
 
             justify-content: space-between;
 
-            gap: 40px;
+            gap: 50px;
+
         }
 
 
         .admin-footer-brand {
+
             max-width: 560px;
+
         }
 
 
-        .admin-footer-brand strong {
-            display: block;
+        .admin-footer-logo {
 
             margin: 0;
 
             color: #ffffff;
 
             font-size: 28px;
+
             line-height: 1.2;
 
             font-weight: 700;
 
-            letter-spacing: -0.8px;
+            letter-spacing: -.8px;
+
         }
 
 
-        .admin-footer-brand strong span {
+        .admin-footer-logo span {
+
             color: #ff1584;
 
             font-weight: 700;
+
         }
 
 
         .admin-footer-brand p {
+
             max-width: 560px;
 
             margin: 14px 0 0;
@@ -795,11 +984,16 @@
             color: var(--footer-text);
 
             font-size: 14px;
+
             line-height: 1.65;
+
+            font-weight: 400;
+
         }
 
 
-        .admin-footer-links {
+        .admin-footer-menu {
+
             display: flex;
 
             flex-wrap: wrap;
@@ -809,10 +1003,12 @@
             gap: 28px;
 
             padding-top: 4px;
+
         }
 
 
-        .admin-footer-links a {
+        .admin-footer-menu a {
+
             display: inline-block;
 
             color: var(--footer-link);
@@ -821,65 +1017,94 @@
 
             font-size: 13px;
 
+            line-height: 1.4;
+
+            font-weight: 400;
+
             white-space: nowrap;
 
             transition: color .2s ease;
+
         }
 
 
-        .admin-footer-links a:hover {
-            color: #ff1584;
+        .admin-footer-menu a:hover {
+
+            color: var(--pink);
+
         }
 
 
-        .admin-footer-divider {
+        .admin-footer-line {
+
             width: 100%;
 
             height: 1px;
 
             margin: 34px 0 24px;
 
+            border: 0;
+
             background: var(--footer-line);
+
         }
 
 
         .admin-footer-bottom {
+
             display: flex;
 
             align-items: center;
 
             justify-content: space-between;
 
-            gap: 20px;
+            gap: 30px;
 
             color: #9fa5b7;
 
             font-size: 13px;
+
+            line-height: 1.4;
+
+            font-weight: 400;
+
         }
 
 
         .admin-footer-bottom-links {
+
             display: flex;
 
             align-items: center;
 
             gap: 30px;
+
         }
 
 
         .admin-footer-bottom-links a {
+
             color: var(--footer-link);
 
             text-decoration: none;
 
             font-size: 13px;
 
+            line-height: 1.4;
+
+            font-weight: 400;
+
+            white-space: nowrap;
+
             transition: color .2s ease;
+
         }
 
 
         .admin-footer-bottom-links a:hover {
-            color: #ff1584;
+
+            color: var(--pink);
+
         }
 
 
@@ -889,19 +1114,33 @@
 
         @media (max-width: 900px) {
 
+            .admin-navbar-container {
+
+                padding: 0 24px;
+
+            }
+
+
             .admin-sidebar {
+
                 width: 200px;
+
             }
 
 
             .admin-content {
+
                 padding: 34px 28px 60px;
+
             }
 
 
-            .admin-footer-inner {
+            .admin-footer-container {
+
                 padding-left: 28px;
+
                 padding-right: 28px;
+
             }
 
         }
@@ -910,28 +1149,44 @@
         @media (max-width: 700px) {
 
             .admin-navbar {
+
                 height: 64px;
+
             }
 
 
-            .admin-navbar-inner {
+            .admin-navbar-container {
+
                 padding: 0 18px;
+
             }
 
 
-            .admin-panel-label {
+            .admin-navbar-title {
+
                 display: none;
+
+            }
+
+
+            .admin-navbar-right span {
+
+                display: none;
+
             }
 
 
             .admin-layout {
+
                 display: block;
 
                 min-height: auto;
+
             }
 
 
             .admin-sidebar {
+
                 width: 100%;
 
                 height: auto;
@@ -943,62 +1198,91 @@
                 border-bottom: 1px solid var(--line);
 
                 padding: 10px;
+
             }
 
 
-            .admin-sidebar-nav {
+            .admin-sidebar-menu {
+
                 display: grid;
 
                 grid-template-columns:
                     repeat(2, minmax(0, 1fr));
 
                 gap: 5px;
+
+            }
+
+
+            .admin-sidebar-link {
+
+                width: 100%;
+
+                padding: 0 13px;
+
             }
 
 
             .admin-content {
+
                 padding: 28px 18px 45px;
+
             }
 
 
             .admin-page-header h1 {
+
                 font-size: 27px;
+
             }
 
 
-            .admin-footer-inner {
+            .admin-footer-container {
+
                 padding: 36px 22px 22px;
+
             }
 
 
             .admin-footer-top {
+
                 flex-direction: column;
 
                 gap: 28px;
+
             }
 
 
-            .admin-footer-brand strong {
+            .admin-footer-logo {
+
                 font-size: 25px;
+
             }
 
 
             .admin-footer-brand p {
+
                 font-size: 13px;
+
             }
 
 
-            .admin-footer-links {
+            .admin-footer-menu {
+
                 gap: 18px;
+
             }
 
 
-            .admin-footer-divider {
+            .admin-footer-line {
+
                 margin: 30px 0 20px;
+
             }
 
 
             .admin-footer-bottom {
+
                 flex-direction: column;
 
                 align-items: flex-start;
@@ -1006,30 +1290,39 @@
                 gap: 14px;
 
                 font-size: 12px;
+
             }
 
 
             .admin-footer-bottom-links {
+
                 gap: 20px;
+
             }
 
 
             .admin-footer-bottom-links a {
+
                 font-size: 12px;
+
             }
 
 
             .admin-security {
+
                 align-items: flex-start;
 
                 flex-direction: column;
+
             }
 
 
             .admin-security-button {
+
                 width: 100%;
 
                 text-align: center;
+
             }
 
         }
@@ -1048,7 +1341,7 @@
 
     <nav class="admin-navbar">
 
-        <div class="admin-navbar-inner">
+        <div class="admin-navbar-container">
 
             <a
                 href="dashboard.html"
@@ -1058,9 +1351,9 @@
             </a>
 
 
-            <span class="admin-panel-label">
+            <div class="admin-navbar-title">
                 ADMIN PANEL
-            </span>
+            </div>
 
 
             <div class="admin-navbar-right">
@@ -1072,6 +1365,7 @@
 
                 <button
                     type="button"
+                    class="admin-logout"
                     onclick="logout()"
                 >
                     Đăng xuất
@@ -1091,42 +1385,82 @@
     <div class="admin-layout">
 
 
-        <!-- =================================================
-             SIDEBAR
-             ================================================= -->
+    <!-- ==================== SIDEBAR ==================== -->
 
         <aside class="admin-sidebar">
 
-            <nav class="admin-sidebar-nav">
-
-                <a href="dashboard.html">
-                    Dashboard
-                </a>
+            <div class="admin-sidebar-menu">
 
 
-                <a href="accounts.html">
-                    Người dùng
-                </a>
+                <a
+                    href="dashboard.html"
+                    class="admin-sidebar-link"
+                >
 
+                    <span class="sidebar-icon">
+                        ▦
+                    </span>
 
-                <a href="transactions.html">
-                    Giao dịch
-                </a>
+                    <span>
+                        Dashboard
+                    </span>
 
-
-                <a href="reports.html">
-                    Báo cáo
                 </a>
 
 
                 <a
-                    href="settings.html"
-                    class="active"
+                    href="accounts.html"
+                    class="admin-sidebar-link"
                 >
-                    Cài đặt
+
+                    <span class="sidebar-icon">
+                        👥
+                    </span>
+
+                    <span>
+                        Người dùng
+                    </span>
+
                 </a>
 
-            </nav>
+
+                <a
+                    href="transactions.html"
+                    class="admin-sidebar-link"
+
+                    
+                >
+
+                    <span class="sidebar-icon">
+                        ₫
+                    </span>
+
+                    <span>
+                        Giao dịch
+                    </span>
+
+                </a>
+
+
+
+
+                <a
+                    href="settings.html"
+                    class="admin-sidebar-link active"
+                >
+
+                    <span class="sidebar-icon">
+                        ⚙
+                    </span>
+
+                    <span>
+                        Cài đặt
+                    </span>
+
+                </a>
+
+
+            </div>
 
         </aside>
 
@@ -1138,7 +1472,9 @@
         <main class="admin-content">
 
 
-            <!-- PAGE HEADER -->
+            <!-- =================================================
+                 PAGE HEADER
+                 ================================================= -->
 
             <div class="admin-page-header">
 
@@ -1344,6 +1680,7 @@
 
                     </div>
 
+
                 </div>
 
             </section>
@@ -1385,7 +1722,9 @@
 
 
                         <p>
-                            Muốn đổi mật khẩu? Hãy sử dụng chức năng “Quên mật khẩu” tại trang đăng nhập để đặt lại mật khẩu.
+                            Muốn đổi mật khẩu? Hãy sử dụng chức năng
+                            “Quên mật khẩu” tại trang đăng nhập để
+                            đặt lại mật khẩu.
                         </p>
 
                     </div>
@@ -1402,6 +1741,7 @@
 
             </section>
 
+
         </main>
 
     </div>
@@ -1414,7 +1754,7 @@
     <footer class="admin-footer">
 
 
-        <div class="admin-footer-inner">
+        <div class="admin-footer-container">
 
 
             <div class="admin-footer-top">
@@ -1424,7 +1764,7 @@
 
                 <div class="admin-footer-brand">
 
-                    <strong>
+                    <div class="admin-footer-logo">
 
                         Photography
 
@@ -1432,7 +1772,7 @@
                             Platform
                         </span>
 
-                    </strong>
+                    </div>
 
 
                     <p>
@@ -1443,9 +1783,10 @@
                 </div>
 
 
-                <!-- MENU -->
+                <!-- FOOTER MENU -->
 
-                <div class="admin-footer-links">
+                <div class="admin-footer-menu">
+
 
                     <a href="dashboard.html">
                         Dashboard
@@ -1457,28 +1798,28 @@
                     </a>
 
 
+
                     <a href="transactions.html">
                         Giao dịch
                     </a>
 
 
-                    <a href="reports.html">
-                        Báo cáo
-                    </a>
 
                 </div>
+
 
             </div>
 
 
             <!-- DIVIDER -->
 
-            <div class="admin-footer-divider"></div>
+            <hr class="admin-footer-line">
 
 
-            <!-- BOTTOM -->
+            <!-- FOOTER BOTTOM -->
 
             <div class="admin-footer-bottom">
+
 
                 <span>
                     Copyright © 2026 Photography Platform.
@@ -1487,6 +1828,7 @@
 
 
                 <div class="admin-footer-bottom-links">
+
 
                     <a href="#">
                         Privacy Policy
@@ -1497,9 +1839,12 @@
                         Terms of Use
                     </a>
 
+
                 </div>
 
+
             </div>
+
 
         </div>
 
