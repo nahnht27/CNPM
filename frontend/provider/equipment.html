@@ -1,0 +1,2482 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Provider - Equipment | FilmSpace</title>
+
+  <link
+    rel="stylesheet"
+    href="../assets/css/styles.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../assets/css/provider-equipment.css"
+  >
+</head>
+
+
+<body>
+
+
+  <!-- =====================================================
+       NAVBAR
+       ===================================================== -->
+
+  <nav
+    class="navbar"
+    id="mainNavbar"
+  >
+
+    <div class="navbar-container container">
+
+
+      <!-- LOGO -->
+
+      <a
+        class="logo"
+        href="dashboard.html"
+        aria-label="FilmSpace"
+      >
+        FilmSpace
+      </a>
+
+
+      <!-- PROVIDER MENU -->
+
+      <div
+        class="menu"
+        aria-label="Provider navigation"
+      >
+
+        <a href="dashboard.html">
+          Dashboard
+        </a>
+
+        <a href="spaces.html">
+          Spaces
+        </a>
+
+        <a
+          href="equipment.html"
+          class="active"
+        >
+          Equipment
+        </a>
+
+        <a href="packages.html">
+          Packages
+        </a>
+
+        <a href="bookings.html">
+          Bookings
+        </a>
+
+        <a href="profile.html">
+          Profile
+        </a>
+
+      </div>
+
+
+    <!-- USER -->
+    <div class="nav-actions">
+
+      <span
+        class="provider-nav-name"
+        id="navProviderName"
+      >
+        Provider
+      </span>
+
+      <button
+        type="button"
+        class="provider-logout"
+        onclick="logout()"
+      >
+        Đăng xuất
+      </button>
+
+    </div>
+
+  </nav>
+
+
+
+  <!-- =====================================================
+       MAIN
+       ===================================================== -->
+
+  <main class="provider-equipment-page">
+
+
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+
+    <section class="equipment-header">
+
+      <div class="container">
+
+        <div class="equipment-header-content">
+
+          <div>
+
+            <span class="equipment-kicker">
+              MY EQUIPMENT
+            </span>
+
+            <h1>
+              Manage your
+              <span>equipment.</span>
+            </h1>
+
+            <p>
+              Quản lý thiết bị và giá thuê
+              dành cho Photographer trên FilmSpace.
+            </p>
+
+          </div>
+
+
+          <button
+            type="button"
+            class="create-equipment-btn"
+            onclick="openCreateEquipment()"
+          >
+            + Add New Equipment
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         EQUIPMENT CONTENT
+         ===================================================== -->
+
+    <section class="provider-section equipment-content">
+
+      <div class="container">
+
+
+        <!-- TITLE -->
+
+        <div class="equipment-section-heading">
+
+          <div>
+
+            <h2>
+              Your Equipment
+            </h2>
+
+            <p>
+              Danh sách thiết bị bạn đang quản lý.
+            </p>
+
+          </div>
+
+
+          <span
+            class="equipment-count"
+            id="equipmentCount"
+          >
+            0 equipment
+          </span>
+
+        </div>
+
+
+
+        <!-- LOADING -->
+
+        <div
+          class="equipment-state"
+          id="loadingState"
+        >
+
+          <div class="equipment-state-icon">
+            ◷
+          </div>
+
+          <p>
+            Đang tải thiết bị...
+          </p>
+
+        </div>
+
+
+
+        <!-- ERROR -->
+
+        <div
+          class="equipment-state"
+          id="errorState"
+          style="display:none;"
+        >
+
+          <div class="equipment-state-icon">
+            !
+          </div>
+
+          <h3>
+            Không thể tải thiết bị
+          </h3>
+
+          <p>
+            Vui lòng kiểm tra Backend.
+          </p>
+
+          <button
+            type="button"
+            onclick="loadEquipment()"
+          >
+            Thử lại
+          </button>
+
+        </div>
+
+
+
+        <!-- EMPTY -->
+
+        <div
+          class="equipment-state"
+          id="emptyState"
+          style="display:none;"
+        >
+
+          <div class="equipment-state-icon">
+            ◇
+          </div>
+
+          <h3>
+            Chưa có thiết bị
+          </h3>
+
+          <p>
+            Hãy thêm thiết bị đầu tiên của bạn.
+          </p>
+
+          <button
+            type="button"
+            onclick="openCreateEquipment()"
+          >
+            + Add New Equipment
+          </button>
+
+        </div>
+
+
+
+        <!-- GRID -->
+
+        <div
+          class="equipment-grid"
+          id="equipmentGrid"
+        ></div>
+
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+
+  <!-- =====================================================
+       CREATE / EDIT MODAL
+       ===================================================== -->
+
+  <div
+    class="equipment-modal"
+    id="equipmentModal"
+  >
+
+    <div class="equipment-modal-overlay"
+         onclick="closeEquipmentModal()">
+    </div>
+
+
+    <div class="equipment-modal-content">
+
+
+      <!-- MODAL HEADER -->
+
+      <div class="equipment-modal-header">
+
+        <div>
+
+          <span class="equipment-modal-kicker">
+            EQUIPMENT
+          </span>
+
+          <h2 id="modalTitle">
+            Add New Equipment
+          </h2>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="modal-close-btn"
+          onclick="closeEquipmentModal()"
+          aria-label="Close"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+
+      <!-- FORM -->
+
+      <form
+        id="equipmentForm"
+        onsubmit="saveEquipment(event)"
+      >
+
+        <input
+          type="hidden"
+          id="equipmentId"
+        >
+
+
+        <!-- NAME -->
+
+        <div class="equipment-form-field full-width">
+
+          <label for="equipmentName">
+            Equipment Name
+          </label>
+
+          <input
+            id="equipmentName"
+            type="text"
+            placeholder="Ví dụ: Canon EOS R6"
+            required
+          >
+
+        </div>
+
+
+
+        <!-- CATEGORY + SPACE -->
+
+        <div class="equipment-form-row">
+
+
+          <div class="equipment-form-field">
+
+            <label for="categoryId">
+              Category
+            </label>
+
+            <select
+              id="categoryId"
+              required
+            >
+
+              <option value="">
+                Chọn category
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="equipment-form-field">
+
+            <label for="spaceId">
+              Space
+            </label>
+
+            <select id="spaceId">
+
+              <option value="">
+                Không gắn với space
+              </option>
+
+            </select>
+
+          </div>
+
+
+        </div>
+
+
+
+        <!-- BRAND + CONDITION -->
+
+        <div class="equipment-form-row">
+
+
+          <div class="equipment-form-field">
+
+            <label for="brand">
+              Brand
+            </label>
+
+            <input
+              id="brand"
+              type="text"
+              placeholder="Ví dụ: Canon"
+            >
+
+          </div>
+
+
+          <div class="equipment-form-field">
+
+            <label for="condition">
+              Condition
+            </label>
+
+            <select id="condition">
+
+              <option value="new">
+                Mới
+              </option>
+
+              <option value="good" selected>
+                Tốt
+              </option>
+
+              <option value="fair">
+                Khá
+              </option>
+
+              <option value="poor">
+                Cũ
+              </option>
+
+            </select>
+
+          </div>
+
+
+        </div>
+
+
+
+        <!-- PRICE + STATUS -->
+
+        <div class="equipment-form-row">
+
+
+          <div class="equipment-form-field">
+
+            <label for="rentalPrice">
+              Rental Price
+            </label>
+
+            <div class="price-input">
+
+              <input
+                id="rentalPrice"
+                type="number"
+                min="0"
+                step="1000"
+                placeholder="200000"
+                required
+              >
+
+              <span>
+                ₫
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="equipment-form-field">
+
+            <label for="status">
+              Status
+            </label>
+
+            <select id="status">
+
+              <option value="available">
+                Available
+              </option>
+
+              <option value="unavailable">
+                Unavailable
+              </option>
+
+              <option value="maintenance">
+                Maintenance
+              </option>
+
+            </select>
+
+          </div>
+
+
+        </div>
+
+
+
+        <!-- PURCHASE DATE -->
+
+        <div class="equipment-form-field full-width">
+
+          <label for="purchaseDate">
+            Purchase Date
+          </label>
+
+          <input
+            id="purchaseDate"
+            type="date"
+            required
+          >
+
+        </div>
+
+
+
+        <!-- ACTIONS -->
+
+        <div class="equipment-form-actions">
+
+          <button
+            type="button"
+            class="equipment-cancel-btn"
+            onclick="closeEquipmentModal()"
+          >
+            Hủy
+          </button>
+
+          <button
+            type="submit"
+            class="equipment-save-btn"
+            id="saveEquipmentBtn"
+          >
+            Lưu thiết bị
+          </button>
+
+        </div>
+
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       DELETE MODAL
+       ===================================================== -->
+
+  <div
+    class="equipment-modal"
+    id="deleteModal"
+  >
+
+    <div class="equipment-modal-overlay"
+         onclick="closeDeleteModal()">
+    </div>
+
+
+    <div class="equipment-confirm-modal">
+
+      <div class="confirm-icon">
+        !
+      </div>
+
+      <h2>
+        Xóa thiết bị?
+      </h2>
+
+      <p id="deleteMessage">
+        Bạn có chắc muốn xóa thiết bị này?
+      </p>
+
+
+      <div class="confirm-actions">
+
+        <button
+          type="button"
+          class="equipment-cancel-btn"
+          onclick="closeDeleteModal()"
+        >
+          Hủy
+        </button>
+
+        <button
+          type="button"
+          class="equipment-delete-btn"
+          onclick="confirmDelete()"
+        >
+          Xóa thiết bị
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       MESSAGE MODAL
+       ===================================================== -->
+
+  <div
+    class="equipment-modal"
+    id="messageModal"
+  >
+
+    <div class="equipment-modal-overlay"
+         onclick="closeMessageModal()">
+    </div>
+
+
+    <div class="equipment-confirm-modal">
+
+      <div
+        class="confirm-icon"
+        id="messageIcon"
+      >
+        ✓
+      </div>
+
+      <h2 id="messageTitle">
+        Thành công
+      </h2>
+
+      <p id="messageText">
+        Thao tác thành công.
+      </p>
+
+      <button
+        type="button"
+        class="equipment-save-btn"
+        onclick="closeMessageModal()"
+      >
+        OK
+      </button>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       FOOTER
+       ===================================================== -->
+
+  <footer class="footer">
+
+    <div class="container">
+
+      <div class="footer-top">
+
+
+        <div class="footer-brand">
+
+          <div class="footer-logo">
+            Photography<span>Platform</span>
+          </div>
+
+          <p>
+            Kết nối các nhiếp ảnh gia phim với các phòng tối
+            và studio đáng tin cậy.
+          </p>
+
+        </div>
+
+
+        <div class="footer-menu">
+
+          <a href="dashboard.html">
+            Dashboard
+          </a>
+
+          <a href="spaces.html">
+            Spaces
+          </a>
+
+          <a href="equipment.html">
+            Equipment
+          </a>
+
+          <a href="packages.html">
+            Packages
+          </a>
+
+          <a href="bookings.html">
+            Bookings
+          </a>
+
+          <a href="profile.html">
+            Profile
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <hr class="footer-line">
+
+
+      <div class="footer-bottom">
+
+        <span>
+          Copyright © 2026 Photography Platform.
+          All rights reserved.
+        </span>
+
+        <div class="footer-links">
+
+          <a href="#">
+            Privacy Policy
+          </a>
+
+          <a href="#">
+            Terms of Use
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+       ===================================================== -->
+
+  <script>
+
+    const API_BASE_URL =
+      "http://127.0.0.1:9999";
+
+
+    let currentProviderId = null;
+    let currentToken = null;
+
+    let equipmentList = [];
+
+    let editingEquipmentId = null;
+
+    let deleteEquipmentId = null;
+
+
+
+    /* =====================================================
+       STORAGE
+       ===================================================== */
+
+    function getStorage() {
+
+      if (
+        localStorage.getItem("auth_token")
+      ) {
+        return localStorage;
+      }
+
+      return sessionStorage;
+
+    }
+
+
+
+    function getLoggedInUser() {
+
+      const storage =
+        getStorage();
+
+      return {
+
+        storage,
+
+        token:
+          storage.getItem("auth_token"),
+
+        userId:
+          storage.getItem("user_id"),
+
+        username:
+          storage.getItem("username") || "",
+
+        fullName:
+          storage.getItem("full_name") || "",
+
+        providerId:
+          storage.getItem("provider_id")
+
+      };
+
+    }
+
+
+
+    /* =====================================================
+       API FETCH
+       ===================================================== */
+
+    async function apiFetch(
+      url,
+      options = {}
+    ) {
+
+      const user =
+        getLoggedInUser();
+
+
+      const headers = {
+
+        "Accept":
+          "application/json",
+
+        ...(options.headers || {})
+
+      };
+
+
+      if (user.token) {
+
+        headers["Authorization"] =
+          `Bearer ${user.token}`;
+
+      }
+
+
+      return fetch(
+        url,
+        {
+          ...options,
+          headers
+        }
+      );
+
+    }
+
+
+
+    /* =====================================================
+       AUTH
+       ===================================================== */
+
+    function loadProviderInfo() {
+
+      const user =
+        getLoggedInUser();
+
+
+      if (
+        !user.token ||
+        !user.providerId
+      ) {
+
+        window.location.href =
+          "../auth.html";
+
+        return false;
+
+      }
+
+
+      currentProviderId =
+        Number(user.providerId);
+
+      currentToken =
+        user.token;
+
+
+      const displayName =
+        user.fullName ||
+        user.username ||
+        `Provider #${user.providerId}`;
+
+
+      const navName =
+        document.getElementById(
+          "navProviderName"
+        );
+
+
+      if (navName) {
+
+        navName.textContent =
+          displayName;
+
+      }
+
+
+      return true;
+
+    }
+
+
+
+    /* =====================================================
+       LOGOUT
+       ===================================================== */
+
+    function logout() {
+
+      localStorage.clear();
+      sessionStorage.clear();
+
+
+      document.cookie
+        .split(";")
+        .forEach(
+          function (c) {
+
+            document.cookie =
+              c
+                .replace(
+                  /^ +/,
+                  ""
+                )
+                .replace(
+                  /=.*/,
+                  "=;expires=" +
+                  new Date().toUTCString() +
+                  ";path=/"
+                );
+
+          }
+        );
+
+
+      window.location.href =
+        "../auth.html";
+
+    }
+
+
+
+    /* =====================================================
+       FORMAT
+       ===================================================== */
+
+    function formatCurrency(
+      value
+    ) {
+
+      const number =
+        Number(value || 0);
+
+
+      return number.toLocaleString(
+        "vi-VN"
+      ) + " ₫";
+
+    }
+
+
+
+    function escapeHtml(
+      value
+    ) {
+
+      if (
+        value === null ||
+        value === undefined
+      ) {
+
+        return "";
+
+      }
+
+
+      return String(value)
+
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+
+        .replace(
+          /</g,
+          "&lt;"
+        )
+
+        .replace(
+          />/g,
+          "&gt;"
+        )
+
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+
+        .replace(
+          /'/g,
+          "&#039;"
+        );
+
+    }
+
+
+
+    function formatDate(
+      value
+    ) {
+
+      if (!value) {
+        return "-";
+      }
+
+
+      const date =
+        new Date(value);
+
+
+      if (
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+
+        return value;
+
+      }
+
+
+      return date.toLocaleDateString(
+        "vi-VN"
+      );
+
+    }
+
+
+
+    /* =====================================================
+       CONDITION
+       ===================================================== */
+
+    function conditionText(
+      condition
+    ) {
+
+      const map = {
+
+        new:
+          "Mới",
+
+        good:
+          "Tốt",
+
+        fair:
+          "Khá",
+
+        poor:
+          "Cũ"
+
+      };
+
+
+      return (
+        map[
+          String(condition || "")
+            .toLowerCase()
+        ] ||
+        condition ||
+        "-"
+      );
+
+    }
+
+
+
+    /* =====================================================
+       STATUS
+       ===================================================== */
+
+    function statusText(
+      status
+    ) {
+
+      const map = {
+
+        available:
+          "Available",
+
+        unavailable:
+          "Unavailable",
+
+        maintenance:
+          "Maintenance"
+
+      };
+
+
+      return (
+        map[
+          String(status || "")
+            .toLowerCase()
+        ] ||
+        status ||
+        "-"
+      );
+
+    }
+
+
+
+    function statusClass(
+      status
+    ) {
+
+      return String(
+        status || ""
+      )
+        .toLowerCase()
+        .replace(
+          /[^a-z0-9_-]/g,
+          ""
+        );
+
+    }
+
+
+
+    /* =====================================================
+       LOAD CATEGORIES
+       ===================================================== */
+
+    async function loadCategories() {
+
+      const select =
+        document.getElementById(
+          "categoryId"
+        );
+
+
+      if (!select) {
+        return;
+      }
+
+
+      try {
+
+        const response =
+          await apiFetch(
+            `${API_BASE_URL}/categories/`
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            `Category API HTTP ${response.status}`
+          );
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        const categories =
+          Array.isArray(data)
+            ? data
+            : [];
+
+
+        select.innerHTML = `
+
+          <option value="">
+            Chọn category
+          </option>
+
+        `;
+
+
+        categories.forEach(
+          function (category) {
+
+            const id =
+              category.id ??
+              category.category_id;
+
+            const name =
+              category.name ??
+              category.category_name ??
+              category.categoryName ??
+              `Category #${id}`;
+
+
+            if (!id) {
+              return;
+            }
+
+
+            select.innerHTML += `
+
+              <option value="${escapeHtml(id)}">
+                ${escapeHtml(name)}
+              </option>
+
+            `;
+
+          }
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "LOAD CATEGORIES ERROR:",
+          error
+        );
+
+      }
+
+    }
+
+
+
+    /* =====================================================
+       LOAD SPACES
+       ===================================================== */
+
+    async function loadSpaces() {
+
+      const select =
+        document.getElementById(
+          "spaceId"
+        );
+
+
+      if (!select) {
+        return;
+      }
+
+
+      try {
+
+        const response =
+          await apiFetch(
+            `${API_BASE_URL}/creative-spaces/`
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            `Space API HTTP ${response.status}`
+          );
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        const spaces =
+          Array.isArray(data)
+            ? data
+            : [];
+
+
+        const providerSpaces =
+          spaces.filter(
+            function (space) {
+
+              return String(
+                space.provider_id
+              ) === String(
+                currentProviderId
+              );
+
+            }
+          );
+
+
+        select.innerHTML = `
+
+          <option value="">
+            Không gắn với space
+          </option>
+
+        `;
+
+
+        providerSpaces.forEach(
+          function (space) {
+
+            select.innerHTML += `
+
+              <option value="${escapeHtml(space.id)}">
+                ${escapeHtml(
+                  space.name ||
+                  `Space #${space.id}`
+                )}
+              </option>
+
+            `;
+
+          }
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "LOAD SPACES ERROR:",
+          error
+        );
+
+      }
+
+    }
+
+
+
+    /* =====================================================
+       LOAD EQUIPMENT
+       ===================================================== */
+
+    async function loadEquipment() {
+
+      const grid =
+        document.getElementById(
+          "equipmentGrid"
+        );
+
+      const loading =
+        document.getElementById(
+          "loadingState"
+        );
+
+      const empty =
+        document.getElementById(
+          "emptyState"
+        );
+
+      const errorState =
+        document.getElementById(
+          "errorState"
+        );
+
+
+      if (loading) {
+        loading.style.display = "block";
+      }
+
+      if (empty) {
+        empty.style.display = "none";
+      }
+
+      if (errorState) {
+        errorState.style.display = "none";
+      }
+
+      if (grid) {
+        grid.innerHTML = "";
+      }
+
+
+      try {
+
+        const response =
+          await apiFetch(
+            `${API_BASE_URL}/equipment/`
+          );
+
+
+        if (
+          response.status === 401 ||
+          response.status === 403
+        ) {
+
+          window.location.href =
+            "../auth.html";
+
+          return;
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.message ||
+            `Equipment API HTTP ${response.status}`
+          );
+
+        }
+
+
+        const allEquipment =
+          Array.isArray(data)
+            ? data
+            : [];
+
+
+        equipmentList =
+          allEquipment.filter(
+            function (equipment) {
+
+              return String(
+                equipment.provider_id
+              ) === String(
+                currentProviderId
+              );
+
+            }
+          );
+
+
+        renderEquipment();
+
+
+      } catch (error) {
+
+        console.error(
+          "LOAD EQUIPMENT ERROR:",
+          error
+        );
+
+
+        if (errorState) {
+
+          errorState.style.display =
+            "block";
+
+        }
+
+      } finally {
+
+        if (loading) {
+
+          loading.style.display =
+            "none";
+
+        }
+
+      }
+
+    }
+
+
+
+    /* =====================================================
+       RENDER EQUIPMENT
+       ===================================================== */
+
+    function renderEquipment() {
+
+      const grid =
+        document.getElementById(
+          "equipmentGrid"
+        );
+
+
+      const count =
+        document.getElementById(
+          "equipmentCount"
+        );
+
+
+      const empty =
+        document.getElementById(
+          "emptyState"
+        );
+
+
+      if (!grid) {
+        return;
+      }
+
+
+      if (count) {
+
+        count.textContent =
+          `${equipmentList.length} equipment`;
+
+      }
+
+
+      if (!equipmentList.length) {
+
+        grid.innerHTML = "";
+
+        if (empty) {
+
+          empty.style.display =
+            "block";
+
+        }
+
+        return;
+
+      }
+
+
+      if (empty) {
+
+        empty.style.display =
+          "none";
+
+      }
+
+
+      let html = "";
+
+
+      equipmentList.forEach(
+        function (equipment) {
+
+          const status =
+            String(
+              equipment.status ||
+              "available"
+            ).toLowerCase();
+
+
+          html += `
+
+            <article
+              class="equipment-card"
+            >
+
+              <div class="equipment-card-top">
+
+                <div class="equipment-icon">
+                  ⌁
+                </div>
+
+                <span
+                  class="
+                    equipment-status
+                    ${escapeHtml(
+                      statusClass(status)
+                    )}
+                  "
+                >
+                  ${escapeHtml(
+                    statusText(status)
+                  )}
+                </span>
+
+              </div>
+
+
+              <div class="equipment-card-body">
+
+                <span class="equipment-category">
+                  ${escapeHtml(
+                    equipment.category_name ||
+                    `Category #${equipment.category_id}`
+                  )}
+                </span>
+
+                <h3>
+                  ${escapeHtml(
+                    equipment.name
+                  )}
+                </h3>
+
+
+                <p class="equipment-brand">
+
+                  ${escapeHtml(
+                    equipment.brand ||
+                    "No brand"
+                  )}
+
+                </p>
+
+
+                <div class="equipment-info-list">
+
+
+                  <div class="equipment-info-item">
+
+                    <span>
+                      Rental price
+                    </span>
+
+                    <strong>
+                      ${escapeHtml(
+                        formatCurrency(
+                          equipment.rental_price
+                        )
+                      )}
+                    </strong>
+
+                  </div>
+
+
+                  <div class="equipment-info-item">
+
+                    <span>
+                      Condition
+                    </span>
+
+                    <strong>
+                      ${escapeHtml(
+                        conditionText(
+                          equipment.condition
+                        )
+                      )}
+                    </strong>
+
+                  </div>
+
+
+                  <div class="equipment-info-item">
+
+                    <span>
+                      Space
+                    </span>
+
+                    <strong>
+                      ${escapeHtml(
+                        equipment.space_name ||
+                        (
+                          equipment.space_id
+                            ? `Space #${equipment.space_id}`
+                            : "Không gắn space"
+                        )
+                      )}
+                    </strong>
+
+                  </div>
+
+
+                  <div class="equipment-info-item">
+
+                    <span>
+                      Purchase date
+                    </span>
+
+                    <strong>
+                      ${escapeHtml(
+                        formatDate(
+                          equipment.purchase_date
+                        )
+                      )}
+                    </strong>
+
+                  </div>
+
+
+                </div>
+
+              </div>
+
+
+              <div class="equipment-card-actions">
+
+                <button
+                  type="button"
+                  class="equipment-edit-btn"
+                  onclick="openEditEquipment(${equipment.id})"
+                >
+                  Edit
+                </button>
+
+                <button
+                  type="button"
+                  class="equipment-delete-link"
+                  onclick="openDeleteEquipment(${equipment.id})"
+                >
+                  Delete
+                </button>
+
+              </div>
+
+
+            </article>
+
+          `;
+
+        }
+      );
+
+
+      grid.innerHTML =
+        html;
+
+    }
+
+
+
+    /* =====================================================
+       OPEN CREATE
+       ===================================================== */
+
+    async function openCreateEquipment() {
+
+      editingEquipmentId =
+        null;
+
+
+      const modalTitle =
+        document.getElementById(
+          "modalTitle"
+        );
+
+
+      if (modalTitle) {
+
+        modalTitle.textContent =
+          "Add New Equipment";
+
+      }
+
+
+      document
+        .getElementById(
+          "equipmentForm"
+        )
+        .reset();
+
+
+      document
+        .getElementById(
+          "equipmentId"
+        )
+        .value = "";
+
+
+      await loadCategories();
+      await loadSpaces();
+
+
+      const modal =
+        document.getElementById(
+          "equipmentModal"
+        );
+
+
+      if (modal) {
+
+        modal.classList.add(
+          "show"
+        );
+
+      }
+
+    }
+
+
+
+    /* =====================================================
+       OPEN EDIT
+       ===================================================== */
+
+    async function openEditEquipment(
+      equipmentId
+    ) {
+
+      const equipment =
+        equipmentList.find(
+          function (item) {
+
+            return Number(
+              item.id
+            ) === Number(
+              equipmentId
+            );
+
+          }
+        );
+
+
+      if (!equipment) {
+
+        showMessage(
+          "Lỗi",
+          "Không tìm thấy thiết bị.",
+          "!"
+        );
+
+        return;
+
+      }
+
+
+      editingEquipmentId =
+        Number(
+          equipmentId
+        );
+
+
+      const modalTitle =
+        document.getElementById(
+          "modalTitle"
+        );
+
+
+      if (modalTitle) {
+
+        modalTitle.textContent =
+          "Edit Equipment";
+
+      }
+
+
+      await loadCategories();
+      await loadSpaces();
+
+
+      document
+        .getElementById(
+          "equipmentId"
+        )
+        .value =
+        equipment.id || "";
+
+
+      document
+        .getElementById(
+          "equipmentName"
+        )
+        .value =
+        equipment.name || "";
+
+
+      document
+        .getElementById(
+          "categoryId"
+        )
+        .value =
+        equipment.category_id || "";
+
+
+      document
+        .getElementById(
+          "spaceId"
+        )
+        .value =
+        equipment.space_id || "";
+
+
+      document
+        .getElementById(
+          "brand"
+        )
+        .value =
+        equipment.brand || "";
+
+
+      document
+        .getElementById(
+          "condition"
+        )
+        .value =
+        equipment.condition || "good";
+
+
+      document
+        .getElementById(
+          "rentalPrice"
+        )
+        .value =
+        equipment.rental_price || "";
+
+
+      document
+        .getElementById(
+          "status"
+        )
+        .value =
+        equipment.status || "available";
+
+
+      document
+        .getElementById(
+          "purchaseDate"
+        )
+        .value =
+        normalizeDateInput(
+          equipment.purchase_date
+        );
+
+
+      document
+        .getElementById(
+          "equipmentModal"
+        )
+        .classList.add(
+          "show"
+        );
+
+    }
+
+
+
+    /* =====================================================
+       DATE
+       ===================================================== */
+
+    function normalizeDateInput(
+      value
+    ) {
+
+      if (!value) {
+        return "";
+      }
+
+
+      const text =
+        String(value);
+
+
+      if (
+        /^\d{4}-\d{2}-\d{2}$/.test(
+          text
+        )
+      ) {
+
+        return text;
+
+      }
+
+
+      const date =
+        new Date(value);
+
+
+      if (
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+
+        return "";
+
+      }
+
+
+      return date
+        .toISOString()
+        .slice(0, 10);
+
+    }
+
+
+
+    /* =====================================================
+       CLOSE MODAL
+       ===================================================== */
+
+    function closeEquipmentModal() {
+
+      const modal =
+        document.getElementById(
+          "equipmentModal"
+        );
+
+
+      if (modal) {
+
+        modal.classList.remove(
+          "show"
+        );
+
+      }
+
+    }
+
+
+
+    /* =====================================================
+       SAVE
+       ===================================================== */
+
+    async function saveEquipment(
+      event
+    ) {
+
+      event.preventDefault();
+
+
+      const saveButton =
+        document.getElementById(
+          "saveEquipmentBtn"
+        );
+
+
+      const equipmentId =
+        document.getElementById(
+          "equipmentId"
+        ).value;
+
+
+      const payload = {
+
+        provider_id:
+          currentProviderId,
+
+        category_id:
+          Number(
+            document.getElementById(
+              "categoryId"
+            ).value
+          ),
+
+        name:
+          document.getElementById(
+            "equipmentName"
+          ).value.trim(),
+
+        space_id:
+          document.getElementById(
+            "spaceId"
+          ).value
+            ? Number(
+                document.getElementById(
+                  "spaceId"
+                ).value
+              )
+            : null,
+
+        brand:
+          document.getElementById(
+            "brand"
+          ).value.trim() ||
+          null,
+
+        condition:
+          document.getElementById(
+            "condition"
+          ).value,
+
+        rental_price:
+          Number(
+            document.getElementById(
+              "rentalPrice"
+            ).value
+          ),
+
+        status:
+          document.getElementById(
+            "status"
+          ).value,
+
+        purchase_date:
+          document.getElementById(
+            "purchaseDate"
+          ).value
+
+      };
+
+
+      if (
+        !payload.name ||
+        !payload.category_id ||
+        !payload.purchase_date
+      ) {
+
+        showMessage(
+          "Thiếu thông tin",
+          "Vui lòng nhập đầy đủ các trường bắt buộc.",
+          "!"
+        );
+
+        return;
+
+      }
+
+
+      if (saveButton) {
+
+        saveButton.disabled =
+          true;
+
+        saveButton.textContent =
+          "Đang lưu...";
+
+      }
+
+
+      try {
+
+        let response;
+
+
+        if (equipmentId) {
+
+          response =
+            await apiFetch(
+              `${API_BASE_URL}/equipment/${equipmentId}`,
+              {
+                method: "PUT",
+
+                headers: {
+                  "Content-Type":
+                    "application/json"
+                },
+
+                body:
+                  JSON.stringify(
+                    payload
+                  )
+              }
+            );
+
+        } else {
+
+          response =
+            await apiFetch(
+              `${API_BASE_URL}/equipment/`,
+              {
+                method: "POST",
+
+                headers: {
+                  "Content-Type":
+                    "application/json"
+                },
+
+                body:
+                  JSON.stringify(
+                    payload
+                  )
+              }
+            );
+
+        }
+
+
+        const data =
+          await response.json()
+            .catch(
+              function () {
+                return {};
+              }
+            );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.message ||
+            JSON.stringify(
+              data
+            ) ||
+            `HTTP ${response.status}`
+          );
+
+        }
+
+
+        closeEquipmentModal();
+
+
+        await loadEquipment();
+
+
+        showMessage(
+          "Thành công",
+          equipmentId
+            ? "Thiết bị đã được cập nhật."
+            : "Thiết bị đã được tạo.",
+          "✓"
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "SAVE EQUIPMENT ERROR:",
+          error
+        );
+
+
+        showMessage(
+          "Không thể lưu",
+          error.message ||
+          "Đã xảy ra lỗi.",
+          "!"
+        );
+
+      } finally {
+
+        if (saveButton) {
+
+          saveButton.disabled =
+            false;
+
+          saveButton.textContent =
+            "Lưu thiết bị";
+
+        }
+
+      }
+
+    }
+
+
+
+    /* =====================================================
+       DELETE
+       ===================================================== */
+
+    function openDeleteEquipment(
+      equipmentId
+    ) {
+
+      const equipment =
+        equipmentList.find(
+          function (item) {
+
+            return Number(
+              item.id
+            ) === Number(
+              equipmentId
+            );
+
+          }
+        );
+
+
+      if (!equipment) {
+        return;
+      }
+
+
+      deleteEquipmentId =
+        Number(
+          equipmentId
+        );
+
+
+      const message =
+        document.getElementById(
+          "deleteMessage"
+        );
+
+
+      if (message) {
+
+        message.textContent =
+          `Bạn có chắc muốn xóa "${equipment.name}" không?`;
+
+      }
+
+
+      document
+        .getElementById(
+          "deleteModal"
+        )
+        .classList.add(
+          "show"
+        );
+
+    }
+
+
+
+    function closeDeleteModal() {
+
+      document
+        .getElementById(
+          "deleteModal"
+        )
+        .classList.remove(
+          "show"
+        );
+
+
+      deleteEquipmentId =
+        null;
+
+    }
+
+
+
+    async function confirmDelete() {
+
+      if (!deleteEquipmentId) {
+        return;
+      }
+
+
+      try {
+
+        const response =
+          await apiFetch(
+            `${API_BASE_URL}/equipment/${deleteEquipmentId}`,
+            {
+              method: "DELETE"
+            }
+          );
+
+
+        if (
+          !response.ok &&
+          response.status !== 204
+        ) {
+
+          const data =
+            await response.json()
+              .catch(
+                function () {
+                  return {};
+                }
+              );
+
+
+          throw new Error(
+            data.message ||
+            `HTTP ${response.status}`
+          );
+
+        }
+
+
+        closeDeleteModal();
+
+
+        await loadEquipment();
+
+
+        showMessage(
+          "Đã xóa",
+          "Thiết bị đã được xóa.",
+          "✓"
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "DELETE EQUIPMENT ERROR:",
+          error
+        );
+
+
+        showMessage(
+          "Không thể xóa",
+          error.message ||
+          "Đã xảy ra lỗi.",
+          "!"
+        );
+
+      }
+
+    }
+
+
+
+    /* =====================================================
+       MESSAGE
+       ===================================================== */
+
+    function showMessage(
+      title,
+      text,
+      icon
+    ) {
+
+      document
+        .getElementById(
+          "messageTitle"
+        )
+        .textContent =
+        title;
+
+
+      document
+        .getElementById(
+          "messageText"
+        )
+        .textContent =
+        text;
+
+
+      document
+        .getElementById(
+          "messageIcon"
+        )
+        .textContent =
+        icon || "✓";
+
+
+      document
+        .getElementById(
+          "messageModal"
+        )
+        .classList.add(
+          "show"
+        );
+
+    }
+
+
+
+    function closeMessageModal() {
+
+      document
+        .getElementById(
+          "messageModal"
+        )
+        .classList.remove(
+          "show"
+        );
+
+    }
+
+
+
+    /* =====================================================
+       INIT
+       ===================================================== */
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      async function () {
+
+        const loggedIn =
+          loadProviderInfo();
+
+
+        if (!loggedIn) {
+          return;
+        }
+
+
+        await loadEquipment();
+
+      }
+    );
+
+  </script>
+
+
+</body>
+
+</html>
