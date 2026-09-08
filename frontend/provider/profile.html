@@ -14,70 +14,120 @@
 
 <body>
 
-  <nav class="navbar" id="mainNavbar">
-    <div class="navbar-container container">
+  <!-- =========================================================
+       NAVBAR
+       ========================================================= -->
 
+  <nav class="navbar" id="mainNavbar">
+
+    <div class="navbar-container container">
 
       <a class="logo" href="home.html" aria-label="FilmSpace">
         FilmSpace
       </a>
 
       <div class="menu" aria-label="User navigation">
-        <a href="dashboard.html">Dashboard</a>
-        <a href="spaces.html">Spaces</a>
-        <a href="equipment.html">Equipment</a>
-        <a href="packages.html">Packages</a>
-        <a href="bookings.html">Bookings</a>
-        <a href="profile.html" class="active">Profile</a>
+
+        <a href="dashboard.html">
+          Dashboard
+        </a>
+
+        <a href="spaces.html">
+          Spaces
+        </a>
+
+        <a href="equipment.html">
+          Equipment
+        </a>
+
+        <a href="packages.html">
+          Packages
+        </a>
+
+        <a href="bookings.html">
+          Bookings
+        </a>
+
+        <a href="profile.html" class="active">
+          Profile
+        </a>
+
       </div>
 
       <div class="nav-actions">
-        <span class="provider-nav-name" id="navProviderName">User</span>
+
+        <span class="provider-nav-name" id="navProviderName">
+          User
+        </span>
 
         <button type="button" class="provider-logout" onclick="logout()">
           Đăng xuất
         </button>
+
       </div>
 
     </div>
 
-
   </nav>
+
+
+  <!-- =========================================================
+       MAIN
+       ========================================================= -->
 
   <main class="profile-page">
 
+    <!-- =======================================================
+         PROFILE HEADER
+         ======================================================= -->
+
     <section class="profile-header">
+
       <div class="container">
 
         <div class="profile-heading">
 
           <div>
+
             <span class="profile-kicker" id="profileKicker">
               PROFILE
             </span>
 
-            <h1>Hồ sơ cá nhân</h1>
+            <h1>
+              Hồ sơ cá nhân
+            </h1>
 
             <p>
               Quản lý thông tin tài khoản và hồ sơ nhà cung cấp
               dịch vụ của bạn.
             </p>
+
           </div>
 
           <button type="button" class="edit-profile-btn" id="editBtn" onclick="enableEdit()">
-            ✎ Chỉnh sửa hồ sơ
+            Chỉnh sửa hồ sơ
           </button>
 
         </div>
 
       </div>
+
     </section>
+
+
+    <!-- =======================================================
+         PROFILE CONTENT
+         ======================================================= -->
 
     <section class="profile-content">
 
       <div class="container">
 
         <div class="profile-layout">
+
+          <!-- =================================================
+               PROFILE SUMMARY
+               ================================================= -->
 
           <aside class="profile-card profile-summary-card">
 
@@ -100,40 +150,71 @@
             <div class="summary-divider"></div>
 
             <div class="summary-item">
-              <span>Thành viên từ</span>
+
+              <span>
+                Thành viên từ
+              </span>
 
               <strong id="memberSince">
                 2026
               </strong>
+
             </div>
 
             <div class="summary-divider"></div>
 
+            <!-- QUICK NAV (GIỮ LẠI 4 ICON Ở ĐÂY) -->
+
             <nav class="profile-quicknav" aria-label="Điều hướng hồ sơ">
 
               <a href="#personalCard">
-                <span class="quicknav-icon">👤</span>
+
+                <span class="quicknav-icon">
+                  👤
+                </span>
+
                 Thông tin cá nhân
+
               </a>
 
               <a href="#licenseCard">
-                <span class="quicknav-icon">🏢</span>
+
+                <span class="quicknav-icon">
+                  🏢
+                </span>
+
                 Doanh nghiệp &amp; Thanh toán
+
               </a>
 
               <a href="#securityCard">
-                <span class="quicknav-icon">🔒</span>
+
+                <span class="quicknav-icon">
+                  🔒
+                </span>
+
                 Bảo mật
+
               </a>
 
               <a href="#settingsCard">
-                <span class="quicknav-icon">⚙️</span>
+
+                <span class="quicknav-icon">
+                  ⚙️
+                </span>
+
                 Cài đặt tài khoản
+
               </a>
 
             </nav>
 
           </aside>
+
+
+          <!-- =================================================
+               PERSONAL INFORMATION
+               ================================================= -->
 
           <section class="profile-card profile-form-card" id="personalCard">
 
@@ -141,16 +222,16 @@
 
               <div>
 
-                <div class="card-icon">
-                  👤
-                </div>
-
                 <div>
-                  <h2>Thông tin cá nhân</h2>
+
+                  <h2>
+                    Thông tin cá nhân
+                  </h2>
 
                   <p>
                     Cập nhật thông tin liên hệ và cá nhân của bạn.
                   </p>
+
                 </div>
 
               </div>
@@ -158,8 +239,7 @@
             </div>
 
 
-            <div id="profileMessage" class="profile-message">
-            </div>
+            <div id="profileMessage" class="profile-message"></div>
 
 
             <form id="profileForm">
@@ -167,6 +247,7 @@
               <div class="form-grid">
 
                 <!-- HỌ TÊN -->
+
                 <div class="profile-field">
 
                   <label for="fullName">
@@ -180,6 +261,7 @@
 
 
                 <!-- USERNAME -->
+
                 <div class="profile-field">
 
                   <label for="username">
@@ -193,6 +275,7 @@
 
 
                 <!-- EMAIL -->
+
                 <div class="profile-field">
 
                   <label for="email">
@@ -206,6 +289,7 @@
 
 
                 <!-- PHONE -->
+
                 <div class="profile-field">
 
                   <label for="phone">
@@ -219,6 +303,7 @@
 
 
                 <!-- LOCATION -->
+
                 <div class="profile-field full-width">
 
                   <label for="location">
@@ -232,6 +317,7 @@
 
 
                 <!-- BIO -->
+
                 <div class="profile-field full-width">
 
                   <label for="bio">
@@ -245,6 +331,8 @@
 
               </div>
 
+
+              <!-- FORM ACTIONS -->
 
               <div class="form-actions" id="formActions">
 
@@ -264,15 +352,16 @@
 
         </div>
 
+
+        <!-- =====================================================
+             SERVICE PROVIDER / LICENSE / PAYMENT
+             ===================================================== -->
+
         <section class="profile-card profile-form-card" id="licenseCard" style="margin-top:24px;">
 
           <div class="card-title-row">
 
             <div>
-
-              <div class="card-icon">
-                🏢
-              </div>
 
               <div>
 
@@ -297,7 +386,7 @@
               </span>
 
               <button type="button" class="edit-profile-btn" id="editLicenseBtn" onclick="enableLicenseEdit()">
-                ✎ Chỉnh sửa
+                Chỉnh sửa
               </button>
 
             </div>
@@ -305,8 +394,7 @@
           </div>
 
 
-          <div id="licenseMessage" class="profile-message">
-          </div>
+          <div id="licenseMessage" class="profile-message"></div>
 
 
           <form id="licenseForm">
@@ -314,6 +402,7 @@
             <div class="form-grid">
 
               <!-- BUSINESS NAME -->
+
               <div class="profile-field">
 
                 <label for="businessName">
@@ -326,6 +415,7 @@
 
 
               <!-- TAX CODE -->
+
               <div class="profile-field">
 
                 <label for="taxCode">
@@ -338,6 +428,7 @@
 
 
               <!-- BUSINESS ADDRESS -->
+
               <div class="profile-field full-width">
 
                 <label for="businessAddress">
@@ -349,11 +440,14 @@
 
               </div>
 
+
+              <!-- LICENSE FILE -->
+
               <div class="profile-field full-width" style="
-                border-bottom:1px dashed var(--line);
-                padding-bottom:18px;
-                margin-bottom:4px;
-              ">
+                  border-bottom:1px dashed var(--line);
+                  padding-bottom:18px;
+                  margin-bottom:4px;
+                ">
 
                 <label for="licenseFileInput">
                   Giấy phép kinh doanh
@@ -365,36 +459,36 @@
 
 
                 <div id="licensePreviewContainer" style="
-                  margin-top:12px;
-                  display:flex;
-                  flex-direction:column;
-                  align-items:flex-start;
-                  gap:10px;
-                ">
+                    margin-top:12px;
+                    display:flex;
+                    flex-direction:column;
+                    align-items:flex-start;
+                    gap:10px;
+                  ">
 
                   <img id="licensePreview" src="" alt="Giấy phép kinh doanh" style="
-                    max-width:260px;
-                    max-height:260px;
-                    display:none;
-                    border:1px solid var(--line);
-                    padding:6px;
-                    border-radius:10px;
-                    background:#fff;
-                    object-fit:contain;
-                  ">
+                      max-width:260px;
+                      max-height:260px;
+                      display:none;
+                      border:1px solid var(--line);
+                      padding:6px;
+                      border-radius:10px;
+                      background:#fff;
+                      object-fit:contain;
+                    ">
 
                   <a id="licenseFileLink" href="#" target="_blank" rel="noopener noreferrer" class="file-chip" style="
-                    display:none;
-                    text-decoration:none;
-                    cursor:pointer;
-                  ">
-                    🔗 Mở giấy phép đã tải lên
+                      display:none;
+                      text-decoration:none;
+                      cursor:pointer;
+                    ">
+                    Mở giấy phép đã tải lên
                   </a>
 
                   <span id="licenseFileEmpty" style="
-                    font-size:12px;
-                    color:var(--muted);
-                  ">
+                      font-size:12px;
+                      color:var(--muted);
+                    ">
                     Chưa có giấy phép nào được lưu.
                   </span>
 
@@ -404,6 +498,7 @@
 
 
               <!-- BANK NAME -->
+
               <div class="profile-field">
 
                 <label for="bankName">
@@ -416,6 +511,7 @@
 
 
               <!-- ACCOUNT NUMBER -->
+
               <div class="profile-field">
 
                 <label for="accountNumber">
@@ -429,6 +525,7 @@
 
 
               <!-- ACCOUNT NAME -->
+
               <div class="profile-field full-width">
 
                 <label for="accountName">
@@ -442,6 +539,7 @@
 
 
               <!-- BANK INFO -->
+
               <div class="profile-field full-width">
 
                 <label for="bankInfo">
@@ -452,11 +550,11 @@
                   disabled>
 
                 <small style="
-                display:block;
-                margin-top:6px;
-                font-size:12px;
-                color:var(--muted);
-              ">
+                    display:block;
+                    margin-top:6px;
+                    font-size:12px;
+                    color:var(--muted);
+                  ">
                   Dữ liệu được tự động tổng hợp từ tên ngân hàng,
                   số tài khoản và tên chủ tài khoản.
                 </small>
@@ -464,9 +562,8 @@
               </div>
 
 
-              <!-- =================================================
-               QR CODE
-               ================================================= -->
+              <!-- QR CODE -->
+
               <div class="profile-field full-width">
 
                 <label for="qrCodeInput">
@@ -476,37 +573,38 @@
                 <input id="qrCodeInput" type="file" accept="image/png,image/jpeg,image/webp" disabled
                   onchange="previewQrCode(event)">
 
+
                 <div id="qrPreviewContainer" style="
-                margin-top:12px;
-                display:flex;
-                flex-direction:column;
-                gap:8px;
-                align-items:flex-start;
-              ">
+                    margin-top:12px;
+                    display:flex;
+                    flex-direction:column;
+                    gap:8px;
+                    align-items:flex-start;
+                  ">
 
                   <img id="qrPreview" src="" alt="Mã QR Thanh toán" style="
-                  max-width:180px;
-                  max-height:180px;
-                  display:none;
-                  border:1px solid var(--line);
-                  padding:6px;
-                  border-radius:8px;
-                  background:#fff;
-                  object-fit:contain;
-                ">
+                      max-width:180px;
+                      max-height:180px;
+                      display:none;
+                      border:1px solid var(--line);
+                      padding:6px;
+                      border-radius:8px;
+                      background:#fff;
+                      object-fit:contain;
+                    ">
 
                   <span id="qrFileEmpty" style="
-                  font-size:12px;
-                  color:var(--muted);
-                ">
+                      font-size:12px;
+                      color:var(--muted);
+                    ">
                     Chưa có mã QR được lưu.
                   </span>
 
                   <a id="qrCodeLink" href="#" target="_blank" rel="noopener noreferrer" style="
-                  display:none;
-                  font-size:13px;
-                ">
-                    🔗 Mở mã QR
+                      display:none;
+                      font-size:13px;
+                    ">
+                    Mở mã QR
                   </a>
 
                 </div>
@@ -515,6 +613,8 @@
 
             </div>
 
+
+            <!-- LICENSE ACTIONS -->
 
             <div class="form-actions" id="licenseFormActions">
 
@@ -533,119 +633,47 @@
         </section>
 
 
-        <!-- =====================================================
-         BẢO MẬT
-         ===================================================== -->
-        <section class="profile-card profile-form-card" id="securityCard" style="margin-top:24px;">
-
+        <section class="profile-card profile-form-card" id="securityCard" style="margin-top: 24px;">
           <div class="card-title-row">
-
             <div>
-
-              <div class="card-icon">
-                🔒
-              </div>
-
-              <div>
-
-                <h2>Bảo mật</h2>
-
-                <p>
-                  Đổi mật khẩu đăng nhập cho tài khoản của bạn.
-                </p>
-
-              </div>
-
+              <h2>Bảo mật tài khoản</h2>
+              <p>Quản lý mật khẩu và bảo mật tài khoản.</p>
             </div>
-
           </div>
 
+          <div class="profile-security">
+            <div class="profile-security-info">
+              <strong>Đổi mật khẩu</strong>
 
-          <div id="securityMessage" class="profile-message">
+              <p>
+                Muốn đổi mật khẩu? Hãy sử dụng chức năng
+                “Quên mật khẩu” tại trang đăng nhập để
+                đặt lại mật khẩu.
+              </p>
+            </div>
+
+            <a href="../auth.html" class="profile-security-button">
+              Đổi mật khẩu
+            </a>
           </div>
-
-
-          <form id="securityForm">
-
-            <input type="text" id="securityUsername" name="username" autocomplete="username" tabindex="-1"
-              aria-hidden="true" style="
-            position:absolute;
-            left:-9999px;
-            width:1px;
-            height:1px;
-            opacity:0;
-          ">
-
-
-            <div class="form-grid">
-
-              <div class="profile-field full-width">
-
-                <label for="currentPassword">
-                  Mật khẩu hiện tại
-                </label>
-
-                <input id="currentPassword" name="current_password" type="password" placeholder="Nhập mật khẩu hiện tại"
-                  autocomplete="current-password">
-
-              </div>
-
-
-              <div class="profile-field">
-
-                <label for="newPassword">
-                  Mật khẩu mới
-                </label>
-
-                <input id="newPassword" name="new_password" type="password" placeholder="Tối thiểu 6 ký tự"
-                  autocomplete="new-password">
-
-              </div>
-
-
-              <div class="profile-field">
-
-                <label for="confirmNewPassword">
-                  Xác nhận mật khẩu mới
-                </label>
-
-                <input id="confirmNewPassword" name="confirm_new_password" type="password"
-                  placeholder="Nhập lại mật khẩu mới" autocomplete="new-password">
-
-              </div>
-
-            </div>
-
-
-            <div class="form-actions show">
-
-              <button type="submit" class="save-btn">
-                Đổi mật khẩu
-              </button>
-
-            </div>
-
-          </form>
-
         </section>
 
 
         <!-- =====================================================
-         CÀI ĐẶT TÀI KHOẢN
-         ===================================================== -->
+             ACCOUNT SETTINGS
+             ===================================================== -->
+
         <section class="profile-card profile-form-card" id="settingsCard" style="margin-top:24px;">
 
           <div class="card-title-row">
 
             <div>
 
-              <div class="card-icon">
-                ⚙️
-              </div>
-
               <div>
 
-                <h2>Cài đặt tài khoản</h2>
+                <h2>
+                  Cài đặt tài khoản
+                </h2>
 
                 <p>
                   Tùy chỉnh cách FilmSpace thông báo cho bạn.
@@ -659,6 +687,7 @@
 
 
           <!-- EMAIL NOTIFICATION -->
+
           <div class="toggle-row">
 
             <div class="toggle-row-label">
@@ -686,6 +715,7 @@
 
 
           <!-- BOOKING NOTIFICATION -->
+
           <div class="toggle-row">
 
             <div class="toggle-row-label">
@@ -712,11 +742,23 @@
           </div>
 
 
-          <!-- NOTIFICATION CENTER -->
+          <!-- NOTIFICATION CENTER (GIỮ LẠI ICON CHUÔNG 🔔) -->
+
           <div class="notif-link-card">
 
-            <div class="notif-link-icon">🔔<span id="settingsNotifBadge" class="notif-link-badge"> 0</span></div>
+            <div class="notif-link-icon">
+
+              🔔
+
+              <span id="settingsNotifBadge" class="notif-link-badge">
+                0
+              </span>
+
+            </div>
+
+
             <div class="notif-link-text">
+
               <strong>
                 Trung tâm thông báo
               </strong>
@@ -729,25 +771,28 @@
 
 
             <a href="notifications.html" class="notif-link-btn">
-              Xem thông báo →
+              Xem thông báo
             </a>
 
           </div>
 
 
           <p style="
-          font-size:11px;
-          color:var(--muted);
-          margin-top:14px;
-        ">
-
+              font-size:11px;
+              color:var(--muted);
+              margin-top:14px;
+            ">
             * Khi tắt "Nhắc lịch booking sắp tới",
             các thông báo loại Booking sẽ được ẩn bớt
             ở trang Notifications.
-
           </p>
 
         </section>
+
+
+        <!-- =====================================================
+             ACCOUNT
+             ===================================================== -->
 
         <section class="profile-card account-card">
 
@@ -755,7 +800,9 @@
 
             <div>
 
-              <h2>Tài khoản</h2>
+              <h2>
+                Tài khoản
+              </h2>
 
               <p>
                 Các thiết lập liên quan đến tài khoản FilmSpace.
@@ -768,11 +815,9 @@
 
           <div class="account-actions">
 
-            <a href="dashboard.html" class="account-action">
+            <!-- DASHBOARD -->
 
-              <div class="account-icon">
-                ◷
-              </div>
+            <a href="dashboard.html" class="account-action">
 
               <div>
 
@@ -786,12 +831,10 @@
 
               </div>
 
-              <span class="account-arrow">
-                →
-              </span>
-
             </a>
 
+
+            <!-- NOTIFICATIONS (GIỮ LẠI ICON CHUÔNG 🔔) -->
 
             <a href="notifications.html" class="account-action">
 
@@ -811,18 +854,12 @@
 
               </div>
 
-              <span class="account-arrow">
-                →
-              </span>
-
             </a>
 
 
-            <button type="button" class="account-action danger-action" onclick="logout()">
+            <!-- LOGOUT -->
 
-              <div class="account-icon">
-                ↪
-              </div>
+            <button type="button" class="account-action danger-action" onclick="logout()">
 
               <div>
 
@@ -836,10 +873,6 @@
 
               </div>
 
-              <span class="account-arrow">
-                →
-              </span>
-
             </button>
 
           </div>
@@ -850,14 +883,15 @@
 
     </section>
 
-
   </main>
+
 
   <!-- =========================================================
        FOOTER
        ========================================================= -->
 
   <footer class="footer">
+
     <div class="container">
 
       <div class="footer-top">
@@ -878,12 +912,29 @@
 
         <div class="footer-menu">
 
-          <a href="dashboard.html">Dashboard</a>
-          <a href="spaces.html">Spaces</a>
-          <a href="equipment.html">Equipment</a>
-          <a href="packages.html">Packages</a>
-          <a href="bookings.html">Bookings</a>
-          <a href="profile.html">Profile</a>
+          <a href="dashboard.html">
+            Dashboard
+          </a>
+
+          <a href="spaces.html">
+            Spaces
+          </a>
+
+          <a href="equipment.html">
+            Equipment
+          </a>
+
+          <a href="packages.html">
+            Packages
+          </a>
+
+          <a href="bookings.html">
+            Bookings
+          </a>
+
+          <a href="profile.html">
+            Profile
+          </a>
 
         </div>
 
@@ -902,8 +953,13 @@
 
         <div class="footer-links">
 
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Use</a>
+          <a href="#">
+            Privacy Policy
+          </a>
+
+          <a href="#">
+            Terms of Use
+          </a>
 
         </div>
 
@@ -912,6 +968,7 @@
     </div>
 
   </footer>
+
 
   <!-- =========================================================
        JAVASCRIPT
@@ -939,26 +996,41 @@
     let originalData = {};
     let originalLicenseData = {};
 
-    window.addEventListener("error", function (event) {
 
-      console.error(
-        "[GLOBAL JS ERROR]",
-        event.error || event.message,
-        event
-      );
+    /* =========================================================
+       GLOBAL ERROR HANDLING
+       ========================================================= */
 
-    });
+    window.addEventListener(
+      "error",
+      function (event) {
+
+        console.error(
+          "[GLOBAL JS ERROR]",
+          event.error || event.message,
+          event
+        );
+
+      }
+    );
 
 
-    window.addEventListener("unhandledrejection", function (event) {
+    window.addEventListener(
+      "unhandledrejection",
+      function (event) {
 
-      console.error(
-        "[UNHANDLED PROMISE REJECTION]",
-        event.reason
-      );
+        console.error(
+          "[UNHANDLED PROMISE REJECTION]",
+          event.reason
+        );
 
-    });
+      }
+    );
 
+
+    /* =========================================================
+       STORAGE
+       ========================================================= */
 
     function getStorage() {
 
@@ -1014,9 +1086,17 @@
 
       const role = Number(roleId);
 
-      if (role === 1) return "Admin";
-      if (role === 2) return "Photographer";
-      if (role === 3) return "Service Provider";
+      if (role === 1) {
+        return "Admin";
+      }
+
+      if (role === 2) {
+        return "Photographer";
+      }
+
+      if (role === 3) {
+        return "Service Provider";
+      }
 
       return "User";
 
@@ -1042,30 +1122,28 @@
 
       try {
 
-        const response =
-          await fetch(
-            `${API_BASE_URL}/users/${user.userId}`,
-            {
+        const response = await fetch(
+          `${API_BASE_URL}/users/${user.userId}`,
+          {
 
-              method: "GET",
+            method: "GET",
 
-              headers: {
+            headers: {
 
-                "Accept":
-                  "application/json",
+              "Accept":
+                "application/json",
 
-                "Authorization":
-                  `Bearer ${user.token}`
-
-              }
+              "Authorization":
+                `Bearer ${user.token}`
 
             }
-          );
+
+          }
+        );
 
 
         const responseText =
           await response.text();
-
 
         let data = {};
 
@@ -1077,7 +1155,9 @@
               ? JSON.parse(responseText)
               : {};
 
-        } catch (error) {
+        }
+
+        catch (error) {
 
           console.error(
             "LOAD PROFILE JSON ERROR:",
@@ -1101,10 +1181,10 @@
 
 
         const roleName =
-          getRoleName(
-            data.role_id
-          );
+          getRoleName(data.role_id);
 
+
+        /* PROFILE KICKER */
 
         const profileKicker =
           document.getElementById(
@@ -1121,6 +1201,8 @@
         }
 
 
+        /* PAGE TITLE */
+
         const pageTitle =
           document.getElementById(
             "pageTitle"
@@ -1134,6 +1216,8 @@
 
         }
 
+
+        /* ROLE BADGE */
 
         const roleBadge =
           document.getElementById(
@@ -1149,6 +1233,8 @@
         }
 
 
+        /* USERNAME */
+
         document.getElementById(
           "username"
         ).value =
@@ -1156,6 +1242,8 @@
           user.username ||
           "";
 
+
+        /* FULL NAME */
 
         document.getElementById(
           "fullName"
@@ -1165,6 +1253,8 @@
           "";
 
 
+        /* EMAIL */
+
         document.getElementById(
           "email"
         ).value =
@@ -1172,6 +1262,8 @@
           user.email ||
           "";
 
+
+        /* PHONE */
 
         document.getElementById(
           "phone"
@@ -1181,6 +1273,8 @@
           "";
 
 
+        /* LOCATION */
+
         document.getElementById(
           "location"
         ).value =
@@ -1189,6 +1283,8 @@
           "";
 
 
+        /* BIO */
+
         document.getElementById(
           "bio"
         ).value =
@@ -1196,6 +1292,8 @@
           user.bio ||
           "";
 
+
+        /* DISPLAY */
 
         updateProfileDisplay(
 
@@ -1209,18 +1307,13 @@
         );
 
 
+        /* SAVE ORIGINAL */
+
         saveOriginalData();
 
+      }
 
-        updateSecurityUsername(
-
-          data.username ||
-          user.username
-
-        );
-
-
-      } catch (error) {
+      catch (error) {
 
         console.error(
           "LOAD PROFILE ERROR:",
@@ -1253,6 +1346,8 @@
         "User";
 
 
+      /* NAV NAME */
+
       const navName =
         document.getElementById(
           "navProviderName"
@@ -1267,6 +1362,8 @@
       }
 
 
+      /* PROFILE NAME */
+
       const profileName =
         document.getElementById(
           "profileDisplayName"
@@ -1280,6 +1377,8 @@
 
       }
 
+
+      /* USERNAME */
 
       const profileUsername =
         document.getElementById(
@@ -1296,6 +1395,8 @@
 
       }
 
+
+      /* AVATAR */
 
       const avatar =
         document.getElementById(
@@ -1392,7 +1493,8 @@
           "editBtn"
         )
         .style
-        .display = "none";
+        .display =
+        "none";
 
 
       document
@@ -1470,7 +1572,8 @@
           "editBtn"
         )
         .style
-        .display = "inline-flex";
+        .display =
+        "inline-flex";
 
     }
 
@@ -1577,6 +1680,7 @@
           if (saveBtn) {
 
             saveBtn.disabled = true;
+
             saveBtn.textContent =
               "Đang lưu...";
 
@@ -1637,7 +1741,9 @@
                   )
                   : {};
 
-            } catch (error) {
+            }
+
+            catch (error) {
 
               console.error(
                 "[profileForm] JSON parse error:",
@@ -1720,8 +1826,9 @@
               "success"
             );
 
+          }
 
-          } catch (error) {
+          catch (error) {
 
             console.error(
               "UPDATE PROFILE ERROR:",
@@ -1738,7 +1845,9 @@
               "error"
             );
 
-          } finally {
+          }
+
+          finally {
 
             if (saveBtn) {
 
@@ -1778,10 +1887,13 @@
         );
 
 
-      if (!box) return;
+      if (!box) {
+        return;
+      }
 
 
-      box.textContent = text;
+      box.textContent =
+        text;
 
 
       box.className =
@@ -1793,8 +1905,13 @@
       if (text) {
 
         box.scrollIntoView({
-          behavior: "smooth",
-          block: "nearest"
+
+          behavior:
+            "smooth",
+
+          block:
+            "nearest"
+
         });
 
       }
@@ -1809,7 +1926,9 @@
     function logout() {
 
       localStorage.clear();
+
       sessionStorage.clear();
+
 
       window.location.href =
         "../auth.html";
@@ -1853,9 +1972,11 @@
       }
 
 
-      if (!allowedTypes.includes(
-        file.type
-      )) {
+      if (
+        !allowedTypes.includes(
+          file.type
+        )
+      ) {
 
         return {
 
@@ -1902,6 +2023,11 @@
       };
 
     }
+
+
+    /* =========================================================
+       PARSE BANK INFO
+       ========================================================= */
 
     function parseBankInfo(
       bankInfo
@@ -2094,7 +2220,7 @@
 
 
     /* =========================================================
-       QR - RENDER URL ĐÃ LƯU
+       QR - RENDER SAVED URL
        ========================================================= */
 
     function renderQrPreview(
@@ -2150,19 +2276,22 @@
         empty.style.display =
           "inline";
 
-
         return;
 
       }
 
 
-      preview.src = url;
+      preview.src =
+        url;
+
 
       preview.style.display =
         "block";
 
 
-      link.href = url;
+      link.href =
+        url;
+
 
       link.style.display =
         "inline-block";
@@ -2196,7 +2325,7 @@
 
 
     /* =========================================================
-       QR - PREVIEW FILE MỚI
+       QR - PREVIEW NEW FILE
        ========================================================= */
 
     function previewQrCode(
@@ -2232,7 +2361,8 @@
         );
 
 
-        event.target.value = "";
+        event.target.value =
+          "";
 
 
         restoreQrPreview();
@@ -2308,7 +2438,7 @@
 
 
     /* =========================================================
-       QR - RESTORE URL CŨ
+       QR - RESTORE
        ========================================================= */
 
     function restoreQrPreview() {
@@ -2329,114 +2459,167 @@
        LICENSE PREVIEW
        ========================================================= */
 
-    function renderLicensePreview(url) {
+    function renderLicensePreview(
+      url
+    ) {
 
       const preview =
-        document.getElementById("licensePreview");
+        document.getElementById(
+          "licensePreview"
+        );
+
 
       const link =
-        document.getElementById("licenseFileLink");
+        document.getElementById(
+          "licenseFileLink"
+        );
+
 
       const emptySpan =
-        document.getElementById("licenseFileEmpty");
+        document.getElementById(
+          "licenseFileEmpty"
+        );
+
 
       if (
         !preview ||
         !link ||
         !emptySpan
       ) {
+
         return;
+
       }
 
-      /* =========================
-         KHÔNG CÓ FILE
-         ========================= */
+
+      /* KHÔNG CÓ FILE */
 
       if (!url) {
 
         preview.src = "";
-        preview.style.display = "none";
+
+        preview.style.display =
+          "none";
+
 
         link.href = "#";
-        link.style.display = "none";
+
+        link.style.display =
+          "none";
+
 
         emptySpan.textContent =
           "Chưa có giấy phép nào được lưu.";
 
-        emptySpan.style.display = "inline";
+
+        emptySpan.style.display =
+          "inline";
+
 
         return;
+
       }
 
 
-      /* =========================
-         CÓ FILE
-         ========================= */
+      /* CÓ FILE */
 
       const normalizedUrl =
         String(url).toLowerCase();
+
 
       const isImage =
         /\.(jpeg|jpg|gif|png|webp)(\?.*)?$/i.test(
           normalizedUrl
         ) ||
-        normalizedUrl.startsWith("data:image/");
+        normalizedUrl.startsWith(
+          "data:image/"
+        );
 
 
-      /* =========================
-         ẢNH
-         ========================= */
+      /* IMAGE */
 
       if (isImage) {
 
-        preview.src = url;
+        preview.src =
+          url;
 
-        preview.style.display = "block";
 
-        link.href = url;
-        link.style.display = "inline-flex";
+        preview.style.display =
+          "block";
+
+
+        link.href =
+          url;
+
+
+        link.style.display =
+          "inline-flex";
+
 
         link.innerHTML =
-          "🔗 Mở giấy phép đã tải lên";
-
-        emptySpan.style.display = "none";
+          "Mở giấy phép đã tải lên";
 
 
-        preview.onerror = function () {
+        emptySpan.style.display =
+          "none";
 
-          preview.style.display = "none";
 
-          link.href = url;
-          link.style.display = "inline-flex";
+        preview.onerror =
+          function () {
 
-          emptySpan.textContent =
-            "Không thể hiển thị ảnh giấy phép.";
+            preview.style.display =
+              "none";
 
-          emptySpan.style.display = "inline";
 
-        };
+            link.href =
+              url;
+
+
+            link.style.display =
+              "inline-flex";
+
+
+            emptySpan.textContent =
+              "Không thể hiển thị ảnh giấy phép.";
+
+
+            emptySpan.style.display =
+              "inline";
+
+          };
+
 
         return;
+
       }
 
 
-      /* =========================
-         PDF / FILE KHÁC
-         ========================= */
+      /* PDF / FILE */
 
       preview.src = "";
-      preview.style.display = "none";
 
-      link.href = url;
-      link.style.display = "inline-flex";
+      preview.style.display =
+        "none";
+
+
+      link.href =
+        url;
+
+
+      link.style.display =
+        "inline-flex";
+
 
       link.innerHTML =
-        "🔗 Mở giấy phép đã tải lên";
+        "Mở giấy phép đã tải lên";
+
 
       emptySpan.textContent =
         "Giấy phép đã được lưu. Nhấn nút bên dưới để mở file.";
 
-      emptySpan.style.display = "inline";
+
+      emptySpan.style.display =
+        "inline";
 
     }
 
@@ -2481,14 +2664,14 @@
         );
 
 
-        event.target.value = "";
+        event.target.value =
+          "";
 
 
         renderLicensePreview(
           originalLicenseData.licenseUrl ||
           ""
         );
-
 
         return;
 
@@ -2565,6 +2748,7 @@
 
       }
 
+
       else if (
         file.type ===
         "application/pdf"
@@ -2606,7 +2790,9 @@
         );
 
 
-      if (!badge) return;
+      if (!badge) {
+        return;
+      }
 
 
       const normalizedStatus =
@@ -2752,7 +2938,9 @@
               )
               : {};
 
-        } catch (error) {
+        }
+
+        catch (error) {
 
           console.error(
             "[ServiceProvider] JSON parse error:",
@@ -2924,7 +3112,7 @@
         );
 
 
-        /* QR CODE URL */
+        /* QR CODE */
 
         const qrCodeUrl =
           data.qr_code_url ||
@@ -2988,8 +3176,9 @@
           originalLicenseData
         );
 
+      }
 
-      } catch (error) {
+      catch (error) {
 
         console.error(
           "LOAD LICENSE ERROR:",
@@ -3031,6 +3220,7 @@
 
 
       bankInfo.disabled = true;
+
       bankInfo.readOnly = true;
 
 
@@ -3047,7 +3237,8 @@
           "editLicenseBtn"
         )
         .style
-        .display = "none";
+        .display =
+        "none";
 
     }
 
@@ -3111,7 +3302,8 @@
 
       document.getElementById(
         "qrCodeInput"
-      ).value = "";
+      ).value =
+        "";
 
 
       restoreQrPreview();
@@ -3121,7 +3313,8 @@
 
       document.getElementById(
         "licenseFileInput"
-      ).value = "";
+      ).value =
+        "";
 
 
       renderLicensePreview(
@@ -3130,7 +3323,7 @@
       );
 
 
-      /* DISABLE FORM */
+      /* DISABLE */
 
       document
         .querySelectorAll(
@@ -3156,10 +3349,15 @@
           "editLicenseBtn"
         )
         .style
-        .display = "inline-flex";
+        .display =
+        "inline-flex";
 
     }
 
+
+    /* =========================================================
+       UPDATE SERVICE PROVIDER
+       ========================================================= */
 
     document
       .getElementById(
@@ -3226,7 +3424,8 @@
 
           if (saveBtn) {
 
-            saveBtn.disabled = true;
+            saveBtn.disabled =
+              true;
 
             saveBtn.textContent =
               "Đang upload...";
@@ -3236,16 +3435,15 @@
 
           if (cancelBtn) {
 
-            cancelBtn.disabled = true;
+            cancelBtn.disabled =
+              true;
 
           }
 
 
           try {
 
-            /* =================================================
-               BUILD BANK INFO
-               ================================================= */
+            /* BUILD BANK INFO */
 
             const bankInfo =
               buildBankInfo();
@@ -3257,9 +3455,7 @@
               bankInfo;
 
 
-            /* =================================================
-               GET FILES
-               ================================================= */
+            /* FILES */
 
             const licenseInput =
               document.getElementById(
@@ -3293,12 +3489,16 @@
               "[licenseForm] License file:",
               licenseFile
                 ? {
+
                   name:
                     licenseFile.name,
+
                   type:
                     licenseFile.type,
+
                   size:
                     licenseFile.size
+
                 }
                 : null
             );
@@ -3308,20 +3508,22 @@
               "[licenseForm] QR file:",
               qrFile
                 ? {
+
                   name:
                     qrFile.name,
+
                   type:
                     qrFile.type,
+
                   size:
                     qrFile.size
+
                 }
                 : null
             );
 
 
-            /* =================================================
-               VALIDATE LICENSE
-               ================================================= */
+            /* VALIDATE LICENSE */
 
             if (licenseFile) {
 
@@ -3349,9 +3551,7 @@
             }
 
 
-            /* =================================================
-               VALIDATE QR
-               ================================================= */
+            /* VALIDATE QR */
 
             if (qrFile) {
 
@@ -3363,7 +3563,9 @@
                 );
 
 
-              if (!qrValidation.valid) {
+              if (
+                !qrValidation.valid
+              ) {
 
                 showLicenseMessage(
                   qrValidation.message,
@@ -3377,9 +3579,7 @@
             }
 
 
-            /* =================================================
-               CREATE FORMDATA
-               ================================================= */
+            /* FORMDATA */
 
             const formData =
               new FormData();
@@ -3424,9 +3624,7 @@
             );
 
 
-            /* =================================================
-               APPEND LICENSE FILE
-               ================================================= */
+            /* LICENSE */
 
             if (licenseFile) {
 
@@ -3438,9 +3636,7 @@
             }
 
 
-            /* =================================================
-               APPEND QR FILE
-               ================================================= */
+            /* QR */
 
             if (qrFile) {
 
@@ -3452,9 +3648,7 @@
             }
 
 
-            /* =================================================
-               DEBUG FORMDATA
-               ================================================= */
+            /* DEBUG */
 
             console.log(
               "[licenseForm] Sending FormData..."
@@ -3493,6 +3687,9 @@
               }
 
             }
+
+
+            /* REQUEST */
 
             const response =
               await fetch(
@@ -3540,7 +3737,9 @@
                   )
                   : {};
 
-            } catch (error) {
+            }
+
+            catch (error) {
 
               console.error(
                 "[licenseForm] JSON parse error:",
@@ -3562,9 +3761,7 @@
             );
 
 
-            /* =================================================
-               HANDLE ERROR
-               ================================================= */
+            /* ERROR */
 
             if (!response.ok) {
 
@@ -3613,17 +3810,13 @@
             }
 
 
-            /* =================================================
-               PROVIDER DATA
-               ================================================= */
+            /* PROVIDER DATA */
 
             const providerData =
               data;
 
 
-            /* =================================================
-               BUSINESS
-               ================================================= */
+            /* BUSINESS */
 
             const savedBusinessName =
               providerData.business_name ||
@@ -3659,6 +3852,7 @@
               providerData.bank_info ||
               bankInfo;
 
+
             const savedLicenseUrl =
               providerData.license_url ||
               originalLicenseData.licenseUrl ||
@@ -3668,9 +3862,7 @@
               "";
 
 
-            /* =================================================
-               QR URL
-               ================================================= */
+            /* QR */
 
             const savedQrCodeUrl =
               providerData.qr_code_url ||
@@ -3693,9 +3885,7 @@
             );
 
 
-            /* =================================================
-               LOCAL STORAGE
-               ================================================= */
+            /* LOCAL STORAGE */
 
             storage.setItem(
               "business_name",
@@ -3741,9 +3931,7 @@
             }
 
 
-            /* =================================================
-               PARSE BANK
-               ================================================= */
+            /* PARSE BANK */
 
             const parsedBank =
               parseBankInfo(
@@ -3775,12 +3963,7 @@
               savedBankInfo;
 
 
-            /* =================================================
-               UPDATE ORIGINAL DATA
-
-               Quan trọng để nút Hủy lần sau
-               khôi phục đúng URL mới.
-               ================================================= */
+            /* ORIGINAL LICENSE DATA */
 
             originalLicenseData = {
 
@@ -3814,9 +3997,7 @@
             };
 
 
-            /* =================================================
-               VERIFICATION
-               ================================================= */
+            /* VERIFICATION */
 
             applyVerificationBadge(
               providerData.verification_status ||
@@ -3824,23 +4005,21 @@
             );
 
 
-            /* =================================================
-               RESET FILE INPUTS
-               ================================================= */
+            /* CLEAR FILE INPUT */
 
             document.getElementById(
               "licenseFileInput"
-            ).value = "";
+            ).value =
+              "";
 
 
             document.getElementById(
               "qrCodeInput"
-            ).value = "";
+            ).value =
+              "";
 
 
-            /* =================================================
-               RENDER URL FROM SUPABASE
-               ================================================= */
+            /* PREVIEW */
 
             renderLicensePreview(
               savedLicenseUrl
@@ -3852,9 +4031,7 @@
             );
 
 
-            /* =================================================
-               DISABLE FORM AFTER SAVE
-               ================================================= */
+            /* DISABLE FORM */
 
             document
               .querySelectorAll(
@@ -3862,7 +4039,8 @@
               )
               .forEach(field => {
 
-                field.disabled = true;
+                field.disabled =
+                  true;
 
               });
 
@@ -3884,9 +4062,7 @@
               "inline-flex";
 
 
-            /* =================================================
-               SUCCESS MESSAGE
-               ================================================= */
+            /* SUCCESS MESSAGE */
 
             let successMessage =
               "Đã lưu thông tin doanh nghiệp và thanh toán thành công.";
@@ -3898,7 +4074,7 @@
             ) {
 
               successMessage +=
-                " Giấy phép và mã QR mới đã được upload";
+                " Giấy phép và mã QR mới đã được upload.";
 
             }
 
@@ -3907,7 +4083,7 @@
             ) {
 
               successMessage +=
-                " Giấy phép mới đã được upload";
+                " Giấy phép mới đã được upload.";
 
             }
 
@@ -3916,7 +4092,7 @@
             ) {
 
               successMessage +=
-                " Mã QR mới đã được upload ";
+                " Mã QR mới đã được upload.";
 
             }
 
@@ -3926,8 +4102,9 @@
               "success"
             );
 
+          }
 
-          } catch (error) {
+          catch (error) {
 
             console.error(
               "UPDATE LICENSE ERROR:",
@@ -3944,11 +4121,15 @@
               "error"
             );
 
-          } finally {
+          }
+
+          finally {
 
             if (saveBtn) {
 
-              saveBtn.disabled = false;
+              saveBtn.disabled =
+                false;
+
 
               saveBtn.textContent =
                 originalBtnText ||
@@ -3959,7 +4140,8 @@
 
             if (cancelBtn) {
 
-              cancelBtn.disabled = false;
+              cancelBtn.disabled =
+                false;
 
             }
 
@@ -3984,329 +4166,9 @@
         );
 
 
-      if (!box) return;
-
-
-      box.textContent =
-        text;
-
-
-      box.className =
-        text
-          ? "profile-message " + type
-          : "profile-message";
-
-
-      if (text) {
-
-        box.scrollIntoView({
-
-          behavior:
-            "smooth",
-
-          block:
-            "nearest"
-
-        });
-
+      if (!box) {
+        return;
       }
-
-    }
-
-
-    /* =========================================================
-       3. SECURITY
-       ========================================================= */
-
-    function updateSecurityUsername(
-      username
-    ) {
-
-      const input =
-        document.getElementById(
-          "securityUsername"
-        );
-
-
-      if (input) {
-
-        input.value =
-          username || "";
-
-      }
-
-    }
-
-
-    document
-      .getElementById(
-        "securityForm"
-      )
-      .addEventListener(
-        "submit",
-        async function (event) {
-
-          event.preventDefault();
-
-
-          const user =
-            getUserData();
-
-
-          if (
-            !user.token ||
-            !user.userId
-          ) {
-
-            showSecurityMessage(
-              "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.",
-              "error"
-            );
-
-            return;
-
-          }
-
-
-          const currentPassword =
-            document
-              .getElementById(
-                "currentPassword"
-              )
-              .value;
-
-
-          const newPassword =
-            document
-              .getElementById(
-                "newPassword"
-              )
-              .value;
-
-
-          const confirmNewPassword =
-            document
-              .getElementById(
-                "confirmNewPassword"
-              )
-              .value;
-
-
-          if (
-            !currentPassword ||
-            !newPassword ||
-            !confirmNewPassword
-          ) {
-
-            showSecurityMessage(
-              "Vui lòng nhập đầy đủ các trường.",
-              "error"
-            );
-
-            return;
-
-          }
-
-
-          if (
-            newPassword.length < 6
-          ) {
-
-            showSecurityMessage(
-              "Mật khẩu mới phải có ít nhất 6 ký tự.",
-              "error"
-            );
-
-            return;
-
-          }
-
-
-          if (
-            newPassword !==
-            confirmNewPassword
-          ) {
-
-            showSecurityMessage(
-              "Mật khẩu mới và xác nhận không khớp.",
-              "error"
-            );
-
-            return;
-
-          }
-
-
-          const saveBtn =
-            event.target.querySelector(
-              ".save-btn"
-            );
-
-
-          const originalBtnText =
-            saveBtn
-              ? saveBtn.textContent
-              : "";
-
-
-          if (saveBtn) {
-
-            saveBtn.disabled = true;
-
-            saveBtn.textContent =
-              "Đang xử lý...";
-
-          }
-
-
-          try {
-
-            const response =
-              await fetch(
-                `${API_BASE_URL}/auth/change-password`,
-                {
-
-                  method: "POST",
-
-                  headers: {
-
-                    "Accept":
-                      "application/json",
-
-                    "Content-Type":
-                      "application/json",
-
-                    "Authorization":
-                      `Bearer ${user.token}`
-
-                  },
-
-                  body:
-                    JSON.stringify({
-
-                      user_id:
-                        user.userId,
-
-                      current_password:
-                        currentPassword,
-
-                      new_password:
-                        newPassword
-
-                    })
-
-                }
-              );
-
-
-            const responseText =
-              await response.text();
-
-
-            let data = {};
-
-
-            try {
-
-              data =
-                responseText
-                  ? JSON.parse(
-                    responseText
-                  )
-                  : {};
-
-            } catch (error) {
-
-              console.error(
-                "CHANGE PASSWORD JSON ERROR:",
-                error
-              );
-
-            }
-
-
-            if (!response.ok) {
-
-              showSecurityMessage(
-                data.message ||
-                "Đổi mật khẩu thất bại.",
-                "error"
-              );
-
-              return;
-
-            }
-
-
-            showSecurityMessage(
-              "Đổi mật khẩu thành công.",
-              "success"
-            );
-
-
-            document
-              .getElementById(
-                "securityForm"
-              )
-              .reset();
-
-
-            updateSecurityUsername(
-              user.username
-            );
-
-
-          } catch (error) {
-
-            console.error(
-              "CHANGE PASSWORD ERROR:",
-              error
-            );
-
-
-            showSecurityMessage(
-              "Lỗi kết nối Server. Chi tiết: " +
-              (
-                error?.message ||
-                error
-              ),
-              "error"
-            );
-
-          } finally {
-
-            if (saveBtn) {
-
-              saveBtn.disabled = false;
-
-              saveBtn.textContent =
-                originalBtnText ||
-                "Đổi mật khẩu";
-
-            }
-
-          }
-
-        }
-      );
-
-
-    /* =========================================================
-       SECURITY MESSAGE
-       ========================================================= */
-
-    function showSecurityMessage(
-      text,
-      type = "success"
-    ) {
-
-      const box =
-        document.getElementById(
-          "securityMessage"
-        );
-
-
-      if (!box) return;
 
 
       box.textContent =
@@ -4382,7 +4244,9 @@
 
         }
 
-      } catch (error) {
+      }
+
+      catch (error) {
 
         console.error(
           "LOAD ACCOUNT SETTINGS ERROR:",
@@ -4392,16 +4256,32 @@
       }
 
 
-      document.getElementById(
-        "notifyEmailToggle"
-      ).checked =
-        settings.notifyEmail !== false;
+      const emailToggle =
+        document.getElementById(
+          "notifyEmailToggle"
+        );
 
 
-      document.getElementById(
-        "notifyBookingToggle"
-      ).checked =
-        settings.notifyBooking !== false;
+      const bookingToggle =
+        document.getElementById(
+          "notifyBookingToggle"
+        );
+
+
+      if (emailToggle) {
+
+        emailToggle.checked =
+          settings.notifyEmail !== false;
+
+      }
+
+
+      if (bookingToggle) {
+
+        bookingToggle.checked =
+          settings.notifyBooking !== false;
+
+      }
 
     }
 
@@ -4412,21 +4292,29 @@
         getStorage();
 
 
+      const emailToggle =
+        document.getElementById(
+          "notifyEmailToggle"
+        );
+
+
+      const bookingToggle =
+        document.getElementById(
+          "notifyBookingToggle"
+        );
+
+
       const settings = {
 
         notifyEmail:
-          document
-            .getElementById(
-              "notifyEmailToggle"
-            )
-            .checked,
+          emailToggle
+            ? emailToggle.checked
+            : true,
 
         notifyBooking:
-          document
-            .getElementById(
-              "notifyBookingToggle"
-            )
-            .checked,
+          bookingToggle
+            ? bookingToggle.checked
+            : true,
 
         updatedAt:
           new Date().toISOString()
@@ -4511,8 +4399,12 @@
 
         if (!response.ok) {
 
-          summary.textContent =
-            "Không tải được số thông báo.";
+          if (summary) {
+
+            summary.textContent =
+              "Không tải được số thông báo.";
+
+          }
 
           return;
 
@@ -4535,7 +4427,9 @@
               )
               : {};
 
-        } catch (error) {
+        }
+
+        catch (error) {
 
           console.error(
             "NOTIFICATION JSON ERROR:",
@@ -4553,34 +4447,51 @@
 
         if (count > 0) {
 
-          badge.textContent =
-            count > 99
-              ? "99+"
-              : String(count);
+          if (badge) {
+
+            badge.textContent =
+              count > 99
+                ? "99+"
+                : String(count);
 
 
-          badge.style.display =
-            "block";
+            badge.style.display =
+              "block";
+
+          }
 
 
-          summary.textContent =
-            `Bạn có ${count} thông báo chưa đọc.`;
+          if (summary) {
+
+            summary.textContent =
+              `Bạn có ${count} thông báo chưa đọc.`;
+
+          }
 
         }
 
         else {
 
-          badge.style.display =
-            "none";
+          if (badge) {
+
+            badge.style.display =
+              "none";
+
+          }
 
 
-          summary.textContent =
-            "Không có thông báo mới.";
+          if (summary) {
+
+            summary.textContent =
+              "Không có thông báo mới.";
+
+          }
 
         }
 
+      }
 
-      } catch (error) {
+      catch (error) {
 
         console.error(
           "LOAD SETTINGS NOTIF SUMMARY ERROR:",
@@ -4588,8 +4499,12 @@
         );
 
 
-        summary.textContent =
-          "Không thể kết nối đến Backend.";
+        if (summary) {
+
+          summary.textContent =
+            "Không thể kết nối đến Backend.";
+
+        }
 
       }
 

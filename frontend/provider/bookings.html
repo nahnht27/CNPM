@@ -15,7 +15,8 @@
   <nav class="navbar" id="mainNavbar">
     <div class="navbar-container container">
 
-      <a class="logo" href="dashboard.html" aria-label="FilmSpace">
+      <a class="logo" href="dashboard.html" aria-label="FilmSpace"
+        style="font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: #292c46; white-space: nowrap;">
         FilmSpace
       </a>
 
@@ -42,22 +43,37 @@
   </nav>
 
   <!-- =========================
-     MAIN
+     HEADER HERO (GIỐNG EQUIPMENT)
      ========================= -->
+  <section class="booking-header">
+    <div class="container">
+      <div class="booking-header-content">
+        <div>
+          <span class="booking-kicker">
+            MY BOOKINGS
+          </span>
 
-  <main class="container booking-page">
+          <h1>
+            Quản lý
+            <span>Booking.</span>
+          </h1>
 
-    <div class="booking-header">
-      <h1>Quản lý Booking</h1>
-      <p>
-        Theo dõi và xử lý các yêu cầu đặt chỗ từ Photographer.
-      </p>
+          <p>
+            Theo dõi và xử lý các yêu cầu đặt chỗ từ Photographer.
+          </p>
+        </div>
+      </div>
     </div>
+  </section>
+
+  <!-- =========================
+     MAIN CONTENT
+     ========================= -->
+  <main class="container booking-page">
 
     <!-- =========================
        STATS
        ========================= -->
-
     <section class="booking-stats">
 
       <div class="booking-stat">
@@ -90,7 +106,6 @@
     <!-- =========================
        FILTER
        ========================= -->
-
     <div class="booking-toolbar">
 
       <div class="booking-filters">
@@ -129,7 +144,6 @@
     <!-- =========================
        BOOKING TABLE
        ========================= -->
-
     <section class="provider-booking-panel">
 
       <div class="provider-booking-table-wrapper" id="bookingContent">
@@ -145,7 +159,6 @@
   <!-- =========================
      DETAIL MODAL
      ========================= -->
-
   <div class="provider-booking-modal" id="detailModal" onclick="closeDetailOutside(event)">
 
     <div class="provider-booking-modal-box">
@@ -308,7 +321,6 @@
   <!-- =========================
      CONFIRM MODAL
      ========================= -->
-
   <div class="overlay" id="confirmModal" onclick="closeConfirmOutside(event)">
 
     <div class="confirm-modal">
@@ -351,11 +363,9 @@
   <!-- =========================
      TOAST
      ========================= -->
-
   <div class="toast-stack" id="toastStack"></div>
 
   <script>
-
     /* =========================================================
        CONFIG
        ========================================================= */
@@ -378,19 +388,15 @@
        ========================================================= */
 
     function getStorage() {
-
       if (localStorage.getItem("auth_token")) {
         return localStorage;
       }
-
       return sessionStorage;
     }
 
 
     function getUserData() {
-
       const storage = getStorage();
-
       return {
         storage,
         token: storage.getItem("auth_token"),
@@ -403,23 +409,16 @@
 
 
     async function loadProviderInfo() {
-
       const user = getUserData();
 
       if (!user.token || !user.providerId || !user.userId) {
-
         window.location.href = "../auth.html";
-
         return false;
       }
 
       currentToken = user.token;
       currentProviderId = Number(user.providerId);
 
-      /*
-       * Hiển thị tạm thời tên đã lưu trong storage
-       * để navbar không bị trống trong lúc gọi API.
-       */
       const navName = document.getElementById("navProviderName");
 
       if (navName) {
@@ -429,20 +428,11 @@
           "Provider";
       }
 
-      /*
-       * Lấy thông tin User mới nhất từ backend.
-       *
-       * Quan trọng:
-       * Không dùng username làm tên hiển thị nếu
-       * User có full_name.
-       */
       try {
-
         const response = await fetch(
           `${API_BASE_URL}/users/${user.userId}`,
           {
             method: "GET",
-
             headers: {
               "Accept": "application/json",
               "Authorization": `Bearer ${user.token}`
@@ -450,27 +440,14 @@
           }
         );
 
-        const data = await response.json()
-          .catch(() => ({}));
+        const data = await response.json().catch(() => ({}));
 
-        /*
-         * Token hết hạn / không có quyền
-         */
-        if (
-          response.status === 401 ||
-          response.status === 403
-        ) {
-
+        if (response.status === 401 || response.status === 403) {
           window.location.href = "../auth.html";
-
           return false;
         }
 
-        /*
-         * API thành công
-         */
         if (response.ok) {
-
           const fullName =
             data.full_name ||
             user.fullName ||
@@ -482,48 +459,16 @@
             user.username ||
             "";
 
-          /*
-           * Cập nhật navbar
-           */
           if (navName) {
             navName.textContent = fullName;
           }
 
-          /*
-           * Lưu lại full_name để các trang khác
-           * có thể sử dụng ngay.
-           */
-          user.storage.setItem(
-            "full_name",
-            fullName
-          );
+          user.storage.setItem("full_name", fullName);
 
-          /*
-           * Đồng bộ username nếu backend trả về
-           * username mới.
-           */
           if (username) {
-            user.storage.setItem(
-              "username",
-              username
-            );
+            user.storage.setItem("username", username);
           }
-
-          console.log(
-            "Provider user info:",
-            {
-              userId: user.userId,
-              username: username,
-              fullName: fullName
-            }
-          );
-
         } else {
-
-          /*
-           * Nếu API User lỗi nhưng storage vẫn có
-           * full_name thì giữ tên đó.
-           */
           if (navName) {
             navName.textContent =
               user.fullName ||
@@ -533,16 +478,7 @@
         }
 
       } catch (error) {
-
-        console.error(
-          "LOAD PROVIDER USER INFO ERROR:",
-          error
-        );
-
-        /*
-         * Không làm trang Booking chết chỉ vì
-         * API User không tải được.
-         */
+        console.error("LOAD PROVIDER USER INFO ERROR:", error);
         if (navName) {
           navName.textContent =
             user.fullName ||
@@ -559,7 +495,6 @@
       localStorage.clear();
       sessionStorage.clear();
 
-      // Xóa toàn bộ Cookie
       document.cookie.split(";").forEach((c) => {
         document.cookie = c
           .replace(/^ +/, "")
@@ -575,7 +510,6 @@
        ========================================================= */
 
     async function apiFetch(url, options = {}) {
-
       const headers = {
         Accept: "application/json",
         ...(options.headers || {})
@@ -597,14 +531,9 @@
        ========================================================= */
 
     function escapeHtml(value) {
-
-      if (
-        value === null ||
-        value === undefined
-      ) {
+      if (value === null || value === undefined) {
         return "";
       }
-
       return String(value)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
@@ -615,7 +544,6 @@
 
 
     function normalizeStatus(status) {
-
       return String(status || "")
         .toLowerCase()
         .trim();
@@ -623,56 +551,35 @@
 
 
     function statusText(status) {
-
       const normalized = normalizeStatus(status);
-
       const map = {
-
         pending: "Chờ xác nhận",
-
         confirmed: "Đã xác nhận",
-
         checked_in: "Đang sử dụng",
-
         completed: "Hoàn thành",
-
         cancelled: "Đã huỷ",
-
         canceled: "Đã huỷ"
       };
 
-      return map[normalized] ||
-        status ||
-        "Không xác định";
+      return map[normalized] || status || "Không xác định";
     }
 
 
     function formatCurrency(value) {
-
       const number = Number(value || 0);
-
       return number.toLocaleString("vi-VN") + " ₫";
     }
 
 
     function formatDateTime(value) {
-
-      if (!value) {
-        return "-";
-      }
-
+      if (!value) return "-";
       const date = new Date(value);
-
-      if (Number.isNaN(date.getTime())) {
-        return value;
-      }
+      if (Number.isNaN(date.getTime())) return value;
 
       return date.toLocaleString("vi-VN", {
-
         day: "2-digit",
         month: "2-digit",
         year: "numeric",
-
         hour: "2-digit",
         minute: "2-digit"
       });
@@ -680,35 +587,20 @@
 
 
     function formatDate(value) {
-
-      if (!value) {
-        return "-";
-      }
-
+      if (!value) return "-";
       const date = new Date(value);
-
-      if (Number.isNaN(date.getTime())) {
-        return value;
-      }
+      if (Number.isNaN(date.getTime())) return value;
 
       return date.toLocaleDateString("vi-VN");
     }
 
 
     function getTime(value) {
-
-      if (!value) {
-        return "-";
-      }
-
+      if (!value) return "-";
       const date = new Date(value);
-
-      if (Number.isNaN(date.getTime())) {
-        return value;
-      }
+      if (Number.isNaN(date.getTime())) return value;
 
       return date.toLocaleTimeString("vi-VN", {
-
         hour: "2-digit",
         minute: "2-digit"
       });
@@ -719,29 +611,8 @@
        PAYMENT HELPERS
        ========================================================= */
 
-    /*
-     * Booking không có payment_status trực tiếp trong DB.
-     *
-     * Quan hệ:
-     *
-     * Booking
-     *    ↓
-     * ServiceSession
-     *    ↓
-     * Invoice
-     *    ↓
-     * Payment
-     *
-     * Vì vậy frontend sẽ lấy InvoiceID từ Booking
-     * rồi ghép với Payment.
-     */
-
     function getInvoiceId(booking) {
-
-      if (!booking) {
-        return null;
-      }
-
+      if (!booking) return null;
       return (
         booking.invoice_id ??
         booking.InvoiceID ??
@@ -752,11 +623,7 @@
 
 
     function getPaymentStatus(booking) {
-
-      if (!booking) {
-        return "";
-      }
-
+      if (!booking) return "";
       const rawStatus =
         booking.payment_status ??
         booking.PaymentStatus ??
@@ -772,139 +639,51 @@
 
 
     function isPaymentSuccessful(booking) {
-
       const status = getPaymentStatus(booking);
-
       return [
-
         "success",
         "successful",
         "completed",
         "paid",
         "succeeded",
-
         "thành công",
         "đã thanh toán"
-
       ].includes(status);
     }
 
 
     function isPaymentPending(booking) {
-
       const status = getPaymentStatus(booking);
-
       return [
-
         "pending",
         "processing",
         "confirming",
         "waiting",
-
         "chờ xác nhận",
         "đang xử lý",
         "đang chờ xử lý"
-
       ].includes(status);
     }
 
 
-    function getPaymentStatusLabel(booking) {
-
-      const status = getPaymentStatus(booking);
-
-      if (!status) {
-        return "Chưa thanh toán";
-      }
-
-      const map = {
-
-        "success": "Đã thanh toán",
-        "successful": "Đã thanh toán",
-        "completed": "Đã thanh toán",
-        "paid": "Đã thanh toán",
-        "succeeded": "Đã thanh toán",
-
-        "thành công": "Đã thanh toán",
-        "đã thanh toán": "Đã thanh toán",
-
-        "pending": "Đang chờ xử lý",
-        "processing": "Đang chờ xử lý",
-        "confirming": "Đang chờ xử lý",
-        "waiting": "Đang chờ xử lý",
-
-        "chờ xác nhận": "Đang chờ xử lý",
-        "đang xử lý": "Đang chờ xử lý",
-        "đang chờ xử lý": "Đang chờ xử lý",
-
-        "failed": "Thanh toán thất bại",
-        "thất bại": "Thanh toán thất bại",
-
-        "refunded": "Đã hoàn tiền",
-        "đã hoàn tiền": "Đã hoàn tiền"
-      };
-
-      return map[status] || booking.payment_status || status;
-    }
-
-
-    /*
-     * Lấy danh sách Payment và ghép vào Booking.
-     *
-     * Đây là phần quan trọng để Provider nhìn thấy
-     * Payment vừa được Photographer thanh toán.
-     */
-
     async function attachPaymentStatuses(bookings) {
-
-      if (
-        !Array.isArray(bookings) ||
-        bookings.length === 0
-      ) {
+      if (!Array.isArray(bookings) || bookings.length === 0) {
         return bookings;
       }
 
       try {
+        const response = await apiFetch(`${API_BASE_URL}/payments/`);
 
-        const response = await apiFetch(
-          `${API_BASE_URL}/payments/`
-        );
-
-        if (
-          response.status === 401 ||
-          response.status === 403
-        ) {
-
+        if (response.status === 401 || response.status === 403) {
           window.location.href = "../auth.html";
-
           return bookings;
         }
 
         if (!response.ok) {
-
-          console.warn(
-            "Không thể tải danh sách Payment:",
-            response.status
-          );
-
           return bookings;
         }
 
-        const data =
-          await response.json().catch(() => []);
-
-        /*
-         * Hỗ trợ nhiều kiểu response:
-         *
-         * []
-         *
-         * hoặc
-         *
-         * {
-         *   data: []
-         * }
-         */
-
+        const data = await response.json().catch(() => []);
         const payments = Array.isArray(data)
           ? data
           : Array.isArray(data.data)
@@ -913,92 +692,38 @@
               ? data.items
               : [];
 
-        console.log(
-          "Danh sách Payment từ API:",
-          payments
-        );
-
-
         bookings.forEach(booking => {
+          const invoiceId = getInvoiceId(booking);
+          if (!invoiceId) return;
 
-          const invoiceId =
-            getInvoiceId(booking);
+          const matchingPayments = payments.filter(payment => {
+            const paymentInvoiceId =
+              payment.invoice_id ??
+              payment.InvoiceID ??
+              payment.invoiceId;
 
-          if (!invoiceId) {
-            return;
-          }
-
-
-          /*
-           * Tìm Payment thuộc Invoice của Booking.
-           */
-
-          const matchingPayments =
-            payments.filter(payment => {
-
-              const paymentInvoiceId =
-                payment.invoice_id ??
-                payment.InvoiceID ??
-                payment.invoiceId;
-
-              return String(paymentInvoiceId) ===
-                String(invoiceId);
-            });
-
+            return String(paymentInvoiceId) === String(invoiceId);
+          });
 
           if (!matchingPayments.length) {
-
             booking.payment_status = "";
             booking.payment = null;
             booking.payment_id = null;
-
             return;
           }
 
+          const payment = matchingPayments[matchingPayments.length - 1];
 
-          /*
-           * Nếu có nhiều Payment,
-           * lấy Payment mới nhất trong danh sách.
-           */
-
-          const payment =
-            matchingPayments[matchingPayments.length - 1];
-
-
-          booking.payment_status =
-            payment.status ??
-            payment.Status ??
-            "";
-
-          booking.payment =
-            payment;
-
-          booking.payment_id =
-            payment.id ??
-            payment.PaymentID ??
-            null;
-
-          booking.payment_paid_at =
-            payment.paid_at ??
-            payment.PaidAt ??
-            null;
+          booking.payment_status = payment.status ?? payment.Status ?? "";
+          booking.payment = payment;
+          booking.payment_id = payment.id ?? payment.PaymentID ?? null;
+          booking.payment_paid_at = payment.paid_at ?? payment.PaidAt ?? null;
         });
-
-
-        console.log(
-          "Booking sau khi ghép Payment:",
-          bookings
-        );
 
         return bookings;
 
       } catch (error) {
-
-        console.error(
-          "Lỗi ghép Payment vào Booking:",
-          error
-        );
-
+        console.error("Lỗi ghép Payment vào Booking:", error);
         return bookings;
       }
     }
@@ -1008,33 +733,17 @@
        TOAST
        ========================================================= */
 
-    function showToast(
-      message,
-      type = "success"
-    ) {
+    function showToast(message, type = "success") {
+      const stack = document.getElementById("toastStack");
+      const toast = document.createElement("div");
 
-      const stack =
-        document.getElementById("toastStack");
-
-      const toast =
-        document.createElement("div");
-
-      toast.className =
-        "toast" +
-        (
-          type === "error"
-            ? " error"
-            : ""
-        );
-
+      toast.className = "toast" + (type === "error" ? " error" : "");
       toast.textContent = message;
 
       stack.appendChild(toast);
 
       setTimeout(() => {
-
         toast.remove();
-
       }, 3500);
     }
 
@@ -1044,164 +753,58 @@
        ========================================================= */
 
     async function loadBookings() {
+      if (!currentProviderId) return;
 
-      if (!currentProviderId) {
-        return;
-      }
-
-
-      const content =
-        document.getElementById(
-          "bookingContent"
-        );
-
-
+      const content = document.getElementById("bookingContent");
       content.innerHTML = `
-    <div class="provider-loading-state">
-      Đang tải danh sách booking...
-    </div>
-  `;
-
+        <div class="provider-loading-state">
+          Đang tải danh sách booking...
+        </div>
+      `;
 
       try {
+        const status = document.getElementById("statusFilter").value;
+        const date = document.getElementById("dateFilter").value;
+        const spaceId = document.getElementById("spaceFilter").value;
 
-        const status =
-          document.getElementById(
-            "statusFilter"
-          ).value;
+        const params = new URLSearchParams();
+        if (status) params.set("status", status);
+        if (date) params.set("date", date);
+        if (spaceId) params.set("space_id", spaceId);
 
+        const query = params.toString();
+        const url = `${API_BASE_URL}/bookings/provider/${currentProviderId}${query ? "?" + query : ""}`;
 
-        const date =
-          document.getElementById(
-            "dateFilter"
-          ).value;
+        const response = await apiFetch(url);
+        const data = await response.json().catch(() => []);
 
-
-        const spaceId =
-          document.getElementById(
-            "spaceFilter"
-          ).value;
-
-
-        const params =
-          new URLSearchParams();
-
-
-        if (status) {
-          params.set(
-            "status",
-            status
-          );
-        }
-
-
-        if (date) {
-          params.set(
-            "date",
-            date
-          );
-        }
-
-
-        if (spaceId) {
-          params.set(
-            "space_id",
-            spaceId
-          );
-        }
-
-
-        const query =
-          params.toString();
-
-
-        const url =
-          `${API_BASE_URL}/bookings/provider/` +
-          `${currentProviderId}` +
-          `${query ? "?" + query : ""}`;
-
-
-        /*
-         * 1. Lấy Booking
-         */
-
-        const response =
-          await apiFetch(url);
-
-
-        const data =
-          await response.json()
-            .catch(() => []);
-
-
-        if (
-          response.status === 401 ||
-          response.status === 403
-        ) {
-
-          window.location.href =
-            "../auth.html";
-
+        if (response.status === 401 || response.status === 403) {
+          window.location.href = "../auth.html";
           return;
         }
 
-
         if (!response.ok) {
-
-          throw new Error(
-            data.message ||
-            data.error ||
-            "Không thể tải danh sách booking."
-          );
+          throw new Error(data.message || data.error || "Không thể tải danh sách booking.");
         }
 
+        currentBookings = Array.isArray(data)
+          ? data
+          : Array.isArray(data.data)
+            ? data.data
+            : [];
 
-        currentBookings =
-          Array.isArray(data)
-            ? data
-            : Array.isArray(data.data)
-              ? data.data
-              : [];
-
-
-        /*
-         * 2. Lấy Payment và ghép vào Booking.
-         *
-         * Đây là bước bắt buộc.
-         */
-
-        await attachPaymentStatuses(
-          currentBookings
-        );
-
-
-        console.log(
-          "Danh sách Booking + Payment:",
-          currentBookings
-        );
-
-
-        /*
-         * 3. Render.
-         */
+        await attachPaymentStatuses(currentBookings);
 
         updateStats();
-
         renderBookings();
 
-
       } catch (error) {
-
         console.error(error);
-
         content.innerHTML = `
-      <div class="provider-booking-error">
-        ${escapeHtml(
-          error.message ||
-          "Không thể tải danh sách booking."
-        )}
-      </div>
-    `;
+          <div class="provider-booking-error">
+            ${escapeHtml(error.message || "Không thể tải danh sách booking.")}
+          </div>
+        `;
       }
     }
 
@@ -1211,55 +814,19 @@
        ========================================================= */
 
     function updateStats() {
+      document.getElementById("statTotal").textContent = currentBookings.length;
 
-      document.getElementById(
-        "statTotal"
-      ).textContent =
-        currentBookings.length;
+      document.getElementById("statPending").textContent =
+        currentBookings.filter(b => normalizeStatus(b.status) === "pending").length;
 
+      document.getElementById("statConfirmed").textContent =
+        currentBookings.filter(b => normalizeStatus(b.status) === "confirmed").length;
 
-      document.getElementById(
-        "statPending"
-      ).textContent =
-        currentBookings.filter(
-          booking =>
-            normalizeStatus(
-              booking.status
-            ) === "pending"
-        ).length;
+      document.getElementById("statCheckedIn").textContent =
+        currentBookings.filter(b => normalizeStatus(b.status) === "checked_in").length;
 
-
-      document.getElementById(
-        "statConfirmed"
-      ).textContent =
-        currentBookings.filter(
-          booking =>
-            normalizeStatus(
-              booking.status
-            ) === "confirmed"
-        ).length;
-
-
-      document.getElementById(
-        "statCheckedIn"
-      ).textContent =
-        currentBookings.filter(
-          booking =>
-            normalizeStatus(
-              booking.status
-            ) === "checked_in"
-        ).length;
-
-
-      document.getElementById(
-        "statCompleted"
-      ).textContent =
-        currentBookings.filter(
-          booking =>
-            normalizeStatus(
-              booking.status
-            ) === "completed"
-        ).length;
+      document.getElementById("statCompleted").textContent =
+        currentBookings.filter(b => normalizeStatus(b.status) === "completed").length;
     }
 
 
@@ -1268,219 +835,92 @@
        ========================================================= */
 
     function renderBookings() {
-
-      const content =
-        document.getElementById(
-          "bookingContent"
-        );
-
+      const content = document.getElementById("bookingContent");
 
       if (!currentBookings.length) {
-
         content.innerHTML = `
-      <div class="provider-booking-empty">
-
-        <div class="provider-booking-empty-icon">
-          ◷
-        </div>
-
-        <h3>Chưa có booking</h3>
-
-        <p>
-          Không có booking nào phù hợp
-          với bộ lọc hiện tại.
-        </p>
-
-      </div>
-    `;
-
+          <div class="provider-booking-empty">
+            <div class="provider-booking-empty-icon">◷</div>
+            <h3>Chưa có booking</h3>
+            <p>Không có booking nào phù hợp với bộ lọc hiện tại.</p>
+          </div>
+        `;
         return;
       }
 
-
       let html = `
-
-    <table class="provider-booking-table">
-
-      <thead>
-
-        <tr>
-          <th>Booking</th>
-          <th>Photographer</th>
-          <th>Không gian</th>
-          <th>Ngày & giờ</th>
-          <th>Tổng tiền</th>
-          <th>Trạng thái</th>
-          <th>Thao tác</th>
-        </tr>
-
-      </thead>
-
-      <tbody>
-  `;
-
+        <table class="provider-booking-table">
+          <thead>
+            <tr>
+              <th>Booking</th>
+              <th>Photographer</th>
+              <th>Không gian</th>
+              <th>Ngày & giờ</th>
+              <th>Tổng tiền</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
 
       currentBookings.forEach(booking => {
-
-        const photographer =
-          booking.photographer_name ||
-          `Photographer #${booking.photographer_id}`;
-
-
-        const space =
-          booking.space_name ||
-          `Space #${booking.space_id}`;
-
+        const photographer = booking.photographer_name || `Photographer #${booking.photographer_id}`;
+        const space = booking.space_name || `Space #${booking.space_id}`;
 
         html += `
+          <tr>
+            <td>
+              <span class="provider-booking-id">#${escapeHtml(booking.id)}</span>
+              <span class="provider-booking-sub">${escapeHtml(formatDate(booking.created_at))}</span>
+            </td>
 
-      <tr>
+            <td>
+              ${escapeHtml(photographer)}
+              <span class="provider-booking-sub">ID: ${escapeHtml(booking.photographer_id)}</span>
+            </td>
 
-        <td>
+            <td>
+              ${escapeHtml(space)}
+              <span class="provider-booking-sub">ID: ${escapeHtml(booking.space_id)}</span>
+            </td>
 
-          <span class="provider-booking-id">
-            #${escapeHtml(booking.id)}
-          </span>
+            <td>
+              <strong>${escapeHtml(formatDate(booking.start_time))}</strong>
+              <span class="provider-booking-sub">
+                ${escapeHtml(getTime(booking.start_time))} - ${escapeHtml(getTime(booking.end_time))}
+              </span>
+            </td>
 
-          <span class="provider-booking-sub">
-            ${escapeHtml(
-          formatDate(
-            booking.created_at
-          )
-        )}
-          </span>
+            <td>
+              <span class="provider-booking-price">
+                ${escapeHtml(formatCurrency(booking.total_price))}
+              </span>
+            </td>
 
-        </td>
+            <td>
+              <span class="provider-booking-status ${normalizeStatus(booking.status)}">
+                ${escapeHtml(statusText(booking.status))}
+              </span>
+              ${renderPaymentBadge(booking)}
+            </td>
 
-
-        <td>
-
-          ${escapeHtml(
-          photographer
-        )}
-
-          <span class="provider-booking-sub">
-            ID:
-            ${escapeHtml(
-          booking.photographer_id
-        )}
-          </span>
-
-        </td>
-
-
-        <td>
-
-          ${escapeHtml(space)}
-
-          <span class="provider-booking-sub">
-            ID:
-            ${escapeHtml(
-          booking.space_id
-        )}
-          </span>
-
-        </td>
-
-
-        <td>
-
-          <strong>
-            ${escapeHtml(
-          formatDate(
-            booking.start_time
-          )
-        )}
-          </strong>
-
-          <span class="provider-booking-sub">
-
-            ${escapeHtml(
-          getTime(
-            booking.start_time
-          )
-        )}
-
-            -
-
-            ${escapeHtml(
-          getTime(
-            booking.end_time
-          )
-        )}
-
-          </span>
-
-        </td>
-
-
-        <td>
-
-          <span class="provider-booking-price">
-
-            ${escapeHtml(
-          formatCurrency(
-            booking.total_price
-          )
-        )}
-
-          </span>
-
-        </td>
-
-
-        <td>
-
-          <span
-            class="
-              provider-booking-status
-              ${normalizeStatus(
-          booking.status
-        )}
-            "
-          >
-            ${escapeHtml(
-          statusText(
-            booking.status
-          )
-        )}
-          </span>
-
-          ${renderPaymentBadge(booking)}
-
-        </td>
-
-
-        <td>
-
-          <div class="provider-booking-actions">
-
-            <button
-              type="button"
-              class="provider-booking-view-btn"
-              onclick="openDetail(${Number(booking.id)})"
-            >
-              Chi tiết
-            </button>
-
-            ${renderActionButtons(booking)}
-
-          </div>
-
-        </td>
-
-      </tr>
-    `;
+            <td>
+              <div class="provider-booking-actions">
+                <button type="button" class="provider-booking-view-btn" onclick="openDetail(${Number(booking.id)})">
+                  Chi tiết
+                </button>
+                ${renderActionButtons(booking)}
+              </div>
+            </td>
+          </tr>
+        `;
       });
 
-
       html += `
-
-      </tbody>
-
-    </table>
-  `;
-
+          </tbody>
+        </table>
+      `;
 
       content.innerHTML = html;
     }
@@ -1491,58 +931,33 @@
        ========================================================= */
 
     function renderPaymentBadge(booking) {
-
-      const status =
-        getPaymentStatus(booking);
-
+      const status = getPaymentStatus(booking);
 
       if (isPaymentSuccessful(booking)) {
-
         return `
-      <span
-        class="provider-booking-sub"
-        style="color: #198754; font-weight: 600;"
-      >
-        ✓ Đã thanh toán
-      </span>
-    `;
+          <span class="provider-booking-sub" style="color: #198754; font-weight: 600;">
+            ✓ Đã thanh toán
+          </span>
+        `;
       }
-
 
       if (isPaymentPending(booking)) {
-
         return `
-      <span
-        class="provider-booking-sub"
-        style="color: #d97706; font-weight: 600;"
-      >
-        ⏳ Đang chờ xác nhận thanh toán
-      </span>
-    `;
+          <span class="provider-booking-sub" style="color: #d97706; font-weight: 600;">
+            ⏳ Đang chờ xác nhận thanh toán
+          </span>
+        `;
       }
 
-
-      if (
-        status === "failed" ||
-        status === "thất bại"
-      ) {
-
+      if (status === "failed" || status === "thất bại") {
         return `
-      <span
-        class="provider-booking-sub"
-        style="color: #dc3545; font-weight: 600;"
-      >
-        ✕ Thanh toán thất bại
-      </span>
-    `;
+          <span class="provider-booking-sub" style="color: #dc3545; font-weight: 600;">
+            ✕ Thanh toán thất bại
+          </span>
+        `;
       }
 
-
-      return `
-    <span class="provider-booking-sub">
-      Chưa thanh toán
-    </span>
-  `;
+      return `<span class="provider-booking-sub">Chưa thanh toán</span>`;
     }
 
 
@@ -1551,129 +966,46 @@
        ========================================================= */
 
     function renderActionButtons(booking) {
-
-      const status =
-        normalizeStatus(
-          booking.status
-        );
-
-
-      /*
-       * PENDING
-       */
+      const status = normalizeStatus(booking.status);
 
       if (status === "pending") {
-
         return `
-
-      <button
-        type="button"
-        class="provider-booking-action-btn confirm"
-        onclick="showConfirmModal(
-          ${Number(booking.id)},
-          'confirm'
-        )"
-      >
-        Xác nhận
-      </button>
-
-
-      <button
-        type="button"
-        class="provider-booking-action-btn reject"
-        onclick="showConfirmModal(
-          ${Number(booking.id)},
-          'reject'
-        )"
-      >
-        Từ chối
-      </button>
-    `;
+          <button type="button" class="provider-booking-action-btn confirm" onclick="showConfirmModal(${Number(booking.id)}, 'confirm')">
+            Xác nhận
+          </button>
+          <button type="button" class="provider-booking-action-btn reject" onclick="showConfirmModal(${Number(booking.id)}, 'reject')">
+            Từ chối
+          </button>
+        `;
       }
-
-
-      /*
-       * CONFIRMED
-       */
 
       if (status === "confirmed") {
-
-        /*
-         * Payment thành công
-         * → được Check-in.
-         */
-
         if (isPaymentSuccessful(booking)) {
-
           return `
-        <button
-          type="button"
-          class="provider-booking-action-btn checkin"
-          onclick="showConfirmModal(
-            ${Number(booking.id)},
-            'check-in'
-          )"
-        >
-          Check-in
-        </button>
-      `;
+            <button type="button" class="provider-booking-action-btn checkin" onclick="showConfirmModal(${Number(booking.id)}, 'check-in')">
+              Check-in
+            </button>
+          `;
         }
-
-
-        /*
-         * Payment đang chờ xử lý
-         * → Provider xác nhận thanh toán.
-         */
 
         if (isPaymentPending(booking)) {
-
           return `
-        <button
-          type="button"
-          class="provider-booking-action-btn confirm-payment"
-          onclick="showConfirmModal(
-            ${Number(booking.id)},
-            'confirm-payment'
-          )"
-        >
-          Xác nhận thanh toán
-        </button>
-      `;
+            <button type="button" class="provider-booking-action-btn confirm-payment" onclick="showConfirmModal(${Number(booking.id)}, 'confirm-payment')">
+              Xác nhận thanh toán
+            </button>
+          `;
         }
 
-
-        /*
-         * Chưa có Payment.
-         */
-
-        return `
-      <span class="provider-booking-payment-waiting">
-        Chờ Photographer thanh toán
-      </span>
-    `;
+        return `<span class="provider-booking-payment-waiting">Chờ Photographer thanh toán</span>`;
       }
-
-
-      /*
-       * CHECKED IN
-       */
 
       if (status === "checked_in") {
-
         return `
-      <button
-        type="button"
-        class="provider-booking-action-btn checkout"
-        onclick="showConfirmModal(
-          ${Number(booking.id)},
-          'check-out'
-        )"
-      >
-        Check-out
-      </button>
-    `;
+          <button type="button" class="provider-booking-action-btn checkout" onclick="showConfirmModal(${Number(booking.id)}, 'check-out')">
+            Check-out
+          </button>
+        `;
       }
-
 
       return "";
     }
@@ -1684,221 +1016,62 @@
        ========================================================= */
 
     async function openDetail(bookingId) {
-
       try {
+        const response = await apiFetch(`${API_BASE_URL}/bookings/provider/${currentProviderId}/${bookingId}`);
+        const data = await response.json();
 
-        const response =
-          await apiFetch(
-            `${API_BASE_URL}/bookings/provider/` +
-            `${currentProviderId}/${bookingId}`
-          );
-
-
-        const data =
-          await response.json();
-
-
-        if (
-          response.status === 401 ||
-          response.status === 403
-        ) {
-
-          window.location.href =
-            "../auth.html";
-
+        if (response.status === 401 || response.status === 403) {
+          window.location.href = "../auth.html";
           return;
         }
 
-
         if (!response.ok) {
-
-          throw new Error(
-            data.message ||
-            data.error ||
-            "Không thể tải chi tiết booking."
-          );
+          throw new Error(data.message || data.error || "Không thể tải chi tiết booking.");
         }
 
-
         selectedBooking = data;
+        await attachPaymentStatuses([selectedBooking]);
 
+        document.getElementById("modalBookingTitle").textContent = `Booking #${data.id}`;
+        document.getElementById("modalBookingSubtitle").textContent = "Chi tiết đơn đặt chỗ";
+        document.getElementById("detailId").textContent = `#${data.id}`;
+        document.getElementById("detailStatus").innerHTML = `
+          <span class="provider-booking-status ${normalizeStatus(data.status)}">
+            ${escapeHtml(statusText(data.status))}
+          </span>
+        `;
 
-        /*
-         * Ghép Payment cho detail.
-         *
-         * Detail endpoint có thể không trả payment_status.
-         */
+        document.getElementById("detailPhotographer").textContent = data.photographer_name
+          ? `${data.photographer_name} (#${data.photographer_id})`
+          : `Photographer #${data.photographer_id}`;
 
-        await attachPaymentStatuses(
-          [selectedBooking]
-        );
+        document.getElementById("detailSpace").textContent = data.space_name
+          ? `${data.space_name} (#${data.space_id})`
+          : `Space #${data.space_id}`;
 
+        document.getElementById("detailPackage").textContent = data.package_name
+          ? `${data.package_name} (#${data.package_id})`
+          : data.package_id ? `Gói dịch vụ #${data.package_id}` : "Không sử dụng gói";
 
-        document.getElementById(
-          "modalBookingTitle"
-        ).textContent =
-          `Booking #${data.id}`;
+        document.getElementById("detailPrice").textContent = formatCurrency(data.total_price);
+        document.getElementById("detailStart").textContent = formatDateTime(data.start_time);
+        document.getElementById("detailEnd").textContent = formatDateTime(data.end_time);
+        document.getElementById("detailCreated").textContent = formatDateTime(data.created_at);
+        document.getElementById("detailProvider").textContent = `Provider #${data.provider_id}`;
 
-
-        document.getElementById(
-          "modalBookingSubtitle"
-        ).textContent =
-          "Chi tiết đơn đặt chỗ";
-
-
-        document.getElementById(
-          "detailId"
-        ).textContent =
-          `#${data.id}`;
-
-
-        document.getElementById(
-          "detailStatus"
-        ).innerHTML = `
-
-      <span
-        class="
-          provider-booking-status
-          ${normalizeStatus(
-          data.status
-        )}
-        "
-      >
-        ${escapeHtml(
-          statusText(
-            data.status
-          )
-        )}
-      </span>
-    `;
-
-
-        document.getElementById(
-          "detailPhotographer"
-        ).textContent =
-
-          data.photographer_name
-
-            ? `${data.photographer_name} (#${data.photographer_id})`
-
-            : `Photographer #${data.photographer_id}`;
-
-
-        document.getElementById(
-          "detailSpace"
-        ).textContent =
-
-          data.space_name
-
-            ? `${data.space_name} (#${data.space_id})`
-
-            : `Space #${data.space_id}`;
-
-
-        document.getElementById(
-          "detailPackage"
-        ).textContent =
-
-          data.package_name
-
-            ? `${data.package_name} (#${data.package_id})`
-
-            : data.package_id
-
-              ? `Gói dịch vụ #${data.package_id}`
-
-              : "Không sử dụng gói";
-
-
-        document.getElementById(
-          "detailPrice"
-        ).textContent =
-          formatCurrency(
-            data.total_price
-          );
-
-
-        document.getElementById(
-          "detailStart"
-        ).textContent =
-          formatDateTime(
-            data.start_time
-          );
-
-
-        document.getElementById(
-          "detailEnd"
-        ).textContent =
-          formatDateTime(
-            data.end_time
-          );
-
-
-        document.getElementById(
-          "detailCreated"
-        ).textContent =
-          formatDateTime(
-            data.created_at
-          );
-
-
-        document.getElementById(
-          "detailProvider"
-        ).textContent =
-          `Provider #${data.provider_id}`;
-
-
-        /*
-         * PAYMENT DETAIL
-         */
-
-        const invoiceId =
-          getInvoiceId(data);
-
-
-        document.getElementById(
-          "detailInvoice"
-        ).textContent =
-          invoiceId
-            ? `#${invoiceId}`
-            : "Chưa có Invoice";
-
-
-        document.getElementById(
-          "detailPayment"
-        ).innerHTML =
-          renderPaymentDetail(data);
-
-
-        document.getElementById(
-          "detailPaidAt"
-        ).textContent =
-          data.payment_paid_at
-            ? formatDateTime(
-              data.payment_paid_at
-            )
-            : "-";
-
+        const invoiceId = getInvoiceId(data);
+        document.getElementById("detailInvoice").textContent = invoiceId ? `#${invoiceId}` : "Chưa có Invoice";
+        document.getElementById("detailPayment").innerHTML = renderPaymentDetail(data);
+        document.getElementById("detailPaidAt").textContent = data.payment_paid_at ? formatDateTime(data.payment_paid_at) : "-";
 
         renderDetailNote(data);
-
         renderModalActions(data);
 
-
-        document.getElementById(
-          "detailModal"
-        ).classList.add("show");
-
+        document.getElementById("detailModal").classList.add("show");
 
       } catch (error) {
-
         console.error(error);
-
-        showToast(
-          error.message ||
-          "Không thể tải chi tiết booking.",
-          "error"
-        );
+        showToast(error.message || "Không thể tải chi tiết booking.", "error");
       }
     }
 
@@ -1908,56 +1081,23 @@
        ========================================================= */
 
     function renderPaymentDetail(booking) {
-
       if (isPaymentSuccessful(booking)) {
-
-        return `
-      <span style="color:#198754;font-weight:700;">
-        ✓ Đã thanh toán
-      </span>
-    `;
+        return `<span style="color:#198754;font-weight:700;">✓ Đã thanh toán</span>`;
       }
-
 
       if (isPaymentPending(booking)) {
-
-        return `
-      <span style="color:#d97706;font-weight:700;">
-        ⏳ Đang chờ xác nhận thanh toán
-      </span>
-    `;
+        return `<span style="color:#d97706;font-weight:700;">⏳ Đang chờ xác nhận thanh toán</span>`;
       }
 
+      const status = getPaymentStatus(booking);
 
-      const status =
-        getPaymentStatus(booking);
-
-
-      if (
-        status === "failed" ||
-        status === "thất bại"
-      ) {
-
-        return `
-      <span style="color:#dc3545;font-weight:700;">
-        ✕ Thanh toán thất bại
-      </span>
-    `;
+      if (status === "failed" || status === "thất bại") {
+        return `<span style="color:#dc3545;font-weight:700;">✕ Thanh toán thất bại</span>`;
       }
 
-
-      if (
-        status === "refunded" ||
-        status === "đã hoàn tiền"
-      ) {
-
-        return `
-      <span style="color:#6c757d;font-weight:700;">
-        ↩ Đã hoàn tiền
-      </span>
-    `;
+      if (status === "refunded" || status === "đã hoàn tiền") {
+        return `<span style="color:#6c757d;font-weight:700;">↩ Đã hoàn tiền</span>`;
       }
-
 
       return "Chưa thanh toán";
     }
@@ -1968,149 +1108,76 @@
        ========================================================= */
 
     function renderDetailNote(booking) {
-
-      const note =
-        document.getElementById(
-          "detailNote"
-        );
-
-
-      const status =
-        normalizeStatus(
-          booking.status
-        );
-
+      const note = document.getElementById("detailNote");
+      const status = normalizeStatus(booking.status);
 
       if (status === "pending") {
-
         note.innerHTML = `
-
-      <div class="provider-booking-note">
-
-        Booking đang chờ Provider xử lý.
-
-        Provider có thể
-        <strong>Xác nhận</strong>
-        hoặc
-        <strong>Từ chối</strong>
-        yêu cầu.
-
-      </div>
-    `;
-
+          <div class="provider-booking-note">
+            Booking đang chờ Provider xử lý.
+            Provider có thể <strong>Xác nhận</strong> hoặc <strong>Từ chối</strong> yêu cầu.
+          </div>
+        `;
         return;
       }
-
 
       if (status === "confirmed") {
-
         if (isPaymentSuccessful(booking)) {
-
           note.innerHTML = `
-
-        <div class="provider-booking-note success">
-
-          ✓ Payment đã
-          <strong>thành công</strong>.
-
-          Provider có thể thực hiện
-          <strong>Check-in</strong>
-          khi đến thời gian sử dụng.
-
-        </div>
-      `;
-
+            <div class="provider-booking-note success">
+              ✓ Payment đã <strong>thành công</strong>.
+              Provider có thể thực hiện <strong>Check-in</strong> khi đến thời gian sử dụng.
+            </div>
+          `;
           return;
         }
-
 
         if (isPaymentPending(booking)) {
-
           note.innerHTML = `
-
-        <div class="provider-booking-note warning">
-
-          Photographer đã gửi thanh toán.
-
-          Vui lòng kiểm tra giao dịch và
-          <strong>Xác nhận đã nhận tiền</strong>
-          trước khi Check-in.
-
-        </div>
-      `;
-
+            <div class="provider-booking-note warning">
+              Photographer đã gửi thanh toán.
+              Vui lòng kiểm tra giao dịch và <strong>Xác nhận đã nhận tiền</strong> trước khi Check-in.
+            </div>
+          `;
           return;
         }
 
-
         note.innerHTML = `
-
-      <div class="provider-booking-note warning">
-
-        Booking đã được xác nhận.
-
-        Photographer cần thanh toán bằng
-        <strong>Chuyển khoản QR (VietQR)</strong>
-        trước khi Provider thực hiện Check-in.
-
-      </div>
-    `;
-
+          <div class="provider-booking-note warning">
+            Booking đã được xác nhận.
+            Photographer cần thanh toán bằng <strong>Chuyển khoản QR (VietQR)</strong> trước khi Provider thực hiện Check-in.
+          </div>
+        `;
         return;
       }
-
 
       if (status === "checked_in") {
-
         note.innerHTML = `
-
-      <div class="provider-booking-note warning">
-
-        Booking đang được sử dụng.
-
-        Khi Check-out, hệ thống sẽ kiểm tra
-        thanh toán của Invoice trước khi chuyển
-        booking sang
-        <strong>Hoàn thành</strong>.
-
-      </div>
-    `;
-
+          <div class="provider-booking-note warning">
+            Booking đang được sử dụng.
+            Khi Check-out, hệ thống sẽ kiểm tra thanh toán của Invoice trước khi chuyển booking sang <strong>Hoàn thành</strong>.
+          </div>
+        `;
         return;
       }
-
 
       if (status === "completed") {
-
         note.innerHTML = `
-
-      <div class="provider-booking-note success">
-
-        Booking đã hoàn thành sau khi
-        Provider thực hiện Check-out.
-
-      </div>
-    `;
-
+          <div class="provider-booking-note success">
+            Booking đã hoàn thành sau khi Provider thực hiện Check-out.
+          </div>
+        `;
         return;
       }
-
 
       if (status === "cancelled") {
-
         note.innerHTML = `
-
-      <div class="provider-booking-note danger">
-
-        Booking đã được huỷ và không thể tiếp tục
-        thực hiện Check-in hoặc Check-out.
-
-      </div>
-    `;
-
+          <div class="provider-booking-note danger">
+            Booking đã được huỷ và không thể tiếp tục thực hiện Check-in hoặc Check-out.
+          </div>
+        `;
         return;
       }
-
 
       note.innerHTML = "";
     }
@@ -2119,212 +1186,76 @@
     /* =========================================================
        MODAL ACTIONS
        ========================================================= */
-    /* =========================================================
-OPEN BOOKING FROM NOTIFICATION
-========================================================= */
 
     async function openBookingFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const bookingId = params.get("booking_id");
+      if (!bookingId) return;
 
-      const params =
-        new URLSearchParams(
-          window.location.search
-        );
+      const numericId = Number(bookingId);
+      if (!Number.isInteger(numericId) || numericId <= 0) return;
 
-      const bookingId =
-        params.get("booking_id");
-
-      if (!bookingId) {
-        return;
-      }
-
-      const numericId =
-        Number(bookingId);
-
-      if (
-        !Number.isInteger(numericId) ||
-        numericId <= 0
-      ) {
-        return;
-      }
-
-      /*
-       * Mở đúng booking.
-       * Backend vẫn kiểm tra booking thuộc Provider hiện tại.
-       */
       await openDetail(numericId);
-
-      /*
-       * Xóa query khỏi URL sau khi mở.
-       */
-      window.history.replaceState(
-        {},
-        document.title,
-        "bookings.html"
-      );
+      window.history.replaceState({}, document.title, "bookings.html");
     }
 
     function renderModalActions(booking) {
-
-      const actions =
-        document.getElementById(
-          "modalActions"
-        );
-
-
-      const status =
-        normalizeStatus(
-          booking.status
-        );
-
-
-      /*
-       * PENDING
-       */
+      const actions = document.getElementById("modalActions");
+      const status = normalizeStatus(booking.status);
 
       if (status === "pending") {
-
         actions.innerHTML = `
-
-      <button
-        type="button"
-        class="provider-booking-action-btn reject"
-        onclick="showConfirmModal(
-          ${Number(booking.id)},
-          'reject',
-          true
-        )"
-      >
-        Từ chối
-      </button>
-
-
-      <button
-        type="button"
-        class="provider-booking-action-btn confirm"
-        onclick="showConfirmModal(
-          ${Number(booking.id)},
-          'confirm',
-          true
-        )"
-      >
-        Xác nhận booking
-      </button>
-    `;
-
+          <button type="button" class="provider-booking-action-btn reject" onclick="showConfirmModal(${Number(booking.id)}, 'reject', true)">
+            Từ chối
+          </button>
+          <button type="button" class="provider-booking-action-btn confirm" onclick="showConfirmModal(${Number(booking.id)}, 'confirm', true)">
+            Xác nhận booking
+          </button>
+        `;
         return;
       }
-
-
-      /*
-       * CONFIRMED
-       */
 
       if (status === "confirmed") {
-
-        /*
-         * Payment thành công
-         */
-
         if (isPaymentSuccessful(booking)) {
-
           actions.innerHTML = `
-
-        <button
-          type="button"
-          class="provider-booking-action-btn checkin"
-          onclick="showConfirmModal(
-            ${Number(booking.id)},
-            'check-in',
-            true
-          )"
-        >
-          Check-in
-        </button>
-      `;
-
+            <button type="button" class="provider-booking-action-btn checkin" onclick="showConfirmModal(${Number(booking.id)}, 'check-in', true)">
+              Check-in
+            </button>
+          `;
           return;
         }
-
-
-        /*
-         * Payment đang chờ xử lý
-         */
 
         if (isPaymentPending(booking)) {
-
           actions.innerHTML = `
-
-        <button
-          type="button"
-          class="provider-booking-action-btn confirm"
-          onclick="showConfirmModal(
-            ${Number(booking.id)},
-            'confirm-payment',
-            true
-          )"
-        >
-          Xác nhận đã nhận tiền
-        </button>
-      `;
-
+            <button type="button" class="provider-booking-action-btn confirm" onclick="showConfirmModal(${Number(booking.id)}, 'confirm-payment', true)">
+              Xác nhận đã nhận tiền
+            </button>
+          `;
           return;
         }
 
-
-        /*
-         * Chưa thanh toán
-         */
-
         actions.innerHTML = `
-
-      <div class="provider-booking-note warning">
-
-        Chưa có thanh toán.
-
-        Vui lòng chờ Photographer thanh toán.
-
-      </div>
-    `;
-
+          <div class="provider-booking-note warning">
+            Chưa có thanh toán. Vui lòng chờ Photographer thanh toán.
+          </div>
+        `;
         return;
       }
-
-
-      /*
-       * CHECKED IN
-       */
 
       if (status === "checked_in") {
-
         actions.innerHTML = `
-
-      <button
-        type="button"
-        class="provider-booking-action-btn checkout"
-        onclick="showConfirmModal(
-          ${Number(booking.id)},
-          'check-out',
-          true
-        )"
-      >
-        Check-out
-      </button>
-    `;
-
+          <button type="button" class="provider-booking-action-btn checkout" onclick="showConfirmModal(${Number(booking.id)}, 'check-out', true)">
+            Check-out
+          </button>
+        `;
         return;
       }
 
-
       actions.innerHTML = `
-
-    <button
-      type="button"
-      class="provider-booking-action-btn"
-      onclick="closeDetail()"
-    >
-      Đóng
-    </button>
-  `;
+        <button type="button" class="provider-booking-action-btn" onclick="closeDetail()">
+          Đóng
+        </button>
+      `;
     }
 
 
@@ -2332,246 +1263,70 @@ OPEN BOOKING FROM NOTIFICATION
        CONFIRM MODAL
        ========================================================= */
 
-    function showConfirmModal(
-      bookingId,
-      action,
-      fromModal = false
-    ) {
+    function showConfirmModal(bookingId, action, fromModal = false) {
+      const title = document.getElementById("confirmTitle");
+      const message = document.getElementById("confirmMessage");
+      const icon = document.getElementById("confirmIcon");
+      const ok = document.getElementById("confirmOkBtn");
 
-      const title =
-        document.getElementById(
-          "confirmTitle"
-        );
+      pendingBookingId = Number(bookingId);
+      pendingAction = action;
+      pendingFromModal = fromModal;
 
-
-      const message =
-        document.getElementById(
-          "confirmMessage"
-        );
-
-
-      const icon =
-        document.getElementById(
-          "confirmIcon"
-        );
-
-
-      const ok =
-        document.getElementById(
-          "confirmOkBtn"
-        );
-
-
-      pendingBookingId =
-        Number(bookingId);
-
-      pendingAction =
-        action;
-
-      pendingFromModal =
-        fromModal;
-
-
-      icon.className =
-        "confirm-icon";
-
-
-      ok.className =
-        "confirm-btn confirm-ok";
-
-
-      /*
-       * CONFIRM BOOKING
-       */
+      icon.className = "confirm-icon";
+      ok.className = "confirm-btn confirm-ok";
 
       if (action === "confirm") {
-
-        title.textContent =
-          "Xác nhận booking";
-
-
-        message.innerHTML =
-
-          `Bạn có chắc muốn ` +
-          `<strong>xác nhận booking #${bookingId}</strong>?<br>` +
-
-          `Sau khi xác nhận, Photographer sẽ ` +
-          `thực hiện thanh toán QR trước Check-in.`;
-
-
+        title.textContent = "Xác nhận booking";
+        message.innerHTML = `Bạn có chắc muốn <strong>xác nhận booking #${bookingId}</strong>?<br>Sau khi xác nhận, Photographer sẽ thực hiện thanh toán QR trước Check-in.`;
         icon.textContent = "✓";
         icon.classList.add("success");
-
-
-        ok.textContent =
-          "Xác nhận";
-
-        ok.classList.add(
-          "success"
-        );
-      }
-
-
-      /*
-       * REJECT
-       */
-
-      else if (action === "reject") {
-
-        title.textContent =
-          "Từ chối booking";
-
-
-        message.innerHTML =
-
-          `Bạn có chắc muốn ` +
-          `<strong>từ chối booking #${bookingId}</strong>?<br>` +
-
-          `Booking sẽ chuyển sang trạng thái ` +
-          `<strong>Đã huỷ</strong>.`;
-
-
+        ok.textContent = "Xác nhận";
+        ok.classList.add("success");
+      } else if (action === "reject") {
+        title.textContent = "Từ chối booking";
+        message.innerHTML = `Bạn có chắc muốn <strong>từ chối booking #${bookingId}</strong>?<br>Booking sẽ chuyển sang trạng thái <strong>Đã huỷ</strong>.`;
         icon.textContent = "!";
         icon.classList.add("danger");
-
-
-        ok.textContent =
-          "Từ chối";
-
-        ok.classList.add(
-          "danger"
-        );
-      }
-
-
-      /*
-       * CHECK-IN
-       */
-
-      else if (action === "check-in") {
-
-        title.textContent =
-          "Check-in booking";
-
-
-        message.innerHTML =
-
-          `Bạn có chắc muốn ` +
-          `<strong>Check-in booking #${bookingId}</strong>?<br>` +
-
-          `Chỉ booking đã xác nhận, ` +
-          `đã thanh toán thành công và ` +
-          `đến thời gian sử dụng mới được Check-in.`;
-
-
+        ok.textContent = "Từ chối";
+        ok.classList.add("danger");
+      } else if (action === "check-in") {
+        title.textContent = "Check-in booking";
+        message.innerHTML = `Bạn có chắc muốn <strong>Check-in booking #${bookingId}</strong>?<br>Chỉ booking đã xác nhận, đã thanh toán thành công và đến thời gian sử dụng mới được Check-in.`;
         icon.textContent = "✓";
         icon.classList.add("success");
-
-
-        ok.textContent =
-          "Check-in";
-
-        ok.classList.add(
-          "success"
-        );
-      }
-
-
-      /*
-       * CHECK-OUT
-       */
-
-      else if (action === "check-out") {
-
-        title.textContent =
-          "Check-out booking";
-
-
-        message.innerHTML =
-
-          `Bạn có chắc muốn ` +
-          `<strong>Check-out booking #${bookingId}</strong>?<br>` +
-
-          `Booking chỉ được chuyển sang ` +
-          `<strong>Hoàn thành</strong> ` +
-          `khi thanh toán Invoice đã thành công.`;
-
-
+        ok.textContent = "Check-in";
+        ok.classList.add("success");
+      } else if (action === "check-out") {
+        title.textContent = "Check-out booking";
+        message.innerHTML = `Bạn có chắc muốn <strong>Check-out booking #${bookingId}</strong>?<br>Booking chỉ được chuyển sang <strong>Hoàn thành</strong> khi thanh toán Invoice đã thành công.`;
         icon.textContent = "!";
         icon.classList.add("danger");
-
-
-        ok.textContent =
-          "Check-out";
-
-        ok.classList.add(
-          "danger"
-        );
-      }
-
-
-      /*
-       * CONFIRM PAYMENT
-       */
-
-      else if (action === "confirm-payment") {
-
-        title.textContent =
-          "Xác nhận thanh toán";
-
-
-        message.innerHTML =
-
-          `Bạn có chắc chắn đã ` +
-          `<strong>nhận được tiền</strong> ` +
-          `của booking #${bookingId}?<br>` +
-
-          `Sau khi xác nhận, Payment sẽ chuyển sang ` +
-          `<strong>Thành công</strong> ` +
-          `và Photographer có thể được Check-in.`;
-
-
+        ok.textContent = "Check-out";
+        ok.classList.add("danger");
+      } else if (action === "confirm-payment") {
+        title.textContent = "Xác nhận thanh toán";
+        message.innerHTML = `Bạn có chắc chắn đã <strong>nhận được tiền</strong> của booking #${bookingId}?<br>Sau khi xác nhận, Payment sẽ chuyển sang <strong>Thành công</strong> và Photographer có thể được Check-in.`;
         icon.textContent = "✓";
         icon.classList.add("success");
-
-
-        ok.textContent =
-          "Xác nhận thanh toán";
-
-        ok.classList.add(
-          "success"
-        );
+        ok.textContent = "Xác nhận thanh toán";
+        ok.classList.add("success");
       }
 
-
-      document
-        .getElementById("confirmModal")
-        .classList.add("open");
+      document.getElementById("confirmModal").classList.add("open");
     }
 
 
     function closeConfirm() {
-
-      document
-        .getElementById("confirmModal")
-        .classList.remove("open");
-
-
+      document.getElementById("confirmModal").classList.remove("open");
       pendingAction = null;
-
       pendingBookingId = null;
-
       pendingFromModal = false;
     }
 
 
     function closeConfirmOutside(event) {
-
-      if (
-        event.target.id ===
-        "confirmModal"
-      ) {
-
+      if (event.target.id === "confirmModal") {
         closeConfirm();
       }
     }
@@ -2582,92 +1337,28 @@ OPEN BOOKING FROM NOTIFICATION
        ========================================================= */
 
     async function executeConfirmedAction() {
+      const bookingId = pendingBookingId;
+      const action = pendingAction;
+      const fromModal = pendingFromModal;
 
-      const bookingId =
-        pendingBookingId;
-
-
-      const action =
-        pendingAction;
-
-
-      const fromModal =
-        pendingFromModal;
-
-
-      if (
-        !bookingId ||
-        !action
-      ) {
-
+      if (!bookingId || !action) {
         closeConfirm();
-
         return;
       }
-
 
       closeConfirm();
 
-
-      /*
-       * QUAN TRỌNG:
-       *
-       * confirm-payment KHÔNG phải
-       * Booking endpoint.
-       *
-       * Nó phải gọi:
-       *
-       * PUT /payments/{payment_id}
-       *
-       * nên xử lý riêng.
-       */
-
-      if (
-        action ===
-        "confirm-payment"
-      ) {
-
-        const booking =
-          currentBookings.find(
-            item =>
-              Number(item.id) ===
-              Number(bookingId)
-          );
-
-
+      if (action === "confirm-payment") {
+        const booking = currentBookings.find(item => Number(item.id) === Number(bookingId));
         if (!booking) {
-
-          showToast(
-            "Không tìm thấy booking.",
-            "error"
-          );
-
+          showToast("Không tìm thấy booking.", "error");
           return;
         }
-
-
-        await confirmPaymentForBooking(
-          booking
-        );
-
+        await confirmPaymentForBooking(booking);
         return;
       }
 
-
-      /*
-       * Các action còn lại:
-       *
-       * confirm
-       * reject
-       * check-in
-       * check-out
-       */
-
-      await updateBookingStatus(
-        bookingId,
-        action,
-        fromModal
-      );
+      await updateBookingStatus(bookingId, action, fromModal);
     }
 
 
@@ -2675,176 +1366,49 @@ OPEN BOOKING FROM NOTIFICATION
        CONFIRM PAYMENT
        ========================================================= */
 
-    async function confirmPaymentForBooking(
-      booking
-    ) {
-
-      /*
-       * Payment ID đã được lấy
-       * từ GET /payments/
-       */
-
-      const paymentId =
-        Number(
-          booking.payment_id
-        );
-
+    async function confirmPaymentForBooking(booking) {
+      const paymentId = Number(booking.payment_id);
 
       if (!paymentId) {
-
-        showToast(
-          "Booking này chưa có Payment.",
-          "error"
-        );
-
-        console.error(
-          "Không tìm thấy payment_id:",
-          booking
-        );
-
+        showToast("Booking này chưa có Payment.", "error");
         return;
       }
 
-
-      /*
-       * Không cho xác nhận lại
-       * nếu Payment đã thành công.
-       */
-
-      if (
-        isPaymentSuccessful(
-          booking
-        )
-      ) {
-
-        showToast(
-          "Payment này đã được xác nhận thành công.",
-          "error"
-        );
-
+      if (isPaymentSuccessful(booking)) {
+        showToast("Payment này đã được xác nhận thành công.", "error");
         await loadBookings();
-
         return;
       }
-
 
       try {
+        const response = await apiFetch(`${API_BASE_URL}/payments/${paymentId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ status: "Thành công" })
+        });
 
-        /*
-         * API:
-         *
-         * PUT /payments/{payment_id}
-         *
-         * body:
-         *
-         * {
-         *   "status": "Thành công"
-         * }
-         */
+        const data = await response.json().catch(() => ({}));
 
-        const response =
-          await apiFetch(
-            `${API_BASE_URL}/payments/${paymentId}`,
-            {
-              method: "PUT",
-
-              headers: {
-                "Content-Type":
-                  "application/json"
-              },
-
-              body: JSON.stringify({
-                status: "Thành công"
-              })
-            }
-          );
-
-
-        const data =
-          await response.json()
-            .catch(() => ({}));
-
-
-        if (
-          response.status === 401 ||
-          response.status === 403
-        ) {
-
-          window.location.href =
-            "../auth.html";
-
+        if (response.status === 401 || response.status === 403) {
+          window.location.href = "../auth.html";
           return;
         }
 
-
         if (!response.ok) {
-
-          throw new Error(
-            data.message ||
-            data.error ||
-            "Không thể xác nhận thanh toán."
-          );
+          throw new Error(data.message || data.error || "Không thể xác nhận thanh toán.");
         }
 
-
-        console.log(
-          "Payment sau khi xác nhận:",
-          data
-        );
-
-
-        showToast(
-          "Đã xác nhận thanh toán thành công."
-        );
-
-
-        /*
-         * Đóng detail trước khi reload
-         * để tránh dữ liệu cũ.
-         */
+        showToast("Đã xác nhận thanh toán thành công.");
 
         if (selectedBooking) {
-
           closeDetail();
         }
 
-
-        /*
-         * QUAN TRỌNG:
-         *
-         * loadBookings()
-         * sẽ:
-         *
-         * 1. GET Booking
-         * 2. GET Payment
-         * 3. Ghép Payment
-         * 4. Render lại
-         *
-         * => nút sẽ chuyển từ
-         *
-         * "Xác nhận thanh toán"
-         *
-         * thành
-         *
-         * "Check-in"
-         */
-
         await loadBookings();
 
-
       } catch (error) {
-
-        console.error(
-          "Confirm payment error:",
-          error
-        );
-
-
-        showToast(
-          error.message ||
-          "Không thể xác nhận thanh toán.",
-          "error"
-        );
+        console.error("Confirm payment error:", error);
+        showToast(error.message || "Không thể xác nhận thanh toán.", "error");
       }
     }
 
@@ -2853,109 +1417,49 @@ OPEN BOOKING FROM NOTIFICATION
        UPDATE BOOKING STATUS
        ========================================================= */
 
-    async function updateBookingStatus(
-      bookingId,
-      action,
-      fromModal = false
-    ) {
-
+    async function updateBookingStatus(bookingId, action, fromModal = false) {
       const endpointMap = {
-
         confirm: "confirm",
-
         reject: "reject",
-
         "check-in": "check-in",
-
         "check-out": "check-out"
       };
 
-
-      const endpoint =
-        endpointMap[action];
-
-
-      if (!endpoint) {
-        return;
-      }
-
+      const endpoint = endpointMap[action];
+      if (!endpoint) return;
 
       try {
+        const response = await apiFetch(
+          `${API_BASE_URL}/bookings/provider/${currentProviderId}/${bookingId}/${endpoint}`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({})
+          }
+        );
 
-        const response =
-          await apiFetch(
+        const data = await response.json().catch(() => ({}));
 
-            `${API_BASE_URL}/bookings/provider/` +
-            `${currentProviderId}/` +
-            `${bookingId}/` +
-            `${endpoint}`,
-
-            {
-              method: "POST",
-
-              headers: {
-                "Content-Type":
-                  "application/json"
-              },
-
-              body: JSON.stringify({})
-            }
-          );
-
-
-        const data =
-          await response.json()
-            .catch(() => ({}));
-
-
-        if (
-          response.status === 401 ||
-          response.status === 403
-        ) {
-
-          window.location.href =
-            "../auth.html";
-
+        if (response.status === 401 || response.status === 403) {
+          window.location.href = "../auth.html";
           return;
         }
 
-
         if (!response.ok) {
-
-          throw new Error(
-            data.message ||
-            data.error ||
-            "Không thể cập nhật booking."
-          );
+          throw new Error(data.message || data.error || "Không thể cập nhật booking.");
         }
 
-
-        showToast(
-          data.message ||
-          "Cập nhật booking thành công.",
-          "success"
-        );
-
+        showToast(data.message || "Cập nhật booking thành công.", "success");
 
         if (fromModal) {
-
           closeDetail();
         }
 
-
         await loadBookings();
 
-
       } catch (error) {
-
         console.error(error);
-
-
-        showToast(
-          error.message ||
-          "Không thể cập nhật booking.",
-          "error"
-        );
+        showToast(error.message || "Không thể cập nhật booking.", "error");
       }
     }
 
@@ -2965,28 +1469,14 @@ OPEN BOOKING FROM NOTIFICATION
        ========================================================= */
 
     function applyFilters() {
-
       loadBookings();
     }
 
 
     function clearFilters() {
-
-      document.getElementById(
-        "statusFilter"
-      ).value = "";
-
-
-      document.getElementById(
-        "dateFilter"
-      ).value = "";
-
-
-      document.getElementById(
-        "spaceFilter"
-      ).value = "";
-
-
+      document.getElementById("statusFilter").value = "";
+      document.getElementById("dateFilter").value = "";
+      document.getElementById("spaceFilter").value = "";
       loadBookings();
     }
 
@@ -2996,107 +1486,35 @@ OPEN BOOKING FROM NOTIFICATION
        ========================================================= */
 
     async function loadProviderSpaces() {
-
       try {
+        const response = await apiFetch(`${API_BASE_URL}/creative-spaces/`);
 
-        const response =
-          await apiFetch(
-            `${API_BASE_URL}/creative-spaces/`
-          );
-
-
-        if (
-          response.status === 401 ||
-          response.status === 403
-        ) {
-
-          window.location.href =
-            "../auth.html";
-
+        if (response.status === 401 || response.status === 403) {
+          window.location.href = "../auth.html";
           return;
         }
 
+        if (!response.ok) return;
 
-        if (!response.ok) {
-          return;
-        }
+        const data = await response.json();
+        const spaces = Array.isArray(data)
+          ? data.filter(space => Number(space.provider_id) === Number(currentProviderId))
+          : Array.isArray(data.data)
+            ? data.data.filter(space => Number(space.provider_id) === Number(currentProviderId))
+            : [];
 
-
-        const data =
-          await response.json();
-
-
-        const spaces =
-          Array.isArray(data)
-
-            ? data.filter(
-              space =>
-                Number(
-                  space.provider_id
-                ) ===
-                Number(
-                  currentProviderId
-                )
-            )
-
-            : Array.isArray(data.data)
-
-              ? data.data.filter(
-                space =>
-                  Number(
-                    space.provider_id
-                  ) ===
-                  Number(
-                    currentProviderId
-                  )
-              )
-
-              : [];
-
-
-        const select =
-          document.getElementById(
-            "spaceFilter"
-          );
-
-
-        select.innerHTML = `
-
-      <option value="">
-        Tất cả không gian
-      </option>
-    `;
-
+        const select = document.getElementById("spaceFilter");
+        select.innerHTML = `<option value="">Tất cả không gian</option>`;
 
         spaces.forEach(space => {
-
-          const option =
-            document.createElement(
-              "option"
-            );
-
-
-          option.value =
-            space.id;
-
-
-          option.textContent =
-            space.name ||
-            `Space #${space.id}`;
-
-
-          select.appendChild(
-            option
-          );
+          const option = document.createElement("option");
+          option.value = space.id;
+          option.textContent = space.name || `Space #${space.id}`;
+          select.appendChild(option);
         });
 
-
       } catch (error) {
-
-        console.warn(
-          "Không thể tải danh sách không gian:",
-          error
-        );
+        console.warn("Không thể tải danh sách không gian:", error);
       }
     }
 
@@ -3106,25 +1524,13 @@ OPEN BOOKING FROM NOTIFICATION
        ========================================================= */
 
     function closeDetail() {
-
-      document
-        .getElementById(
-          "detailModal"
-        )
-        .classList.remove("show");
-
-
+      document.getElementById("detailModal").classList.remove("show");
       selectedBooking = null;
     }
 
 
     function closeDetailOutside(event) {
-
-      if (
-        event.target.id ===
-        "detailModal"
-      ) {
-
+      if (event.target.id === "detailModal") {
         closeDetail();
       }
     }
@@ -3134,42 +1540,25 @@ OPEN BOOKING FROM NOTIFICATION
        KEYBOARD
        ========================================================= */
 
-    document.addEventListener(
-      "keydown",
-      event => {
-
-        if (event.key === "Escape") {
-
-          closeConfirm();
-
-          closeDetail();
-        }
-
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        closeConfirm();
+        closeDetail();
       }
-    );
+    });
 
 
     /* =========================================================
        INIT
        ========================================================= */
 
-    document.addEventListener(
-      "DOMContentLoaded",
-      async () => {
+    document.addEventListener("DOMContentLoaded", async () => {
+      if (!loadProviderInfo()) return;
 
-        if (!loadProviderInfo()) {
-          return;
-        }
-
-
-        await loadProviderSpaces();
-
-        await loadBookings();
-        await openBookingFromUrl();
-
-      }
-    );
-
+      await loadProviderSpaces();
+      await loadBookings();
+      await openBookingFromUrl();
+    });
   </script>
 
 </body>

@@ -117,7 +117,7 @@ def create_app():
                 print(f"Adding path: {rule.rule} -> {view_func}")
                 spec.path(view=view_func)
             except Exception as e:
-                print(f"Skip {rule.rule}: {e}")
+                print(f"Skip {rule.rule}: {e}") 
 
     @app.route("/swagger.json")
     def swagger_json():

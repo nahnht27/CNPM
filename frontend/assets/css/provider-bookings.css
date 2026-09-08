@@ -1,22 +1,30 @@
-/* =====================================================
-   PROVIDER BOOKING PAGE
-   Đồng bộ style với Provider Equipment
-   ===================================================== */
-
 .booking-page {
   min-height: calc(100vh - 80px);
   background: #f7f8fb;
   color: #18233a;
 }
 
-/* =====================================================
-   HEADER / HERO
-   ===================================================== */
-
 .booking-header {
   padding: 58px 0 42px;
   background: #f7f8fb;
   border-bottom: 1px solid #e9ebf1;
+}
+
+.booking-header-content {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.booking-kicker {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: #e13493;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
 }
 
 .booking-header h1 {
@@ -57,7 +65,7 @@
   border: 1px solid #e5e7eb;
   border-radius: 12px;
   background: #fff;
-  box-shadow: 0 6px 22px rgba(24, 35, 58, .05);
+  box-shadow: 0 6px 22px rgba(24, 35, 58, 0.05);
 }
 
 .booking-stat-label {
@@ -105,12 +113,12 @@
   font: inherit;
   font-size: 12px;
   cursor: pointer;
-  transition: border-color .2s ease, box-shadow .2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .booking-filter:focus {
   border-color: #e13493;
-  box-shadow: 0 0 0 3px rgba(225, 52, 147, .1);
+  box-shadow: 0 0 0 3px rgba(225, 52, 147, 0.1);
 }
 
 .booking-filter-date {
@@ -127,7 +135,7 @@
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
-  transition: .2s ease;
+  transition: 0.2s ease;
 }
 
 .booking-filter-btn {
@@ -171,7 +179,7 @@
   border: 1px solid #e5e7eb;
   border-radius: 12px;
   background: #fff;
-  box-shadow: 0 6px 22px rgba(24, 35, 58, .05);
+  box-shadow: 0 6px 22px rgba(24, 35, 58, 0.05);
 }
 
 .provider-booking-table-wrapper {
@@ -212,7 +220,7 @@
 }
 
 .provider-booking-table tbody tr {
-  transition: background .18s ease;
+  transition: background 0.18s ease;
 }
 
 .provider-booking-table tbody tr:hover {
@@ -306,7 +314,7 @@
   font-size: 11px;
   font-weight: 600;
   cursor: pointer;
-  transition: .2s ease;
+  transition: 0.2s ease;
 }
 
 .provider-booking-view-btn {
@@ -423,6 +431,7 @@
   color: #b42318;
   font-size: 13px;
 }
+
 /* =====================================================
    DETAIL MODAL
    ===================================================== */
@@ -435,7 +444,7 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: rgba(15, 23, 42, .52);
+  background: rgba(15, 23, 42, 0.52);
   backdrop-filter: blur(3px);
 }
 
@@ -452,7 +461,7 @@
   padding: 30px;
   border-radius: 14px;
   background: #fff;
-  box-shadow: 0 24px 70px rgba(15, 23, 42, .2);
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.2);
 }
 
 .provider-booking-modal-close {
@@ -558,6 +567,7 @@
   padding-top: 18px;
   border-top: 1px solid #edf0f4;
 }
+
 /* =====================================================
    CONFIRM MODAL
    ===================================================== */
@@ -570,7 +580,7 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: rgba(15, 23, 42, .52);
+  background: rgba(15, 23, 42, 0.52);
   backdrop-filter: blur(3px);
 }
 
@@ -584,7 +594,7 @@
   padding: 34px;
   border-radius: 14px;
   background: #fff;
-  box-shadow: 0 24px 70px rgba(15, 23, 42, .2);
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.2);
 }
 
 .confirm-modal-head {
@@ -644,7 +654,7 @@
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
-  transition: .2s ease;
+  transition: 0.2s ease;
 }
 
 .confirm-cancel {
@@ -707,7 +717,7 @@
   border-radius: 8px;
   background: #fff;
   color: #23844b;
-  box-shadow: 0 12px 30px rgba(24, 35, 58, .12);
+  box-shadow: 0 12px 30px rgba(24, 35, 58, 0.12);
   font-size: 12px;
   font-weight: 600;
 }
@@ -719,13 +729,12 @@
 
 /* =====================================================
    NAVBAR
-   Giống Equipment
    ===================================================== */
 
 .navbar {
   width: 100%;
   height: 74px;
-  background: rgba(255, 255, 255, .96);
+  background: rgba(255, 255, 255, 0.96);
   border-bottom: 1px solid #e9e9ef;
   position: sticky;
   top: 0;
@@ -778,7 +787,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: var(--text);
+  color: var(--text, #18233a);
   font-size: 12px;
   font-weight: 600;
 }
@@ -792,12 +801,12 @@
   font-size: 11px;
   font-weight: 700;
   cursor: pointer;
-  transition: .18s ease;
+  transition: 0.18s ease;
 }
 
 .photographer-logout:hover {
   background: #ececf1;
-  color: var(--pink);
+  color: var(--pink, #e13493);
 }
 
 /* =====================================================
