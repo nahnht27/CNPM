@@ -1,12 +1,3 @@
-/* =========================================================
-   PROVIDER SPACES
-   FilmSpace
-   ========================================================= */
-
-
-/* =========================================================
-   PAGE
-   ========================================================= */
 
 .provider-spaces-page {
   background: #f7f8fb;
@@ -16,7 +7,7 @@
 
 /* =========================================================
    NAVBAR
-   Dùng navbar chung của project
+   Dùng navbar chung 
    Chỉ bổ sung style cho Provider
    ========================================================= */
 
@@ -60,11 +51,6 @@
 }
 
 
-/* =========================================================
-   HEADER / HERO
-   Giống Provider Equipment
-   ========================================================= */
-
 .spaces-header {
   padding: 58px 0 42px;
 
@@ -72,10 +58,6 @@
 
   border-bottom: 1px solid #e9ebf1;
 }
-
-
-/* Quan trọng:
-   nút Add New Space nằm bên phải giống Equipment */
 
 .spaces-header-content {
   display: flex;
@@ -140,12 +122,6 @@
   line-height: 1.7;
 }
 
-
-/* =========================================================
-   ADD NEW SPACE BUTTON
-   Giống Add New Equipment
-   ========================================================= */
-
 .add-space-btn {
   flex: 0 0 auto;
 
@@ -182,19 +158,10 @@
 }
 
 
-/* =========================================================
-   CONTENT
-   Giống Provider Equipment
-   ========================================================= */
-
 .spaces-content {
   padding: 42px 0 90px;
 }
 
-
-/* =========================================================
-   SECTION HEADING
-   ========================================================= */
 
 .spaces-section-heading {
   position: relative;
@@ -233,9 +200,6 @@
 }
 
 
-/* Nếu HTML hiện tại chưa có class riêng cho count,
-   vẫn làm cho "4 spaces" giống count của Equipment */
-
 #spaceCount {
   display: inline-flex;
 
@@ -261,10 +225,6 @@
 }
 
 
-/* =========================================================
-   SPACE GRID
-   ========================================================= */
-
 .provider-space-grid {
   display: grid;
 
@@ -274,10 +234,6 @@
   gap: 22px;
 }
 
-
-/* =========================================================
-   SPACE CARD
-   ========================================================= */
 
 .provider-space-card {
   overflow: hidden;
@@ -1288,3 +1244,4 @@
   }
 
 }
+

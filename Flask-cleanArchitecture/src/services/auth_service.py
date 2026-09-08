@@ -49,4 +49,4 @@ class AuthService:
         return self.repository.update_password(
         user_id,
         password_hash
-    )
+    )  

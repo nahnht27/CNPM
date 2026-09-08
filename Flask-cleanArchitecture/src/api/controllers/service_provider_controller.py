@@ -1,21 +1,11 @@
 import os
 import uuid
-
 from flask import Blueprint, request, jsonify
 from werkzeug.utils import secure_filename
 from supabase import create_client
-
 from services.service_provider_service import ServiceProviderService
-
-from infrastructure.repositories.service_provider_repository import (
-    ServiceProviderRepository
-)
-
-from api.schemas.service_provider import (
-    ServiceProviderRequestSchema,
-    ServiceProviderResponseSchema
-)
-
+from infrastructure.repositories.service_provider_repository import (ServiceProviderRepository)
+from api.schemas.service_provider import (ServiceProviderRequestSchema,ServiceProviderResponseSchema)
 from infrastructure.databases.postgres import session
 
 
@@ -70,11 +60,6 @@ ALLOWED_LICENSE_EXTENSIONS = {
 }
 
 MAX_FILE_SIZE = 10 * 1024 * 1024
-
-
-# =========================================================
-# BLUEPRINT
-# =========================================================
 
 bp = Blueprint(
     "service_provider",
@@ -889,11 +874,6 @@ def update_provider(provider_id):
                 "thông tin nhà cung cấp dịch vụ.",
             "error": str(e)
         }), 500
-
-
-# =========================================================
-# DELETE
-# =========================================================
 
 @bp.route(
     "/<int:provider_id>",
