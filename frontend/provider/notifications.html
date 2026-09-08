@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="../assets/css/provider-dashboard.css">
 
   <style>
-
     .notifications-page {
       padding-bottom: 70px;
     }
@@ -226,7 +225,6 @@
         align-items: flex-start;
       }
     }
-
   </style>
 
 </head>
@@ -485,11 +483,6 @@
 
         loading.style.display = "none";
 
-        /*
-         * ÁP DỤNG CÀI ĐẶT TỪ profile.html:
-         * nếu "Nhắc lịch booking sắp tới" đang tắt, ẩn bớt
-         * các thông báo type="booking" và hiện banner giải thích.
-         */
         const settings = getNotificationSettings();
 
         let notifications = allNotifications;
@@ -522,6 +515,50 @@
       }
     }
 
+    function getBookingIdFromNotification(notification) {
+      if (!notification) {
+        return null;
+      }
+
+      const content = String(notification.content || "").trim();
+
+      console.log(
+        "[Booking Notification] Content:",
+        content
+      );
+
+      /*
+       * Backend tạo notification dạng:
+       *
+       * Booking #123: Photographer #5 vừa tạo...
+       *
+       * Regex lấy số 123
+       */
+      const match = content.match(
+        /Booking\s*#\s*(\d+)/i
+      );
+
+      if (!match || !match[1]) {
+        console.warn(
+          "[Booking Notification] Không tìm thấy Booking ID:",
+          notification
+        );
+
+        return null;
+      }
+
+      const bookingId = Number(match[1]);
+
+      if (
+        !Number.isInteger(bookingId) ||
+        bookingId <= 0
+      ) {
+        return null;
+      }
+
+      return bookingId;
+    }
+
     function renderNotifications(notifications) {
       const list = document.getElementById("notificationsList");
       list.innerHTML = "";
@@ -531,55 +568,172 @@
         const card = document.createElement("article");
         const isRead = Boolean(notification.is_read);
 
-        card.className = isRead ? "notification-card" : "notification-card unread";
+        card.className = isRead
+          ? "notification-card"
+          : "notification-card unread";
 
         const icon = getNotificationIcon(notification.type);
         const typeText = getNotificationTypeText(notification.type);
-        const date = notification.created_at ? new Date(notification.created_at) : null;
+        const date = notification.created_at
+          ? new Date(notification.created_at)
+          : null;
+
+        const notificationType =
+          String(notification.type || "").toLowerCase();
 
         card.innerHTML = `
-          <div class="notification-icon">${icon}</div>
+      <div class="notification-icon">${icon}</div>
 
-          <div class="notification-content">
-            <div class="notification-top">
-              <h3 class="notification-title">${escapeHtml(notification.title || "Thông báo")}</h3>
-              <span class="notification-time">${escapeHtml(formatDateTime(date))}</span>
-            </div>
+      <div class="notification-content">
 
-            <p class="notification-message">${escapeHtml(notification.content || "")}</p>
+        <div class="notification-top">
+          <h3 class="notification-title">
+            ${escapeHtml(notification.title || "Thông báo")}
+          </h3>
 
-            <div class="notification-footer">
-              <span class="notification-type">${escapeHtml(typeText)}</span>
+          <span class="notification-time">
+            ${escapeHtml(formatDateTime(date))}
+          </span>
+        </div>
 
-              <span class="notification-unread-label" style="color:${isRead ? "#999" : "#e13493"};">
-                ${isRead ? "Đã đọc" : "Chưa đọc"}
-              </span>
+        <p class="notification-message">
+          ${escapeHtml(notification.content || "")}
+        </p>
 
-              ${String(notification.type || "").toLowerCase() === "workshop"
-                ? `<button type="button" class="notification-view-btn">Xem</button>`
-                : ""}
+        <div class="notification-footer">
 
-              ${!isRead
-                ? `<button type="button" class="notification-read-btn">Đánh dấu đã đọc</button>`
-                : ""}
-            </div>
-          </div>
-        `;
+          <span class="notification-type">
+            ${escapeHtml(typeText)}
+          </span>
 
-        const viewButton = card.querySelector(".notification-view-btn");
-        if (viewButton) {
-          viewButton.addEventListener("click", function (event) {
-            event.stopPropagation();
-            openWorkshopFromNotification(notification.content);
-          });
+          <span
+            class="notification-unread-label"
+            style="color:${isRead ? "#999" : "#e13493"};"
+          >
+            ${isRead ? "Đã đọc" : "Chưa đọc"}
+          </span>
+
+          ${notificationType === "booking"
+            ? `
+                <button
+                  type="button"
+                  class="notification-view-btn booking-view-btn"
+                >
+                  Xem
+                </button>
+              `
+            : ""
+          }
+
+          ${notificationType === "workshop"
+            ? `
+                <button
+                  type="button"
+                  class="notification-view-btn workshop-view-btn"
+                >
+                  Xem
+                </button>
+              `
+            : ""
+          }
+
+          ${!isRead
+            ? `
+                <button
+                  type="button"
+                  class="notification-read-btn"
+                >
+                  Đánh dấu đã đọc
+                </button>
+              `
+            : ""
+          }
+
+        </div>
+      </div>
+    `;
+
+        // ==========================================================
+        // NÚT XEM BOOKING
+        // ==========================================================
+
+        const bookingViewButton =
+          card.querySelector(".booking-view-btn");
+
+        if (bookingViewButton) {
+
+          bookingViewButton.addEventListener(
+            "click",
+            function (event) {
+
+              event.stopPropagation();
+
+              const bookingId =
+                getBookingIdFromNotification(notification);
+
+              console.log(
+                "[Booking Notification] Booking ID:",
+                bookingId
+              );
+
+              if (!bookingId) {
+
+                alert(
+                  "Không xác định được booking.\n\n" +
+                  "Thông báo này không chứa Booking ID."
+                );
+
+                return;
+              }
+
+              window.location.href =
+                `bookings.html?booking_id=${encodeURIComponent(bookingId)}`;
+            }
+          );
         }
 
-        const readButton = card.querySelector(".notification-read-btn");
+        // ==========================================================
+        // NÚT XEM WORKSHOP
+        // ==========================================================
+
+        const workshopViewButton =
+          card.querySelector(".workshop-view-btn");
+
+        if (workshopViewButton) {
+
+          workshopViewButton.addEventListener(
+            "click",
+            function (event) {
+
+              event.stopPropagation();
+
+              openWorkshopFromNotification(
+                notification.content
+              );
+            }
+          );
+        }
+
+        // ==========================================================
+        // NÚT ĐÁNH DẤU ĐÃ ĐỌC
+        // ==========================================================
+
+        const readButton =
+          card.querySelector(".notification-read-btn");
+
         if (readButton) {
-          readButton.addEventListener("click", function (event) {
-            event.stopPropagation();
-            markNotificationAsRead(Number(notification.id));
-          });
+
+          readButton.addEventListener(
+            "click",
+            function (event) {
+
+              event.stopPropagation();
+
+              markNotificationAsRead(
+                notification.id
+              );
+            }
+          );
         }
 
         list.appendChild(card);

@@ -14,648 +14,469 @@
 
 <body>
 
-  <!-- =========================================================
-       NAVBAR
-       ========================================================= -->
-
   <nav class="navbar" id="mainNavbar">
     <div class="navbar-container container">
 
-```
-  <a class="logo" href="home.html" aria-label="FilmSpace">
-    FilmSpace
-  </a>
 
-  <div class="menu" aria-label="User navigation">
-    <a href="dashboard.html">Dashboard</a>
-    <a href="spaces.html">Spaces</a>
-    <a href="equipment.html">Equipment</a>
-    <a href="packages.html">Packages</a>
-    <a href="bookings.html">Bookings</a>
-    <a href="profile.html" class="active">Profile</a>
-  </div>
+      <a class="logo" href="home.html" aria-label="FilmSpace">
+        FilmSpace
+      </a>
 
-  <div class="nav-actions">
-    <span class="provider-nav-name" id="navProviderName">User</span>
+      <div class="menu" aria-label="User navigation">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="spaces.html">Spaces</a>
+        <a href="equipment.html">Equipment</a>
+        <a href="packages.html">Packages</a>
+        <a href="bookings.html">Bookings</a>
+        <a href="profile.html" class="active">Profile</a>
+      </div>
 
-    <button
-      type="button"
-      class="provider-logout"
-      onclick="logout()">
-      Đăng xuất
-    </button>
-  </div>
+      <div class="nav-actions">
+        <span class="provider-nav-name" id="navProviderName">User</span>
 
-</div>
-```
+        <button type="button" class="provider-logout" onclick="logout()">
+          Đăng xuất
+        </button>
+      </div>
+
+    </div>
+
 
   </nav>
 
-  <!-- =========================================================
-       MAIN
-       ========================================================= -->
-
   <main class="profile-page">
 
-```
-<!-- =======================================================
-     PROFILE HEADER
-     ======================================================= -->
-<section class="profile-header">
-  <div class="container">
+    <section class="profile-header">
+      <div class="container">
 
-    <div class="profile-heading">
-
-      <div>
-        <span
-          class="profile-kicker"
-          id="profileKicker">
-          PROFILE
-        </span>
-
-        <h1>Hồ sơ cá nhân</h1>
-
-        <p>
-          Quản lý thông tin tài khoản và hồ sơ nhà cung cấp
-          dịch vụ của bạn.
-        </p>
-      </div>
-
-      <button
-        type="button"
-        class="edit-profile-btn"
-        id="editBtn"
-        onclick="enableEdit()">
-        ✎ Chỉnh sửa hồ sơ
-      </button>
-
-    </div>
-
-  </div>
-</section>
-
-
-<!-- =======================================================
-     PROFILE CONTENT
-     ======================================================= -->
-<section class="profile-content">
-
-  <div class="container">
-
-    <div class="profile-layout">
-
-      <!-- =================================================
-           PROFILE SUMMARY
-           ================================================= -->
-      <aside class="profile-card profile-summary-card">
-
-        <div
-          class="avatar"
-          id="avatar">
-          U
-        </div>
-
-        <h2 id="profileDisplayName">
-          User
-        </h2>
-
-        <span
-          class="role-badge"
-          id="roleBadge">
-          User
-        </span>
-
-        <p
-          class="profile-username"
-          id="profileUsername">
-          @user
-        </p>
-
-        <div class="summary-divider"></div>
-
-        <div class="summary-item">
-          <span>Thành viên từ</span>
-
-          <strong id="memberSince">
-            2026
-          </strong>
-        </div>
-
-        <div class="summary-divider"></div>
-
-        <nav
-          class="profile-quicknav"
-          aria-label="Điều hướng hồ sơ">
-
-          <a href="#personalCard">
-            <span class="quicknav-icon">👤</span>
-            Thông tin cá nhân
-          </a>
-
-          <a href="#licenseCard">
-            <span class="quicknav-icon">🏢</span>
-            Doanh nghiệp &amp; Thanh toán
-          </a>
-
-          <a href="#securityCard">
-            <span class="quicknav-icon">🔒</span>
-            Bảo mật
-          </a>
-
-          <a href="#settingsCard">
-            <span class="quicknav-icon">⚙️</span>
-            Cài đặt tài khoản
-          </a>
-
-        </nav>
-
-      </aside>
-
-
-      <!-- =================================================
-           THÔNG TIN CÁ NHÂN
-           ================================================= -->
-      <section
-        class="profile-card profile-form-card"
-        id="personalCard">
-
-        <div class="card-title-row">
+        <div class="profile-heading">
 
           <div>
+            <span class="profile-kicker" id="profileKicker">
+              PROFILE
+            </span>
 
-            <div class="card-icon">
-              👤
-            </div>
-
-            <div>
-              <h2>Thông tin cá nhân</h2>
-
-              <p>
-                Cập nhật thông tin liên hệ và cá nhân của bạn.
-              </p>
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div
-          id="profileMessage"
-          class="profile-message">
-        </div>
-
-
-        <form id="profileForm">
-
-          <div class="form-grid">
-
-            <!-- HỌ TÊN -->
-            <div class="profile-field">
-
-              <label for="fullName">
-                Họ và tên
-              </label>
-
-              <input
-                id="fullName"
-                name="full_name"
-                type="text"
-                placeholder="Nhập họ và tên"
-                autocomplete="name"
-                disabled>
-
-            </div>
-
-
-            <!-- USERNAME -->
-            <div class="profile-field">
-
-              <label for="username">
-                Tên đăng nhập
-              </label>
-
-              <input
-                id="username"
-                name="username"
-                type="text"
-                placeholder="Username"
-                autocomplete="username"
-                disabled
-                readonly>
-
-            </div>
-
-
-            <!-- EMAIL -->
-            <div class="profile-field">
-
-              <label for="email">
-                Email
-              </label>
-
-              <input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="example@email.com"
-                autocomplete="email"
-                disabled>
-
-            </div>
-
-
-            <!-- PHONE -->
-            <div class="profile-field">
-
-              <label for="phone">
-                Số điện thoại
-              </label>
-
-              <input
-                id="phone"
-                name="phone"
-                type="tel"
-                placeholder="Nhập số điện thoại"
-                autocomplete="tel"
-                disabled>
-
-            </div>
-
-
-            <!-- LOCATION -->
-            <div class="profile-field full-width">
-
-              <label for="location">
-                Địa điểm
-              </label>
-
-              <input
-                id="location"
-                name="location"
-                type="text"
-                placeholder="TP. Hồ Chí Minh"
-                autocomplete="address-level2"
-                disabled>
-
-            </div>
-
-
-            <!-- BIO -->
-            <div class="profile-field full-width">
-
-              <label for="bio">
-                Giới thiệu
-              </label>
-
-              <textarea
-                id="bio"
-                name="bio"
-                rows="4"
-                placeholder="Viết một vài dòng giới thiệu về bạn..."
-                disabled></textarea>
-
-            </div>
-
-          </div>
-
-
-          <div
-            class="form-actions"
-            id="formActions">
-
-            <button
-              type="button"
-              class="cancel-btn"
-              onclick="cancelEdit()">
-              Hủy
-            </button>
-
-            <button
-              type="submit"
-              class="save-btn">
-              Lưu thay đổi
-            </button>
-
-          </div>
-
-        </form>
-
-      </section>
-
-    </div>
-
-
-    <!-- =====================================================
-         DOANH NGHIỆP & THANH TOÁN
-         ===================================================== -->
-    <section
-      class="profile-card profile-form-card"
-      id="licenseCard"
-      style="margin-top:24px;">
-
-      <div class="card-title-row">
-
-        <div>
-
-          <div class="card-icon">
-            🏢
-          </div>
-
-          <div>
-
-            <h2>
-              Giấy phép &amp; Thông tin thanh toán doanh nghiệp
-            </h2>
+            <h1>Hồ sơ cá nhân</h1>
 
             <p>
-              Thông tin pháp lý và tài khoản ngân hàng
-              nhận thanh toán dịch vụ.
+              Quản lý thông tin tài khoản và hồ sơ nhà cung cấp
+              dịch vụ của bạn.
             </p>
-
           </div>
 
-        </div>
-
-
-        <div class="card-title-actions">
-
-          <span
-            id="verificationBadge"
-            class="role-badge">
-            —
-          </span>
-
-          <button
-            type="button"
-            class="edit-profile-btn"
-            id="editLicenseBtn"
-            onclick="enableLicenseEdit()">
-            ✎ Chỉnh sửa
+          <button type="button" class="edit-profile-btn" id="editBtn" onclick="enableEdit()">
+            ✎ Chỉnh sửa hồ sơ
           </button>
 
         </div>
 
       </div>
+    </section>
 
+    <section class="profile-content">
 
-      <div
-        id="licenseMessage"
-        class="profile-message">
-      </div>
+      <div class="container">
 
+        <div class="profile-layout">
 
-      <form id="licenseForm">
+          <aside class="profile-card profile-summary-card">
 
-        <div class="form-grid">
+            <div class="avatar" id="avatar">
+              U
+            </div>
 
-          <!-- BUSINESS NAME -->
-          <div class="profile-field">
+            <h2 id="profileDisplayName">
+              User
+            </h2>
 
-            <label for="businessName">
-              Tên doanh nghiệp / Studio
-            </label>
+            <span class="role-badge" id="roleBadge">
+              User
+            </span>
 
-            <input
-              id="businessName"
-              name="business_name"
-              type="text"
-              placeholder="Ví dụ: Studio Ánh Sáng"
-              disabled>
+            <p class="profile-username" id="profileUsername">
+              @user
+            </p>
 
-          </div>
+            <div class="summary-divider"></div>
 
+            <div class="summary-item">
+              <span>Thành viên từ</span>
 
-          <!-- TAX CODE -->
-          <div class="profile-field">
+              <strong id="memberSince">
+                2026
+              </strong>
+            </div>
 
-            <label for="taxCode">
-              Mã số thuế
-            </label>
+            <div class="summary-divider"></div>
 
-            <input
-              id="taxCode"
-              name="tax_code"
-              type="text"
-              placeholder="Nhập mã số thuế"
-              disabled>
+            <nav class="profile-quicknav" aria-label="Điều hướng hồ sơ">
 
-          </div>
-
-
-          <!-- BUSINESS ADDRESS -->
-          <div class="profile-field full-width">
-
-            <label for="businessAddress">
-              Địa chỉ kinh doanh
-            </label>
-
-            <input
-              id="businessAddress"
-              name="business_address"
-              type="text"
-              placeholder="Nhập địa chỉ đăng ký kinh doanh"
-              autocomplete="street-address"
-              disabled>
-
-          </div>
-
-
-          <!-- =================================================
-               LICENSE FILE
-               ================================================= -->
-          <div
-            class="profile-field full-width"
-            style="
-              border-bottom:1px dashed var(--line);
-              padding-bottom:18px;
-              margin-bottom:4px;
-            ">
-
-            <label for="licenseFileInput">
-              Giấy phép kinh doanh
-              (Hình ảnh / PDF)
-            </label>
-
-            <input
-              id="licenseFileInput"
-              type="file"
-              accept="image/png,image/jpeg,image/webp,application/pdf"
-              disabled
-              onchange="previewLicenseFile(event)">
-
-            <small
-              style="
-                display:block;
-                margin-top:6px;
-                font-size:12px;
-                color:var(--muted);
-              ">
-              File mới sẽ được tải lên Supabase Storage
-              khi bạn bấm "Lưu thông tin doanh nghiệp".
-              Kích thước tối đa 10MB.
-            </small>
-
-
-            <div
-              id="licensePreviewContainer"
-              style="margin-top:12px;">
-
-              <img
-                id="licensePreview"
-                src=""
-                alt="Giấy phép kinh doanh"
-                style="
-                  max-width:220px;
-                  max-height:220px;
-                  display:none;
-                  border:1px solid var(--line);
-                  padding:6px;
-                  border-radius:8px;
-                  background:#fff;
-                  object-fit:contain;
-                ">
-
-
-              <a
-                id="licenseFileLink"
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="file-chip"
-                style="display:none;">
-                📄 Xem giấy phép đã tải lên
+              <a href="#personalCard">
+                <span class="quicknav-icon">👤</span>
+                Thông tin cá nhân
               </a>
 
+              <a href="#licenseCard">
+                <span class="quicknav-icon">🏢</span>
+                Doanh nghiệp &amp; Thanh toán
+              </a>
 
-              <span
-                id="licenseFileEmpty"
-                style="
-                  font-size:12px;
-                  color:var(--muted);
-                ">
-                Chưa có giấy phép nào được lưu.
+              <a href="#securityCard">
+                <span class="quicknav-icon">🔒</span>
+                Bảo mật
+              </a>
+
+              <a href="#settingsCard">
+                <span class="quicknav-icon">⚙️</span>
+                Cài đặt tài khoản
+              </a>
+
+            </nav>
+
+          </aside>
+
+          <section class="profile-card profile-form-card" id="personalCard">
+
+            <div class="card-title-row">
+
+              <div>
+
+                <div class="card-icon">
+                  👤
+                </div>
+
+                <div>
+                  <h2>Thông tin cá nhân</h2>
+
+                  <p>
+                    Cập nhật thông tin liên hệ và cá nhân của bạn.
+                  </p>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div id="profileMessage" class="profile-message">
+            </div>
+
+
+            <form id="profileForm">
+
+              <div class="form-grid">
+
+                <!-- HỌ TÊN -->
+                <div class="profile-field">
+
+                  <label for="fullName">
+                    Họ và tên
+                  </label>
+
+                  <input id="fullName" name="full_name" type="text" placeholder="Nhập họ và tên" autocomplete="name"
+                    disabled>
+
+                </div>
+
+
+                <!-- USERNAME -->
+                <div class="profile-field">
+
+                  <label for="username">
+                    Tên đăng nhập
+                  </label>
+
+                  <input id="username" name="username" type="text" placeholder="Username" autocomplete="username"
+                    disabled readonly>
+
+                </div>
+
+
+                <!-- EMAIL -->
+                <div class="profile-field">
+
+                  <label for="email">
+                    Email
+                  </label>
+
+                  <input id="email" name="email" type="email" placeholder="example@email.com" autocomplete="email"
+                    disabled>
+
+                </div>
+
+
+                <!-- PHONE -->
+                <div class="profile-field">
+
+                  <label for="phone">
+                    Số điện thoại
+                  </label>
+
+                  <input id="phone" name="phone" type="tel" placeholder="Nhập số điện thoại" autocomplete="tel"
+                    disabled>
+
+                </div>
+
+
+                <!-- LOCATION -->
+                <div class="profile-field full-width">
+
+                  <label for="location">
+                    Địa điểm
+                  </label>
+
+                  <input id="location" name="location" type="text" placeholder="TP. Hồ Chí Minh"
+                    autocomplete="address-level2" disabled>
+
+                </div>
+
+
+                <!-- BIO -->
+                <div class="profile-field full-width">
+
+                  <label for="bio">
+                    Giới thiệu
+                  </label>
+
+                  <textarea id="bio" name="bio" rows="4" placeholder="Viết một vài dòng giới thiệu về bạn..."
+                    disabled></textarea>
+
+                </div>
+
+              </div>
+
+
+              <div class="form-actions" id="formActions">
+
+                <button type="button" class="cancel-btn" onclick="cancelEdit()">
+                  Hủy
+                </button>
+
+                <button type="submit" class="save-btn">
+                  Lưu thay đổi
+                </button>
+
+              </div>
+
+            </form>
+
+          </section>
+
+        </div>
+
+        <section class="profile-card profile-form-card" id="licenseCard" style="margin-top:24px;">
+
+          <div class="card-title-row">
+
+            <div>
+
+              <div class="card-icon">
+                🏢
+              </div>
+
+              <div>
+
+                <h2>
+                  Giấy phép &amp; Thông tin thanh toán doanh nghiệp
+                </h2>
+
+                <p>
+                  Thông tin pháp lý và tài khoản ngân hàng
+                  nhận thanh toán dịch vụ.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="card-title-actions">
+
+              <span id="verificationBadge" class="role-badge">
+                —
               </span>
+
+              <button type="button" class="edit-profile-btn" id="editLicenseBtn" onclick="enableLicenseEdit()">
+                ✎ Chỉnh sửa
+              </button>
 
             </div>
 
           </div>
 
 
-          <!-- BANK NAME -->
-          <div class="profile-field">
-
-            <label for="bankName">
-              Tên ngân hàng
-            </label>
-
-            <input
-              id="bankName"
-              type="text"
-              placeholder="Ví dụ: Vietcombank, MBBank"
-              autocomplete="off"
-              disabled>
-
+          <div id="licenseMessage" class="profile-message">
           </div>
 
 
-          <!-- ACCOUNT NUMBER -->
-          <div class="profile-field">
+          <form id="licenseForm">
 
-            <label for="accountNumber">
-              Số tài khoản
-            </label>
+            <div class="form-grid">
 
-            <input
-              id="accountNumber"
-              type="text"
-              placeholder="Nhập số tài khoản"
-              inputmode="numeric"
-              autocomplete="off"
-              disabled>
+              <!-- BUSINESS NAME -->
+              <div class="profile-field">
 
-          </div>
+                <label for="businessName">
+                  Tên doanh nghiệp / Studio
+                </label>
+
+                <input id="businessName" name="business_name" type="text" placeholder="Ví dụ: Studio Ánh Sáng" disabled>
+
+              </div>
 
 
-          <!-- ACCOUNT NAME -->
-          <div class="profile-field full-width">
+              <!-- TAX CODE -->
+              <div class="profile-field">
 
-            <label for="accountName">
-              Tên chủ tài khoản
-            </label>
+                <label for="taxCode">
+                  Mã số thuế
+                </label>
 
-            <input
-              id="accountName"
-              type="text"
-              placeholder="Nhập tên chủ tài khoản (viết hoa không dấu)"
-              autocomplete="off"
-              disabled>
+                <input id="taxCode" name="tax_code" type="text" placeholder="Nhập mã số thuế" disabled>
 
-          </div>
+              </div>
 
 
-          <!-- BANK INFO -->
-          <div class="profile-field full-width">
+              <!-- BUSINESS ADDRESS -->
+              <div class="profile-field full-width">
 
-            <label for="bankInfo">
-              Ghi chú nhận thanh toán (Tổng hợp)
-            </label>
+                <label for="businessAddress">
+                  Địa chỉ kinh doanh
+                </label>
 
-            <input
-              id="bankInfo"
-              name="bank_info"
-              type="text"
-              placeholder="Thông tin sẽ tự động tổng hợp"
-              readonly
-              disabled>
+                <input id="businessAddress" name="business_address" type="text"
+                  placeholder="Nhập địa chỉ đăng ký kinh doanh" autocomplete="street-address" disabled>
 
-            <small
-              style="
+              </div>
+
+              <div class="profile-field full-width" style="
+                border-bottom:1px dashed var(--line);
+                padding-bottom:18px;
+                margin-bottom:4px;
+              ">
+
+                <label for="licenseFileInput">
+                  Giấy phép kinh doanh
+                  (Hình ảnh / PDF)
+                </label>
+
+                <input id="licenseFileInput" type="file" accept="image/png,image/jpeg,image/webp,application/pdf"
+                  disabled onchange="previewLicenseFile(event)">
+
+
+                <div id="licensePreviewContainer" style="
+                  margin-top:12px;
+                  display:flex;
+                  flex-direction:column;
+                  align-items:flex-start;
+                  gap:10px;
+                ">
+
+                  <img id="licensePreview" src="" alt="Giấy phép kinh doanh" style="
+                    max-width:260px;
+                    max-height:260px;
+                    display:none;
+                    border:1px solid var(--line);
+                    padding:6px;
+                    border-radius:10px;
+                    background:#fff;
+                    object-fit:contain;
+                  ">
+
+                  <a id="licenseFileLink" href="#" target="_blank" rel="noopener noreferrer" class="file-chip" style="
+                    display:none;
+                    text-decoration:none;
+                    cursor:pointer;
+                  ">
+                    🔗 Mở giấy phép đã tải lên
+                  </a>
+
+                  <span id="licenseFileEmpty" style="
+                    font-size:12px;
+                    color:var(--muted);
+                  ">
+                    Chưa có giấy phép nào được lưu.
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <!-- BANK NAME -->
+              <div class="profile-field">
+
+                <label for="bankName">
+                  Tên ngân hàng
+                </label>
+
+                <input id="bankName" type="text" placeholder="Ví dụ: Vietcombank, MBBank" autocomplete="off" disabled>
+
+              </div>
+
+
+              <!-- ACCOUNT NUMBER -->
+              <div class="profile-field">
+
+                <label for="accountNumber">
+                  Số tài khoản
+                </label>
+
+                <input id="accountNumber" type="text" placeholder="Nhập số tài khoản" inputmode="numeric"
+                  autocomplete="off" disabled>
+
+              </div>
+
+
+              <!-- ACCOUNT NAME -->
+              <div class="profile-field full-width">
+
+                <label for="accountName">
+                  Tên chủ tài khoản
+                </label>
+
+                <input id="accountName" type="text" placeholder="Nhập tên chủ tài khoản (viết hoa không dấu)"
+                  autocomplete="off" disabled>
+
+              </div>
+
+
+              <!-- BANK INFO -->
+              <div class="profile-field full-width">
+
+                <label for="bankInfo">
+                  Ghi chú nhận thanh toán (Tổng hợp)
+                </label>
+
+                <input id="bankInfo" name="bank_info" type="text" placeholder="Thông tin sẽ tự động tổng hợp" readonly
+                  disabled>
+
+                <small style="
                 display:block;
                 margin-top:6px;
                 font-size:12px;
                 color:var(--muted);
               ">
-              Dữ liệu được tự động tổng hợp từ tên ngân hàng,
-              số tài khoản và tên chủ tài khoản.
-            </small>
+                  Dữ liệu được tự động tổng hợp từ tên ngân hàng,
+                  số tài khoản và tên chủ tài khoản.
+                </small>
 
-          </div>
+              </div>
 
 
-          <!-- =================================================
+              <!-- =================================================
                QR CODE
                ================================================= -->
-          <div class="profile-field full-width">
+              <div class="profile-field full-width">
 
-            <label for="qrCodeInput">
-              Mã QR Thanh toán
-            </label>
+                <label for="qrCodeInput">
+                  Mã QR Thanh toán
+                </label>
 
-            <input
-              id="qrCodeInput"
-              type="file"
-              accept="image/png,image/jpeg,image/webp"
-              disabled
-              onchange="previewQrCode(event)">
+                <input id="qrCodeInput" type="file" accept="image/png,image/jpeg,image/webp" disabled
+                  onchange="previewQrCode(event)">
 
-            <small
-              style="
-                display:block;
-                margin-top:6px;
-                font-size:12px;
-                color:var(--muted);
-              ">
-              QR đã lưu sẽ được lấy từ <strong>QRCodeUrl</strong>.
-              File QR mới sẽ được tải lên Supabase Storage
-              khi bạn bấm "Lưu thông tin doanh nghiệp".
-              Kích thước tối đa 10MB.
-            </small>
-
-
-            <div
-              id="qrPreviewContainer"
-              style="
+                <div id="qrPreviewContainer" style="
                 margin-top:12px;
                 display:flex;
                 flex-direction:column;
@@ -663,11 +484,7 @@
                 align-items:flex-start;
               ">
 
-              <img
-                id="qrPreview"
-                src=""
-                alt="Mã QR Thanh toán"
-                style="
+                  <img id="qrPreview" src="" alt="Mã QR Thanh toán" style="
                   max-width:180px;
                   max-height:180px;
                   display:none;
@@ -678,105 +495,80 @@
                   object-fit:contain;
                 ">
 
-              <span
-                id="qrFileEmpty"
-                style="
+                  <span id="qrFileEmpty" style="
                   font-size:12px;
                   color:var(--muted);
                 ">
-                Chưa có mã QR được lưu.
-              </span>
+                    Chưa có mã QR được lưu.
+                  </span>
 
-              <a
-                id="qrCodeLink"
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                style="
+                  <a id="qrCodeLink" href="#" target="_blank" rel="noopener noreferrer" style="
                   display:none;
                   font-size:13px;
                 ">
-                🔗 Mở mã QR
-              </a>
+                    🔗 Mở mã QR
+                  </a>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="form-actions" id="licenseFormActions">
+
+              <button type="button" class="cancel-btn" onclick="cancelLicenseEdit()">
+                Hủy
+              </button>
+
+              <button type="submit" class="save-btn">
+                Lưu thông tin doanh nghiệp
+              </button>
+
+            </div>
+
+          </form>
+
+        </section>
+
+
+        <!-- =====================================================
+         BẢO MẬT
+         ===================================================== -->
+        <section class="profile-card profile-form-card" id="securityCard" style="margin-top:24px;">
+
+          <div class="card-title-row">
+
+            <div>
+
+              <div class="card-icon">
+                🔒
+              </div>
+
+              <div>
+
+                <h2>Bảo mật</h2>
+
+                <p>
+                  Đổi mật khẩu đăng nhập cho tài khoản của bạn.
+                </p>
+
+              </div>
 
             </div>
 
           </div>
 
-        </div>
 
-
-        <div
-          class="form-actions"
-          id="licenseFormActions">
-
-          <button
-            type="button"
-            class="cancel-btn"
-            onclick="cancelLicenseEdit()">
-            Hủy
-          </button>
-
-          <button
-            type="submit"
-            class="save-btn">
-            Lưu thông tin doanh nghiệp
-          </button>
-
-        </div>
-
-      </form>
-
-    </section>
-
-
-    <!-- =====================================================
-         BẢO MẬT
-         ===================================================== -->
-    <section
-      class="profile-card profile-form-card"
-      id="securityCard"
-      style="margin-top:24px;">
-
-      <div class="card-title-row">
-
-        <div>
-
-          <div class="card-icon">
-            🔒
+          <div id="securityMessage" class="profile-message">
           </div>
 
-          <div>
 
-            <h2>Bảo mật</h2>
+          <form id="securityForm">
 
-            <p>
-              Đổi mật khẩu đăng nhập cho tài khoản của bạn.
-            </p>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        id="securityMessage"
-        class="profile-message">
-      </div>
-
-
-      <form id="securityForm">
-
-        <input
-          type="text"
-          id="securityUsername"
-          name="username"
-          autocomplete="username"
-          tabindex="-1"
-          aria-hidden="true"
-          style="
+            <input type="text" id="securityUsername" name="username" autocomplete="username" tabindex="-1"
+              aria-hidden="true" style="
             position:absolute;
             left:-9999px;
             width:1px;
@@ -785,329 +577,279 @@
           ">
 
 
-        <div class="form-grid">
+            <div class="form-grid">
 
-          <div class="profile-field full-width">
+              <div class="profile-field full-width">
 
-            <label for="currentPassword">
-              Mật khẩu hiện tại
-            </label>
+                <label for="currentPassword">
+                  Mật khẩu hiện tại
+                </label>
 
-            <input
-              id="currentPassword"
-              name="current_password"
-              type="password"
-              placeholder="Nhập mật khẩu hiện tại"
-              autocomplete="current-password">
+                <input id="currentPassword" name="current_password" type="password" placeholder="Nhập mật khẩu hiện tại"
+                  autocomplete="current-password">
 
-          </div>
+              </div>
 
 
-          <div class="profile-field">
+              <div class="profile-field">
 
-            <label for="newPassword">
-              Mật khẩu mới
-            </label>
+                <label for="newPassword">
+                  Mật khẩu mới
+                </label>
 
-            <input
-              id="newPassword"
-              name="new_password"
-              type="password"
-              placeholder="Tối thiểu 6 ký tự"
-              autocomplete="new-password">
+                <input id="newPassword" name="new_password" type="password" placeholder="Tối thiểu 6 ký tự"
+                  autocomplete="new-password">
 
-          </div>
+              </div>
 
 
-          <div class="profile-field">
+              <div class="profile-field">
 
-            <label for="confirmNewPassword">
-              Xác nhận mật khẩu mới
-            </label>
+                <label for="confirmNewPassword">
+                  Xác nhận mật khẩu mới
+                </label>
 
-            <input
-              id="confirmNewPassword"
-              name="confirm_new_password"
-              type="password"
-              placeholder="Nhập lại mật khẩu mới"
-              autocomplete="new-password">
+                <input id="confirmNewPassword" name="confirm_new_password" type="password"
+                  placeholder="Nhập lại mật khẩu mới" autocomplete="new-password">
 
-          </div>
+              </div>
 
-        </div>
+            </div>
 
 
-        <div class="form-actions show">
+            <div class="form-actions show">
 
-          <button
-            type="submit"
-            class="save-btn">
-            Đổi mật khẩu
-          </button>
+              <button type="submit" class="save-btn">
+                Đổi mật khẩu
+              </button>
 
-        </div>
+            </div>
 
-      </form>
+          </form>
 
-    </section>
+        </section>
 
 
-    <!-- =====================================================
+        <!-- =====================================================
          CÀI ĐẶT TÀI KHOẢN
          ===================================================== -->
-    <section
-      class="profile-card profile-form-card"
-      id="settingsCard"
-      style="margin-top:24px;">
+        <section class="profile-card profile-form-card" id="settingsCard" style="margin-top:24px;">
 
-      <div class="card-title-row">
+          <div class="card-title-row">
 
-        <div>
+            <div>
 
-          <div class="card-icon">
-            ⚙️
+              <div class="card-icon">
+                ⚙️
+              </div>
+
+              <div>
+
+                <h2>Cài đặt tài khoản</h2>
+
+                <p>
+                  Tùy chỉnh cách FilmSpace thông báo cho bạn.
+                </p>
+
+              </div>
+
+            </div>
+
           </div>
 
-          <div>
 
-            <h2>Cài đặt tài khoản</h2>
+          <!-- EMAIL NOTIFICATION -->
+          <div class="toggle-row">
 
-            <p>
-              Tùy chỉnh cách FilmSpace thông báo cho bạn.
-            </p>
+            <div class="toggle-row-label">
+
+              <strong>
+                Nhận thông báo qua Email
+              </strong>
+
+              <span>
+                Gửi email khi có booking mới hoặc cập nhật quan trọng.
+              </span>
+
+            </div>
+
+
+            <label class="switch">
+
+              <input id="notifyEmailToggle" type="checkbox" onchange="saveAccountSettings()">
+
+              <span class="switch-track"></span>
+
+            </label>
 
           </div>
 
-        </div>
 
-      </div>
+          <!-- BOOKING NOTIFICATION -->
+          <div class="toggle-row">
 
+            <div class="toggle-row-label">
 
-      <!-- EMAIL NOTIFICATION -->
-      <div class="toggle-row">
+              <strong>
+                Nhắc lịch booking sắp tới
+              </strong>
 
-        <div class="toggle-row-label">
+              <span>
+                Hiện thông báo nhắc nhở trong mục Notifications.
+              </span>
 
-          <strong>
-            Nhận thông báo qua Email
-          </strong>
-
-          <span>
-            Gửi email khi có booking mới hoặc cập nhật quan trọng.
-          </span>
-
-        </div>
+            </div>
 
 
-        <label class="switch">
+            <label class="switch">
 
-          <input
-            id="notifyEmailToggle"
-            type="checkbox"
-            onchange="saveAccountSettings()">
+              <input id="notifyBookingToggle" type="checkbox" onchange="saveAccountSettings()">
 
-          <span class="switch-track"></span>
+              <span class="switch-track"></span>
 
-        </label>
+            </label>
 
-      </div>
+          </div>
 
 
-      <!-- BOOKING NOTIFICATION -->
-      <div class="toggle-row">
+          <!-- NOTIFICATION CENTER -->
+          <div class="notif-link-card">
 
-        <div class="toggle-row-label">
+            <div class="notif-link-icon">🔔<span id="settingsNotifBadge" class="notif-link-badge"> 0</span></div>
+            <div class="notif-link-text">
+              <strong>
+                Trung tâm thông báo
+              </strong>
 
-          <strong>
-            Nhắc lịch booking sắp tới
-          </strong>
+              <span id="settingsNotifSummary">
+                Đang tải số thông báo chưa đọc...
+              </span>
 
-          <span>
-            Hiện thông báo nhắc nhở trong mục Notifications.
-          </span>
-
-        </div>
-
-
-        <label class="switch">
-
-          <input
-            id="notifyBookingToggle"
-            type="checkbox"
-            onchange="saveAccountSettings()">
-
-          <span class="switch-track"></span>
-
-        </label>
-
-      </div>
+            </div>
 
 
-      <!-- NOTIFICATION CENTER -->
-      <div class="notif-link-card">
+            <a href="notifications.html" class="notif-link-btn">
+              Xem thông báo →
+            </a>
 
-        <div class="notif-link-icon">
-
-          🔔
-
-          <span
-            id="settingsNotifBadge"
-            class="notif-link-badge">
-            0
-          </span>
-
-        </div>
+          </div>
 
 
-        <div class="notif-link-text">
-
-          <strong>
-            Trung tâm thông báo
-          </strong>
-
-          <span id="settingsNotifSummary">
-            Đang tải số thông báo chưa đọc...
-          </span>
-
-        </div>
-
-
-        <a
-          href="notifications.html"
-          class="notif-link-btn">
-          Xem thông báo →
-        </a>
-
-      </div>
-
-
-      <p
-        style="
+          <p style="
           font-size:11px;
           color:var(--muted);
           margin-top:14px;
         ">
 
-        * Khi tắt "Nhắc lịch booking sắp tới",
-        các thông báo loại Booking sẽ được ẩn bớt
-        ở trang Notifications.
+            * Khi tắt "Nhắc lịch booking sắp tới",
+            các thông báo loại Booking sẽ được ẩn bớt
+            ở trang Notifications.
 
-      </p>
-
-    </section>
-
-
-    <!-- =====================================================
-         ACCOUNT
-         ===================================================== -->
-    <section class="profile-card account-card">
-
-      <div class="card-title-row">
-
-        <div>
-
-          <h2>Tài khoản</h2>
-
-          <p>
-            Các thiết lập liên quan đến tài khoản FilmSpace.
           </p>
 
-        </div>
+        </section>
 
-      </div>
+        <section class="profile-card account-card">
 
+          <div class="card-title-row">
 
-      <div class="account-actions">
+            <div>
 
-        <a
-          href="dashboard.html"
-          class="account-action">
+              <h2>Tài khoản</h2>
 
-          <div class="account-icon">
-            ◷
-          </div>
+              <p>
+                Các thiết lập liên quan đến tài khoản FilmSpace.
+              </p>
 
-          <div>
-
-            <strong>
-              Về Dashboard
-            </strong>
-
-            <span>
-              Quản lý hoạt động và dịch vụ của bạn.
-            </span>
+            </div>
 
           </div>
 
-          <span class="account-arrow">
-            →
-          </span>
 
-        </a>
+          <div class="account-actions">
+
+            <a href="dashboard.html" class="account-action">
+
+              <div class="account-icon">
+                ◷
+              </div>
+
+              <div>
+
+                <strong>
+                  Về Dashboard
+                </strong>
+
+                <span>
+                  Quản lý hoạt động và dịch vụ của bạn.
+                </span>
+
+              </div>
+
+              <span class="account-arrow">
+                →
+              </span>
+
+            </a>
 
 
-        <a
-          href="notifications.html"
-          class="account-action">
+            <a href="notifications.html" class="account-action">
 
-          <div class="account-icon">
-            🔔
+              <div class="account-icon">
+                🔔
+              </div>
+
+              <div>
+
+                <strong>
+                  Thông báo
+                </strong>
+
+                <span>
+                  Xem các cập nhật booking, workshop, thanh toán.
+                </span>
+
+              </div>
+
+              <span class="account-arrow">
+                →
+              </span>
+
+            </a>
+
+
+            <button type="button" class="account-action danger-action" onclick="logout()">
+
+              <div class="account-icon">
+                ↪
+              </div>
+
+              <div>
+
+                <strong>
+                  Đăng xuất
+                </strong>
+
+                <span>
+                  Đăng xuất khỏi tài khoản hiện tại.
+                </span>
+
+              </div>
+
+              <span class="account-arrow">
+                →
+              </span>
+
+            </button>
+
           </div>
 
-          <div>
-
-            <strong>
-              Thông báo
-            </strong>
-
-            <span>
-              Xem các cập nhật booking, workshop, thanh toán.
-            </span>
-
-          </div>
-
-          <span class="account-arrow">
-            →
-          </span>
-
-        </a>
-
-
-        <button
-          type="button"
-          class="account-action danger-action"
-          onclick="logout()">
-
-          <div class="account-icon">
-            ↪
-          </div>
-
-          <div>
-
-            <strong>
-              Đăng xuất
-            </strong>
-
-            <span>
-              Đăng xuất khỏi tài khoản hiện tại.
-            </span>
-
-          </div>
-
-          <span class="account-arrow">
-            →
-          </span>
-
-        </button>
+        </section>
 
       </div>
 
     </section>
 
-  </div>
-
-</section>
-```
 
   </main>
 
@@ -1116,61 +858,58 @@
        ========================================================= -->
 
   <footer class="footer">
+    <div class="container">
 
-```
-<div class="container">
+      <div class="footer-top">
 
-  <div class="footer-top">
+        <div class="footer-brand">
 
-    <div class="footer-brand">
+          <div class="footer-logo">
+            Photography<span>Platform</span>
+          </div>
 
-      <div class="footer-logo">
-        Photography<span>Platform</span>
+          <p>
+            Kết nối các nhiếp ảnh gia phim với
+            các phòng tối và studio đáng tin cậy.
+          </p>
+
+        </div>
+
+
+        <div class="footer-menu">
+
+          <a href="dashboard.html">Dashboard</a>
+          <a href="spaces.html">Spaces</a>
+          <a href="equipment.html">Equipment</a>
+          <a href="packages.html">Packages</a>
+          <a href="bookings.html">Bookings</a>
+          <a href="profile.html">Profile</a>
+
+        </div>
+
       </div>
 
-      <p>
-        Kết nối các nhiếp ảnh gia phim với
-        các phòng tối và studio đáng tin cậy.
-      </p>
+
+      <hr class="footer-line">
+
+
+      <div class="footer-bottom">
+
+        <span>
+          Copyright © 2026 Photography Platform.
+          All rights reserved.
+        </span>
+
+        <div class="footer-links">
+
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+
+        </div>
+
+      </div>
 
     </div>
-
-
-    <div class="footer-menu">
-
-      <a href="dashboard.html">Dashboard</a>
-      <a href="spaces.html">Spaces</a>
-      <a href="equipment.html">Equipment</a>
-      <a href="packages.html">Packages</a>
-      <a href="bookings.html">Bookings</a>
-      <a href="profile.html">Profile</a>
-
-    </div>
-
-  </div>
-
-
-  <hr class="footer-line">
-
-
-  <div class="footer-bottom">
-
-    <span>
-      Copyright © 2026 Photography Platform.
-      All rights reserved.
-    </span>
-
-    <div class="footer-links">
-
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms of Use</a>
-
-    </div>
-
-  </div>
-
-</div>
-```
 
   </footer>
 
@@ -1200,11 +939,6 @@
     let originalData = {};
     let originalLicenseData = {};
 
-
-    /* =========================================================
-       GLOBAL ERROR HANDLER
-       ========================================================= */
-
     window.addEventListener("error", function (event) {
 
       console.error(
@@ -1225,10 +959,6 @@
 
     });
 
-
-    /* =========================================================
-       STORAGE
-       ========================================================= */
 
     function getStorage() {
 
@@ -1903,8 +1633,8 @@
               data =
                 responseText
                   ? JSON.parse(
-                      responseText
-                    )
+                    responseText
+                  )
                   : {};
 
             } catch (error) {
@@ -2172,21 +1902,6 @@
       };
 
     }
-
-
-    /* =========================================================
-       PARSE BANK_INFO
-
-       Hỗ trợ:
-
-       Format mới:
-       Ngân hàng: Vietcombank |
-       STK: 123456789 |
-       Chủ TK: NGUYEN VAN A
-
-       Format seed cũ:
-       Vietcombank - 001100123456789
-       ========================================================= */
 
     function parseBankInfo(
       bankInfo
@@ -2469,7 +2184,7 @@
 
 
           empty.textContent =
-            "Không thể hiển thị ảnh QR, nhưng URL QR vẫn tồn tại.";
+            "Không thể hiển thị ảnh QR";
 
 
           empty.style.display =
@@ -2614,133 +2329,114 @@
        LICENSE PREVIEW
        ========================================================= */
 
-    function renderLicensePreview(
-      url
-    ) {
+    function renderLicensePreview(url) {
 
       const preview =
-        document.getElementById(
-          "licensePreview"
-        );
-
+        document.getElementById("licensePreview");
 
       const link =
-        document.getElementById(
-          "licenseFileLink"
-        );
-
+        document.getElementById("licenseFileLink");
 
       const emptySpan =
-        document.getElementById(
-          "licenseFileEmpty"
-        );
-
+        document.getElementById("licenseFileEmpty");
 
       if (
         !preview ||
         !link ||
         !emptySpan
       ) {
-
         return;
-
       }
 
+      /* =========================
+         KHÔNG CÓ FILE
+         ========================= */
 
       if (!url) {
 
         preview.src = "";
-
-        preview.style.display =
-          "none";
-
+        preview.style.display = "none";
 
         link.href = "#";
-
-        link.style.display =
-          "none";
-
+        link.style.display = "none";
 
         emptySpan.textContent =
           "Chưa có giấy phép nào được lưu.";
 
-        emptySpan.style.display =
-          "inline";
-
+        emptySpan.style.display = "inline";
 
         return;
-
       }
 
 
-      const isImage =
-        /\.(jpeg|jpg|gif|png|webp)(\?.*)?$/i
-          .test(url) ||
-        url.startsWith(
-          "data:image/"
-        );
+      /* =========================
+         CÓ FILE
+         ========================= */
 
+      const normalizedUrl =
+        String(url).toLowerCase();
+
+      const isImage =
+        /\.(jpeg|jpg|gif|png|webp)(\?.*)?$/i.test(
+          normalizedUrl
+        ) ||
+        normalizedUrl.startsWith("data:image/");
+
+
+      /* =========================
+         ẢNH
+         ========================= */
 
       if (isImage) {
 
-        preview.src =
-          url;
+        preview.src = url;
+
+        preview.style.display = "block";
+
+        link.href = url;
+        link.style.display = "inline-flex";
+
+        link.innerHTML =
+          "🔗 Mở giấy phép đã tải lên";
+
+        emptySpan.style.display = "none";
 
 
-        preview.style.display =
-          "block";
+        preview.onerror = function () {
 
+          preview.style.display = "none";
 
-        link.style.display =
-          "none";
-
-      }
-
-      else {
-
-        preview.src = "";
-
-        preview.style.display =
-          "none";
-
-
-        link.href =
-          url;
-
-
-        link.style.display =
-          "inline-block";
-
-      }
-
-
-      emptySpan.style.display =
-        "none";
-
-
-      preview.onerror =
-        function () {
-
-          preview.style.display =
-            "none";
-
-
-          link.href =
-            url;
-
-
-          link.style.display =
-            "inline-block";
-
+          link.href = url;
+          link.style.display = "inline-flex";
 
           emptySpan.textContent =
-            "Không thể hiển thị ảnh giấy phép, nhưng URL vẫn tồn tại.";
+            "Không thể hiển thị ảnh giấy phép.";
 
-
-          emptySpan.style.display =
-            "inline";
+          emptySpan.style.display = "inline";
 
         };
+
+        return;
+      }
+
+
+      /* =========================
+         PDF / FILE KHÁC
+         ========================= */
+
+      preview.src = "";
+      preview.style.display = "none";
+
+      link.href = url;
+      link.style.display = "inline-flex";
+
+      link.innerHTML =
+        "🔗 Mở giấy phép đã tải lên";
+
+      emptySpan.textContent =
+        "Giấy phép đã được lưu. Nhấn nút bên dưới để mở file.";
+
+      emptySpan.style.display = "inline";
 
     }
 
@@ -3052,8 +2748,8 @@
           data =
             responseText
               ? JSON.parse(
-                  responseText
-                )
+                responseText
+              )
               : {};
 
         } catch (error) {
@@ -3465,23 +3161,6 @@
     }
 
 
-    /* =========================================================
-       UPDATE SERVICE PROVIDER
-
-       QUAN TRỌNG:
-
-       - Không dùng JSON.
-       - Dùng FormData.
-       - Không set Content-Type thủ công.
-       - File được gửi:
-           license_file
-           qr_code
-       - Backend upload Supabase Storage.
-       - Backend trả:
-           license_url
-           qr_code_url
-       ========================================================= */
-
     document
       .getElementById(
         "licenseForm"
@@ -3596,16 +3275,16 @@
 
             const licenseFile =
               licenseInput &&
-              licenseInput.files &&
-              licenseInput.files.length > 0
+                licenseInput.files &&
+                licenseInput.files.length > 0
                 ? licenseInput.files[0]
                 : null;
 
 
             const qrFile =
               qrInput &&
-              qrInput.files &&
-              qrInput.files.length > 0
+                qrInput.files &&
+                qrInput.files.length > 0
                 ? qrInput.files[0]
                 : null;
 
@@ -3614,13 +3293,13 @@
               "[licenseForm] License file:",
               licenseFile
                 ? {
-                    name:
-                      licenseFile.name,
-                    type:
-                      licenseFile.type,
-                    size:
-                      licenseFile.size
-                  }
+                  name:
+                    licenseFile.name,
+                  type:
+                    licenseFile.type,
+                  size:
+                    licenseFile.size
+                }
                 : null
             );
 
@@ -3629,13 +3308,13 @@
               "[licenseForm] QR file:",
               qrFile
                 ? {
-                    name:
-                      qrFile.name,
-                    type:
-                      qrFile.type,
-                    size:
-                      qrFile.size
-                  }
+                  name:
+                    qrFile.name,
+                  type:
+                    qrFile.type,
+                  size:
+                    qrFile.size
+                }
                 : null
             );
 
@@ -3815,16 +3494,6 @@
 
             }
 
-
-            /* =================================================
-               SEND REQUEST
-
-               KHÔNG SET:
-               Content-Type: multipart/form-data
-
-               Browser sẽ tự thêm boundary.
-               ================================================= */
-
             const response =
               await fetch(
                 `${API_BASE_URL}/service-providers/${providerId}`,
@@ -3867,8 +3536,8 @@
               data =
                 responseText
                   ? JSON.parse(
-                      responseText
-                    )
+                    responseText
+                  )
                   : {};
 
             } catch (error) {
@@ -3989,17 +3658,6 @@
             const savedBankInfo =
               providerData.bank_info ||
               bankInfo;
-
-
-            /* =================================================
-               LICENSE URL
-
-               Backend mới sẽ trả URL mới nếu
-               người dùng upload file.
-
-               Nếu không upload file mới,
-               backend giữ URL cũ.
-               ================================================= */
 
             const savedLicenseUrl =
               providerData.license_url ||
@@ -4240,7 +3898,7 @@
             ) {
 
               successMessage +=
-                " Giấy phép và mã QR mới đã được upload lên Supabase Storage.";
+                " Giấy phép và mã QR mới đã được upload";
 
             }
 
@@ -4249,7 +3907,7 @@
             ) {
 
               successMessage +=
-                " Giấy phép mới đã được upload lên Supabase Storage.";
+                " Giấy phép mới đã được upload";
 
             }
 
@@ -4258,7 +3916,7 @@
             ) {
 
               successMessage +=
-                " Mã QR mới đã được upload lên Supabase Storage.";
+                " Mã QR mới đã được upload ";
 
             }
 
@@ -4553,8 +4211,8 @@
               data =
                 responseText
                   ? JSON.parse(
-                      responseText
-                    )
+                    responseText
+                  )
                   : {};
 
             } catch (error) {
@@ -4873,8 +4531,8 @@
           data =
             responseText
               ? JSON.parse(
-                  responseText
-                )
+                responseText
+              )
               : {};
 
         } catch (error) {
