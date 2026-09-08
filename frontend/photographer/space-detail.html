@@ -2,6 +2,7 @@
 
 
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,36 +27,33 @@
 
 
 
-  <a class="logo" href="home.html" aria-label="FilmSpace">
-    FilmSpace
-  </a>
+      <a class="logo" href="home.html" aria-label="FilmSpace">
+        FilmSpace
+      </a>
 
 
-  <div class="menu" aria-label="Photographer navigation">
-    <a href="home.html">Home</a>
-    <a href="search.html" class="active">Search</a>
-    <a href="booking.html">Bookings</a>
-    <a href="workshops.html">Workshops</a>
-    <a href="profile.html">Profile</a>
-  </div>
+      <div class="menu" aria-label="Photographer navigation">
+        <a href="home.html">Home</a>
+        <a href="search.html" class="active">Search</a>
+        <a href="booking.html">Bookings</a>
+        <a href="workshops.html">Workshops</a>
+        <a href="profile.html">Profile</a>
+      </div>
 
 
-  <div class="nav-actions">
-    <span class="photographer-nav-name" id="navPhotographerName">
-      Photographer
-    </span>
+      <div class="nav-actions">
+        <span class="photographer-nav-name" id="navPhotographerName">
+          Photographer
+        </span>
 
 
-    <button
-      type="button"
-      class="photographer-logout"
-      onclick="logout()">
-      Đăng xuất
-    </button>
-  </div>
+        <button type="button" class="photographer-logout" onclick="logout()">
+          Đăng xuất
+        </button>
+      </div>
 
 
-</div>
+    </div>
 
 
 
@@ -71,343 +69,327 @@
 
 
 
-<div class="container">
+    <div class="container">
 
 
-  <!-- BREADCRUMB -->
-  <div class="detail-breadcrumb">
-    <a href="search.html">Search</a>
-    <span>›</span>
-    <span id="breadcrumbName">Space Detail</span>
-  </div>
-
-
-
-
-  <!-- SPACE DETAIL -->
-  <section class="detail-wrapper">
-
-
-    <!-- IMAGE -->
-    <div class="detail-gallery">
-
-
-      <div class="detail-main-image">
-        <img
-          id="spaceImage"
-          src="../assets/images/1.jpe"
-          alt="Space">
+      <!-- BREADCRUMB -->
+      <div class="detail-breadcrumb">
+        <a href="search.html">Search</a>
+        <span>›</span>
+        <span id="breadcrumbName">Space Detail</span>
       </div>
 
 
-      <div class="detail-thumbnail-list">
-        <button
-          type="button"
-          class="detail-thumbnail active">
 
 
-          <img
-            id="thumbnailImage"
-            src="../assets/images/1.jpe"
-            alt="Space thumbnail">
+      <!-- SPACE DETAIL -->
+      <section class="detail-wrapper">
 
 
-        </button>
-      </div>
+        <!-- IMAGE -->
+        <div class="detail-gallery">
 
 
-    </div>
+          <div class="detail-main-image">
+            <img id="spaceImage" src="../assets/images/1.jpe" alt="Space">
+          </div>
 
 
+          <div class="detail-thumbnail-list">
+            <button type="button" class="detail-thumbnail active">
 
 
-    <!-- INFORMATION -->
-    <div class="detail-info">
+              <img id="thumbnailImage" src="../assets/images/1.jpe" alt="Space thumbnail">
 
 
-      <span class="detail-badge" id="spaceType">
-        Studio
-      </span>
+            </button>
+          </div>
 
 
-      <h1 id="spaceName">
-        Studio Lumi
-      </h1>
-
-
-      <p class="detail-location" id="spaceLocation">
-        📍 Đang tải...
-      </p>
-
-
-      <p class="detail-description" id="spaceDescription">
-        Đang tải thông tin địa điểm...
-      </p>
-
-
-      <div class="detail-price">
-
-
-        <strong id="spacePrice">
-          Đang tải...
-        </strong>
-
-
-        <span id="spaceUnit">
-          / hour
-        </span>
-
-
-      </div>
-
-
-      <div class="detail-actions">
+        </div>
 
 
 
 
-        <a
-          href="booking.html"
-          class="detail-book-btn"
-          id="bookingBtn">
-          Book now
+        <!-- INFORMATION -->
+        <div class="detail-info">
+
+
+          <span class="detail-badge" id="spaceType">
+            Studio
+          </span>
+
+
+          <h1 id="spaceName">
+            Studio Lumi
+          </h1>
+
+
+          <p class="detail-location" id="spaceLocation">
+            📍 Đang tải...
+          </p>
+
+
+          <p class="detail-description" id="spaceDescription">
+            Đang tải thông tin địa điểm...
+          </p>
+
+
+          <div class="detail-price">
+
+
+            <strong id="spacePrice">
+              Đang tải...
+            </strong>
+
+
+            <span id="spaceUnit">
+              / hour
+            </span>
+
+
+          </div>
+
+
+          <div class="detail-actions">
+
+
+
+
+            <a href="booking.html" class="detail-book-btn" id="bookingBtn">
+              Book now
+            </a>
+
+
+          </div>
+
+
+        </div>
+
+
+      </section>
+
+
+
+
+      <!-- SPACE INFORMATION -->
+      <section class="detail-information">
+
+
+        <div class="section-heading">
+
+
+          <span class="section-kicker">
+            SPACE
+          </span>
+
+
+          <h2>
+            Thông tin địa điểm
+          </h2>
+
+
+          <p>
+            Một số thông tin cơ bản về studio hoặc darkroom.
+          </p>
+
+
+        </div>
+
+
+
+
+        <div class="detail-info-grid">
+
+
+          <!-- LOCATION -->
+          <div class="detail-info-card">
+
+
+            <div class="detail-info-icon">
+              📍
+            </div>
+
+
+            <div>
+
+
+              <span>
+                Khu vực
+              </span>
+
+
+              <strong id="infoLocation">
+                Đang tải...
+              </strong>
+
+
+            </div>
+
+
+          </div>
+
+
+
+
+          <!-- TYPE -->
+          <div class="detail-info-card">
+
+
+            <div class="detail-info-icon">
+              🎞️
+            </div>
+
+
+            <div>
+
+
+              <span>
+                Loại dịch vụ
+              </span>
+
+
+              <strong id="infoType">
+                Đang tải...
+              </strong>
+
+
+            </div>
+
+
+          </div>
+
+
+
+
+          <!-- PRICE -->
+          <div class="detail-info-card">
+
+
+            <div class="detail-info-icon">
+              💰
+            </div>
+
+
+            <div>
+
+
+              <span>
+                Giá dịch vụ
+              </span>
+
+
+              <strong id="infoPrice">
+                Đang tải...
+              </strong>
+
+
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+
+      </section>
+
+
+
+
+      <!-- ABOUT -->
+      <section class="detail-about">
+
+
+        <div class="section-heading">
+
+
+          <span class="section-kicker">
+            ABOUT
+          </span>
+
+
+          <h2>
+            Về địa điểm này
+          </h2>
+
+
+        </div>
+
+
+
+
+        <div class="about-box">
+
+
+          <p id="aboutDescription">
+            Đang tải thông tin...
+          </p>
+
+
+
+
+          <div class="about-features">
+
+
+            <div class="about-feature">
+              <span>✓</span>
+              <span>Film photography friendly</span>
+            </div>
+
+
+            <div class="about-feature">
+              <span>✓</span>
+              <span>Suitable for photographers</span>
+            </div>
+
+
+            <div class="about-feature">
+              <span>✓</span>
+              <span>Creative photography space</span>
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+
+      </section>
+
+
+
+
+      <!-- ERROR -->
+      <section class="detail-error" id="errorSection" style="display: none;">
+
+
+        <div class="detail-error-icon">
+          ⌕
+        </div>
+
+
+        <h2>
+          Không tìm thấy địa điểm
+        </h2>
+
+
+        <p>
+          Địa điểm bạn đang tìm kiếm không tồn tại.
+        </p>
+
+
+        <a href="search.html" class="detail-back-btn">
+          Quay lại Search
         </a>
 
 
-      </div>
+      </section>
 
 
     </div>
-
-
-  </section>
-
-
-
-
-  <!-- SPACE INFORMATION -->
-  <section class="detail-information">
-
-
-    <div class="section-heading">
-
-
-      <span class="section-kicker">
-        SPACE
-      </span>
-
-
-      <h2>
-        Thông tin địa điểm
-      </h2>
-
-
-      <p>
-        Một số thông tin cơ bản về studio hoặc darkroom.
-      </p>
-
-
-    </div>
-
-
-
-
-    <div class="detail-info-grid">
-
-
-      <!-- LOCATION -->
-      <div class="detail-info-card">
-
-
-        <div class="detail-info-icon">
-          📍
-        </div>
-
-
-        <div>
-
-
-          <span>
-            Khu vực
-          </span>
-
-
-          <strong id="infoLocation">
-            Đang tải...
-          </strong>
-
-
-        </div>
-
-
-      </div>
-
-
-
-
-      <!-- TYPE -->
-      <div class="detail-info-card">
-
-
-        <div class="detail-info-icon">
-          🎞️
-        </div>
-
-
-        <div>
-
-
-          <span>
-            Loại dịch vụ
-          </span>
-
-
-          <strong id="infoType">
-            Đang tải...
-          </strong>
-
-
-        </div>
-
-
-      </div>
-
-
-
-
-      <!-- PRICE -->
-      <div class="detail-info-card">
-
-
-        <div class="detail-info-icon">
-          💰
-        </div>
-
-
-        <div>
-
-
-          <span>
-            Giá dịch vụ
-          </span>
-
-
-          <strong id="infoPrice">
-            Đang tải...
-          </strong>
-
-
-        </div>
-
-
-      </div>
-
-
-    </div>
-
-
-  </section>
-
-
-
-
-  <!-- ABOUT -->
-  <section class="detail-about">
-
-
-    <div class="section-heading">
-
-
-      <span class="section-kicker">
-        ABOUT
-      </span>
-
-
-      <h2>
-        Về địa điểm này
-      </h2>
-
-
-    </div>
-
-
-
-
-    <div class="about-box">
-
-
-      <p id="aboutDescription">
-        Đang tải thông tin...
-      </p>
-
-
-
-
-      <div class="about-features">
-
-
-        <div class="about-feature">
-          <span>✓</span>
-          <span>Film photography friendly</span>
-        </div>
-
-
-        <div class="about-feature">
-          <span>✓</span>
-          <span>Suitable for photographers</span>
-        </div>
-
-
-        <div class="about-feature">
-          <span>✓</span>
-          <span>Creative photography space</span>
-        </div>
-
-
-      </div>
-
-
-    </div>
-
-
-  </section>
-
-
-
-
-  <!-- ERROR -->
-  <section
-    class="detail-error"
-    id="errorSection"
-    style="display: none;">
-
-
-    <div class="detail-error-icon">
-      ⌕
-    </div>
-
-
-    <h2>
-      Không tìm thấy địa điểm
-    </h2>
-
-
-    <p>
-      Địa điểm bạn đang tìm kiếm không tồn tại.
-    </p>
-
-
-    <a
-      href="search.html"
-      class="detail-back-btn">
-      Quay lại Search
-    </a>
-
-
-  </section>
-
-
-</div>
 
 
 
@@ -423,101 +405,101 @@
 
 
 
-<div class="container">
+    <div class="container">
 
 
-  <div class="footer-top">
+      <div class="footer-top">
 
 
-    <div class="footer-brand">
+        <div class="footer-brand">
 
 
-      <div class="footer-logo">
-        Photography<span>Platform</span>
+          <div class="footer-logo">
+            Photography<span>Platform</span>
+          </div>
+
+
+          <p>
+            Kết nối các nhiếp ảnh gia phim với các phòng tối
+            và studio đáng tin cậy.
+          </p>
+
+
+        </div>
+
+
+
+
+        <div class="footer-menu">
+
+
+          <a href="home.html">
+            Home
+          </a>
+
+
+          <a href="search.html">
+            Search
+          </a>
+
+
+          <a href="booking.html">
+            Bookings
+          </a>
+
+
+          <a href="workshops.html">
+            Workshops
+          </a>
+
+
+          <a href="profile.html">
+            Profile
+          </a>
+
+
+        </div>
+
+
       </div>
 
 
-      <p>
-        Kết nối các nhiếp ảnh gia phim với các phòng tối
-        và studio đáng tin cậy.
-      </p>
+
+
+      <hr class="footer-line">
+
+
+
+
+      <div class="footer-bottom">
+
+
+        <span>
+          Copyright © 2026 Photography Platform.
+          All rights reserved.
+        </span>
+
+
+        <div class="footer-links">
+
+
+          <a href="#">
+            Privacy Policy
+          </a>
+
+
+          <a href="#">
+            Terms of Use
+          </a>
+
+
+        </div>
+
+
+      </div>
 
 
     </div>
-
-
-
-
-    <div class="footer-menu">
-
-
-      <a href="home.html">
-        Home
-      </a>
-
-
-      <a href="search.html">
-        Search
-      </a>
-
-
-      <a href="booking.html">
-        Bookings
-      </a>
-
-
-      <a href="workshops.html">
-        Workshops
-      </a>
-
-
-      <a href="profile.html">
-        Profile
-      </a>
-
-
-    </div>
-
-
-  </div>
-
-
-
-
-  <hr class="footer-line">
-
-
-
-
-  <div class="footer-bottom">
-
-
-    <span>
-      Copyright © 2026 Photography Platform.
-      All rights reserved.
-    </span>
-
-
-    <div class="footer-links">
-
-
-      <a href="#">
-        Privacy Policy
-      </a>
-
-
-      <a href="#">
-        Terms of Use
-      </a>
-
-
-    </div>
-
-
-  </div>
-
-
-</div>
 
 
   </footer>
@@ -806,62 +788,36 @@
         ===================== */
 
 
+        document.getElementById("bookingBtn").href =
+          `booking.html?space_id=${encodeURIComponent(space.id)}`;
+
+
+        const imageUrl =
+          getSpaceImage(space);
+
+
         document.getElementById(
-          "bookingBtn"
-        ).href =
-          "booking.html?spaceId=" +
-          space.id;
+          "spaceImage"
+        ).src =
+          imageUrl;
 
 
+        document.getElementById(
+          "spaceImage"
+        ).alt =
+          space.name ||
+          "Space";
 
+        document.getElementById(
+          "thumbnailImage"
+        ).src =
+          imageUrl;
 
-        /* =====================
-           IMAGE
-        ===================== */
-
-
-        /* =====================
-   IMAGE
-   Giống Search.html
-===================== */
-
-
-const imageUrl =
-  getSpaceImage(space);
-
-
-
-
-document.getElementById(
-  "spaceImage"
-).src =
-  imageUrl;
-
-
-
-
-document.getElementById(
-  "spaceImage"
-).alt =
-  space.name ||
-  "Space";
-
-
-
-
-document.getElementById(
-  "thumbnailImage"
-).src =
-  imageUrl;
-
-
-
-
-document.getElementById(
-  "thumbnailImage"
-).alt =
-  space.name ||
-  "Space thumbnail";
+        document.getElementById(
+          "thumbnailImage"
+        ).alt =
+          space.name ||
+          "Space thumbnail";
 
 
       } catch (error) {
@@ -1032,7 +988,7 @@ document.getElementById(
           "block";
       }
     }
-   
+
 
 
     /* =========================
@@ -1096,48 +1052,48 @@ document.getElementById(
 ========================= */
 
 
-const LOCAL_SPACE_IMAGES = [
-  "../assets/images/12.jpe",
-  "../assets/images/14.png",
-  "../assets/images/9.jpe",
-  "../assets/images/11.jpg",
-  "../assets/images/8.jpe",
-  "../assets/images/13.jpe"
-];
-
-
-
-
-function getSpaceImage(space) {
-
-
-  const spaceId =
-    Number(space.id);
-
-
-
-
-  if (
-    Number.isInteger(spaceId) &&
-    spaceId >= 1 &&
-    spaceId <= LOCAL_SPACE_IMAGES.length
-  ) {
-
-
-    return LOCAL_SPACE_IMAGES[
-      spaceId - 1
+    const LOCAL_SPACE_IMAGES = [
+      "../assets/images/12.jpe",
+      "../assets/images/14.png",
+      "../assets/images/9.jpe",
+      "../assets/images/11.jpg",
+      "../assets/images/8.jpe",
+      "../assets/images/13.jpe"
     ];
 
 
-  }
+
+
+    function getSpaceImage(space) {
+
+
+      const spaceId =
+        Number(space.id);
 
 
 
 
-  return LOCAL_SPACE_IMAGES[0];
+      if (
+        Number.isInteger(spaceId) &&
+        spaceId >= 1 &&
+        spaceId <= LOCAL_SPACE_IMAGES.length
+      ) {
 
 
-}
+        return LOCAL_SPACE_IMAGES[
+          spaceId - 1
+        ];
+
+
+      }
+
+
+
+
+      return LOCAL_SPACE_IMAGES[0];
+
+
+    }
     loadSpaceDetail();
 
 
@@ -1145,7 +1101,5 @@ function getSpaceImage(space) {
 
 
 </body>
+
 </html>
-
-
-
