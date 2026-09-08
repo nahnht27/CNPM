@@ -92,20 +92,6 @@
 
 
                 <a
-                    href="content.html"
-                    class="admin-sidebar-link"
-                >
-                    <span class="sidebar-icon">
-                        ◫
-                    </span>
-
-                    <span>
-                        Nội dung
-                    </span>
-                </a>
-
-
-                <a
                     href="transactions.html"
                     class="admin-sidebar-link"
                 >
@@ -115,20 +101,6 @@
 
                     <span>
                         Giao dịch
-                    </span>
-                </a>
-
-
-                <a
-                    href="reports.html"
-                    class="admin-sidebar-link"
-                >
-                    <span class="sidebar-icon">
-                        ▥
-                    </span>
-
-                    <span>
-                        Báo cáo
                     </span>
                 </a>
 
@@ -154,7 +126,7 @@
         <!-- ==================== CONTENT ==================== -->
         <main class="admin-content">
 
-            <!-- Welcome -->
+            <!-- ==================== WELCOME ==================== -->
             <section class="admin-welcome-card">
 
                 <div>
@@ -170,8 +142,8 @@
                     </h1>
 
                     <p class="admin-welcome-description">
-                        Quản lý người dùng, nhà cung cấp,
-                        booking và hoạt động của FilmSpace.
+                        Quản lý người dùng, nhà cung cấp
+                        và các giao dịch của FilmSpace.
                     </p>
                 </div>
 
@@ -250,54 +222,7 @@
                     </div>
 
 
-                    <!-- Bookings -->
-                    <div class="admin-stat-card">
-
-                        <div class="admin-stat-icon">
-                            ◷
-                        </div>
-
-                        <div class="admin-stat-info">
-
-                            <span class="admin-stat-label">
-                                Bookings
-                            </span>
-
-                            <strong
-                                id="totalBookings"
-                                class="admin-stat-value"
-                            >
-                                0
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- Revenue -->
-                    <div class="admin-stat-card">
-
-                        <div class="admin-stat-icon">
-                            ₫
-                        </div>
-
-                        <div class="admin-stat-info">
-
-                            <span class="admin-stat-label">
-                                Doanh thu
-                            </span>
-
-                            <strong
-                                id="totalRevenue"
-                                class="admin-stat-value"
-                            >
-                                0 ₫
-                            </strong>
-
-                        </div>
-
-                    </div>
+                    
 
                 </div>
 
@@ -345,124 +270,6 @@
             </section>
 
 
-            <!-- ==================== COMPLAINTS ==================== -->
-            <section class="admin-section">
-
-                <div class="admin-section-header">
-
-                    <div>
-                        <p class="admin-eyebrow">
-                            COMPLAINTS
-                        </p>
-
-                        <h2>
-                            Khiếu nại gần đây
-                        </h2>
-                    </div>
-
-                    <a
-                        href="reports.html"
-                        class="admin-view-all"
-                    >
-                        Xem tất cả
-                    </a>
-
-                </div>
-
-
-                <div class="admin-panel">
-
-                    <div
-                        id="complaintsList"
-                        class="admin-list"
-                    >
-                        <div class="admin-empty">
-                            Đang tải dữ liệu...
-                        </div>
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- ==================== RECENT BOOKINGS ==================== -->
-            <section class="admin-section">
-
-                <div class="admin-section-header">
-
-                    <div>
-                        <p class="admin-eyebrow">
-                            BOOKINGS
-                        </p>
-
-                        <h2>
-                            Booking gần đây
-                        </h2>
-                    </div>
-
-                    <a
-                        href="transactions.html"
-                        class="admin-view-all"
-                    >
-                        Xem tất cả
-                    </a>
-
-                </div>
-
-
-                <div class="admin-panel admin-table-wrapper">
-
-                    <table class="admin-table">
-
-                        <thead>
-                            <tr>
-                                <th>
-                                    Booking
-                                </th>
-
-                                <th>
-                                    Photographer
-                                </th>
-
-                                <th>
-                                    Space
-                                </th>
-
-                                <th>
-                                    Thời gian
-                                </th>
-
-                                <th>
-                                    Trạng thái
-                                </th>
-
-                                <th>
-                                    Tổng tiền
-                                </th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="recentBookings">
-
-                            <tr>
-                                <td
-                                    colspan="6"
-                                    class="admin-table-empty"
-                                >
-                                    Đang tải dữ liệu...
-                                </td>
-                            </tr>
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </section>
-
-
             <!-- ==================== QUICK ACTIONS ==================== -->
             <section class="admin-section">
 
@@ -483,6 +290,7 @@
 
                 <div class="admin-actions-grid">
 
+                    <!-- Manage Users -->
                     <a
                         href="accounts.html"
                         class="admin-action-card"
@@ -497,20 +305,7 @@
                     </a>
 
 
-                    <a
-                        href="content.html"
-                        class="admin-action-card"
-                    >
-                        <strong>
-                            Quản lý nội dung
-                        </strong>
-
-                        <span>
-                            Kiểm duyệt nội dung trên hệ thống
-                        </span>
-                    </a>
-
-
+                    <!-- Manage Transactions -->
                     <a
                         href="transactions.html"
                         class="admin-action-card"
@@ -520,21 +315,7 @@
                         </strong>
 
                         <span>
-                            Theo dõi booking và thanh toán
-                        </span>
-                    </a>
-
-
-                    <a
-                        href="reports.html"
-                        class="admin-action-card"
-                    >
-                        <strong>
-                            Xem báo cáo
-                        </strong>
-
-                        <span>
-                            Theo dõi số liệu hệ thống
+                            Theo dõi các giao dịch của hệ thống
                         </span>
                     </a>
 
@@ -581,16 +362,8 @@
                         Người dùng
                     </a>
 
-                    <a href="content.html">
-                        Nội dung
-                    </a>
-
                     <a href="transactions.html">
                         Giao dịch
-                    </a>
-
-                    <a href="reports.html">
-                        Báo cáo
                     </a>
 
                 </div>
@@ -631,3 +404,5 @@
 
 </body>
 </html>
+
+
