@@ -94,14 +94,14 @@ def update_user(user_id):
             "message": "Dữ liệu không hợp lệ.",
             "errors": errors
         }), 400
-
+ 
     try:
 
         # -------------------------------------------------
         # UPDATE
         # -------------------------------------------------
 
-        user = user_service.update(
+        user = user_service.update( 
             user_id,
             data
         )
