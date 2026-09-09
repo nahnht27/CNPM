@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from services.promotion_service import PromotionService
 from infrastructure.repositories.promotion_repository import PromotionRepository
 from api.schemas.promotion import PromotionRequestSchema, PromotionResponseSchema
-from infrastructure.databases.mssql import session
+from infrastructure.databases.postgres import session
 
 bp = Blueprint('promotion', __name__, url_prefix='/promotions')
 

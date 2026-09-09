@@ -229,8 +229,8 @@ async function loadPendingProviders() {
             Array.isArray(data)
                 ? data
                 : data.data ||
-                  data.providers ||
-                  [];
+                data.providers ||
+                [];
 
         const pending =
             providers
@@ -302,8 +302,8 @@ async function loadPendingProviders() {
 
                                 <span class="admin-status">
                                     ${escapeHtml(
-                                        statusText(status)
-                                    )}
+                        statusText(status)
+                    )}
                                 </span>
 
                             </div>
@@ -357,8 +357,8 @@ async function loadComplaints() {
             Array.isArray(data)
                 ? data
                 : data.data ||
-                  data.complaints ||
-                  [];
+                data.complaints ||
+                [];
 
         const recentComplaints =
             complaints.slice(0, 5);
@@ -399,8 +399,8 @@ async function loadComplaints() {
 
                                 <p class="admin-list-title">
                                     Khiếu nại #${escapeHtml(
-                                        complaintId
-                                    )}
+                        complaintId
+                    )}
                                 </p>
 
                                 <p class="admin-list-description">
@@ -413,8 +413,8 @@ async function loadComplaints() {
 
                                 <span class="admin-status">
                                     ${escapeHtml(
-                                        statusText(status)
-                                    )}
+                        statusText(status)
+                    )}
                                 </span>
 
                             </div>
@@ -468,8 +468,8 @@ async function loadRecentBookings() {
             Array.isArray(data)
                 ? data
                 : data.data ||
-                  data.bookings ||
-                  [];
+                data.bookings ||
+                [];
 
         const recentBookings =
             bookings.slice(0, 8);
@@ -537,14 +537,14 @@ async function loadRecentBookings() {
 
                             <td>
                                 ${escapeHtml(
-                                    photographerId
-                                )}
+                        photographerId
+                    )}
                             </td>
 
                             <td>
                                 ${escapeHtml(
-                                    spaceId
-                                )}
+                        spaceId
+                    )}
                             </td>
 
                             <td>
@@ -556,15 +556,15 @@ async function loadRecentBookings() {
                             <td>
                                 <span class="admin-status">
                                     ${escapeHtml(
-                                        statusText(status)
-                                    )}
+                        statusText(status)
+                    )}
                                 </span>
                             </td>
 
                             <td>
                                 ${escapeHtml(
-                                    money(totalPrice)
-                                )}
+                        money(totalPrice)
+                    )}
                             </td>
 
                         </tr>
@@ -625,8 +625,8 @@ async function loadPayments() {
             Array.isArray(data)
                 ? data
                 : data.data ||
-                  data.payments ||
-                  [];
+                data.payments ||
+                [];
 
         if (payments.length === 0) {
             tableBody.innerHTML = `
@@ -694,21 +694,21 @@ async function loadPayments() {
 
                             <td>
                                 ${escapeHtml(
-                                    paymentMethod
-                                )}
+                        paymentMethod
+                    )}
                             </td>
 
                             <td>
                                 ${escapeHtml(
-                                    money(amount)
-                                )}
+                        money(amount)
+                    )}
                             </td>
 
                             <td>
                                 <span class="admin-status">
                                     ${escapeHtml(
-                                        statusText(status)
-                                    )}
+                        statusText(status)
+                    )}
                                 </span>
                             </td>
 
@@ -717,11 +717,10 @@ async function loadPayments() {
                             </td>
 
                             <td>
-                                ${
-                                    paidAt
-                                        ? escapeHtml(paidAt)
-                                        : "Chưa thanh toán"
-                                }
+                                ${paidAt
+                            ? escapeHtml(paidAt)
+                            : "Chưa thanh toán"
+                        }
                             </td>
 
                         </tr>
@@ -829,15 +828,15 @@ async function loadAccounts() {
             Array.isArray(usersData)
                 ? usersData
                 : usersData.data ||
-                  usersData.users ||
-                  [];
+                usersData.users ||
+                [];
 
         adminProviders =
             Array.isArray(providersData)
                 ? providersData
                 : providersData.data ||
-                  providersData.providers ||
-                  [];
+                providersData.providers ||
+                [];
 
         renderAccounts();
 
@@ -941,10 +940,10 @@ function showUserDetail(userId) {
 
                 <span>
                     ${escapeHtml(
-                        provider.business_name ||
-                        provider.BusinessName ||
-                        "Chưa cập nhật"
-                    )}
+            provider.business_name ||
+            provider.BusinessName ||
+            "Chưa cập nhật"
+        )}
                 </span>
             </div>
 
@@ -955,10 +954,10 @@ function showUserDetail(userId) {
 
                 <span>
                     ${escapeHtml(
-                        provider.tax_code ||
-                        provider.TaxCode ||
-                        "Chưa cập nhật"
-                    )}
+            provider.tax_code ||
+            provider.TaxCode ||
+            "Chưa cập nhật"
+        )}
                 </span>
             </div>
 
@@ -969,10 +968,10 @@ function showUserDetail(userId) {
 
                 <span>
                     ${escapeHtml(
-                        provider.business_address ||
-                        provider.BusinessAddress ||
-                        "Chưa cập nhật"
-                    )}
+            provider.business_address ||
+            provider.BusinessAddress ||
+            "Chưa cập nhật"
+        )}
                 </span>
             </div>
 
@@ -983,11 +982,11 @@ function showUserDetail(userId) {
 
                 <span>
                     ${escapeHtml(
-                        statusText(
-                            provider.verification_status ||
-                            provider.VerificationStatus
-                        )
-                    )}
+            statusText(
+                provider.verification_status ||
+                provider.VerificationStatus
+            )
+        )}
                 </span>
             </div>
 
@@ -997,23 +996,22 @@ function showUserDetail(userId) {
                 </strong>
 
                 <span>
-                    ${
-                        provider.license_url ||
-                        provider.LicenseUrl
-                            ? `
+                    ${provider.license_url ||
+                provider.LicenseUrl
+                ? `
                                 <a
                                     href="${escapeHtml(
-                                        provider.license_url ||
-                                        provider.LicenseUrl
-                                    )}"
+                    provider.license_url ||
+                    provider.LicenseUrl
+                )}"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
                                     Xem tài liệu
                                 </a>
                             `
-                            : "Chưa cập nhật"
-                    }
+                : "Chưa cập nhật"
+            }
                 </span>
             </div>
         `;
@@ -1043,9 +1041,9 @@ function showUserDetail(userId) {
 
                 <span>
                     ${escapeHtml(
-                        user.username ||
-                        "Chưa cập nhật"
-                    )}
+        user.username ||
+        "Chưa cập nhật"
+    )}
                 </span>
             </div>
 
@@ -1056,9 +1054,9 @@ function showUserDetail(userId) {
 
                 <span>
                     ${escapeHtml(
-                        user.full_name ||
-                        "Chưa cập nhật"
-                    )}
+        user.full_name ||
+        "Chưa cập nhật"
+    )}
                 </span>
             </div>
 
@@ -1069,9 +1067,9 @@ function showUserDetail(userId) {
 
                 <span>
                     ${escapeHtml(
-                        user.email ||
-                        "Chưa cập nhật"
-                    )}
+        user.email ||
+        "Chưa cập nhật"
+    )}
                 </span>
             </div>
 
@@ -1082,9 +1080,9 @@ function showUserDetail(userId) {
 
                 <span>
                     ${escapeHtml(
-                        user.phone ||
-                        "Chưa cập nhật"
-                    )}
+        user.phone ||
+        "Chưa cập nhật"
+    )}
                 </span>
             </div>
 
@@ -1095,9 +1093,9 @@ function showUserDetail(userId) {
 
                 <span>
                     ${escapeHtml(
-                        user.gender ||
-                        "Chưa cập nhật"
-                    )}
+        user.gender ||
+        "Chưa cập nhật"
+    )}
                 </span>
             </div>
 
@@ -1108,8 +1106,8 @@ function showUserDetail(userId) {
 
                 <span>
                     ${escapeHtml(
-                        getRoleText(user)
-                    )}
+        getRoleText(user)
+    )}
                 </span>
             </div>
 
@@ -1120,8 +1118,8 @@ function showUserDetail(userId) {
 
                 <span>
                     ${escapeHtml(
-                        statusText(user.status)
-                    )}
+        statusText(user.status)
+    )}
                 </span>
             </div>
 
@@ -1131,13 +1129,12 @@ function showUserDetail(userId) {
                 </strong>
 
                 <span>
-                    ${
-                        user.created_at
-                            ? escapeHtml(
-                                user.created_at
-                            )
-                            : "Chưa cập nhật"
-                    }
+                    ${user.created_at
+            ? escapeHtml(
+                user.created_at
+            )
+            : "Chưa cập nhật"
+        }
                 </span>
             </div>
 
@@ -1342,8 +1339,8 @@ function renderAccounts() {
                         <td>
                             <span class="admin-status">
                                 ${escapeHtml(
-                                    statusText(status)
-                                )}
+                    statusText(status)
+                )}
                             </span>
                         </td>
 
@@ -1417,10 +1414,10 @@ function showProviderDetail(providerId) {
 
                 <span>
                     ${escapeHtml(
-                        provider.business_name ||
-                        provider.BusinessName ||
-                        "Chưa cập nhật"
-                    )}
+        provider.business_name ||
+        provider.BusinessName ||
+        "Chưa cập nhật"
+    )}
                 </span>
             </div>
 
@@ -1431,10 +1428,10 @@ function showProviderDetail(providerId) {
 
                 <span>
                     ${escapeHtml(
-                        provider.tax_code ||
-                        provider.TaxCode ||
-                        "Chưa cập nhật"
-                    )}
+        provider.tax_code ||
+        provider.TaxCode ||
+        "Chưa cập nhật"
+    )}
                 </span>
             </div>
 
@@ -1445,10 +1442,10 @@ function showProviderDetail(providerId) {
 
                 <span>
                     ${escapeHtml(
-                        provider.business_address ||
-                        provider.BusinessAddress ||
-                        "Chưa cập nhật"
-                    )}
+        provider.business_address ||
+        provider.BusinessAddress ||
+        "Chưa cập nhật"
+    )}
                 </span>
             </div>
 
@@ -1459,8 +1456,8 @@ function showProviderDetail(providerId) {
 
                 <span class="admin-status">
                     ${escapeHtml(
-                        statusText(status)
-                    )}
+        statusText(status)
+    )}
                 </span>
             </div>
 
@@ -1470,21 +1467,20 @@ function showProviderDetail(providerId) {
                 </strong>
 
                 <span>
-                    ${
-                        licenseUrl
-                            ? `
+                    ${licenseUrl
+            ? `
                                 <a
                                     href="${escapeHtml(
-                                        licenseUrl
-                                    )}"
+                licenseUrl
+            )}"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
                                     Xem tài liệu
                                 </a>
                             `
-                            : "Chưa cập nhật"
-                    }
+            : "Chưa cập nhật"
+        }
                 </span>
             </div>
 
@@ -1494,13 +1490,12 @@ function showProviderDetail(providerId) {
                 </strong>
 
                 <span>
-                    ${
-                        provider.approved_at
-                            ? escapeHtml(
-                                provider.approved_at
-                            )
-                            : "Chưa duyệt"
-                    }
+                    ${provider.approved_at
+            ? escapeHtml(
+                provider.approved_at
+            )
+            : "Chưa duyệt"
+        }
                 </span>
             </div>
 
@@ -1599,10 +1594,11 @@ async function approveProvider() {
             );
         }
 
-        alert(
-            "Duyệt Provider thành công."
+        showAdminToast(
+            "Duyệt thành công",
+            "Hồ sơ Provider đã được phê duyệt và cập nhật trạng thái."
         );
-
+ 
         closeProviderModal();
 
         await loadAccounts();

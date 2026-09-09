@@ -995,6 +995,7 @@
 
     let originalData = {};
     let originalLicenseData = {};
+    let providerVerificationStatus = "pending";
 
 
     /* =========================================================
@@ -3081,10 +3082,14 @@
 
         /* VERIFICATION */
 
+        providerVerificationStatus =
+          String(data.verification_status || "pending").toLowerCase();
+
         applyVerificationBadge(
-          data.verification_status ||
-          "pending"
+          providerVerificationStatus
         );
+
+        applyProviderAccessControl();
 
 
         /* LICENSE URL */
@@ -3193,6 +3198,39 @@
 
       }
 
+    }
+
+    function applyProviderAccessControl() {
+
+      const status = providerVerificationStatus;
+
+      const isApproved = status === "approved";
+
+      const editLicenseBtn =
+        document.getElementById("editLicenseBtn");
+
+      if (editLicenseBtn) {
+        editLicenseBtn.disabled = false;
+      }
+
+      document
+        .querySelectorAll(
+          'a[href="spaces.html"], a[href="equipment.html"], a[href="packages.html"]'
+        )
+        .forEach(link => {
+
+          if (isApproved) {
+            link.classList.remove("verification-locked");
+            link.removeAttribute("title");
+          } else {
+            link.classList.add("verification-locked");
+            link.setAttribute(
+              "title",
+              "Cần được Admin xác minh trước khi quản lý dịch vụ."
+            );
+          }
+
+        });
     }
 
 

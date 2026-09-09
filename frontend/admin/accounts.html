@@ -4,35 +4,21 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Người dùng - FilmSpace</title>
 
     <!-- Google Font -->
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
 
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 
     <!-- ==================== INLINE CSS ==================== -->
 
     <style>
-
         /* ==================== VARIABLES ==================== */
 
         :root {
@@ -596,108 +582,108 @@
 
         /* ==================== ACTION BUTTONS ==================== */
 
-.admin-view-button,
-.admin-approve-button,
-.admin-table td:last-child button,
-.admin-table td:last-child a {
+        .admin-view-button,
+        .admin-approve-button,
+        .admin-table td:last-child button,
+        .admin-table td:last-child a {
 
-    display: inline-flex;
+            display: inline-flex;
 
-    align-items: center;
+            align-items: center;
 
-    justify-content: center;
+            justify-content: center;
 
-    min-width: 64px;
+            min-width: 64px;
 
-    height: 38px;
+            height: 38px;
 
-    padding: 0 15px;
+            padding: 0 15px;
 
-    border: 1px solid var(--line);
+            border: 1px solid var(--line);
 
-    border-radius: 7px;
+            border-radius: 7px;
 
-    background: var(--white);
+            background: var(--white);
 
-    color: #55586b;
+            color: #55586b;
 
-    font-family: "Inter", Arial, sans-serif;
+            font-family: "Inter", Arial, sans-serif;
 
-    font-size: 12px;
+            font-size: 12px;
 
-    font-weight: 600;
+            font-weight: 600;
 
-    line-height: 1;
+            line-height: 1;
 
-    text-align: center;
+            text-align: center;
 
-    text-decoration: none;
+            text-decoration: none;
 
-    white-space: nowrap;
+            white-space: nowrap;
 
-    cursor: pointer;
+            cursor: pointer;
 
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        color 0.2s ease;
-}
-
-
-/* ==================== XEM ==================== */
-
-.admin-view-button:hover,
-.admin-table td:last-child a:hover {
-
-    background: #fff7fb;
-
-    border-color: #f4b6d4;
-
-    color: var(--pink);
-
-}
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease,
+                color 0.2s ease;
+        }
 
 
-/* ==================== DUYỆT ==================== */
+        /* ==================== XEM ==================== */
 
-.admin-approve-button {
+        .admin-view-button:hover,
+        .admin-table td:last-child a:hover {
 
-    margin-left: 6px;
+            background: #fff7fb;
 
-}
+            border-color: #f4b6d4;
 
+            color: var(--pink);
 
-.admin-approve-button:hover,
-.admin-table td:last-child button:hover {
-
-    background: #fff1f8;
-
-    border-color: #f4b6d4;
-
-    color: var(--pink);
-
-}
+        }
 
 
-/* ==================== ACTION CELL ==================== */
+        /* ==================== DUYỆT ==================== */
 
-.admin-table td:last-child {
+        .admin-approve-button {
 
-    white-space: nowrap;
+            margin-left: 6px;
 
-    vertical-align: middle;
-
-}
+        }
 
 
+        .admin-approve-button:hover,
+        .admin-table td:last-child button:hover {
 
-.admin-table td:last-child button + button,
-.admin-table td:last-child a + button,
-.admin-table td:last-child button + a {
+            background: #fff1f8;
 
-    margin-left: 6px;
+            border-color: #f4b6d4;
 
-}
+            color: var(--pink);
+
+        }
+
+
+        /* ==================== ACTION CELL ==================== */
+
+        .admin-table td:last-child {
+
+            white-space: nowrap;
+
+            vertical-align: middle;
+
+        }
+
+
+
+        .admin-table td:last-child button+button,
+        .admin-table td:last-child a+button,
+        .admin-table td:last-child button+a {
+
+            margin-left: 6px;
+
+        }
 
         /* ==================== FOOTER ==================== */
 
@@ -899,8 +885,8 @@
         }
 
         .admin-approve-button[hidden] {
-    display: none !important;
-}
+            display: none !important;
+        }
 
         /* ==================== RESPONSIVE ==================== */
 
@@ -1027,6 +1013,177 @@
 
         }
 
+        /* ==================== SUCCESS TOAST ==================== */
+
+        .admin-toast {
+            position: fixed;
+            top: 92px;
+            right: 30px;
+            z-index: 3000;
+
+            width: 360px;
+            min-height: 82px;
+
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+
+            padding: 17px 18px;
+
+            background: #ffffff;
+            border: 1px solid #f0e3ea;
+            border-radius: 10px;
+
+            box-shadow:
+                0 12px 30px rgba(40, 42, 67, 0.12),
+                0 3px 8px rgba(40, 42, 67, 0.05);
+
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(30px);
+
+            transition:
+                opacity 0.25s ease,
+                transform 0.25s ease,
+                visibility 0.25s ease;
+
+            overflow: hidden;
+        }
+
+        /* Thanh màu bên trái */
+
+        .admin-toast::before {
+            content: "";
+
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+
+            width: 4px;
+
+            background: var(--pink);
+        }
+
+        /* Hiển thị */
+
+        .admin-toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+        }
+
+        /* Icon */
+
+        .admin-toast-icon {
+            width: 32px;
+            height: 32px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-left: 3px;
+
+            border-radius: 50%;
+
+            background: #fff1f8;
+            color: var(--pink);
+
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        /* Nội dung */
+
+        .admin-toast-content {
+            flex: 1;
+            min-width: 0;
+            padding-top: 1px;
+        }
+
+        .admin-toast-title {
+            margin: 0 0 4px;
+
+            color: var(--text);
+
+            font-size: 13px;
+            font-weight: 700;
+
+            line-height: 1.4;
+        }
+
+        .admin-toast-message {
+            margin: 0;
+
+            color: var(--muted);
+
+            font-size: 12px;
+            font-weight: 400;
+
+            line-height: 1.5;
+        }
+
+        /* Nút đóng */
+
+        .admin-toast-close {
+            width: 24px;
+            height: 24px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 0;
+
+            border: 0;
+            background: transparent;
+
+            color: #a3a5b2;
+
+            font-size: 18px;
+            font-weight: 400;
+
+            line-height: 1;
+
+            cursor: pointer;
+
+            transition:
+                color 0.2s ease,
+                background 0.2s ease;
+
+            border-radius: 5px;
+        }
+
+        .admin-toast-close:hover {
+            color: var(--text);
+            background: #f7f7fa;
+        }
+
+
+        /* ==================== MOBILE TOAST ==================== */
+
+        @media (max-width: 700px) {
+
+            .admin-toast {
+                top: 84px;
+                left: 18px;
+                right: 18px;
+
+                width: auto;
+
+                transform: translateY(-15px);
+            }
+
+            .admin-toast.show {
+                transform: translateY(0);
+            }
+
+        }
     </style>
 
 </head>
@@ -1041,10 +1198,7 @@
 
         <div class="admin-navbar-container">
 
-            <a
-                href="dashboard.html"
-                class="admin-logo"
-            >
+            <a href="dashboard.html" class="admin-logo">
                 FilmSpace
             </a>
 
@@ -1061,11 +1215,7 @@
                 </span>
 
 
-                <button
-                    type="button"
-                    class="admin-logout"
-                    onclick="logout()"
-                >
+                <button type="button" class="admin-logout" onclick="logout()">
                     Đăng xuất
                 </button>
 
@@ -1088,10 +1238,7 @@
             <div class="admin-sidebar-menu">
 
 
-                <a
-                    href="dashboard.html"
-                    class="admin-sidebar-link"
-                >
+                <a href="dashboard.html" class="admin-sidebar-link">
 
                     <span class="sidebar-icon">
                         ▦
@@ -1104,10 +1251,7 @@
                 </a>
 
 
-                <a
-                    href="accounts.html"
-                    class="admin-sidebar-link active"
-                >
+                <a href="accounts.html" class="admin-sidebar-link active">
 
                     <span class="sidebar-icon">
                         👥
@@ -1120,10 +1264,7 @@
                 </a>
 
 
-                <a
-                    href="transactions.html"
-                    class="admin-sidebar-link"
-                >
+                <a href="transactions.html" class="admin-sidebar-link">
 
                     <span class="sidebar-icon">
                         ₫
@@ -1138,10 +1279,7 @@
 
 
 
-                <a
-                    href="settings.html"
-                    class="admin-sidebar-link"
-                >
+                <a href="settings.html" class="admin-sidebar-link">
 
                     <span class="sidebar-icon">
                         ⚙
@@ -1239,10 +1377,7 @@
 
                             <tr>
 
-                                <td
-                                    colspan="7"
-                                    class="admin-table-empty"
-                                >
+                                <td colspan="7" class="admin-table-empty">
                                     Đang tải dữ liệu...
                                 </td>
 
@@ -1363,13 +1498,54 @@
     <!-- ==================== JAVASCRIPT ==================== -->
 
     <script src="../api/admin.js"></script>
+    <script>
+        let adminToastTimer = null;
+
+
+        function showAdminToast(
+            title = "Duyệt thành công",
+            message = "Provider đã được duyệt thành công."
+        ) {
+
+            const toast = document.getElementById("adminToast");
+            const titleElement = document.getElementById("adminToastTitle");
+            const messageElement = document.getElementById("adminToastMessage");
+
+            if (!toast) return;
+
+            titleElement.textContent = title;
+            messageElement.textContent = message;
+
+            toast.classList.remove("show");
+
+            // Reset animation
+            void toast.offsetWidth;
+
+            toast.classList.add("show");
+
+            clearTimeout(adminToastTimer);
+
+            adminToastTimer = setTimeout(() => {
+                hideAdminToast();
+            }, 4000);
+        }
+
+
+        function hideAdminToast() {
+
+            const toast = document.getElementById("adminToast");
+
+            if (!toast) return;
+
+            toast.classList.remove("show");
+
+            clearTimeout(adminToastTimer);
+        }
+    </script>
 
     <!-- ==================== USER DETAIL MODAL ==================== -->
 
-<div
-    id="providerModal"
-    hidden
-    style="
+    <div id="providerModal" hidden style="
         position: fixed;
         inset: 0;
         z-index: 2000;
@@ -1378,11 +1554,9 @@
         align-items: center;
         justify-content: center;
         padding: 20px;
-    "
->
+    ">
 
-    <div
-        style="
+        <div style="
             width: 100%;
             max-width: 560px;
             max-height: 85vh;
@@ -1391,82 +1565,89 @@
             border-radius: 10px;
             padding: 28px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-        "
-    >
+        ">
 
-        <div
-            style="
+            <div style="
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
                 margin-bottom: 22px;
-            "
-        >
+            ">
 
-            <h2
-                style="
+                <h2 style="
                     margin: 0;
                     font-size: 22px;
                     color: #26283b;
-                "
-            >
-                Chi tiết người dùng
-            </h2>
+                ">
+                    Chi tiết người dùng
+                </h2>
 
-            <button
-                type="button"
-                onclick="closeProviderModal()"
-                style="
+                <button type="button" onclick="closeProviderModal()" style="
                     border: 0;
                     background: transparent;
                     font-size: 24px;
                     color: #6f7284;
                     cursor: pointer;
-                "
-            >
-                ×
-            </button>
+                ">
+                    ×
+                </button>
 
-        </div>
-
-
-        <div id="providerModalBody">
-        </div>
+            </div>
 
 
-        <div
-            style="
+            <div id="providerModalBody">
+            </div>
+
+
+            <div style="
                 display: flex;
                 justify-content: flex-end;
                 gap: 10px;
                 margin-top: 24px;
-            "
-        >
+            ">
 
-            <button
-                type="button"
-                class="admin-view-button"
-                onclick="closeProviderModal()"
-            >
-                Đóng
-            </button>
+                <button type="button" class="admin-view-button" onclick="closeProviderModal()">
+                    Đóng
+                </button>
 
 
-            <button
-                type="button"
-                id="approveProviderButton"
-                class="admin-approve-button"
-                onclick="approveProvider()"
-                hidden
-            >
-                Duyệt Provider
-            </button>
+                <button type="button" id="approveProviderButton" class="admin-approve-button"
+                    onclick="approveProvider()" hidden>
+                    Duyệt Provider
+                </button>
+
+            </div>
 
         </div>
 
     </div>
 
-</div>
+    <!-- ==================== SUCCESS TOAST ==================== -->
+
+    <div id="adminToast" class="admin-toast" role="status" aria-live="polite">
+
+        <div class="admin-toast-icon">
+            ✓
+        </div>
+
+        <div class="admin-toast-content">
+
+            <div class="admin-toast-title" id="adminToastTitle">
+                Duyệt thành công
+            </div>
+
+            <p class="admin-toast-message" id="adminToastMessage">
+                Provider đã được duyệt thành công.
+            </p>
+
+        </div>
+
+        <button type="button" class="admin-toast-close" onclick="hideAdminToast()" aria-label="Đóng thông báo">
+            ×
+        </button>
+
+    </div>
+
 
 </body>
 
