@@ -3,7 +3,7 @@ from services.role_service import RoleService
 from infrastructure.repositories.role_repository import RoleRepository
 from api.schemas.role import RoleRequestSchema, RoleResponseSchema
 from datetime import datetime
-from infrastructure.databases.mssql import session
+from infrastructure.databases.postgres import session
 
 bp = Blueprint('role', __name__, url_prefix='/roles')
 

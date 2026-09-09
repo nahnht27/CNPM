@@ -8,7 +8,7 @@ from api.schemas.ai_interaction_log import (
     AIInteractionLogRequestSchema,
     AIInteractionLogResponseSchema
 )
-from infrastructure.databases.mssql import session
+from infrastructure.databases.postgres import session
 
 
 bp = Blueprint('ai', __name__, url_prefix='/ai')

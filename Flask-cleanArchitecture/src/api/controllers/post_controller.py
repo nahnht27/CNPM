@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from services.post_service import PostService
 from infrastructure.repositories.post_repository import PostRepository
 from api.schemas.post import PostRequestSchema, PostResponseSchema
-from infrastructure.databases.mssql import session
+from infrastructure.databases.postgres import session
 
 bp = Blueprint('post', __name__, url_prefix='/posts')
 
