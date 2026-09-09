@@ -1,0 +1,2338 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Provider - Dashboard | FilmSpace</title>
+
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/provider-dashboard.css">
+</head>
+
+<body>
+
+  <!-- =========================
+       NAVBAR
+  ========================== -->
+
+  <nav class="navbar" id="mainNavbar">
+    <div class="navbar-container container">
+
+  <a class="logo" href="dashboard.html" aria-label="FilmSpace">
+    Film<span>Space</span>
+  </a>
+
+  <div class="menu" aria-label="Provider navigation">
+    <a href="dashboard.html" class="active">Dashboard</a>
+    <a href="spaces.html">Spaces</a>
+    <a href="equipment.html">Equipment</a>
+    <a href="packages.html">Packages</a>
+    <a href="bookings.html">Bookings</a>
+    <a href="profile.html">Profile</a>
+  </div>
+
+  <div class="nav-actions">
+
+    <a href="notifications.html" class="provider-notification-link" aria-label="Notifications" title="Notifications">
+      🔔
+      <span id="notificationBadge" class="provider-notification-badge">0</span>
+    </a>
+
+    <span class="provider-nav-name" id="navProviderName">
+      Provider
+    </span>
+
+    <button type="button" class="provider-logout" onclick="logout()">
+      Đăng xuất
+    </button>
+
+  </div>
+
+</div>
+
+  </nav>
+
+  <!-- =========================
+       MAIN
+  ========================== -->
+
+  <main class="provider-page">
+
+<!-- =========================
+     WELCOME
+========================== -->
+<section class="provider-welcome">
+
+  <div class="container">
+
+    <div class="provider-welcome-card">
+
+      <div class="provider-welcome-content">
+
+        <div class="provider-welcome-kicker">
+          SERVICE PROVIDER DASHBOARD
+        </div>
+
+        <h1>
+          Xin chào,
+          <span id="providerName">Provider</span>
+          👋
+        </h1>
+
+        <p>
+          Theo dõi booking, doanh thu và quản lý không gian,
+          thiết bị, gói dịch vụ của bạn trên FilmSpace.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     OVERVIEW
+========================== -->
+<section class="provider-section">
+
+  <div class="container">
+
+    <div class="provider-section-heading">
+
+      <div>
+        <h2>Tổng quan</h2>
+
+        <p>
+          Các chỉ số hoạt động chính của Provider.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="provider-stats-grid">
+
+      <!-- TOTAL BOOKINGS -->
+      <article class="provider-stat-card">
+
+        <div class="provider-stat-icon">
+          ◷
+        </div>
+
+        <div>
+          <span class="provider-stat-label">
+            Tổng booking
+          </span>
+
+          <strong id="totalBookings">
+            —
+          </strong>
+        </div>
+
+      </article>
+
+
+      <!-- TOTAL REVENUE -->
+      <article class="provider-stat-card">
+
+        <div class="provider-stat-icon pink">
+          ₫
+        </div>
+
+        <div>
+          <span class="provider-stat-label">
+            Doanh thu
+          </span>
+
+          <strong id="totalRevenue">
+            —
+          </strong>
+        </div>
+
+      </article>
+
+
+      <!-- TOTAL SPACES -->
+      <article class="provider-stat-card">
+
+        <div class="provider-stat-icon blue">
+          ▣
+        </div>
+
+        <div>
+          <span class="provider-stat-label">
+            Không gian
+          </span>
+
+          <strong id="totalSpaces">
+            —
+          </strong>
+        </div>
+
+      </article>
+
+
+      <!-- TOTAL INVOICES -->
+      <article class="provider-stat-card">
+
+        <div class="provider-stat-icon soft">
+          ▤
+        </div>
+
+        <div>
+          <span class="provider-stat-label">
+            Hóa đơn
+          </span>
+
+          <strong id="totalInvoices">
+            —
+          </strong>
+        </div>
+
+      </article>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     RECENT BOOKINGS
+========================== -->
+<section class="provider-section">
+
+  <div class="container">
+
+    <div class="provider-section-heading">
+
+      <div>
+        <h2>Booking gần đây</h2>
+
+        <p>
+          Các yêu cầu đặt chỗ mới nhất từ Photographer.
+        </p>
+      </div>
+
+      <a href="bookings.html" class="provider-view-all">
+        View all
+      </a>
+
+    </div>
+
+
+    <div class="provider-booking-panel" id="recentBookings">
+
+      <div class="provider-loading-state">
+        <span class="provider-loading-spinner"></span>
+        Đang tải booking...
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     REVENUE REPORT
+========================== -->
+<section class="provider-section">
+
+  <div class="container">
+
+    <div class="provider-section-heading">
+
+      <div>
+        <h2>Doanh thu</h2>
+
+        <p>
+          Báo cáo doanh thu theo tháng của Provider.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="provider-revenue-card">
+
+      <div class="provider-revenue-head">
+
+        <div>
+
+          <span class="provider-revenue-label">
+            Tổng doanh thu
+          </span>
+
+          <strong id="revenueSummary">
+            —
+          </strong>
+
+        </div>
+
+        <span class="provider-revenue-note" id="revenuePeriod">
+          Đang tải dữ liệu...
+        </span>
+
+      </div>
+
+
+      <div class="provider-chart-wrapper" id="revenueChart">
+
+        <div class="provider-chart-loading" id="revenueChartLoading">
+          <span class="provider-loading-spinner"></span>
+          Đang tải báo cáo doanh thu...
+        </div>
+
+        <div class="provider-chart-empty" id="revenueChartEmpty">
+          <div class="provider-chart-empty-icon">
+            ₫
+          </div>
+
+          <h3>
+            Chưa có dữ liệu doanh thu
+          </h3>
+
+          <p>
+            Chưa có khoản thanh toán hoàn thành trong khoảng thời gian báo cáo.
+          </p>
+        </div>
+
+        <div class="provider-chart-error" id="revenueChartError">
+          Không thể tải dữ liệu doanh thu.
+        </div>
+
+        <canvas id="revenueCanvas"></canvas>
+
+        <div class="provider-chart-tooltip" id="revenueTooltip"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     QUICK ACTIONS
+========================== -->
+<section class="provider-section provider-actions-section">
+
+  <div class="container">
+
+    <div class="provider-section-heading">
+
+      <div>
+        <h2>Quick Actions</h2>
+
+        <p>
+          Truy cập nhanh các chức năng quản lý thường dùng.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="provider-actions-grid">
+
+      <!-- SPACES -->
+      <a href="spaces.html" class="provider-action-card">
+
+        <div class="provider-action-icon">
+          ▣
+        </div>
+
+        <div>
+          <h3>Quản lý không gian</h3>
+
+          <p>
+            Thêm, cập nhật và theo dõi studio hoặc darkroom.
+          </p>
+        </div>
+
+        <span>→</span>
+
+      </a>
+
+
+      <!-- EQUIPMENT -->
+      <a href="equipment.html" class="provider-action-card">
+
+        <div class="provider-action-icon blue">
+          ⌁
+        </div>
+
+        <div>
+          <h3>Quản lý thiết bị</h3>
+
+          <p>
+            Quản lý trang bị và giá thuê cho Photographer.
+          </p>
+        </div>
+
+        <span>→</span>
+
+      </a>
+
+
+      <!-- PACKAGES -->
+      <a href="packages.html" class="provider-action-card">
+
+        <div class="provider-action-icon soft">
+          ◇
+        </div>
+
+        <div>
+          <h3>Gói dịch vụ</h3>
+
+          <p>
+            Tạo và cập nhật các package dịch vụ.
+          </p>
+        </div>
+
+        <span>→</span>
+
+      </a>
+
+
+      <!-- BOOKINGS -->
+      <a href="bookings.html" class="provider-action-card">
+
+        <div class="provider-action-icon pink">
+          ✓
+        </div>
+
+        <div>
+          <h3>Xử lý booking</h3>
+
+          <p>
+            Xem và xử lý yêu cầu booking của khách hàng.
+          </p>
+        </div>
+
+        <span>→</span>
+
+      </a>
+
+
+      <!-- WORKSHOPS -->
+      <a href="workshops.html" class="provider-action-card">
+
+        <div class="provider-action-icon">
+          ◈
+        </div>
+
+        <div>
+          <h3>Quản lý Workshop</h3>
+
+          <p>
+            Tạo, cập nhật và quản lý các workshop cho Photographer.
+          </p>
+        </div>
+
+        <span>→</span>
+
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+  </main>
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+
+  <footer class="footer">
+
+<div class="container">
+
+  <div class="footer-top">
+
+    <div class="footer-brand">
+
+      <div class="footer-logo">
+        Photography<span>Platform</span>
+      </div>
+
+      <p>
+        Kết nối các nhiếp ảnh gia phim với các phòng tối
+        và studio đáng tin cậy.
+      </p>
+
+    </div>
+
+
+    <div class="footer-menu">
+
+      <a href="dashboard.html">Dashboard</a>
+      <a href="spaces.html">Spaces</a>
+      <a href="equipment.html">Equipment</a>
+      <a href="packages.html">Packages</a>
+      <a href="bookings.html">Bookings</a>
+      <a href="profile.html">Profile</a>
+
+    </div>
+
+  </div>
+
+
+  <hr class="footer-line">
+
+
+  <div class="footer-bottom">
+
+    <span>
+      Copyright © 2026 Photography Platform.
+      All rights reserved.
+    </span>
+
+    <div class="footer-links">
+
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+
+    </div>
+
+  </div>
+
+</div>
+
+  </footer>
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================== -->
+
+  <script>
+
+    /* =========================================================
+       CONFIG
+    ========================================================= */
+
+    const API_BASE_URL = "http://127.0.0.1:9999";
+
+    let currentProviderId = null;
+    let currentToken = null;
+
+    let revenueChartData = [];
+
+
+    /* =========================================================
+       AUTH STORAGE
+    ========================================================= */
+
+    function getStorage() {
+
+      if (localStorage.getItem("auth_token")) {
+        return localStorage;
+      }
+
+      return sessionStorage;
+    }
+
+
+    function getLoggedInUser() {
+
+      const storage = getStorage();
+
+      return {
+
+        storage,
+
+        token: storage.getItem("auth_token"),
+
+        userId: storage.getItem("user_id"),
+
+        username: storage.getItem("username") || "",
+
+        fullName: storage.getItem("full_name") || "",
+
+        providerId: storage.getItem("provider_id")
+
+      };
+
+    }
+
+
+    /* =========================================================
+       API FETCH
+    ========================================================= */
+
+    async function apiFetch(url, options = {}) {
+
+      const user = getLoggedInUser();
+
+      const headers = {
+        "Accept": "application/json",
+        ...(options.headers || {})
+      };
+
+      if (user.token) {
+
+        headers["Authorization"] =
+          `Bearer ${user.token}`;
+
+      }
+
+      return fetch(url, {
+        ...options,
+        headers
+      });
+
+    }
+
+
+    /* =========================================================
+       NOTIFICATION
+    ========================================================= */
+
+    async function loadNotificationBadge() {
+
+      const user = getLoggedInUser();
+
+      const badge =
+        document.getElementById("notificationBadge");
+
+      if (!badge || !user.userId) {
+        return;
+      }
+
+      try {
+
+        const response =
+          await apiFetch(
+            `${API_BASE_URL}/notifications/user/${user.userId}/unread-count`
+          );
+
+        if (!response.ok) {
+          return;
+        }
+
+        const data =
+          await response.json();
+
+        const count =
+          Number(data.count || 0);
+
+        if (count > 0) {
+
+          badge.textContent =
+            count > 99 ? "99+" : String(count);
+
+          badge.style.display =
+            "inline-flex";
+
+        } else {
+
+          badge.style.display =
+            "none";
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "LOAD NOTIFICATION BADGE ERROR:",
+          error
+        );
+
+      }
+
+    }
+
+
+    /* =========================================================
+       PROVIDER INFO
+    ========================================================= */
+
+    function loadProviderInfo() {
+
+      const user =
+        getLoggedInUser();
+
+      if (!user.token || !user.providerId) {
+
+        window.location.href =
+          "../auth.html";
+
+        return false;
+
+      }
+
+      currentProviderId =
+        Number(user.providerId);
+
+      currentToken =
+        user.token;
+
+      if (
+        !Number.isInteger(currentProviderId) ||
+        currentProviderId <= 0
+      ) {
+
+        window.location.href =
+          "../auth.html";
+
+        return false;
+
+      }
+
+      const displayName =
+        user.fullName ||
+        user.username ||
+        `Provider #${user.providerId}`;
+
+      const providerName =
+        document.getElementById("providerName");
+
+      const navProviderName =
+        document.getElementById("navProviderName");
+
+      if (providerName) {
+        providerName.textContent =
+          displayName;
+      }
+
+      if (navProviderName) {
+        navProviderName.textContent =
+          displayName;
+      }
+
+      return true;
+
+    }
+
+
+    /* =========================================================
+       LOGOUT
+    ========================================================= */
+
+    function logout() {
+
+      localStorage.clear();
+      sessionStorage.clear();
+
+      document.cookie
+        .split(";")
+        .forEach(function (c) {
+
+          document.cookie =
+            c
+              .replace(/^ +/, "")
+              .replace(
+                /=.*/,
+                "=;expires=" +
+                new Date().toUTCString() +
+                ";path=/"
+              );
+
+        });
+
+      window.location.href =
+        "../auth.html";
+
+    }
+
+
+    /* =========================================================
+       FORMAT
+    ========================================================= */
+
+    function formatCurrency(value) {
+
+      const number =
+        Number(value || 0);
+
+      return number.toLocaleString(
+        "vi-VN"
+      ) + " ₫";
+
+    }
+
+
+    function formatDateTime(value) {
+
+      if (!value) {
+        return "-";
+      }
+
+      const date =
+        new Date(value);
+
+      if (Number.isNaN(date.getTime())) {
+        return value;
+      }
+
+      return date.toLocaleString(
+        "vi-VN",
+        {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit"
+        }
+      );
+
+    }
+
+
+    function formatDate(value) {
+
+      if (!value) {
+        return "-";
+      }
+
+      const date =
+        new Date(value);
+
+      if (Number.isNaN(date.getTime())) {
+        return value;
+      }
+
+      return date.toLocaleDateString(
+        "vi-VN"
+      );
+
+    }
+
+
+    function escapeHtml(value) {
+
+      if (
+        value === null ||
+        value === undefined
+      ) {
+
+        return "";
+
+      }
+
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* =========================================================
+       BOOKING STATUS
+    ========================================================= */
+
+    function statusText(status) {
+
+      const map = {
+
+        pending: "Chờ xác nhận",
+
+        confirmed: "Đã xác nhận",
+
+        checked_in: "Đang sử dụng",
+
+        completed: "Hoàn thành",
+
+        cancelled: "Đã huỷ"
+
+      };
+
+      return (
+        map[status] ||
+        status ||
+        "Không xác định"
+      );
+
+    }
+
+
+    /* =========================================================
+       LOAD RECENT BOOKINGS
+    ========================================================= */
+
+    async function loadRecentBookings() {
+
+      const container =
+        document.getElementById(
+          "recentBookings"
+        );
+
+      if (!container) {
+        return [];
+      }
+
+      container.innerHTML = `
+        <div class="provider-loading-state">
+          <span class="provider-loading-spinner"></span>
+          Đang tải booking...
+        </div>
+      `;
+
+      try {
+
+        const response =
+          await apiFetch(
+            `${API_BASE_URL}/bookings/provider/${encodeURIComponent(currentProviderId)}`
+          );
+
+        if (
+          response.status === 401 ||
+          response.status === 403
+        ) {
+
+          window.location.href =
+            "../auth.html";
+
+          return [];
+
+        }
+
+        const data =
+          await response.json();
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.message ||
+            "Không thể tải booking."
+          );
+
+        }
+
+        const bookings =
+          Array.isArray(data)
+            ? data
+            : [];
+
+        bookings.sort(
+          function (a, b) {
+
+            const dateA =
+              new Date(
+                a.created_at || 0
+              ).getTime();
+
+            const dateB =
+              new Date(
+                b.created_at || 0
+              ).getTime();
+
+            return dateB - dateA;
+
+          }
+        );
+
+        const recentBookings =
+          bookings.slice(0, 5);
+
+        renderRecentBookings(
+          recentBookings
+        );
+
+        return bookings;
+
+      } catch (error) {
+
+        console.error(
+          "LOAD RECENT BOOKINGS ERROR:",
+          error
+        );
+
+        container.innerHTML = `
+          <div class="provider-booking-error">
+            <div class="provider-error-icon">!</div>
+            <h3>Không thể tải booking</h3>
+            <p>
+              Đã xảy ra lỗi khi lấy danh sách booking.
+            </p>
+          </div>
+        `;
+
+        return [];
+
+      }
+
+    }
+
+
+    /* =========================================================
+       RENDER RECENT BOOKINGS
+    ========================================================= */
+
+    function renderRecentBookings(bookings) {
+
+      const container =
+        document.getElementById(
+          "recentBookings"
+        );
+
+      if (!container) {
+        return;
+      }
+
+      if (!bookings.length) {
+
+        container.innerHTML = `
+          <div class="provider-booking-empty">
+
+            <div class="provider-booking-empty-icon">
+              ◷
+            </div>
+
+            <h3>
+              Chưa có booking
+            </h3>
+
+            <p>
+              Chưa có đơn đặt chỗ nào được gửi đến
+              các không gian của bạn.
+            </p>
+
+          </div>
+        `;
+
+        return;
+
+      }
+
+      let html = `
+        <div class="provider-booking-table-wrapper">
+
+          <table class="provider-booking-table">
+
+            <thead>
+
+              <tr>
+                <th>Booking</th>
+                <th>Photographer</th>
+                <th>Không gian</th>
+                <th>Dịch vụ</th>
+                <th>Ngày & giờ</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+              </tr>
+
+            </thead>
+
+            <tbody>
+      `;
+
+      bookings.forEach(
+        function (booking) {
+
+          const photographer =
+            booking.photographer_name ||
+            (
+              booking.photographer_id
+                ? `Photographer #${booking.photographer_id}`
+                : "Photographer"
+            );
+
+          const spaceName =
+            booking.space_name ||
+            (
+              booking.space_id
+                ? `Space #${booking.space_id}`
+                : "Không gian"
+            );
+
+          const packageName =
+            booking.package_name ||
+            (
+              booking.package_id
+                ? `Gói #${booking.package_id}`
+                : "Đặt không gian"
+            );
+
+          const status =
+            String(
+              booking.status || ""
+            ).toLowerCase();
+
+          const bookingId =
+            booking.id ??
+            booking.booking_id ??
+            "-";
+
+          html += `
+            <tr>
+
+              <td>
+                <span class="provider-booking-id">
+                  #${escapeHtml(bookingId)}
+                </span>
+
+                <span class="provider-booking-sub">
+                  ${escapeHtml(
+                    formatDate(
+                      booking.created_at
+                    )
+                  )}
+                </span>
+              </td>
+
+
+              <td>
+
+                <strong>
+                  ${escapeHtml(photographer)}
+                </strong>
+
+                ${
+                  booking.photographer_id
+                    ? `
+                      <span class="provider-booking-sub">
+                        ID: ${escapeHtml(
+                          booking.photographer_id
+                        )}
+                      </span>
+                    `
+                    : ""
+                }
+
+              </td>
+
+
+              <td>
+
+                <strong>
+                  ${escapeHtml(spaceName)}
+                </strong>
+
+                ${
+                  booking.space_id
+                    ? `
+                      <span class="provider-booking-sub">
+                        ID: ${escapeHtml(
+                          booking.space_id
+                        )}
+                      </span>
+                    `
+                    : ""
+                }
+
+              </td>
+
+
+              <td>
+                ${escapeHtml(packageName)}
+              </td>
+
+
+              <td>
+
+                <strong>
+                  ${escapeHtml(
+                    formatDate(
+                      booking.start_time
+                    )
+                  )}
+                </strong>
+
+                <span class="provider-booking-sub">
+
+                  ${escapeHtml(
+                    formatDateTime(
+                      booking.start_time
+                    )
+                      .split(", ")
+                      .slice(-1)[0]
+                  )}
+
+                  -
+
+                  ${escapeHtml(
+                    formatDateTime(
+                      booking.end_time
+                    )
+                      .split(", ")
+                      .slice(-1)[0]
+                  )}
+
+                </span>
+
+              </td>
+
+
+              <td class="provider-booking-price">
+
+                ${escapeHtml(
+                  formatCurrency(
+                    booking.total_price
+                  )
+                )}
+
+              </td>
+
+
+              <td>
+
+                <span
+                  class="provider-booking-status ${escapeHtml(status)}"
+                >
+                  ${escapeHtml(
+                    statusText(status)
+                  )}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <a
+                  href="bookings.html"
+                  class="provider-booking-view-btn"
+                >
+                  Chi tiết
+                </a>
+
+              </td>
+
+            </tr>
+          `;
+
+        }
+      );
+
+      html += `
+            </tbody>
+
+          </table>
+
+        </div>
+      `;
+
+      container.innerHTML =
+        html;
+
+    }
+
+
+    /* =========================================================
+       REPORT UI STATE
+    ========================================================= */
+
+    function setRevenueChartState(state) {
+
+      const loading =
+        document.getElementById(
+          "revenueChartLoading"
+        );
+
+      const empty =
+        document.getElementById(
+          "revenueChartEmpty"
+        );
+
+      const error =
+        document.getElementById(
+          "revenueChartError"
+        );
+
+      const canvas =
+        document.getElementById(
+          "revenueCanvas"
+        );
+
+      if (loading) {
+        loading.style.display =
+          state === "loading"
+            ? "flex"
+            : "none";
+      }
+
+      if (empty) {
+        empty.style.display =
+          state === "empty"
+            ? "flex"
+            : "none";
+      }
+
+      if (error) {
+        error.style.display =
+          state === "error"
+            ? "flex"
+            : "none";
+      }
+
+      if (canvas) {
+        canvas.style.display =
+          state === "data"
+            ? "block"
+            : "none";
+      }
+
+    }
+
+
+    /* =========================================================
+       MONTH LABEL
+    ========================================================= */
+
+    function formatMonthLabel(month) {
+
+      const parts =
+        String(month).split("-");
+
+      if (parts.length !== 2) {
+        return month;
+      }
+
+      return `T${Number(parts[1])}`;
+
+    }
+
+    function prepareRevenueData(revenueByMonth, year) {
+
+      const values =
+        revenueByMonth &&
+        typeof revenueByMonth === "object" &&
+        !Array.isArray(revenueByMonth)
+          ? revenueByMonth
+          : {};
+
+      const result = [];
+
+      for (let month = 1; month <= 12; month++) {
+
+        const key =
+          `${year}-${String(month).padStart(2, "0")}`;
+
+        result.push({
+          key,
+          label: `T${month}`,
+          value: Number(values[key] || 0)
+        });
+
+      }
+
+      return result;
+
+    }
+
+
+    function drawRevenueChart(data) {
+
+      const canvas =
+        document.getElementById(
+          "revenueCanvas"
+        );
+
+      const wrapper =
+        document.getElementById(
+          "revenueChart"
+        );
+
+      if (!canvas || !wrapper) {
+        return;
+      }
+
+      const rect =
+        wrapper.getBoundingClientRect();
+
+      const width =
+        Math.max(
+          300,
+          Math.floor(rect.width)
+        );
+
+      const height =
+        Math.max(
+          220,
+          Math.floor(rect.height)
+        );
+
+      const dpr =
+        window.devicePixelRatio || 1;
+
+      canvas.width =
+        width * dpr;
+
+      canvas.height =
+        height * dpr;
+
+      canvas.style.width =
+        `${width}px`;
+
+      canvas.style.height =
+        `${height}px`;
+
+      const ctx =
+        canvas.getContext("2d");
+
+      ctx.setTransform(
+        dpr,
+        0,
+        0,
+        dpr,
+        0,
+        0
+      );
+
+      ctx.clearRect(
+        0,
+        0,
+        width,
+        height
+      );
+
+      const padding = {
+        top: 25,
+        right: 30,
+        bottom: 48,
+        left: 75
+      };
+
+      const chartWidth =
+        width -
+        padding.left -
+        padding.right;
+
+      const chartHeight =
+        height -
+        padding.top -
+        padding.bottom;
+
+      const maxValue =
+        Math.max(
+          ...data.map(
+            item => item.value
+          )
+        );
+
+      const safeMax =
+        maxValue > 0
+          ? maxValue
+          : 1;
+
+      /*
+       * Background
+       */
+      ctx.fillStyle =
+        "#fafafd";
+
+      ctx.fillRect(
+        0,
+        0,
+        width,
+        height
+      );
+
+      /*
+       * Grid
+       */
+      const gridCount = 4;
+
+      ctx.font =
+        "10px Arial";
+
+      ctx.textAlign =
+        "right";
+
+      ctx.textBaseline =
+        "middle";
+
+      for (
+        let i = 0;
+        i <= gridCount;
+        i++
+      ) {
+
+        const ratio =
+          i / gridCount;
+
+        const y =
+          padding.top +
+          chartHeight -
+          ratio * chartHeight;
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+          padding.left,
+          y
+        );
+
+        ctx.lineTo(
+          width - padding.right,
+          y
+        );
+
+        ctx.strokeStyle =
+          "#e5e6eb";
+
+        ctx.lineWidth =
+          1;
+
+        ctx.setLineDash([4, 4]);
+
+        ctx.stroke();
+
+        ctx.setLineDash([]);
+
+        const value =
+          safeMax * ratio;
+
+        ctx.fillStyle =
+          "#777b8c";
+
+        ctx.fillText(
+          formatCompactCurrency(value),
+          padding.left - 10,
+          y
+        );
+
+      }
+
+      /*
+       * X-axis labels
+       */
+      ctx.textAlign =
+        "center";
+
+      ctx.textBaseline =
+        "top";
+
+      data.forEach(
+        function (item, index) {
+
+          const x =
+            padding.left +
+            (
+              index /
+              (data.length - 1)
+            ) *
+            chartWidth;
+
+          ctx.fillStyle =
+            "#777b8c";
+
+          ctx.fillText(
+            item.label,
+            x,
+            height - padding.bottom + 16
+          );
+
+        }
+      );
+
+      /*
+       * Points
+       */
+      const points =
+        data.map(
+          function (item, index) {
+
+            const x =
+              padding.left +
+              (
+                index /
+                (data.length - 1)
+              ) *
+              chartWidth;
+
+            const y =
+              padding.top +
+              chartHeight -
+              (
+                item.value /
+                safeMax
+              ) *
+              chartHeight;
+
+            return {
+              x,
+              y,
+              value: item.value,
+              label: item.label,
+              key: item.key
+            };
+
+          }
+        );
+
+      /*
+       * Area
+       */
+      if (maxValue > 0) {
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+          points[0].x,
+          padding.top + chartHeight
+        );
+
+        points.forEach(
+          function (point) {
+
+            ctx.lineTo(
+              point.x,
+              point.y
+            );
+
+          }
+        );
+
+        ctx.lineTo(
+          points[points.length - 1].x,
+          padding.top + chartHeight
+        );
+
+        ctx.closePath();
+
+        ctx.fillStyle =
+          "rgba(225, 52, 147, 0.08)";
+
+        ctx.fill();
+
+      }
+
+      /*
+       * Line
+       */
+      if (maxValue > 0) {
+
+        ctx.beginPath();
+
+        points.forEach(
+          function (point, index) {
+
+            if (index === 0) {
+
+              ctx.moveTo(
+                point.x,
+                point.y
+              );
+
+            } else {
+
+              ctx.lineTo(
+                point.x,
+                point.y
+              );
+
+            }
+
+          }
+        );
+
+        ctx.strokeStyle =
+          "#e13493";
+
+        ctx.lineWidth =
+          2.5;
+
+        ctx.lineJoin =
+          "round";
+
+        ctx.lineCap =
+          "round";
+
+        ctx.stroke();
+
+      }
+
+      /*
+       * Data points
+       */
+      points.forEach(
+        function (point) {
+
+          ctx.beginPath();
+
+          ctx.arc(
+            point.x,
+            point.y,
+            4,
+            0,
+            Math.PI * 2
+          );
+
+          ctx.fillStyle =
+            "#ffffff";
+
+          ctx.fill();
+
+          ctx.beginPath();
+
+          ctx.arc(
+            point.x,
+            point.y,
+            3,
+            0,
+            Math.PI * 2
+          );
+
+          ctx.fillStyle =
+            "#e13493";
+
+          ctx.fill();
+
+        }
+      );
+
+      revenueChartData =
+        points;
+
+    }
+
+
+    /* =========================================================
+       COMPACT CURRENCY
+    ========================================================= */
+
+    function formatCompactCurrency(value) {
+
+      const number =
+        Number(value || 0);
+
+      if (number >= 1000000000) {
+
+        return (
+          (number / 1000000000)
+            .toFixed(
+              number % 1000000000 === 0
+                ? 0
+                : 1
+            )
+          + " tỷ"
+        );
+
+      }
+
+      if (number >= 1000000) {
+
+        return (
+          (number / 1000000)
+            .toFixed(
+              number % 1000000 === 0
+                ? 0
+                : 1
+            )
+          + " tr"
+        );
+
+      }
+
+      if (number >= 1000) {
+
+        return (
+          (number / 1000)
+            .toFixed(
+              number % 1000 === 0
+                ? 0
+                : 1
+            )
+          + "k"
+        );
+
+      }
+
+      return String(
+        Math.round(number)
+      );
+
+    }
+
+
+    /* =========================================================
+       REVENUE TOOLTIP
+    ========================================================= */
+
+    function setupRevenueTooltip() {
+
+      const canvas =
+        document.getElementById(
+          "revenueCanvas"
+        );
+
+      const tooltip =
+        document.getElementById(
+          "revenueTooltip"
+        );
+
+      if (!canvas || !tooltip) {
+        return;
+      }
+
+      canvas.addEventListener(
+        "mousemove",
+        function (event) {
+
+          if (!revenueChartData.length) {
+            return;
+          }
+
+          const rect =
+            canvas.getBoundingClientRect();
+
+          const mouseX =
+            event.clientX -
+            rect.left;
+
+          const mouseY =
+            event.clientY -
+            rect.top;
+
+          let nearest =
+            null;
+
+          let minDistance =
+            Infinity;
+
+          revenueChartData.forEach(
+            function (point) {
+
+              const distance =
+                Math.sqrt(
+                  Math.pow(
+                    mouseX - point.x,
+                    2
+                  ) +
+                  Math.pow(
+                    mouseY - point.y,
+                    2
+                  )
+                );
+
+              if (
+                distance < minDistance
+              ) {
+
+                minDistance =
+                  distance;
+
+                nearest =
+                  point;
+
+              }
+
+            }
+          );
+
+          if (
+            !nearest ||
+            minDistance > 20
+          ) {
+
+            tooltip.style.display =
+              "none";
+
+            return;
+
+          }
+
+          tooltip.innerHTML = `
+            <strong>${escapeHtml(nearest.key)}</strong>
+            <span>${escapeHtml(
+              formatCurrency(nearest.value)
+            )}</span>
+          `;
+
+          tooltip.style.display =
+            "flex";
+
+          const tooltipWidth =
+            tooltip.offsetWidth;
+
+          let left =
+            nearest.x -
+            tooltipWidth / 2;
+
+          left =
+            Math.max(
+              8,
+              Math.min(
+                left,
+                rect.width -
+                tooltipWidth -
+                8
+              )
+            );
+
+          tooltip.style.left =
+            `${left}px`;
+
+          tooltip.style.top =
+            `${Math.max(
+              8,
+              nearest.y - 58
+            )}px`;
+
+        }
+      );
+
+      canvas.addEventListener(
+        "mouseleave",
+        function () {
+
+          tooltip.style.display =
+            "none";
+
+        }
+      );
+
+    }
+
+
+    /* =========================================================
+       LOAD REPORT
+       
+       GET /reports/provider
+    ========================================================= */
+
+    async function loadReportData() {
+
+      setRevenueChartState(
+        "loading"
+      );
+
+      const currentYear =
+        new Date().getFullYear();
+
+      const fromDate =
+        `${currentYear}-01-01T00:00:00`;
+
+      const toDate =
+        `${currentYear}-12-31T23:59:59`;
+
+      const url =
+        `${API_BASE_URL}/reports/provider` +
+        `?provider_id=${encodeURIComponent(
+          currentProviderId
+        )}` +
+        `&from_date=${encodeURIComponent(
+          fromDate
+        )}` +
+        `&to_date=${encodeURIComponent(
+          toDate
+        )}`;
+
+      const response =
+        await apiFetch(url);
+
+      if (
+        response.status === 401 ||
+        response.status === 403
+      ) {
+
+        window.location.href =
+          "../auth.html";
+
+        return null;
+
+      }
+
+      const data =
+        await response.json();
+
+      if (!response.ok) {
+
+        throw new Error(
+          data.message ||
+          `Report API HTTP ${response.status}`
+        );
+
+      }
+
+      console.log(
+        "PROVIDER REVENUE REPORT:",
+        data
+      );
+
+
+      /* =========================
+         TOTAL REVENUE
+      ========================== */
+
+      const revenue =
+        Number(
+          data.total_revenue || 0
+        );
+
+      const totalRevenue =
+        document.getElementById(
+          "totalRevenue"
+        );
+
+      const revenueSummary =
+        document.getElementById(
+          "revenueSummary"
+        );
+
+      if (totalRevenue) {
+
+        totalRevenue.textContent =
+          formatCurrency(revenue);
+
+      }
+
+      if (revenueSummary) {
+
+        revenueSummary.textContent =
+          formatCurrency(revenue);
+
+      }
+
+
+      /* =========================
+         TOTAL BOOKINGS
+         
+         QUAN TRỌNG:
+         Lấy từ Report API.
+      ========================== */
+
+      const totalBookings =
+        document.getElementById(
+          "totalBookings"
+        );
+
+      if (totalBookings) {
+
+        totalBookings.textContent =
+          Number(
+            data.total_bookings || 0
+          );
+
+      }
+
+
+      /* =========================
+         TOTAL INVOICES
+      ========================== */
+
+      const totalInvoices =
+        document.getElementById(
+          "totalInvoices"
+        );
+
+      if (totalInvoices) {
+
+        totalInvoices.textContent =
+          Number(
+            data.total_invoices || 0
+          );
+
+      }
+
+
+      /* =========================
+         REPORT PERIOD
+      ========================== */
+
+      const revenuePeriod =
+        document.getElementById(
+          "revenuePeriod"
+        );
+
+      if (revenuePeriod) {
+
+        revenuePeriod.textContent =
+          `01/01/${currentYear} – 31/12/${currentYear}`;
+
+      }
+
+
+      /* =========================
+         REVENUE BY MONTH
+      ========================== */
+
+      const revenueByMonth =
+        data.revenue_by_month;
+
+      const chartData =
+        prepareRevenueData(
+          revenueByMonth,
+          currentYear
+        );
+
+      const hasRevenue =
+        chartData.some(
+          function (item) {
+            return item.value > 0;
+          }
+        );
+
+
+      if (!hasRevenue) {
+
+        setRevenueChartState(
+          "empty"
+        );
+
+      } else {
+
+        setRevenueChartState(
+          "data"
+        );
+
+        requestAnimationFrame(
+          function () {
+
+            drawRevenueChart(
+              chartData
+            );
+
+          }
+        );
+
+      }
+
+      return data;
+
+    }
+
+
+    /* =========================================================
+       LOAD SPACE COUNT
+    ========================================================= */
+
+    async function loadSpaceCount() {
+
+      const response =
+        await apiFetch(
+          `${API_BASE_URL}/creative-spaces/`
+        );
+
+      if (
+        response.status === 401 ||
+        response.status === 403
+      ) {
+
+        window.location.href =
+          "../auth.html";
+
+        return;
+
+      }
+
+      if (!response.ok) {
+
+        throw new Error(
+          `Space API HTTP ${response.status}`
+        );
+
+      }
+
+      const data =
+        await response.json();
+
+      const spaces =
+        Array.isArray(data)
+          ? data
+          : [];
+
+      const providerSpaces =
+        spaces.filter(
+          function (space) {
+
+            return String(
+              space.provider_id
+            ) === String(
+              currentProviderId
+            );
+
+          }
+        );
+
+      const totalSpaces =
+        document.getElementById(
+          "totalSpaces"
+        );
+
+      if (totalSpaces) {
+
+        totalSpaces.textContent =
+          providerSpaces.length;
+
+      }
+
+    }
+
+
+    /* =========================================================
+       LOAD DASHBOARD
+    ========================================================= */
+
+    async function loadDashboardData() {
+
+      /*
+       * Các API chạy độc lập.
+       * Một API lỗi không làm toàn bộ Dashboard chết.
+       */
+
+      try {
+
+        await loadReportData();
+
+      } catch (error) {
+
+        console.error(
+          "REPORT ERROR:",
+          error
+        );
+
+        const totalRevenue =
+          document.getElementById(
+            "totalRevenue"
+          );
+
+        const totalBookings =
+          document.getElementById(
+            "totalBookings"
+          );
+
+        const totalInvoices =
+          document.getElementById(
+            "totalInvoices"
+          );
+
+        const revenueSummary =
+          document.getElementById(
+            "revenueSummary"
+          );
+
+        if (totalRevenue) {
+          totalRevenue.textContent = "—";
+        }
+
+        if (totalBookings) {
+          totalBookings.textContent = "—";
+        }
+
+        if (totalInvoices) {
+          totalInvoices.textContent = "—";
+        }
+
+        if (revenueSummary) {
+          revenueSummary.textContent = "—";
+        }
+
+        setRevenueChartState(
+          "error"
+        );
+
+      }
+
+
+      try {
+
+        await loadRecentBookings();
+
+      } catch (error) {
+
+        console.error(
+          "BOOKING ERROR:",
+          error
+        );
+
+      }
+
+
+      try {
+
+        await loadSpaceCount();
+
+      } catch (error) {
+
+        console.error(
+          "SPACE ERROR:",
+          error
+        );
+
+        const totalSpaces =
+          document.getElementById(
+            "totalSpaces"
+          );
+
+        if (totalSpaces) {
+          totalSpaces.textContent = "—";
+        }
+
+      }
+
+    }
+
+
+    /* =========================================================
+       RESIZE
+    ========================================================= */
+
+    window.addEventListener(
+      "resize",
+      function () {
+
+        if (
+          revenueChartData.length
+        ) {
+
+          const chart =
+            revenueChartData.map(
+              function (point) {
+
+                return {
+                  key: point.key,
+                  label: point.label,
+                  value: point.value
+                };
+
+              }
+            );
+
+          drawRevenueChart(
+            chart
+          );
+
+        }
+
+      }
+    );
+
+
+    /* =========================================================
+       INIT
+    ========================================================= */
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      async function () {
+
+        const isLoggedIn =
+          loadProviderInfo();
+
+        if (!isLoggedIn) {
+          return;
+        }
+
+        setupRevenueTooltip();
+
+        await loadNotificationBadge();
+
+        await loadDashboardData();
+
+      }
+    );
+
+  </script>
+
+</body>
+
+</html>

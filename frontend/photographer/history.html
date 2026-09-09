@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch sử Booking | FilmSpace</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/photographer-home.css">
+</head>
+
+<body>
+    <nav class="navbar" id="mainNavbar">
+        <div class="navbar-container container">
+            <a class="logo" href="home.html" aria-label="FilmSpace">
+                FilmSpace
+            </a>
+
+            <div class="menu" aria-label="Photographer navigation">
+                <a href="home.html">Home</a>
+                <a href="search.html">Search</a>
+                <a href="booking.html" class="active">Bookings</a>
+                <a href="workshops.html">Workshops</a>
+                <a href="profile.html">Profile</a>
+            </div>
+
+            <div class="nav-actions">
+                <span class="photographer-nav-name" id="navPhotographerName">
+                    Photographer
+                </span>
+                <button type="button" class="photographer-logout" onclick="logout()">
+                    Đăng xuất
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="photographer-page history-page">
+        <div class="container">
+            <div class="history-header">
+                <h1>Lịch sử Booking</h1>
+                <p>Xem lại các booking đã hoàn thành hoặc đã hủy.</p>
+            </div>
+            <div class="history-toolbar">
+                <div class="history-tabs">
+                    <button type="button" class="history-tab active" data-status="all" onclick="changeHistoryTab('all')">
+                        Tất cả <span id="countAll">(0)</span>
+                    </button>
+                    <button type="button" class="history-tab" data-status="completed" onclick="changeHistoryTab('completed')">
+                        Đã hoàn thành <span id="countCompleted">(0)</span>
+                    </button>
+                    <button type="button" class="history-tab" data-status="cancelled" onclick="changeHistoryTab('cancelled')">
+                        Đã hủy <span id="countCancelled">(0)</span>
+                    </button>
+                </div>
+
+                <input type="text" id="historySearch" class="history-search" placeholder="Tìm theo tên không gian..." autocomplete="off" oninput="renderHistory()">
+            </div>
+
+            <div id="historyList">
+                <div class="history-loading">
+                    Đang tải lịch sử booking...
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <div class="history-modal" id="historyModal">
+        <div class="history-modal-box">
+            <button type="button" class="history-modal-close" onclick="closeHistoryModal()">×</button>
+            <h2 class="history-modal-title" id="modalTitle">Chi tiết booking</h2>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        Photography<span>Platform</span>
+                    </div>
+                    <p>Kết nối các nhiếp ảnh gia phim với các phòng tối và studio đáng tin cậy.</p>
+                </div>
+
+                <div class="footer-menu">
+                    <a href="home.html">Home</a>
+                    <a href="search.html">Search</a>
+                    <a href="booking.html">Bookings</a>
+                    <a href="workshops.html">Workshops</a>
+                    <a href="profile.html">Profile</a>
+                </div>
+            </div>
+
+            <hr class="footer-line">
+
+            <div class="footer-bottom">
+                <span>Copyright © 2026 Photography Platform. All rights reserved.</span>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Use</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../api/api.js"></script>
+    <script>
+        let allBookings = [];
+        let fetchedSpaces = [];
+        let activeHistoryTab = "all";
+
+        function getApiBaseUrl() {
+            return typeof API_BASE_URL !== "undefined" ? API_BASE_URL : "http://127.0.0.1:9999";
+        }
+
+        function getAuthToken() {
+            const token = localStorage.getItem("auth_token") || sessionStorage.getItem("auth_token") ||
+                          localStorage.getItem("token") || sessionStorage.getItem("token");
+
+            if (!token || token === "null" || token === "undefined") {
+                return "";
+            }
+            return token.startsWith("Bearer ") ? token : `Bearer ${token}`;
+        }
+
+        function loadPhotographerInfo() {
+            const token = getAuthToken();
+            if (!token) {
+                window.location.href = "../auth.html";
+                return;
+            }
+
+            const username = localStorage.getItem("username") || sessionStorage.getItem("username");
+            const fullName = localStorage.getItem("full_name") || sessionStorage.getItem("full_name");
+            const displayName = fullName || username || "Photographer";
+
+            const navName = document.getElementById("navPhotographerName");
+            if (navName) {
+                navName.textContent = displayName;
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem("auth_token");
+            localStorage.removeItem("token");
+            localStorage.removeItem("username");
+            localStorage.removeItem("full_name");
+
+            sessionStorage.removeItem("auth_token");
+            sessionStorage.removeItem("token");
+            sessionStorage.removeItem("username");
+            sessionStorage.removeItem("full_name");
+
+            window.location.href = "../auth.html";
+        }
+
+        async function fetchSafe(url) {
+            try {
+                const response = await fetch(url, {
+                    headers: { "Authorization": getAuthToken() }
+                });
+
+                if (!response.ok) {
+                    console.warn("API error:", response.status, url);
+                    return [];
+                }
+                const data = await response.json();
+                return Array.isArray(data) ? data : [];
+            } catch (error) {
+                console.error("Fetch error:", error);
+                return [];
+            }
+        }
+
+        function getBookingId(booking) {
+            return booking.id || booking.booking_id || booking.BookingID;
+        }
+
+        function getSpaceId(booking) {
+            return booking.space_id || booking.SpaceID || booking.spaceId;
+        }
+
+        function getBookingStatus(booking) {
+            return String(
+                booking.status || booking.Status || booking.booking_status || booking.BookingStatus || ""
+            ).toLowerCase();
+        }
+
+        function getStatusText(status) {
+            if (status === "completed") return "Đã hoàn thành";
+            if (status === "cancelled" || status === "canceled") return "Đã hủy";
+            return "Không xác định";
+        }
+
+        function findSpace(booking) {
+            const spaceId = getSpaceId(booking);
+            return fetchedSpaces.find(space => {
+                const id = space.id || space.SpaceID || space.space_id;
+                return String(id) === String(spaceId);
+            });
+        }
+
+        function getSpaceName(space, booking) {
+            if (space) {
+                return space.name || space.SpaceName || space.space_name || "Không gian Studio";
+            }
+            return `Không gian #${getSpaceId(booking) || ""}`;
+        }
+
+        function getSpaceAddress(space) {
+            if (!space) return "Chưa cập nhật địa chỉ";
+            return space.address || space.Address || space.business_address || space.BusinessAddress || "Chưa cập nhật địa chỉ";
+        }
+
+        function getSpaceImage(space) {
+            if (!space) return "";
+            let image = space.image_url || space.ImageUrl || space.image || space.Image || "";
+            if (!image) return "";
+            image = image.replace(/^\/+/, "");
+            if (image.startsWith("assets/")) {
+                return "../" + image;
+            }
+            return image;
+        }
+
+        function parsePrice(value) {
+            if (value === null || value === undefined) return 0;
+            if (typeof value === "number") return value;
+            const cleaned = String(value).replace(/[^0-9.]/g, "");
+            const number = Number(cleaned);
+            return isNaN(number) ? 0 : number;
+        }
+
+        function formatPrice(value) {
+            return new Intl.NumberFormat("vi-VN").format(parsePrice(value)) + " đ";
+        }
+
+        function getStartTime(booking) {
+            return booking.start_time || booking.StartTime || booking.startTime;
+        }
+
+        function getEndTime(booking) {
+            return booking.end_time || booking.EndTime || booking.endTime;
+        }
+
+        function formatDate(value) {
+            if (!value) return "Chưa cập nhật";
+            const date = new Date(value);
+            if (isNaN(date.getTime())) return String(value);
+            return date.toLocaleDateString("vi-VN", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric"
+            });
+        }
+
+        function formatTime(value) {
+            if (!value) return "Chưa cập nhật";
+            const date = new Date(value);
+            if (isNaN(date.getTime())) return String(value);
+            return date.toLocaleTimeString("vi-VN", {
+                hour: "2-digit",
+                minute: "2-digit"
+            });
+        }
+
+        function getDuration(booking) {
+            const start = new Date(getStartTime(booking));
+            const end = new Date(getEndTime(booking));
+            if (isNaN(start.getTime()) || isNaN(end.getTime())) return "—";
+            const hours = (end - start) / 3600000;
+            if (hours <= 0) return "—";
+            return Number.isInteger(hours) ? `${hours} giờ` : `${hours.toFixed(1)} giờ`;
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function updateTabCounts() {
+            const totalAll = allBookings.length;
+            const totalCompleted = allBookings.filter(b => getBookingStatus(b) === "completed").length;
+            const totalCancelled = allBookings.filter(b => {
+                const s = getBookingStatus(b);
+                return s === "cancelled" || s === "canceled";
+            }).length;
+
+            document.getElementById("countAll").textContent = `(${totalAll})`;
+            document.getElementById("countCompleted").textContent = `(${totalCompleted})`;
+            document.getElementById("countCancelled").textContent = `(${totalCancelled})`;
+        }
+
+        async function loadHistoryData() {
+            loadPhotographerInfo();
+            const baseUrl = getApiBaseUrl().replace(/\/+$/, "");
+
+            fetchedSpaces = await fetchSafe(`${baseUrl}/creative-spaces/`);
+            const bookings = await fetchSafe(`${baseUrl}/bookings/`);
+
+            allBookings = bookings.filter(booking => {
+                const status = getBookingStatus(booking);
+                return status === "completed" || status === "cancelled" || status === "canceled";
+            });
+
+            updateTabCounts();
+            renderHistory();
+        }
+
+        function changeHistoryTab(status) {
+            activeHistoryTab = status;
+            document.querySelectorAll(".history-tab").forEach(button => {
+                button.classList.toggle("active", button.dataset.status === status);
+            });
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const container = document.getElementById("historyList");
+            const searchInput = document.getElementById("historySearch");
+            const keyword = searchInput ? searchInput.value.trim().toLowerCase() : "";
+
+            let filtered = allBookings.filter(booking => {
+                const status = getBookingStatus(booking);
+
+                if (activeHistoryTab === "completed" && status !== "completed") return false;
+                if (activeHistoryTab === "cancelled" && status !== "cancelled" && status !== "canceled") return false;
+
+                const space = findSpace(booking);
+                const spaceName = getSpaceName(space, booking).toLowerCase();
+                if (keyword && !spaceName.includes(keyword)) return false;
+
+                return true;
+            });
+
+            filtered.sort((a, b) => {
+                const dateA = new Date(getStartTime(a) || 0);
+                const dateB = new Date(getStartTime(b) || 0);
+                return dateB - dateA;
+            });
+
+            if (!filtered.length) {
+                container.innerHTML = `
+                    <div class="history-empty">
+                        <div class="history-empty-icon">◷</div>
+                        <h3>Chưa có lịch sử booking</h3>
+                        <p>Các booking đã hoàn thành hoặc đã hủy sẽ xuất hiện tại đây.</p>
+                        <a href="booking.html" class="history-book-btn">Đặt booking mới</a>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="history-list">
+                    ${filtered.map(renderHistoryCard).join("")}
+                </div>
+            `;
+        }
+
+        function renderHistoryCard(booking) {
+            const space = findSpace(booking);
+            const spaceName = getSpaceName(space, booking);
+            const address = getSpaceAddress(space);
+            const image = getSpaceImage(space);
+            const status = getBookingStatus(booking);
+            const total = booking.total_price || booking.TotalPrice || booking.totalPrice || 0;
+            const start = getStartTime(booking);
+            const end = getEndTime(booking);
+            const bookingId = getBookingId(booking);
+
+            const imageHtml = image
+                ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(spaceName)}" onerror="this.style.display='none'">`
+                : `<div class="history-no-image">Chưa có hình ảnh</div>`;
+
+            const statusClass = status === "completed" ? "status-completed" : "status-cancelled";
+
+            return `
+                <article class="history-card">
+                    <div class="history-image">
+                        ${imageHtml}
+                    </div>
+                    <div class="history-content">
+                        <h3>${escapeHtml(spaceName)}</h3>
+                        <div class="history-address">📍 ${escapeHtml(address)}</div>
+                        <div class="history-info">
+                            <div class="history-info-item">
+                                <span class="history-info-label">Ngày:</span>
+                                ${formatDate(start)}
+                            </div>
+                            <div class="history-info-item">
+                                <span class="history-info-label">Thời gian:</span>
+                                ${formatTime(start)} - ${formatTime(end)}
+                            </div>
+                            <div class="history-info-item">
+                                <span class="history-info-label">Thời lượng:</span>
+                                ${getDuration(booking)}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="history-side">
+                        <div>
+                            <span class="history-status ${statusClass}">
+                                ${getStatusText(status)}
+                            </span>
+                            <div class="history-price">
+                                ${formatPrice(total)}
+                            </div>
+                        </div>
+                        <button type="button" class="history-detail-btn" onclick="openHistoryDetail('${bookingId}')">
+                            Xem chi tiết
+                        </button>
+                    </div>
+                </article>
+            `;
+        }
+
+        function openHistoryDetail(id) {
+            const booking = allBookings.find(item => String(getBookingId(item)) === String(id));
+            if (!booking) return;
+
+            const space = findSpace(booking);
+            const spaceName = getSpaceName(space, booking);
+            const address = getSpaceAddress(space);
+            const image = getSpaceImage(space);
+            const status = getBookingStatus(booking);
+            const start = getStartTime(booking);
+            const end = getEndTime(booking);
+            const total = booking.total_price || booking.TotalPrice || booking.totalPrice || 0;
+
+            const imageHtml = image
+                ? `<img class="modal-space-image" src="${escapeHtml(image)}" alt="${escapeHtml(spaceName)}" onerror="this.style.display='none'">`
+                : "";
+
+            document.getElementById("modalTitle").textContent = spaceName;
+            document.getElementById("modalContent").innerHTML = `
+                ${imageHtml}
+                <div class="modal-address">📍 ${escapeHtml(address)}</div>
+                <div class="modal-info-grid">
+                    <div class="modal-info">
+                        <span class="modal-info-label">Mã booking</span>
+                        <span class="modal-info-value">#${escapeHtml(String(getBookingId(booking) || ""))}</span>
+                    </div>
+                    <div class="modal-info">
+                        <span class="modal-info-label">Trạng thái</span>
+                        <span class="modal-info-value">${getStatusText(status)}</span>
+                    </div>
+                    <div class="modal-info">
+                        <span class="modal-info-label">Ngày</span>
+                        <span class="modal-info-value">${formatDate(start)}</span>
+                    </div>
+                    <div class="modal-info">
+                        <span class="modal-info-label">Thời gian</span>
+                        <span class="modal-info-value">${formatTime(start)} - ${formatTime(end)}</span>
+                    </div>
+                    <div class="modal-info">
+                        <span class="modal-info-label">Thời lượng</span>
+                        <span class="modal-info-value">${getDuration(booking)}</span>
+                    </div>
+                    <div class="modal-info">
+                        <span class="modal-info-label">Tổng tiền</span>
+                        <span class="modal-info-value">${formatPrice(total)}</span>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById("historyModal").classList.add("show");
+        }
+
+        function closeHistoryModal() {
+            document.getElementById("historyModal").classList.remove("show");
+        }
+
+        document.getElementById("historyModal").addEventListener("click", function(event) {
+            if (event.target === this) {
+                closeHistoryModal();
+            }
+        });
+
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Escape") {
+                closeHistoryModal();
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            loadHistoryData();
+        });
+    </script>
+</body>
+</html>
