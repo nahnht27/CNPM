@@ -1,187 +1,124 @@
 \chapter{KẾ HOẠCH QUẢN LÝ DỰ ÁN}
 
-\section{Tổng quan}
+\section{Overview}
 
-\subsection{Phạm vi và ước lượng dự án}
+\subsection{Project Scope and Estimation}
 
-Nền tảng kết nối cộng đồng nhiếp ảnh phim với các dịch vụ phòng tối và phòng chụp là một hệ thống web hỗ trợ nhiếp ảnh gia tìm kiếm, đặt chỗ và thanh toán các dịch vụ liên quan đến phòng tối, studio và thiết bị. Hệ thốngổng đồng thời cung cấp các chức năng cho nhà cung cấp quản lý không gian, thiết bị, gói dịch vụ, workshop, đặt chỗ và hoạt động kinh doanh. Ngoài ra, hệ thống hỗ trợ quản trị viên giám sát người dùng, nhà cung cấp và các giao dịch trên nền tảng.
+Nền tảng kết nối cộng đồng nhiếp ảnh phim với các dịch vụ phòng tối và phòng chụp là một hệ thống web giúp nhiếp ảnh gia tìm kiếm, đặt chỗ và thanh toán cho các không gian sáng tạo và thiết bị nhiếp ảnh, đồng thời hỗ trợ nhà cung cấp dịch vụ quản lý tập trung tài nguyên, giá cả và hoạt động kinh doanh, có tích hợp trợ lý AI hỗ trợ tìm kiếm và tư vấn. Dự án bao gồm các công việc chính sau:
 
-Dự án bao gồm các công việc chính sau:
+\begin{table}[H]
+	\centering
+	\small
+	\caption{Work Breakdown Structure (WBS) và Effort ước tính dự án}
+	\begin{tabularx}{\textwidth}{|c|Y|c|c|}
+		\hline
+		\textbf{WBS} & \textbf{Task} & \textbf{Độ phức tạp} & \textbf{Effort (man-days)} \\ \hline
+		
+		1 & Khởi tạo dự án & Trung bình & 4 \\ \hline
+		1.1 & Hoàn thiện SRS, thiết kế màn hình/ERD & Trung bình & 2 \\ \hline
+		1.2 & Setup môi trường, repo, CI cơ bản & Đơn giản & 2 \\ \hline
+		
+		2 & Phân tích \& Thiết kế & Trung bình & 6 \\ \hline
+		2.1 & Thiết kế Database & Trung bình & 3 \\ \hline
+		2.2 & Thiết kế kiến trúc hệ thống & Trung bình & 3 \\ \hline
+		
+		3 & Triển khai (Implementation) & Phức tạp & 62 \\ \hline
+		3.1 & Module Xác thực (Auth, phân quyền 3 role) & Đơn giản & 5 \\ \hline
+		3.2 & Module Hồ sơ người dùng & Đơn giản & 4 \\ \hline
+		3.3 & Module Quản lý phòng/studio/thiết bị & Trung bình & 10 \\ \hline
+		3.4 & Module Đặt chỗ & Phức tạp & 12 \\ \hline
+		3.5 & Module Thanh toán QR (VietQR + xác nhận thủ công) & Trung bình & 6 \\ \hline
+		3.6 & Module Gói dịch vụ \& Đánh giá & Trung bình & 6 \\ \hline
+		3.7 & Module Quản trị (Admin: duyệt provider, quản lý user) & Trung bình & 8 \\ \hline
+		3.8 & Module Trợ lý AI (Q\&A cơ bản) & Trung bình & 6 \\ \hline
+		3.9 & Dashboard doanh thu cơ bản & Đơn giản & 5 \\ \hline
+		
+		4 & Kiểm thử (Testing) & Trung bình & 10 \\ \hline
+		4.1 & Unit Testing & Đơn giản & 3 \\ \hline
+		4.2 & Integration Testing & Trung bình & 4 \\ \hline
+		4.3 & System Testing & Trung bình & 3 \\ \hline
+		
+		5 & Triển khai \& Hoàn thiện báo cáo & Trung bình & 8 \\ \hline
+		5.1 & Deploy demo & Đơn giản & 2 \\ \hline
+		5.2 & Hoàn thiện tài liệu báo cáo & Trung bình & 6 \\ \hline
+		
+	\end{tabularx}
+\end{table}
 
-\setlength{\LTleft}{0pt}
-\setlength{\LTright}{0pt}
-\renewcommand{\arraystretch}{1.3}
+\textbf{Mục tiêu của dự án:}
 
-\begin{longtable}{|p{1.0cm}|p{6.0cm}|p{2.5cm}|p{2.5cm}|}
-	\caption{\raggedright Cấu trúc phân rã công việc (WBS) và ước lượng công sức}
-	\label{tab:wbs}\\
-	\hline
-	\textbf{WBS} & \textbf{Công việc} & \textbf{Độ phức tạp} &
-	\textbf{ngày-người} \\
-	\hline
-	\endfirsthead
-	
-	\hline
-	\textbf{WBS} & \textbf{Công việc} & \textbf{Độ phức tạp} &
-	\textbf{ngày-người} \\
-	\hline
-	\endhead
-	
-	1 & Khởi tạo dự án & Trung bình & 4 \\
-	\hline
-	1.1 & Phân tích yêu cầu và hoàn thiện SRS & Trung bình & 2 \\
-	\hline
-	1.2 & Thiết lập môi trường, repository và công cụ phát triển & Đơn giản & 2 \\
-	\hline
-	2 & Phân tích và thiết kế & Trung bình & 8 \\
-	\hline
-	2.1 & Thiết kế cơ sở dữ liệu & Trung bình & 3 \\
-	\hline
-	2.2 & Thiết kế kiến trúc hệ thống và API & Trung bình & 2 \\
-	\hline
-	2.3 & Thiết kế giao diện người dùng & Trung bình & 3 \\
-	\hline
-	3 & Triển khai hệ thống & Phức tạp & 62 \\
-	\hline
-	3.1 & Xác thực và quản lý tài khoản & Đơn giản & 5 \\
-	\hline
-	3.2 & Quản lý hồ sơ người dùng và nhà cung cấp & Đơn giản & 4 \\
-	\hline
-	3.3 & Quản lý không gian sáng tạo & Trung bình & 8 \\
-	\hline
-	3.4 & Quản lý thiết bị & Trung bình & 7 \\
-	\hline
-	3.5 & Quản lý gói dịch vụ & Trung bình & 6 \\
-	\hline
-	3.6 & Quản lý đặt chỗ và xử lý trạng thái & Phức tạp & 12 \\
-	\hline
-	3.7 & Thanh toán và hóa đơn & Trung bình & 6 \\
-	\hline
-	3.8 & Workshop và đăng ký workshop & Trung bình & 5 \\
-	\hline
-	3.9 & Quản trị hệ thống và dashboard & Trung bình & 5 \\
-	\hline
-	3.10 & Thông báo và các chức năng hỗ trợ & Đơn giản & 4 \\
-	\hline
-	
-	4 & Kiểm thử & Trung bình & 10 \\
-	\hline
-	4.1 & Kiểm thử đơn vị & Đơn giản & 3 \\
-	\hline
-	4.2 & Kiểm thử tích hợp & Trung bình & 4 \\
-	\hline
-	4.3 & Kiểm thử hệ thống & Trung bình & 3 \\
-	\hline
-	
-	5 & Hoàn thiện và báo cáo & Trung bình & 8 \\
-	\hline
-	5.1 & Hoàn thiện và kiểm tra hệ thống & Đơn giản & 2 \\
-	\hline
-	5.2 & Hoàn thiện tài liệu và báo cáo & Trung bình & 6 \\
-	\hline
-	
-\end{longtable}
-
-\setlength{\LTleft}{0pt}
-\setlength{\LTright}{0pt}
-\renewcommand{\arraystretch}{1.3}
-
-\subsection{Mục tiêu kiểm thử}
-
-\begin{longtable}{|p{3.5cm}|p{6.5cm}|p{4cm}|}
-	\caption{\raggedright Mục tiêu kiểm thử}
-	\label{tab:testing-objectives}\\
-	\hline
-	\textbf{Giai đoạn kiểm thử} & \textbf{Phạm vi kiểm thử} & \textbf{Mục tiêu lỗi} \\
-	\hline
-	\endfirsthead
-	
-	\hline
-	\textbf{Giai đoạn kiểm thử} & \textbf{Phạm vi kiểm thử} & \textbf{Mục tiêu lỗi} \\
-	\hline
-	\endhead
-	
-	Rà soát mã nguồn & Kiểm tra quy chuẩn lập trình và cấu trúc mã nguồn & < 10 \\
-	\hline
-	
-	Kiểm thử đơn vị & Kiểm tra các chức năng và xử lý nghiệp vụ riêng lẻ & < 8 \\
-	\hline
-	
-	Kiểm thử tích hợp & Kiểm tra sự kết nối giữa Frontend, Backend, API và cơ sở dữ liệu & < 5 \\
-	\hline
-	
-	Kiểm thử hệ thống & Kiểm tra các luồng chức năng hoàn chỉnh của hệ thống & < 5 \\
-	\hline
-	
-	Kiểm thử chấp nhận & Kiểm tra mức độ đáp ứng các yêu cầu chức năng của người dùng & < 3 \\
-	\hline
-	
-\end{longtable}
+\begin{itemize}
+	\item Xây dựng nền tảng web kết nối cộng đồng nhiếp ảnh phim với dịch vụ phòng tối, studio.
+	\item Hỗ trợ tìm kiếm, đặt chỗ và thanh toán trực tuyến (qua QR chuyển khoản).
+	\item Hỗ trợ nhà cung cấp quản lý tập trung không gian, thiết bị và doanh thu.
+	\item Tích hợp trợ lý AI hỗ trợ tìm kiếm và tư vấn cơ bản.
+	\item Hoàn thành dự án trong 1 học kì học.
+\end{itemize}
 
 
-\subsection{Các rủi ro dự án}
-\setlength{\LTleft}{0pt}
-\setlength{\LTright}{0pt}
-\renewcommand{\arraystretch}{1.3}
+\subsection{Testing Objectives}
 
-\begin{longtable}{|p{0.6cm}|p{3.5cm}|p{3.5cm}|p{1.8cm}|p{4cm}|}
-
-	\textbf{\#} &
-	\textbf{Risk Description} &
-	\textbf{Impact} &
-	\textbf{Possibility} &
-	\textbf{Response Plans} \\
-	\hline
-	\endhead
-	
-	1 &
-	Timeline gấp (30 ngày) khiến các module core (đặt chỗ, thanh toán) chưa được hoàn thiện đúng hạn. &
-	Sản phẩm demo không chạy được luồng chính, ảnh hưởng trực tiếp đến điểm đồ án. &
-	High &
-	Ưu tiên phát triển các tính năng lõi trước theo MoSCoW, cắt giảm ngay các tính năng phụ (AI, cộng đồng) nếu tiến độ trễ sau tuần 2. \\
-	\hline
-	
-	2 &
-	Xác nhận thanh toán qua VietQR được thực hiện thủ công, dễ xảy ra sai sót khi đối chiếu sao kê ngân hàng. &
-	Đơn hàng bị xác nhận sai hoặc chậm trễ, gây trải nghiệm không tốt cho người dùng khi demo. &
-	Medium &
-	Thiết kế rõ trạng thái đơn hàng trung gian (\texttt{waiting\_confirmation}) và kiểm thử kỹ luồng đối chiếu trước khi tích hợp UI. \\
-	\hline
-	
-	3 &
-	Chức năng quản lý đặt chỗ và phân bổ tài nguyên (tránh trùng lịch phòng/thiết bị) hoạt động chưa chính xác. &
-	Nhiếp ảnh gia có thể đặt trùng lịch với người khác, gây lỗi nghiêm trọng trong luồng chính của hệ thống. &
-	High &
-	Kiểm thử các trường hợp đặt trùng lịch, kiểm tra logic phân bổ tài nguyên ở Backend và xử lý lỗi rõ ràng trên Frontend. \\
-	\hline
-	
-	4 &
-	Tích hợp Frontend và Backend không đồng bộ về API hoặc cấu trúc dữ liệu. &
-	Một số chức năng có thể không hiển thị hoặc hoạt động đúng trên giao diện. &
-	Medium &
-	Thống nhất API endpoint, request/response và kiểm thử API trước khi tích hợp giữa các module. \\
-	\hline
-	
-	5 &
-	Thành viên nhóm không hoàn thành task đúng tiến độ hoặc phát sinh xung đột khi merge code. &
-	Ảnh hưởng đến tiến độ tích hợp và hoàn thiện hệ thống. &
-	Medium &
-	Phân chia task rõ ràng trên Jira, sử dụng Git branch riêng và thường xuyên cập nhật tiến độ của từng thành viên. \\
-	\hline
-	
-	6 &
-	Các lỗi phát sinh trong quá trình kiểm thử khiến một số chức năng chưa ổn định. &
-	Ảnh hưởng đến chất lượng và khả năng hoàn thành bản demo cuối cùng. &
-	Medium &
-	Thực hiện kiểm thử sớm, ưu tiên sửa các lỗi ảnh hưởng đến chức năng chính và kiểm thử lại sau khi sửa lỗi. \\
-	\hline
-	
-\end{longtable}
+\begin{table}[H]
+	\centering
+	\small
+	\caption{Testing Objectives}
+	\begin{tabularx}{\textwidth}{|L{3.5cm}|Y|L{3cm}|}
+		\hline
+		\textbf{Testing Stage} & \textbf{Coverage} & \textbf{Target Defects} \\ \hline
+		Code Review & Coding Standard & $<10$ \\ \hline
+		Unit Testing & Business Logic & $<8$ \\ \hline
+		Integration Testing & Giao tiếp giữa các module & $<5$ \\ \hline
+		System Testing & Luồng hoàn chỉnh & $<5$ \\ \hline
+		Acceptance Testing & Đáp ứng yêu cầu người dùng & $<3$ \\ \hline
+	\end{tabularx}
+\end{table}
 
 
-\section{Phương pháp quản lý dự án}
+\subsection{Project Risks}
 
-\subsection{Quy trình phát triển dự án}
+\begin{table}[H]
+	\centering
+	\small
+	\caption{Project Risks}
+	\begin{tabularx}{\textwidth}{|c|Y|Y|L{1.8cm}|Y|}
+		\hline
+		\textbf{\#} &
+		\textbf{Risk Description} &
+		\textbf{Impact} &
+		\textbf{Possibility} &
+		\textbf{Response Plans} \\ \hline
+		
+		1 &
+		Timeline gấp (30 ngày) khiến các module core (đặt chỗ, thanh toán) chưa được hoàn thiện đúng hạn. &
+		Sản phẩm demo không chạy được luồng chính, ảnh hưởng trực tiếp đến điểm đồ án. &
+		High &
+		Ưu tiên phát triển các tính năng lõi trước theo MoSCoW, cắt giảm ngay các tính năng phụ (AI, cộng đồng) nếu tiến độ trễ sau tuần 2. \\ \hline
+		
+		2 &
+		Xác nhận thanh toán qua VietQR được thực hiện thủ công, dễ xảy ra sai sót khi đối chiếu sao kê ngân hàng. &
+		Đơn hàng bị xác nhận sai hoặc chậm trễ, gây trải nghiệm không tốt cho người dùng khi demo. &
+		Medium &
+		Thiết kế rõ trạng thái đơn hàng trung gian (waiting\_confirmation) và kiểm thử kỹ luồng đối chiếu trước khi tích hợp UI. \\ \hline
+		
+		3 &
+		Chức năng quản lý đặt chỗ và phân bổ tài nguyên (tránh trùng lịch phòng/thiết bị) hoạt động chưa chính xác. &
+		Nhiếp ảnh gia có thể đặt trùng lịch với người khác, gây lỗi nghiêm trọng trong luồng chính của hệ thống. &
+		High &
+		Phát triển và kiểm thử kỹ logic kiểm tra trùng lịch (booking conflict) ngay từ giai đoạn đầu của module Đặt chỗ. \\ \hline
+		
+		4 &
+		Thành viên nhóm gặp sự cố cá nhân hoặc quá tải do lịch học song song với các môn khác. &
+		Một số module bị chậm tiến độ hoặc không ai đảm nhận kịp thời. &
+		Low &
+		Chia sẻ kiến thức giữa các thành viên, phân công dự phòng (backup) cho mỗi module quan trọng. \\ \hline
+		
+	\end{tabularx}
+\end{table}
+
+
+\section{Management Approach}
+
+\subsection{Project Process}
 
 Sau khi xem xét các mô hình phát triển phần mềm, nhóm lựa chọn Quy trình phát triển phần mềm lặp và gia tăng (Iterative and Incremental Software Development Process).
 
@@ -190,6 +127,7 @@ Theo mô hình này, hệ thống được chia thành nhiều phần nhỏ đ�
 Mô hình này phù hợp với đề tài vì hệ thống có nhiều module khác nhau và các chức năng có liên quan đến nhau. Việc phát triển từng phần giúp nhóm dễ theo dõi tiến độ, kiểm thử và sửa lỗi trong quá trình thực hiện.
 
 Các lý do lựa chọn mô hình này gồm:
+
 \begin{itemize}
 	\item Phát triển các chức năng quan trọng trước.
 	\item Dễ điều chỉnh khi có thay đổi yêu cầu.
@@ -199,33 +137,33 @@ Các lý do lựa chọn mô hình này gồm:
 \end{itemize}
 
 
-\subsection{Quản lý chất lượng}
+\subsection{Quality Management}
 
-\subsubsection{Phòng ngừa lỗi}
+\subsubsection{Defect Prevention}
 
 Khi phát hiện lỗi, người phụ trách phải được thông báo ngay. Mỗi lỗi cần được đánh giá về mức độ nghiêm trọng và thời gian cần thiết để xử lý. Các lỗi quan trọng phải được ưu tiên giải quyết và có thời hạn xử lý cụ thể.
 
 Nhóm cũng cần chủ động xác định các vấn đề có thể xảy ra trong quá trình phát triển để có phương án xử lý sớm.
 
-\subsubsection{Review}
+\subsubsection{Reviewing}
 
 Quá trình review phải được thực hiện khách quan và không thiên vị thành viên nào. Khi phát hiện lỗi, người phụ trách phải được thông báo để xử lý.
 
 Các lỗi phát hiện trong quá trình review cần được ghi nhận trên công cụ Bug Tracking, bao gồm mức độ ưu tiên. Người phụ trách có trách nhiệm đưa ra giải pháp và sửa lỗi trong thời gian phù hợp.
 
-\subsubsection{Kiểm thử đơn vị}
+\subsubsection{Unit Testing}
 
 Các test case phải được chuẩn bị đầy đủ và phù hợp với chức năng của hệ thống. Các trường hợp có thể xảy ra cần được xem xét để hạn chế bỏ sót lỗi.
 
 Khi phát hiện lỗi trong quá trình Unit Testing, lỗi phải được ghi nhận trên công cụ Bug Tracking cùng với mức độ ưu tiên. Người phụ trách sẽ xử lý và sửa lỗi.
 
-\subsubsection{Kiểm thử tích hợp}
+\subsubsection{Integration Testing}
 
 Các test case phải bao quát việc kết nối giữa các module của hệ thống. Nhóm cần kiểm tra để đảm bảo các module hoạt động đúng khi kết hợp với nhau.
 
 Các lỗi phát hiện trong quá trình Integration Testing phải được ghi nhận trên công cụ Bug Tracking và có mức độ ưu tiên cụ thể. Người phụ trách phải xử lý lỗi để đảm bảo các module hoạt động ổn định và chính xác khi tích hợp.
 
-\subsubsection{Kiểm thử hệ thống}
+\subsubsection{System Testing}
 
 System Testing yêu cầu các test case được thiết kế cẩn thận và phù hợp với yêu cầu cũng như thiết kế của hệ thống.
 
@@ -233,189 +171,193 @@ Các lỗi phát hiện trong quá trình System Testing phải được ghi nh�
 
 System Testing phải đảm bảo kiểm tra đầy đủ các chức năng của hệ thống, bao gồm cả việc kiểm tra tương tác giữa hệ thống và các hệ thống bên ngoài.
 
-\subsection{Kế hoạch đào tạo}
+
+\subsection{Training Plan}
 
 \begin{table}[H]
 	\centering
-	\caption{Kế hoạch đào tạo}
-	\renewcommand{\arraystretch}{1.3}
-	
-	\begin{tabular}{|p{4cm}|p{3.5cm}|p{2cm}|p{2.5cm}|}
+	\small
+	\caption{Training Plan}
+	\begin{tabularx}{\textwidth}{|Y|Y|L{2cm}|L{2cm}|Y|}
 		\hline
-		\textbf{Nội dung đào tạo} & \textbf{Đối tượng} & \textbf{Thời gian} & \textbf{Thời lượng} \\ \hline
+		\textbf{Training Area} &
+		\textbf{Participants} &
+		\textbf{When} &
+		\textbf{Duration} &
+		\textbf{Waiver Criteria} \\ \hline
 		
-		Python (Backend) & Tất cả thành viên & Tuần 1 & 7 ngày \\ \hline
+		Python (Backend) & All Team Members & Week 1 & 7 days & Mandatory \\ \hline
+		Next.js, TypeScript (Frontend) & Team Members & Week 1 & 14 days & Mandatory \\ \hline
+		Git, GitHub & All Team Members & Week 1 & 3 days & Mandatory \\ \hline
+		PostgreSQL & All Team Members & Week 2 & 4 days & Mandatory \\ \hline
 		
-		HTML, CSS, JavaScript & Thành viên nhóm & Tuần 1 & 14 ngày \\ \hline
-		
-		Git, GitHub & Tất cả thành viên & Tuần 1 & 3 ngày \\ \hline
-		
-		PostgreSQL & Tất cả thành viên & Tuần 2 & 4 ngày \\ \hline
-		
-	\end{tabular}
+	\end{tabularx}
 \end{table}
 
-\section{Các sản phẩm bàn giao của dự án}
+
+\section{Project Deliverables}
 
 \begin{table}[H]
 	\centering
-	\caption{Các sản phẩm bàn giao của dự án}
-	\renewcommand{\arraystretch}{1.3}
-	
-	\begin{tabular}{|p{1cm}|p{3cm}|p{10cm}|}
+	\small
+	\caption{Project Deliverables}
+	\begin{tabularx}{\textwidth}{|L{1.2cm}|L{2.5cm}|Y|}
 		\hline
-		\textbf{STT} & \textbf{Sản phẩm bàn giao} & \textbf{Ghi chú} \\ \hline
+		\textbf{No.} & \textbf{Deliverable} & \textbf{Notes} \\ \hline
 		
 		1 & Sprint 1 &
-		 Phân tích yêu cầu hệ thống \newline
-		 Xác định Actor và Module \newline
-		 Xác định công nghệ sử dụng \newline
-		 Hoàn thành Report 1
+		\begin{itemize}
+			\item Phân tích yêu cầu hệ thống
+			\item Xác định Actor và Module
+			\item Xác định công nghệ sử dụng
+			\item Hoàn thành Report 1
+		\end{itemize}
 		\\ \hline
 		
 		2 & Sprint 2 &
-		 Hoàn thiện SRS \newline
-		 Thiết kế cơ sở dữ liệu \newline
-		 Thiết kế UI/UX \newline
-		 Thiết lập project cơ bản \newline
-		 Hoàn thành Report 2
+		\begin{itemize}
+			\item Hoàn thiện SRS
+			\item Thiết kế cơ sở dữ liệu
+			\item Thiết kế UI/UX
+			\item Thiết lập project cơ bản
+			\item Hoàn thành Report 2
+		\end{itemize}
 		\\ \hline
 		
 		3 & Sprint 3 &
-		 Implement Authentication \& User Management \newline
-		 Implement Creative Space Management \newline
-		 Implement Resource \& Equipment Management \newline
-		 Implement Service Package Management \newline
-		 Implement Reservation \& Resource Allocation \newline
-		 Implement Service Session Management
+		\begin{itemize}
+			\item Implement Authentication \& User Management
+			\item Implement Creative Space Management
+		\end{itemize}
 		\\ \hline
 		
-		5 & Sprint 4 &
-		 Hoàn thiện các chức năng còn lại \newline
-		 Tích hợp Frontend và Backend \newline
-		 Validation \& Constraint \newline
-		 Integration Testing \& System Testing \newline
-		 Sửa lỗi và Deployment \newline
-		 Hoàn thành Final Report
+		4 & Sprint 4 &
+		\begin{itemize}
+			\item Implement Resource \& Equipment Management
+			\item Implement Service Package Management
+			\item Implement Reservation \& Resource Allocation
+			\item Implement Service Session Management
+		\end{itemize}
 		\\ \hline
 		
-	\end{tabular}
+		5 & Sprint 5 &
+		\begin{itemize}
+			\item Hoàn thiện các chức năng còn lại
+			\item Tích hợp Frontend và Backend
+			\item Validation \& Constraint
+			\item Integration Testing \& System Testing
+			\item Sửa lỗi và Deployment
+			\item Hoàn thành Final Report
+		\end{itemize}
+		\\ \hline
+		
+	\end{tabularx}
 \end{table}
 
 
-\section{Phân công trách nhiệm}
+\section{Responsibility Assignments}
 
 \begin{table}[H]
 	\centering
-	\caption{Ma trận phân công trách nhiệm}
-	\renewcommand{\arraystretch}{1.3}
-	
-	\begin{tabular}{|p{4cm}|p{2.2cm}|p{2.2cm}|p{2cm}|p{2.2cm}|}
+	\small
+	\caption{Responsibility Assignment Matrix}
+	\begin{tabularx}{\textwidth}{|Y|c|c|c|c|}
 		\hline
-		\textbf{Công việc} & \textbf{Thanh Nhàn} & \textbf{Minh Thư} & \textbf{Sơn Lâm} & \textbf{Quang Cường} \\ \hline
+		\textbf{Task} &
+		\textbf{Thanh Nhàn} &
+		\textbf{Minh Thư} &
+		\textbf{Sơn Lâm} &
+		\textbf{Quang Cường} \\ \hline
 		
 		Requirement Analysis & D & R & S & S \\ \hline
+		Project Planning & D & S & R & S \\ \hline
+		Database Design & R & D & S & S \\ \hline
+		Backend Development & & & & \\ \hline
+		Frontend Development & & & & \\ \hline
+		Testing & & & & \\ \hline
+		Documentation & & & & \\ \hline
 		
-		Project Planning & D & S & & \\ \hline
-		
-		Database Design & D & D & S & S \\ \hline
-		
-		Backend Development & S & D & & \\ \hline
-		
-		Frontend Development & D & D & & \\ \hline
-		
-		Testing & S & D & & \\ \hline
-		
-		Documentation & D & R & S & S \\ \hline
-		
-	\end{tabular}
+	\end{tabularx}
 \end{table}
 
 Trong đó:
 
 \begin{itemize}
-	\item D = Do: Người thực hiện chính.
-	\item R = Review: Người kiểm tra.
-	\item S = Support: Người hỗ trợ.
-	\item Blank = Omitted: Không tham gia.
+	\item D = Do: Người thực hiện chính
+	\item R = Review: kiểm tra
+	\item S = Support: hỗ trợ
 \end{itemize}
 
 
-\section{Trao đổi thông tin trong dự án}
+\section{Project Communications}
 
 \begin{table}[H]
 	\centering
-	\caption{Trao đổi thông tin trong dự án}
-	\renewcommand{\arraystretch}{1.3}
-	
-	\begin{tabular}{|p{3.5cm}|p{3.5cm}|p{3cm}|p{3cm}|}
+	\small
+	\caption{Project Communications}
+	\begin{tabularx}{\textwidth}{|Y|Y|L{2.5cm}|Y|}
 		\hline
-		\textbf{Trao đổi} & \textbf{Thành phần tham gia} & \textbf{Tần suất} & \textbf{Công cụ} \\ \hline
+		\textbf{Communication} &
+		\textbf{Participants} &
+		\textbf{Frequency} &
+		\textbf{Tool} \\ \hline
 		
 		Daily Meeting & Development Team & Daily & Google Meet \\ \hline
-		
 		Sprint Planning & All Members & Every Weeks & Google Meet \\ \hline
-		
 		Sprint Review & Supervisor & Every Sprint & Offline/Meet \\ \hline
-		
 		Issue Discussion & Related Members & As Needed & Google Meet \\ \hline
-		
 		Document Sharing & All Members & Continuous & Google Drive \\ \hline
-		
 		Source Code Review & Developers & Continuous & GitHub \\ \hline
 		
-	\end{tabular}
+	\end{tabularx}
 \end{table}
 
 
-\section{Quản lý cấu hình}
+\section{Configuration Management}
 
-\subsection{Quản lý tài liệu}
+\subsection{Document Management}
 
 Tài liệu dự án được quản lý bằng:
 
 \begin{itemize}
-	\item Microsoft Word / LaTeX.
-	\item Google Sheets.
-	\item Google Drive.
+	\item LaTeX
+	\item Jira
+	\item Google Drive
 \end{itemize}
 
-\subsection{Quản lý mã nguồn}
+
+\subsection{Source Code Management}
 
 Mã nguồn của dự án được quản lý bằng Git và GitHub.
 
-\subsection{Công cụ và cơ sở hạ tầng}
+
+\subsection{Tools \& Infrastructures}
 
 \begin{table}[H]
 	\centering
-	\caption{Công cụ và cơ sở hạ tầng}
-	\renewcommand{\arraystretch}{1.3}
-	
-	\begin{tabular}{|p{4cm}|p{9cm}|}
+	\small
+	\caption{Tools and Infrastructure}
+	\begin{tabularx}{\textwidth}{|L{4cm}|Y|}
 		\hline
-		\textbf{Danh mục} & \textbf{Công cụ / Cơ sở hạ tầng} \\ \hline
+		\textbf{Category} & \textbf{Tools / Infrastructure} \\ \hline
 		
 		Technology & Python (Backend), ReactJS / Next.js (Web) \\ \hline
-		
 		Database & PostgreSQL \\ \hline
-		
 		IDEs / Editors & Visual Studio Code \\ \hline
-		
 		Diagramming & Draw.io \\ \hline
-		
 		Documentation & LaTeX, Microsoft Office, Google Docs/Sheets/Slides \\ \hline
-		
 		Version Control & GitHub, Google Drive \\ \hline
-		
+		Deployment & Docker, Microsoft Azure / Firebase \\ \hline
 		Project Management & Jira \\ \hline
 		
-	\end{tabular}
+	\end{tabularx}
 \end{table}
 
-\subsection{Chính sách quản lý phiên bản}
+
+\subsection{Version Control Policy}
 
 \begin{itemize}
-	\item Mỗi tính năng được phát triển trên một nhánh riêng.
+	\item Mỗi tính năng được phát triển trên 1 nhánh riêng.
 	\item Bắt buộc tạo Pull Request trước khi merge vào main.
 	\item Cần review code trước khi approve merge.
 \end{itemize}

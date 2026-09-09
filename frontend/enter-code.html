@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>FilmSpace - Nhập mã OTP</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --text: #26283b;
+      --muted: #6f7284;
+      --pink: #ff1584;
+      --pink-dark: #e60f75;
+      --line: #e9e9ef;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, Arial, sans-serif;
+      color: var(--text);
+    }
+
+    .auth-wrapper {
+      min-height: 100vh;
+      display: flex;
+    }
+
+    .auth-side,
+    .auth-content {
+      width: 50%;
+      min-height: 100vh;
+    }
+
+    .auth-side {
+      position: relative;
+      overflow: hidden;
+      background: #f4f5f8;
+    }
+
+    .auth-side img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .brand {
+      position: absolute;
+      top: 38px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .brand span {
+      color: var(--pink);
+    }
+
+    .auth-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 34px;
+    }
+
+    .form-container {
+      width: min(440px, 100%);
+    }
+
+    h1 {
+      font-size: 40px;
+      margin: 0 0 10px;
+    }
+
+    .sub {
+      color: var(--muted);
+      line-height: 1.5;
+      margin: 0 0 28px;
+    }
+
+    .otp-wrap {
+      display: flex;
+      gap: 10px;
+      margin: 12px 0 22px;
+    }
+
+    .otp {
+      width: 58px;
+      height: 58px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .otp:focus {
+      outline: none;
+      border-color: var(--pink);
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      border: 0;
+      border-radius: 7px;
+      background: var(--pink);
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: var(--pink-dark);
+    }
+
+    .resend {
+      margin-top: 16px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .resend a {
+      color: var(--pink);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .message {
+      display: none;
+      margin-bottom: 20px;
+      padding: 11px;
+      border-radius: 7px;
+      font-size: 13px;
+    }
+
+    .message.error {
+      display: block;
+      background: #fff6f7;
+      color: #dc3545;
+    }
+
+    .message.success {
+      display: block;
+      background: #f4fbf7;
+      color: #198754;
+    }
+
+    @media (max-width: 800px) {
+      .auth-wrapper {
+        flex-direction: column;
+      }
+
+      .auth-side,
+      .auth-content {
+        width: 100%;
+      }
+
+      .auth-side {
+        height: 300px;
+        min-height: 0;
+      }
+
+      .auth-side img {
+        height: 300px;
+      }
+
+      .auth-content {
+        min-height: auto;
+        padding: 44px 22px 54px;
+      }
+
+      .otp {
+        width: 46px;
+        height: 46px;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="auth-wrapper">
+
+  <aside class="auth-side">
+    <img src="assets/images/5.jpg" alt="Film photography">
+
+    <div class="brand">
+      Film<span>Space</span>
+    </div>
+  </aside>
+
+  <main class="auth-content">
+
+    <div class="form-container">
+
+      <div id="message" class="message"></div>
+
+      <h1>Nhập mã OTP</h1>
+
+      <p class="sub">
+        Mã 6 số đã được gửi đến email của bạn.
+        <br>
+        Nhập mã để tiếp tục.
+      </p>
+
+      <form id="otpForm">
+
+        <div class="otp-wrap">
+
+          <input class="otp" maxlength="1" inputmode="numeric" id="o0" required>
+          <input class="otp" maxlength="1" inputmode="numeric" id="o1" required>
+          <input class="otp" maxlength="1" inputmode="numeric" id="o2" required>
+          <input class="otp" maxlength="1" inputmode="numeric" id="o3" required>
+          <input class="otp" maxlength="1" inputmode="numeric" id="o4" required>
+          <input class="otp" maxlength="1" inputmode="numeric" id="o5" required>
+
+        </div>
+
+        <button type="submit">
+          XÁC NHẬN
+        </button>
+
+      </form>
+
+      <div class="resend">
+        Không nhận được mã?
+        <a id="resend">Gửi lại</a>
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+  const API_BASE_URL = "http://127.0.0.1:9999";
+
+  const email = sessionStorage.getItem("reset_email");
+
+  const messageBox = document.getElementById("message");
+
+  if (!email) {
+    window.location.href = "forgot-password.html";
+  }
+
+  function showMessage(text, type = "error") {
+    messageBox.textContent = text;
+    messageBox.className = `message ${type}`;
+  }
+
+  async function parseResponse(response) {
+
+    const text = await response.text();
+
+    try {
+      return text ? JSON.parse(text) : {};
+    } catch {
+      return {
+        message: text || "Có lỗi xảy ra."
+      };
+    }
+
+  }
+
+  const inputs = [
+    ...document.querySelectorAll(".otp")
+  ];
+
+  inputs.forEach((input, index) => {
+
+    input.addEventListener("input", () => {
+
+      input.value = input.value.replace(/\D/g, "");
+
+      if (input.value && index < inputs.length - 1) {
+        inputs[index + 1].focus();
+      }
+
+    });
+
+    input.addEventListener("keydown", (event) => {
+
+      if (
+        event.key === "Backspace" &&
+        !input.value &&
+        index > 0
+      ) {
+        inputs[index - 1].focus();
+      }
+
+    });
+
+  });
+
+  document
+    .getElementById("otpForm")
+    .addEventListener("submit", async (event) => {
+
+      event.preventDefault();
+
+      const otp = inputs
+        .map(input => input.value)
+        .join("");
+
+      if (otp.length !== 6) {
+        showMessage("Vui lòng nhập đủ 6 số.");
+        return;
+      }
+
+      try {
+
+        const response = await fetch(
+          `${API_BASE_URL}/auth/verify-reset-code`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              email: email,
+              otp: otp
+            })
+          }
+        );
+
+        const data = await parseResponse(response);
+
+        if (!response.ok) {
+          showMessage(
+            data.message ||
+            "Mã OTP không chính xác."
+          );
+          return;
+        }
+
+        sessionStorage.setItem(
+          "reset_verified",
+          "true"
+        );
+
+        showMessage(
+          data.message ||
+          "Xác thực OTP thành công.",
+          "success"
+        );
+
+        setTimeout(() => {
+          window.location.href = "reset-password.html";
+        }, 700);
+
+      } catch {
+
+        showMessage(
+          "Không thể kết nối đến Backend."
+        );
+
+      }
+
+    });
+
+  document
+    .getElementById("resend")
+    .addEventListener("click", async () => {
+
+      try {
+
+        const response = await fetch(
+          `${API_BASE_URL}/auth/resend-reset-code`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              email: email
+            })
+          }
+        );
+
+        const data = await parseResponse(response);
+
+        showMessage(
+          data.message ||
+          "Đã gửi lại mã.",
+          response.ok ? "success" : "error"
+        );
+
+      } catch {
+
+        showMessage(
+          "Không thể kết nối đến Backend."
+        );
+
+      }
+
+    });
+</script>
+
+</body>
+</html>

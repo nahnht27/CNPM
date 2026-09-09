@@ -1,0 +1,2551 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Spaces - Provider | FilmSpace</title>
+
+  <!-- CSS dùng chung -->
+  <link
+    rel="stylesheet"
+    href="../assets/css/styles.css"
+  >
+
+  <!-- CSS riêng -->
+  <link
+    rel="stylesheet"
+    href="../assets/css/provider-spaces.css"
+  >
+
+</head>
+
+
+<body>
+
+<!-- =====================================================
+     NAVBAR
+     ===================================================== -->
+
+<nav
+  class="navbar"
+  id="mainNavbar"
+>
+
+  <div class="navbar-container container">
+
+    <!-- LOGO -->
+    <a
+      class="logo"
+      href="dashboard.html"
+      aria-label="FilmSpace"
+    >
+      FilmSpace
+    </a>
+
+
+    <!-- PROVIDER MENU -->
+    <div
+      class="menu"
+      aria-label="Provider navigation"
+    >
+
+      <a href="dashboard.html">
+        Dashboard
+      </a>
+
+      <a
+        href="spaces.html"
+        class="active"
+      >
+        Spaces
+      </a>
+
+      <a href="equipment.html">
+        Equipment
+      </a>
+
+      <a href="packages.html">
+        Packages
+      </a>
+
+      <a href="bookings.html">
+        Bookings
+      </a>
+
+      <a href="profile.html">
+        Profile
+      </a>
+
+    </div>
+
+
+    <!-- USER -->
+    <div class="nav-actions">
+
+      <span
+        class="provider-nav-name"
+        id="navProviderName"
+      >
+        Provider
+      </span>
+
+      <button
+        type="button"
+        class="provider-logout"
+        onclick="logout()"
+      >
+        Đăng xuất
+      </button>
+
+    </div>
+
+  </div>
+
+</nav>
+
+
+
+  <!-- =====================================================
+       MAIN
+       ===================================================== -->
+
+  <main class="provider-spaces-page">
+
+
+    <!-- ===================================================
+         HERO
+         =================================================== -->
+
+    <section class="spaces-header">
+
+  <div class="container">
+
+    <div class="spaces-header-content">
+
+      <div>
+
+        <span class="spaces-kicker">
+          MY CREATIVE SPACES
+        </span>
+
+        <h1>
+          Manage your <span>spaces.</span>
+        </h1>
+
+        <p>
+          Thêm, cập nhật và quản lý các studio hoặc darkroom
+          mà bạn đang cung cấp trên FilmSpace.
+        </p>
+
+      </div>
+
+      <button
+        type="button"
+        class="add-space-btn"
+        onclick="openCreateModal()"
+      >
+        + Add New Space
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+    <!-- ===================================================
+         SPACE CONTENT
+         =================================================== -->
+
+    <section class="spaces-content">
+
+      <div class="container">
+
+
+        <!-- SECTION HEADER -->
+
+        <div class="spaces-section-heading">
+
+  <div>
+    <h2>Your Spaces</h2>
+
+    <p>
+      Danh sách các không gian bạn đang quản lý.
+    </p>
+  </div>
+
+  <span id="spaceCount" class="space-count">
+    4 spaces
+  </span>
+
+</div>
+
+
+
+        <!-- =================================================
+             LOADING
+             ================================================= -->
+
+        <div
+          class="space-state"
+          id="loadingState"
+        >
+
+          <div class="space-state-icon">
+            ⟳
+          </div>
+
+          <h3>
+            Đang tải spaces...
+          </h3>
+
+          <p>
+            Vui lòng chờ một chút.
+          </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             ERROR
+             ================================================= -->
+
+        <div
+          class="space-state"
+          id="errorState"
+          style="display: none;"
+        >
+
+          <div class="space-state-icon">
+            !
+          </div>
+
+          <h3>
+            Không thể tải spaces
+          </h3>
+
+          <p id="errorMessage">
+            Vui lòng kiểm tra Backend.
+          </p>
+
+          <button
+            type="button"
+            class="retry-btn"
+            onclick="loadSpaces()"
+          >
+            Thử lại
+          </button>
+
+        </div>
+
+
+
+        <!-- =================================================
+             EMPTY
+             ================================================= -->
+
+        <div
+          class="space-state"
+          id="emptyState"
+          style="display: none;"
+        >
+
+          <div class="space-state-icon">
+            ⌂
+          </div>
+
+          <h3>
+            Chưa có không gian nào
+          </h3>
+
+          <p>
+            Hãy thêm studio hoặc darkroom đầu tiên của bạn.
+          </p>
+
+          <button
+            type="button"
+            class="retry-btn"
+            onclick="openCreateModal()"
+          >
+            + Add New Space
+          </button>
+
+        </div>
+
+
+
+        <!-- =================================================
+             SPACE GRID
+             ================================================= -->
+
+        <div
+          class="provider-space-grid"
+          id="spaceGrid"
+        >
+
+          <!-- Cards render từ Backend -->
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+
+  <!-- =====================================================
+       CREATE / EDIT MODAL
+       ===================================================== -->
+
+  <div
+    class="space-modal"
+    id="spaceModal"
+  >
+
+    <div class="space-modal-box">
+
+
+      <!-- HEADER -->
+
+      <div class="space-modal-header">
+
+        <div>
+
+          <span
+            class="modal-kicker"
+            id="modalKicker"
+          >
+            NEW CREATIVE SPACE
+          </span>
+
+          <h2 id="modalTitle">
+            Add New Space
+          </h2>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="modal-close"
+          onclick="closeSpaceModal()"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+
+      <!-- FORM -->
+
+      <form
+        id="spaceForm"
+        onsubmit="saveSpace(event)"
+      >
+
+
+        <div class="form-grid">
+
+
+          <!-- NAME -->
+
+          <div class="form-group form-full">
+
+            <label for="spaceName">
+              Tên không gian
+            </label>
+
+            <input
+              type="text"
+              id="spaceName"
+              required
+              placeholder="Studio A - Ánh Sáng Tự Nhiên"
+            >
+
+          </div>
+
+
+
+          <!-- CATEGORY -->
+
+          <div class="form-group">
+
+            <label for="categoryId">
+              Category ID
+            </label>
+
+            <input
+              type="number"
+              id="categoryId"
+              min="1"
+              required
+              placeholder="1"
+            >
+
+          </div>
+
+
+
+          <!-- PRICE -->
+
+          <div class="form-group">
+
+            <label for="basePrice">
+              Base Price
+            </label>
+
+            <input
+              type="number"
+              id="basePrice"
+              min="0"
+              step="1000"
+              required
+              placeholder="550000"
+            >
+
+          </div>
+
+
+
+          <!-- ADDRESS -->
+
+          <div class="form-group form-full">
+
+            <label for="spaceAddress">
+              Địa chỉ
+            </label>
+
+            <input
+              type="text"
+              id="spaceAddress"
+              required
+              placeholder="12 Nguyễn Huệ, P. Bến Nghé, Q.1, TP.HCM"
+            >
+
+          </div>
+
+
+
+          <!-- DESCRIPTION -->
+
+          <div class="form-group form-full">
+
+            <label for="spaceDescription">
+              Mô tả
+            </label>
+
+            <textarea
+              id="spaceDescription"
+              rows="4"
+              placeholder="Mô tả về creative space..."
+            ></textarea>
+
+          </div>
+
+
+
+          <!-- SIZE -->
+
+          <div class="form-group">
+
+            <label for="sizeSqm">
+              Diện tích (m²)
+            </label>
+
+            <input
+              type="number"
+              id="sizeSqm"
+              min="0"
+              step="0.01"
+              placeholder="85.50"
+            >
+
+          </div>
+
+
+
+          <!-- CAPACITY -->
+
+          <div class="form-group">
+
+            <label for="maxCapacity">
+              Sức chứa
+            </label>
+
+            <input
+              type="number"
+              id="maxCapacity"
+              min="1"
+              required
+              placeholder="18"
+            >
+
+          </div>
+
+
+
+          <!-- OPERATING HOURS -->
+
+          <div class="form-group">
+
+            <label for="operatingHours">
+              Giờ hoạt động
+            </label>
+
+            <input
+              type="text"
+              id="operatingHours"
+              required
+              placeholder="Thứ 2-Thứ 6: 8h-22h"
+            >
+
+          </div>
+
+
+
+          <!-- PRICING MODEL -->
+
+          <div class="form-group">
+
+            <label for="pricingModel">
+              Pricing Model
+            </label>
+
+            <select
+              id="pricingModel"
+              required
+            >
+
+              <option value="hourly">
+                Hourly
+              </option>
+
+              <option value="session">
+                Session
+              </option>
+
+              <option value="daily">
+                Daily
+              </option>
+
+            </select>
+
+          </div>
+
+
+
+          <!-- STATUS -->
+
+          <div class="form-group">
+
+            <label for="spaceStatus">
+              Trạng thái
+            </label>
+
+            <select
+              id="spaceStatus"
+              required
+            >
+
+              <option value="active">
+                Active
+              </option>
+
+              <option value="inactive">
+                Inactive
+              </option>
+
+            </select>
+
+          </div>
+
+
+        </div>
+
+
+
+        <!-- ACTIONS -->
+
+        <div class="form-actions">
+
+          <button
+            type="button"
+            class="form-cancel-btn"
+            onclick="closeSpaceModal()"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="form-submit-btn"
+            id="formSubmitBtn"
+          >
+            Create Space
+          </button>
+
+        </div>
+
+
+      </form>
+
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       DELETE MODAL
+       ===================================================== -->
+
+  <div
+    class="space-modal"
+    id="deleteModal"
+  >
+
+    <div class="confirm-box">
+
+
+      <div class="confirm-icon">
+        !
+      </div>
+
+
+      <h3>
+        Delete Space
+      </h3>
+
+
+      <p id="deleteText">
+        Bạn có chắc muốn xóa space này không?
+      </p>
+
+
+      <div class="confirm-actions">
+
+        <button
+          type="button"
+          class="confirm-cancel"
+          onclick="closeDeleteModal()"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="button"
+          class="confirm-delete"
+          onclick="confirmDelete()"
+        >
+          Delete
+        </button>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       MESSAGE MODAL
+       ===================================================== -->
+
+  <div
+    class="space-modal"
+    id="messageModal"
+  >
+
+    <div class="message-box">
+
+      <div
+        class="message-icon"
+        id="messageIcon"
+      >
+        ✓
+      </div>
+
+      <h3 id="messageTitle">
+        Thành công
+      </h3>
+
+      <p id="messageText">
+        Thao tác thành công.
+      </p>
+
+      <button
+        type="button"
+        class="message-ok"
+        onclick="closeMessageModal()"
+      >
+        OK
+      </button>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       FOOTER
+       ===================================================== -->
+
+  <footer class="footer">
+
+    <div class="container">
+
+      <div class="footer-top">
+
+
+        <!-- BRAND -->
+
+        <div class="footer-brand">
+
+          <div class="footer-logo">
+            Photography<span>Platform</span>
+          </div>
+
+          <p>
+            Kết nối các nhiếp ảnh gia phim
+            với các phòng tối và studio đáng tin cậy.
+          </p>
+
+        </div>
+
+
+
+        <!-- FOOTER MENU -->
+
+        <div class="footer-menu">
+
+          <a href="dashboard.html">
+            Dashboard
+          </a>
+
+          <a href="spaces.html">
+            Spaces
+          </a>
+
+          <a href="bookings.html">
+            Bookings
+          </a>
+
+          <a href="workshops.html">
+            Workshops
+          </a>
+
+          <a href="profile.html">
+            Profile
+          </a>
+
+        </div>
+
+
+      </div>
+
+
+      <hr class="footer-line">
+
+
+      <div class="footer-bottom">
+
+        <span>
+          Copyright © 2026 Photography Platform.
+          All rights reserved.
+        </span>
+
+
+        <div class="footer-links">
+
+          <a href="#">
+            Privacy Policy
+          </a>
+
+          <a href="#">
+            Terms of Use
+          </a>
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </footer>
+
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+       ===================================================== -->
+
+  <script>
+
+
+    /* =====================================================
+       CONFIG
+       ===================================================== */
+
+    const API_BASE_URL =
+      "http://127.0.0.1:9999";
+
+
+    let allSpaces = [];
+
+    let providerSpaces = [];
+
+    let editingSpaceId = null;
+
+    let deletingSpaceId = null;
+
+
+
+    /* =====================================================
+       LOCAL IMAGES
+
+       MAP GIỐNG HỆT SEARCH.HTML
+       ===================================================== */
+
+    const LOCAL_SPACE_IMAGES = [
+
+      "../assets/images/12.jpe",
+
+      "../assets/images/14.png",
+
+      "../assets/images/9.jpe",
+
+      "../assets/images/11.jpg",
+
+      "../assets/images/8.jpe",
+
+      "../assets/images/13.jpe"
+
+    ];
+
+
+
+    /* =====================================================
+       AUTH
+       ===================================================== */
+
+    function getLoggedInUser() {
+
+      const token =
+        localStorage.getItem("auth_token") ||
+        sessionStorage.getItem("auth_token");
+
+
+      const username =
+        localStorage.getItem("username") ||
+        sessionStorage.getItem("username");
+
+
+      const fullName =
+        localStorage.getItem("full_name") ||
+        sessionStorage.getItem("full_name");
+
+
+      const providerId =
+        localStorage.getItem("provider_id") ||
+        sessionStorage.getItem("provider_id");
+
+
+      const userId =
+        localStorage.getItem("user_id") ||
+        sessionStorage.getItem("user_id");
+
+
+      return {
+
+        token,
+
+        username,
+
+        fullName,
+
+        providerId,
+
+        userId
+
+      };
+
+    }
+
+
+
+    /* =====================================================
+       LOAD PROVIDER INFO
+       ===================================================== */
+
+    function loadProviderInfo() {
+
+      const user =
+        getLoggedInUser();
+
+
+      if (!user.token) {
+
+        window.location.href =
+          "../auth.html";
+
+        return false;
+
+      }
+
+
+      const displayName =
+        user.fullName ||
+        user.username ||
+        "Provider";
+
+
+      const navName =
+        document.getElementById(
+          "navProviderName"
+        );
+
+
+      if (navName) {
+
+        navName.textContent =
+          displayName;
+
+      }
+
+
+      if (!user.providerId) {
+
+        showError(
+          "Không tìm thấy provider_id trong tài khoản đăng nhập."
+        );
+
+        return false;
+
+      }
+
+
+      return true;
+
+    }
+
+
+
+    /* =====================================================
+       LOGOUT
+       ===================================================== */
+
+    function logout() {
+
+      const keys = [
+
+        "auth_token",
+
+        "username",
+
+        "full_name",
+
+        "provider_id",
+
+        "user_id"
+
+      ];
+
+
+      keys.forEach(function(key) {
+
+        localStorage.removeItem(key);
+
+        sessionStorage.removeItem(key);
+
+      });
+
+
+      window.location.href =
+        "../auth.html";
+
+    }
+
+
+
+    /* =====================================================
+       LOAD SPACES FROM BACKEND
+       ===================================================== */
+
+    async function loadSpaces() {
+
+      const user =
+        getLoggedInUser();
+
+
+      const loadingState =
+        document.getElementById(
+          "loadingState"
+        );
+
+
+      const errorState =
+        document.getElementById(
+          "errorState"
+        );
+
+
+      const emptyState =
+        document.getElementById(
+          "emptyState"
+        );
+
+
+      const grid =
+        document.getElementById(
+          "spaceGrid"
+        );
+
+
+      if (!user.providerId) {
+
+        showError(
+          "Không tìm thấy provider_id."
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        loadingState.style.display =
+          "block";
+
+
+        errorState.style.display =
+          "none";
+
+
+        emptyState.style.display =
+          "none";
+
+
+        grid.innerHTML =
+          "";
+
+
+        /*
+         * Backend filter theo ProviderID
+         */
+
+        const url =
+          `${API_BASE_URL}/creative-spaces/?provider_id=${encodeURIComponent(
+            user.providerId
+          )}`;
+
+
+        const response =
+          await fetch(url);
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            `HTTP ${response.status}`
+          );
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        allSpaces =
+          Array.isArray(data)
+            ? data
+            : [];
+
+
+        /*
+         * Filter thêm lần nữa ở Frontend.
+         */
+
+        providerSpaces =
+          allSpaces.filter(function(space) {
+
+            return String(
+              space.provider_id
+            ) === String(
+              user.providerId
+            );
+
+          });
+
+
+        loadingState.style.display =
+          "none";
+
+
+        renderSpaces(
+          providerSpaces
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "LOAD SPACES ERROR:",
+          error
+        );
+
+
+        loadingState.style.display =
+          "none";
+
+
+        showError(
+          "Không thể kết nối đến Backend. Hãy kiểm tra Flask đang chạy ở port 9999."
+        );
+
+      }
+
+    }
+
+
+
+    /* =====================================================
+       RENDER SPACES
+       ===================================================== */
+
+    function renderSpaces(spaces) {
+
+      const grid =
+        document.getElementById(
+          "spaceGrid"
+        );
+
+
+      const emptyState =
+        document.getElementById(
+          "emptyState"
+        );
+
+
+      const spaceCount =
+        document.getElementById(
+          "spaceCount"
+        );
+
+
+      grid.innerHTML =
+        "";
+
+
+      spaceCount.textContent =
+        `${spaces.length} space${spaces.length !== 1 ? "s" : ""}`;
+
+
+      if (!spaces.length) {
+
+        emptyState.style.display =
+          "block";
+
+        return;
+
+      }
+
+
+      emptyState.style.display =
+        "none";
+
+
+      spaces.forEach(function(space) {
+
+        grid.appendChild(
+          createSpaceCard(space)
+        );
+
+      });
+
+    }
+
+
+
+    /* =====================================================
+       NORMALIZE TEXT
+       ===================================================== */
+
+    function normalizeText(value) {
+
+      return String(value || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(
+          /[\u0300-\u036f]/g,
+          ""
+        );
+
+    }
+
+
+
+    /* =====================================================
+       GET SPACE TYPE
+       ===================================================== */
+
+    function getSpaceType(space) {
+
+      const categoryName =
+        normalizeText(
+          space.category_name
+        );
+
+
+      if (
+        categoryName.includes(
+          "darkroom"
+        )
+      ) {
+
+        return "darkroom";
+
+      }
+
+
+      if (
+        categoryName.includes(
+          "studio"
+        )
+      ) {
+
+        return "studio";
+
+      }
+
+
+      /*
+       * Fallback theo CategoryID
+       */
+
+      const categoryId =
+        Number(
+          space.category_id
+        );
+
+
+      if (categoryId === 1) {
+
+        return "studio";
+
+      }
+
+
+      if (categoryId === 2) {
+
+        return "darkroom";
+
+      }
+
+
+      return "studio";
+
+    }
+
+
+
+    /* =====================================================
+       GET IMAGE
+       ===================================================== */
+
+    function getSpaceImage(space) {
+
+      const spaceId =
+        Number(
+          space.id
+        );
+
+
+      /*
+       * QUAN TRỌNG:
+       * map giống search.html
+       */
+
+      if (
+
+        Number.isInteger(spaceId) &&
+
+        spaceId >= 1 &&
+
+        spaceId <= LOCAL_SPACE_IMAGES.length
+
+      ) {
+
+        return LOCAL_SPACE_IMAGES[
+          spaceId - 1
+        ];
+
+      }
+
+
+      /*
+       * Nếu ID vượt quá số ảnh
+       * thì lấy ảnh đầu tiên.
+       */
+
+      return LOCAL_SPACE_IMAGES[0];
+
+    }
+
+
+
+    /* =====================================================
+       FORMAT PRICE
+       ===================================================== */
+
+    function formatPrice(price) {
+
+      if (
+
+        price === null ||
+
+        price === undefined ||
+
+        price === ""
+
+      ) {
+
+        return "Chưa cập nhật";
+
+      }
+
+
+      const number =
+        Number(price);
+
+
+      if (
+        Number.isNaN(number)
+      ) {
+
+        return price;
+
+      }
+
+
+      return new Intl.NumberFormat(
+        "vi-VN"
+      ).format(number);
+
+    }
+
+
+
+    /* =====================================================
+       FORMAT PRICING MODEL
+       ===================================================== */
+
+    function formatPricingModel(model) {
+
+      const value =
+        normalizeText(
+          model
+        );
+
+
+      if (
+        value.includes("hour") ||
+        value.includes("gio")
+      ) {
+
+        return " / hour";
+
+      }
+
+
+      if (
+        value.includes("session") ||
+        value.includes("buoi")
+      ) {
+
+        return " / session";
+
+      }
+
+
+      if (
+        value.includes("day") ||
+        value.includes("daily") ||
+        value.includes("ngay")
+      ) {
+
+        return " / day";
+
+      }
+
+
+      return "";
+
+    }
+
+
+
+    /* =====================================================
+       ESCAPE HTML
+       ===================================================== */
+
+    function escapeHtml(value) {
+
+      return String(
+        value ?? ""
+      )
+
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+
+        .replace(
+          /</g,
+          "&lt;"
+        )
+
+        .replace(
+          />/g,
+          "&gt;"
+        )
+
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+
+        .replace(
+          /'/g,
+          "&#039;"
+        );
+
+    }
+
+
+
+    /* =====================================================
+       CREATE SPACE CARD
+       ===================================================== */
+
+    function createSpaceCard(space) {
+
+      const card =
+        document.createElement(
+          "article"
+        );
+
+
+      card.className =
+        "provider-space-card";
+
+
+      const type =
+        getSpaceType(
+          space
+        );
+
+
+      const typeName =
+        type === "darkroom"
+          ? "Darkroom"
+          : "Studio";
+
+
+      const imageUrl =
+        getSpaceImage(
+          space
+        );
+
+
+      const status =
+        String(
+          space.status || "active"
+        ).toLowerCase();
+
+
+      const statusText =
+        status === "active"
+          ? "ACTIVE"
+          : "INACTIVE";
+
+
+      const price =
+        formatPrice(
+          space.base_price
+        );
+
+
+      const pricingModel =
+        formatPricingModel(
+          space.pricing_model
+        );
+
+
+      card.innerHTML = `
+
+        <!-- IMAGE -->
+
+        <div class="provider-space-image">
+
+          <img
+            src="${escapeHtml(imageUrl)}"
+            alt="${escapeHtml(
+              space.name ||
+              "Creative Space"
+            )}"
+            onerror="this.src='../assets/images/1.jpe'"
+          >
+
+
+          <span
+            class="
+              provider-space-type
+              ${type === "darkroom" ? "darkroom" : ""}
+            "
+          >
+            ${escapeHtml(typeName)}
+          </span>
+
+
+          <span
+            class="
+              provider-space-status
+              ${status === "active" ? "active" : "inactive"}
+            "
+          >
+            ${escapeHtml(statusText)}
+          </span>
+
+        </div>
+
+
+
+        <!-- INFORMATION -->
+
+        <div class="provider-space-info">
+
+
+          <h3>
+
+            ${escapeHtml(
+              space.name ||
+              "Chưa cập nhật"
+            )}
+
+          </h3>
+
+
+
+          <p class="provider-space-location">
+
+            📍
+
+            ${escapeHtml(
+              space.address ||
+              "Chưa cập nhật địa chỉ"
+            )}
+
+          </p>
+
+
+
+          <div class="provider-space-price-row">
+
+            <strong>
+
+              ${escapeHtml(price)}đ
+
+            </strong>
+
+
+            <span>
+
+              ${escapeHtml(
+                pricingModel
+              )}
+
+            </span>
+
+          </div>
+
+
+
+          <p class="provider-space-description">
+
+            ${escapeHtml(
+              space.description ||
+              "Chưa có mô tả cho space này."
+            )}
+
+          </p>
+
+
+
+          <div class="provider-space-meta">
+
+
+            <span>
+
+              Capacity:
+
+              <strong>
+
+                ${escapeHtml(
+                  space.max_capacity ??
+                  "—"
+                )}
+
+              </strong>
+
+            </span>
+
+
+
+            <span>
+
+              Size:
+
+              <strong>
+
+                ${escapeHtml(
+                  space.size_sqm ??
+                  "—"
+                )} m²
+
+              </strong>
+
+            </span>
+
+
+          </div>
+
+
+
+          <!-- ACTIONS -->
+
+          <div class="provider-space-actions">
+
+
+            <button
+              type="button"
+              class="space-edit-btn"
+              onclick="openEditModal(${Number(space.id)})"
+            >
+              Edit
+            </button>
+
+
+            <button
+              type="button"
+              class="space-delete-btn"
+              onclick="openDeleteModal(${Number(space.id)})"
+            >
+              Delete
+            </button>
+
+
+          </div>
+
+
+        </div>
+
+      `;
+
+
+      return card;
+
+    }
+
+
+
+    /* =====================================================
+       CREATE MODAL
+       ===================================================== */
+
+    function openCreateModal() {
+
+      editingSpaceId =
+        null;
+
+
+      document
+        .getElementById(
+          "spaceForm"
+        )
+        .reset();
+
+
+      document
+        .getElementById(
+          "modalKicker"
+        )
+        .textContent =
+        "NEW CREATIVE SPACE";
+
+
+      document
+        .getElementById(
+          "modalTitle"
+        )
+        .textContent =
+        "Add New Space";
+
+
+      document
+        .getElementById(
+          "formSubmitBtn"
+        )
+        .textContent =
+        "Create Space";
+
+
+      document
+        .getElementById(
+          "spaceModal"
+        )
+        .classList.add(
+          "show"
+        );
+
+    }
+
+
+
+    /* =====================================================
+       EDIT MODAL
+       ===================================================== */
+
+    function openEditModal(spaceId) {
+
+      const space =
+        providerSpaces.find(
+          function(item) {
+
+            return Number(
+              item.id
+            ) === Number(
+              spaceId
+            );
+
+          }
+        );
+
+
+      if (!space) {
+
+        showMessage(
+          "Lỗi",
+          "Không tìm thấy space.",
+          false
+        );
+
+        return;
+
+      }
+
+
+      editingSpaceId =
+        Number(
+          space.id
+        );
+
+
+      document.getElementById(
+        "spaceName"
+      ).value =
+        space.name || "";
+
+
+      document.getElementById(
+        "categoryId"
+      ).value =
+        space.category_id || "";
+
+
+      document.getElementById(
+        "basePrice"
+      ).value =
+        space.base_price || "";
+
+
+      document.getElementById(
+        "spaceAddress"
+      ).value =
+        space.address || "";
+
+
+      document.getElementById(
+        "spaceDescription"
+      ).value =
+        space.description || "";
+
+
+      document.getElementById(
+        "sizeSqm"
+      ).value =
+        space.size_sqm || "";
+
+
+      document.getElementById(
+        "maxCapacity"
+      ).value =
+        space.max_capacity || "";
+
+
+      document.getElementById(
+        "operatingHours"
+      ).value =
+        space.operating_hours || "";
+
+
+      document.getElementById(
+        "pricingModel"
+      ).value =
+        space.pricing_model ||
+        "hourly";
+
+
+      document.getElementById(
+        "spaceStatus"
+      ).value =
+        space.status ||
+        "active";
+
+
+      document.getElementById(
+        "modalKicker"
+      ).textContent =
+        "EDIT CREATIVE SPACE";
+
+
+      document.getElementById(
+        "modalTitle"
+      ).textContent =
+        "Edit Space";
+
+
+      document.getElementById(
+        "formSubmitBtn"
+      ).textContent =
+        "Save Changes";
+
+
+      document
+        .getElementById(
+          "spaceModal"
+        )
+        .classList.add(
+          "show"
+        );
+
+    }
+
+
+
+    /* =====================================================
+       CLOSE SPACE MODAL
+       ===================================================== */
+
+    function closeSpaceModal() {
+
+      document
+        .getElementById(
+          "spaceModal"
+        )
+        .classList.remove(
+          "show"
+        );
+
+    }
+
+
+
+    /* =====================================================
+       SAVE SPACE
+       ===================================================== */
+
+    async function saveSpace(event) {
+
+      event.preventDefault();
+
+
+      const user =
+        getLoggedInUser();
+
+
+      if (!user.providerId) {
+
+        showMessage(
+          "Lỗi",
+          "Không tìm thấy provider_id.",
+          false
+        );
+
+        return;
+
+      }
+
+
+      /*
+       * Payload gửi xuống Backend
+       */
+
+      const payload = {
+
+        provider_id:
+          Number(
+            user.providerId
+          ),
+
+
+        name:
+          document.getElementById(
+            "spaceName"
+          ).value.trim(),
+
+
+        category_id:
+          Number(
+            document.getElementById(
+              "categoryId"
+            ).value
+          ),
+
+
+        description:
+          document.getElementById(
+            "spaceDescription"
+          ).value.trim(),
+
+
+        size_sqm:
+          document.getElementById(
+            "sizeSqm"
+          ).value
+            ? Number(
+                document.getElementById(
+                  "sizeSqm"
+                ).value
+              )
+            : null,
+
+
+        max_capacity:
+          Number(
+            document.getElementById(
+              "maxCapacity"
+            ).value
+          ),
+
+
+        operating_hours:
+          document.getElementById(
+            "operatingHours"
+          ).value.trim(),
+
+
+        pricing_model:
+          document.getElementById(
+            "pricingModel"
+          ).value,
+
+
+        base_price:
+          Number(
+            document.getElementById(
+              "basePrice"
+            ).value
+          ),
+
+
+        status:
+          document.getElementById(
+            "spaceStatus"
+          ).value,
+
+
+        address:
+          document.getElementById(
+            "spaceAddress"
+          ).value.trim()
+
+      };
+
+
+      console.log(
+        "SPACE PAYLOAD:",
+        payload
+      );
+
+
+      const submitButton =
+        document.getElementById(
+          "formSubmitBtn"
+        );
+
+
+      submitButton.disabled =
+        true;
+
+
+      submitButton.textContent =
+        "Saving...";
+
+
+      try {
+
+
+        let url =
+          `${API_BASE_URL}/creative-spaces/`;
+
+
+        let method =
+          "POST";
+
+
+        /*
+         * CREATE
+         */
+
+        if (
+          editingSpaceId === null
+        ) {
+
+          url =
+            `${API_BASE_URL}/creative-spaces/`;
+
+          method =
+            "POST";
+
+        }
+
+
+        /*
+         * UPDATE
+         */
+
+        else {
+
+          url =
+            `${API_BASE_URL}/creative-spaces/${editingSpaceId}`;
+
+          method =
+            "PUT";
+
+        }
+
+
+        const response =
+          await fetch(
+            url,
+            {
+
+              method,
+
+              headers: {
+
+                "Content-Type":
+                  "application/json"
+
+              },
+
+              body:
+                JSON.stringify(
+                  payload
+                )
+
+            }
+          );
+
+
+        const data =
+          await response
+            .json()
+            .catch(
+              function() {
+
+                return null;
+
+              }
+            );
+
+
+        if (!response.ok) {
+
+          console.error(
+            "BACKEND RESPONSE:",
+            data
+          );
+
+
+          throw new Error(
+
+            data?.message ||
+
+            data?.error ||
+
+            `HTTP ${response.status}`
+
+          );
+
+        }
+
+
+        closeSpaceModal();
+
+
+        /*
+         * Load lại danh sách
+         */
+
+        await loadSpaces();
+
+
+        showMessage(
+
+          "Thành công",
+
+          editingSpaceId !== null
+
+            ? "Space đã được cập nhật."
+
+            : "Space đã được tạo thành công.",
+
+          true
+
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "SAVE SPACE ERROR:",
+          error
+        );
+
+
+        showMessage(
+
+          "Không thể lưu",
+
+          error.message ||
+
+          "Có lỗi xảy ra khi lưu space.",
+
+          false
+
+        );
+
+      } finally {
+
+
+        submitButton.disabled =
+          false;
+
+
+        submitButton.textContent =
+
+          editingSpaceId !== null
+
+            ? "Save Changes"
+
+            : "Create Space";
+
+      }
+
+    }
+
+
+
+    /* =====================================================
+       DELETE MODAL
+       ===================================================== */
+
+    function openDeleteModal(spaceId) {
+
+      const space =
+        providerSpaces.find(
+          function(item) {
+
+            return Number(
+              item.id
+            ) === Number(
+              spaceId
+            );
+
+          }
+        );
+
+
+      if (!space) {
+
+        return;
+
+      }
+
+
+      deletingSpaceId =
+        Number(
+          space.id
+        );
+
+
+      document.getElementById(
+        "deleteText"
+      ).textContent =
+
+        `Bạn có chắc muốn xóa "${space.name}" không?`;
+
+
+      document
+        .getElementById(
+          "deleteModal"
+        )
+        .classList.add(
+          "show"
+        );
+
+    }
+
+
+
+    /* =====================================================
+       CLOSE DELETE MODAL
+       ===================================================== */
+
+    function closeDeleteModal() {
+
+      deletingSpaceId =
+        null;
+
+
+      document
+        .getElementById(
+          "deleteModal"
+        )
+        .classList.remove(
+          "show"
+        );
+
+    }
+
+
+
+    /* =====================================================
+       CONFIRM DELETE
+       ===================================================== */
+
+    async function confirmDelete() {
+
+      if (
+        deletingSpaceId === null
+      ) {
+
+        return;
+
+      }
+
+
+      try {
+
+
+        const response =
+          await fetch(
+
+            `${API_BASE_URL}/creative-spaces/${deletingSpaceId}`,
+
+            {
+
+              method:
+                "DELETE"
+
+            }
+
+          );
+
+
+        const data =
+          await response
+            .json()
+            .catch(
+              function() {
+
+                return null;
+
+              }
+            );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+
+            data?.message ||
+
+            data?.error ||
+
+            `HTTP ${response.status}`
+
+          );
+
+        }
+
+
+        closeDeleteModal();
+
+
+        await loadSpaces();
+
+
+        showMessage(
+
+          "Đã xóa",
+
+          "Creative space đã được xóa.",
+
+          true
+
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "DELETE SPACE ERROR:",
+          error
+        );
+
+
+        showMessage(
+
+          "Không thể xóa",
+
+          error.message ||
+
+          "Có lỗi xảy ra khi xóa space.",
+
+          false
+
+        );
+
+      }
+
+    }
+
+
+
+    /* =====================================================
+       SHOW ERROR
+       ===================================================== */
+
+    function showError(message) {
+
+      const errorState =
+        document.getElementById(
+          "errorState"
+        );
+
+
+      const errorMessage =
+        document.getElementById(
+          "errorMessage"
+        );
+
+
+      errorMessage.textContent =
+        message;
+
+
+      errorState.style.display =
+        "block";
+
+    }
+
+
+
+    /* =====================================================
+       MESSAGE
+       ===================================================== */
+
+    function showMessage(
+      title,
+      message,
+      success
+    ) {
+
+      document.getElementById(
+        "messageTitle"
+      ).textContent =
+        title;
+
+
+      document.getElementById(
+        "messageText"
+      ).textContent =
+        message;
+
+
+      document.getElementById(
+        "messageIcon"
+      ).textContent =
+        success
+          ? "✓"
+          : "!";
+
+
+      document
+        .getElementById(
+          "messageModal"
+        )
+        .classList.add(
+          "show"
+        );
+
+    }
+
+
+
+    /* =====================================================
+       CLOSE MESSAGE
+       ===================================================== */
+
+    function closeMessageModal() {
+
+      document
+        .getElementById(
+          "messageModal"
+        )
+        .classList.remove(
+          "show"
+        );
+
+    }
+
+
+
+    /* =====================================================
+       CLICK OUTSIDE MODALS
+       ===================================================== */
+
+    window.addEventListener(
+      "click",
+      function(event) {
+
+
+        if (
+
+          event.target ===
+
+          document.getElementById(
+            "spaceModal"
+          )
+
+        ) {
+
+          closeSpaceModal();
+
+        }
+
+
+        if (
+
+          event.target ===
+
+          document.getElementById(
+            "deleteModal"
+          )
+
+        ) {
+
+          closeDeleteModal();
+
+        }
+
+
+        if (
+
+          event.target ===
+
+          document.getElementById(
+            "messageModal"
+          )
+
+        ) {
+
+          closeMessageModal();
+
+        }
+
+      }
+    );
+
+
+
+    /* =====================================================
+       ESC TO CLOSE MODAL
+       ===================================================== */
+
+    document.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (
+          event.key === "Escape"
+        ) {
+
+          closeSpaceModal();
+
+          closeDeleteModal();
+
+          closeMessageModal();
+
+        }
+
+      }
+    );
+
+
+
+    /* =====================================================
+       INITIALIZE
+       ===================================================== */
+
+    const isLoggedIn =
+      loadProviderInfo();
+
+
+    if (isLoggedIn) {
+
+      loadSpaces();
+
+    }
+
+
+  </script>
+
+
+</body>
+
+</html>

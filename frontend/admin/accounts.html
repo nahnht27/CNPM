@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Người dùng - FilmSpace</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+
+    <!-- ==================== INLINE CSS ==================== -->
+
+    <style>
+        /* ==================== VARIABLES ==================== */
+
+        :root {
+
+            --text: #26283b;
+            --muted: #6f7284;
+
+            --pink: #ff1584;
+            --pink-dark: #e60f75;
+
+            --bg: #f7f8fb;
+            --white: #ffffff;
+
+            --line: #e9e9ef;
+
+            --footer-bg: #1d1f2b;
+            --footer-text: #aeb4c5;
+            --footer-link: #d5d8e2;
+            --footer-line: #363946;
+
+        }
+
+
+        /* ==================== RESET ==================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+        }
+
+
+        body {
+
+            font-family: "Inter", Arial, sans-serif;
+
+            color: var(--text);
+
+            background: var(--bg);
+
+            font-size: 14px;
+
+        }
+
+
+        a,
+        button,
+        input,
+        select,
+        textarea {
+            font-family: "Inter", Arial, sans-serif;
+        }
+
+
+        a {
+            text-decoration: none;
+        }
+
+
+        button {
+            cursor: pointer;
+        }
+
+
+        /* ==================== PAGE ==================== */
+
+        .admin-page {
+
+            min-height: 100vh;
+
+            background: var(--bg);
+
+            color: var(--text);
+
+        }
+
+
+        /* ==================== NAVBAR ==================== */
+
+        .admin-navbar {
+
+            width: 100%;
+
+            height: 74px;
+
+            background: rgba(255, 255, 255, 0.96);
+
+            border-bottom: 1px solid var(--line);
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+
+        }
+
+
+        .admin-navbar-container {
+
+            width: 100%;
+
+            max-width: 1440px;
+
+            height: 100%;
+
+            margin: 0 auto;
+
+            padding: 0 40px;
+
+            display: flex;
+
+            align-items: center;
+
+        }
+
+
+        .admin-logo {
+
+            color: var(--text);
+
+            font-size: 22px;
+
+            font-weight: 700;
+
+            letter-spacing: -0.5px;
+
+            line-height: 1;
+
+        }
+
+
+        .admin-navbar-title {
+
+            margin-left: 28px;
+
+            color: var(--muted);
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.2px;
+
+            line-height: 1;
+
+        }
+
+
+        .admin-navbar-right {
+
+            margin-left: auto;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+
+            color: var(--muted);
+
+            font-size: 12px;
+
+            font-weight: 500;
+
+        }
+
+
+        .admin-logout {
+
+            padding: 9px 17px;
+
+            border: 1px solid var(--line);
+
+            border-radius: 7px;
+
+            background: var(--white);
+
+            color: #55586b;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            line-height: 1.3;
+
+            transition: all 0.2s ease;
+
+        }
+
+
+        .admin-logout:hover {
+
+            border-color: #dcdde5;
+
+            color: var(--text);
+
+            background: #fafafd;
+
+        }
+
+
+        /* ==================== MAIN LAYOUT ==================== */
+
+        .admin-layout {
+
+            width: 100%;
+
+            max-width: 1440px;
+
+            min-height: calc(100vh - 74px);
+
+            margin: 0 auto;
+
+            display: flex;
+
+        }
+
+
+        /* ==================== SIDEBAR ==================== */
+
+        .admin-sidebar {
+
+            width: 220px;
+
+            flex-shrink: 0;
+
+            background: var(--white);
+
+            border-right: 1px solid var(--line);
+
+            padding: 24px 14px;
+
+        }
+
+
+        .admin-sidebar-menu {
+
+            width: 100%;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 5px;
+
+        }
+
+
+        .admin-sidebar-link {
+
+            width: 100%;
+
+            min-height: 42px;
+
+            padding: 0 17px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+
+            border-radius: 7px;
+
+            color: var(--muted);
+
+            font-size: 13px;
+
+            font-weight: 500;
+
+            line-height: 1.4;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease;
+
+        }
+
+
+        .admin-sidebar-link:hover {
+
+            color: var(--pink);
+
+            background: #fff7fb;
+
+        }
+
+
+        .admin-sidebar-link.active {
+
+            background: #fff1f8;
+
+            color: var(--pink);
+
+            font-weight: 600;
+
+        }
+
+
+        .sidebar-icon {
+
+            width: 18px;
+
+            min-width: 18px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: currentColor;
+
+            font-size: 15px;
+
+            line-height: 1;
+
+        }
+
+
+        /* ==================== CONTENT ==================== */
+
+        .admin-content {
+
+            flex: 1;
+
+            min-width: 0;
+
+            padding: 42px 38px 70px;
+
+        }
+
+
+        /* ==================== PAGE HEADER ==================== */
+
+        .admin-page-header {
+
+            margin-bottom: 36px;
+
+        }
+
+
+        .admin-page-header h1 {
+
+            margin: 0 0 10px;
+
+            color: var(--text);
+
+            font-size: 32px;
+
+            font-weight: 700;
+
+            letter-spacing: -1px;
+
+            line-height: 1.2;
+
+        }
+
+
+        .admin-page-header p {
+
+            margin: 0;
+
+            color: var(--muted);
+
+            font-size: 13px;
+
+            font-weight: 400;
+
+            line-height: 1.7;
+
+        }
+
+
+        /* ==================== SECTION ==================== */
+
+        .admin-section {
+
+            width: 100%;
+
+        }
+
+
+        .admin-section-header {
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .admin-section-header h2 {
+
+            margin: 0;
+
+            color: var(--text);
+
+            font-size: 22px;
+
+            font-weight: 700;
+
+            letter-spacing: -0.4px;
+
+            line-height: 1.3;
+
+        }
+
+
+        /* ==================== PANEL ==================== */
+
+        .admin-panel {
+
+            width: 100%;
+
+            background: var(--white);
+
+            border: 1px solid var(--line);
+
+            border-radius: 9px;
+
+            box-shadow:
+                0 8px 24px rgba(40, 42, 67, 0.05);
+
+            overflow: hidden;
+
+        }
+
+
+        /* ==================== TABLE ==================== */
+
+        .admin-table-wrapper {
+
+            overflow-x: auto;
+
+        }
+
+
+        .admin-table {
+
+            width: 100%;
+
+            min-width: 900px;
+
+            border-collapse: collapse;
+
+            table-layout: auto;
+
+        }
+
+
+        .admin-table thead {
+
+            background: #fafbfc;
+
+        }
+
+
+        .admin-table th {
+
+            padding: 16px 20px;
+
+            border-bottom: 1px solid var(--line);
+
+            color: var(--muted);
+
+            text-align: left;
+
+            white-space: nowrap;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.4px;
+
+            line-height: 1.4;
+
+        }
+
+
+        .admin-table td {
+
+            padding: 20px;
+
+            border-bottom: 1px solid var(--line);
+
+            color: #55586b;
+
+            text-align: left;
+
+            white-space: nowrap;
+
+            font-size: 12px;
+
+            font-weight: 400;
+
+            line-height: 1.5;
+
+        }
+
+
+        .admin-table tbody tr:last-child td {
+
+            border-bottom: none;
+
+        }
+
+
+        .admin-table tbody tr:hover {
+
+            background: #fffafd;
+
+        }
+
+
+        .admin-table-empty {
+
+            padding: 35px 20px !important;
+
+            color: var(--muted) !important;
+
+            text-align: center !important;
+
+        }
+
+
+        /* ==================== STATUS ==================== */
+
+        .status-active {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 6px 12px;
+
+            border-radius: 999px;
+
+            background: #fff1f8;
+
+            color: var(--pink);
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            line-height: 1.3;
+
+        }
+
+
+        /* ==================== ACTION BUTTONS ==================== */
+
+        .admin-view-button,
+        .admin-approve-button,
+        .admin-table td:last-child button,
+        .admin-table td:last-child a {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            min-width: 64px;
+
+            height: 38px;
+
+            padding: 0 15px;
+
+            border: 1px solid var(--line);
+
+            border-radius: 7px;
+
+            background: var(--white);
+
+            color: #55586b;
+
+            font-family: "Inter", Arial, sans-serif;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            line-height: 1;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            white-space: nowrap;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease,
+                color 0.2s ease;
+        }
+
+
+        /* ==================== XEM ==================== */
+
+        .admin-view-button:hover,
+        .admin-table td:last-child a:hover {
+
+            background: #fff7fb;
+
+            border-color: #f4b6d4;
+
+            color: var(--pink);
+
+        }
+
+
+        /* ==================== DUYỆT ==================== */
+
+        .admin-approve-button {
+
+            margin-left: 6px;
+
+        }
+
+
+        .admin-approve-button:hover,
+        .admin-table td:last-child button:hover {
+
+            background: #fff1f8;
+
+            border-color: #f4b6d4;
+
+            color: var(--pink);
+
+        }
+
+
+        /* ==================== ACTION CELL ==================== */
+
+        .admin-table td:last-child {
+
+            white-space: nowrap;
+
+            vertical-align: middle;
+
+        }
+
+
+
+        .admin-table td:last-child button+button,
+        .admin-table td:last-child a+button,
+        .admin-table td:last-child button+a {
+
+            margin-left: 6px;
+
+        }
+
+        /* ==================== FOOTER ==================== */
+
+        .admin-footer {
+
+            width: 100%;
+
+            background: var(--footer-bg);
+
+            color: #ffffff;
+
+        }
+
+
+        .admin-footer-container {
+
+            width: 100%;
+
+            max-width: 1440px;
+
+            margin: 0 auto;
+
+            padding: 42px 38px 24px;
+
+        }
+
+
+        .admin-footer-top {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            justify-content: space-between;
+
+            gap: 50px;
+
+        }
+
+
+        .admin-footer-brand {
+
+            max-width: 560px;
+
+        }
+
+
+        .admin-footer-logo {
+
+            margin: 0;
+
+            color: #ffffff;
+
+            font-size: 28px;
+
+            font-weight: 700;
+
+            line-height: 1.2;
+
+            letter-spacing: -0.5px;
+
+        }
+
+
+        .admin-footer-logo span {
+
+            color: var(--pink);
+
+            font-weight: 700;
+
+        }
+
+
+        .admin-footer-brand p {
+
+            margin: 12px 0 0;
+
+            color: var(--footer-text);
+
+            font-size: 14px;
+
+            font-weight: 400;
+
+            line-height: 1.65;
+
+        }
+
+
+        .admin-footer-menu {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 28px;
+
+            padding-top: 4px;
+
+        }
+
+
+        .admin-footer-menu a {
+
+            color: var(--footer-link);
+
+            font-size: 13px;
+
+            font-weight: 400;
+
+            line-height: 1.4;
+
+            white-space: nowrap;
+
+            transition: color 0.2s ease;
+
+        }
+
+
+        .admin-footer-menu a:hover {
+
+            color: var(--pink);
+
+        }
+
+
+        .admin-footer-line {
+
+            height: 1px;
+
+            margin: 34px 0 24px;
+
+            border: 0;
+
+            background: var(--footer-line);
+
+        }
+
+
+        .admin-footer-bottom {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 30px;
+
+            color: #9fa5b7;
+
+            font-size: 13px;
+
+            font-weight: 400;
+
+            line-height: 1.4;
+
+        }
+
+
+        .admin-footer-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 30px;
+
+        }
+
+
+        .admin-footer-links a {
+
+            color: #9fa5b7;
+
+            font-size: 13px;
+
+            font-weight: 400;
+
+            line-height: 1.4;
+
+            white-space: nowrap;
+
+            transition: color 0.2s ease;
+
+        }
+
+
+        .admin-footer-links a:hover {
+
+            color: var(--pink);
+
+        }
+
+
+        /* ==================== MODAL ==================== */
+
+        #providerModal[hidden] {
+            display: none !important;
+        }
+
+        .admin-approve-button[hidden] {
+            display: none !important;
+        }
+
+        /* ==================== RESPONSIVE ==================== */
+
+        @media (max-width: 900px) {
+
+            .admin-navbar-container {
+                padding: 0 24px;
+            }
+
+
+            .admin-sidebar {
+                width: 190px;
+            }
+
+
+            .admin-content {
+                padding: 35px 24px 60px;
+            }
+
+
+            .admin-footer-container {
+                padding: 38px 24px 24px;
+            }
+
+
+            .admin-footer-top {
+                flex-direction: column;
+                gap: 28px;
+            }
+
+
+            .admin-footer-menu {
+                flex-wrap: wrap;
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .admin-navbar-title {
+                display: none;
+            }
+
+
+            .admin-navbar-right span {
+                display: none;
+            }
+
+
+            .admin-layout {
+                flex-direction: column;
+            }
+
+
+            .admin-sidebar {
+
+                width: 100%;
+
+                padding: 12px;
+
+                border-right: none;
+
+                border-bottom: 1px solid var(--line);
+
+            }
+
+
+            .admin-sidebar-menu {
+
+                flex-direction: row;
+
+                flex-wrap: wrap;
+
+            }
+
+
+            .admin-sidebar-link {
+
+                width: auto;
+
+                padding: 0 13px;
+
+            }
+
+
+            .admin-content {
+
+                padding: 30px 18px 50px;
+
+            }
+
+
+            .admin-page-header h1 {
+
+                font-size: 27px;
+
+            }
+
+
+            .admin-section-header h2 {
+
+                font-size: 20px;
+
+            }
+
+
+            .admin-footer-container {
+
+                padding: 34px 18px 22px;
+
+            }
+
+
+            .admin-footer-bottom {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 18px;
+
+            }
+
+        }
+
+        /* ==================== SUCCESS TOAST ==================== */
+
+        .admin-toast {
+            position: fixed;
+            top: 92px;
+            right: 30px;
+            z-index: 3000;
+
+            width: 360px;
+            min-height: 82px;
+
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+
+            padding: 17px 18px;
+
+            background: #ffffff;
+            border: 1px solid #f0e3ea;
+            border-radius: 10px;
+
+            box-shadow:
+                0 12px 30px rgba(40, 42, 67, 0.12),
+                0 3px 8px rgba(40, 42, 67, 0.05);
+
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(30px);
+
+            transition:
+                opacity 0.25s ease,
+                transform 0.25s ease,
+                visibility 0.25s ease;
+
+            overflow: hidden;
+        }
+
+        /* Thanh màu bên trái */
+
+        .admin-toast::before {
+            content: "";
+
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+
+            width: 4px;
+
+            background: var(--pink);
+        }
+
+        /* Hiển thị */
+
+        .admin-toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+        }
+
+        /* Icon */
+
+        .admin-toast-icon {
+            width: 32px;
+            height: 32px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-left: 3px;
+
+            border-radius: 50%;
+
+            background: #fff1f8;
+            color: var(--pink);
+
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        /* Nội dung */
+
+        .admin-toast-content {
+            flex: 1;
+            min-width: 0;
+            padding-top: 1px;
+        }
+
+        .admin-toast-title {
+            margin: 0 0 4px;
+
+            color: var(--text);
+
+            font-size: 13px;
+            font-weight: 700;
+
+            line-height: 1.4;
+        }
+
+        .admin-toast-message {
+            margin: 0;
+
+            color: var(--muted);
+
+            font-size: 12px;
+            font-weight: 400;
+
+            line-height: 1.5;
+        }
+
+        /* Nút đóng */
+
+        .admin-toast-close {
+            width: 24px;
+            height: 24px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 0;
+
+            border: 0;
+            background: transparent;
+
+            color: #a3a5b2;
+
+            font-size: 18px;
+            font-weight: 400;
+
+            line-height: 1;
+
+            cursor: pointer;
+
+            transition:
+                color 0.2s ease,
+                background 0.2s ease;
+
+            border-radius: 5px;
+        }
+
+        .admin-toast-close:hover {
+            color: var(--text);
+            background: #f7f7fa;
+        }
+
+
+        /* ==================== MOBILE TOAST ==================== */
+
+        @media (max-width: 700px) {
+
+            .admin-toast {
+                top: 84px;
+                left: 18px;
+                right: 18px;
+
+                width: auto;
+
+                transform: translateY(-15px);
+            }
+
+            .admin-toast.show {
+                transform: translateY(0);
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body class="admin-page">
+
+
+    <!-- ==================== NAVBAR ==================== -->
+
+    <nav class="admin-navbar">
+
+        <div class="admin-navbar-container">
+
+            <a href="dashboard.html" class="admin-logo">
+                FilmSpace
+            </a>
+
+
+            <div class="admin-navbar-title">
+                ADMIN PANEL
+            </div>
+
+
+            <div class="admin-navbar-right">
+
+                <span id="adminName">
+                    Admin
+                </span>
+
+
+                <button type="button" class="admin-logout" onclick="logout()">
+                    Đăng xuất
+                </button>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ==================== LAYOUT ==================== -->
+
+    <div class="admin-layout">
+
+
+        <!-- ==================== SIDEBAR ==================== -->
+
+        <aside class="admin-sidebar">
+
+            <div class="admin-sidebar-menu">
+
+
+                <a href="dashboard.html" class="admin-sidebar-link">
+
+                    <span class="sidebar-icon">
+                        ▦
+                    </span>
+
+                    <span>
+                        Dashboard
+                    </span>
+
+                </a>
+
+
+                <a href="accounts.html" class="admin-sidebar-link active">
+
+                    <span class="sidebar-icon">
+                        👥
+                    </span>
+
+                    <span>
+                        Người dùng
+                    </span>
+
+                </a>
+
+
+                <a href="transactions.html" class="admin-sidebar-link">
+
+                    <span class="sidebar-icon">
+                        ₫
+                    </span>
+
+                    <span>
+                        Giao dịch
+                    </span>
+
+                </a>
+
+
+
+
+                <a href="settings.html" class="admin-sidebar-link">
+
+                    <span class="sidebar-icon">
+                        ⚙
+                    </span>
+
+                    <span>
+                        Cài đặt
+                    </span>
+
+                </a>
+
+
+            </div>
+
+        </aside>
+
+
+        <!-- ==================== CONTENT ==================== -->
+
+        <main class="admin-content">
+
+
+            <!-- ==================== PAGE HEADER ==================== -->
+
+            <section class="admin-page-header">
+
+                <h1>
+                    Quản lý người dùng
+                </h1>
+
+                <p>
+                    Quản lý tài khoản người dùng và Provider.
+                </p>
+
+            </section>
+
+
+            <!-- ==================== ACCOUNTS ==================== -->
+
+            <section class="admin-section">
+
+
+                <div class="admin-section-header">
+
+                    <h2>
+                        Danh sách người dùng
+                    </h2>
+
+                </div>
+
+
+                <div class="admin-panel admin-table-wrapper">
+
+                    <table class="admin-table">
+
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    ID
+                                </th>
+
+                                <th>
+                                    Họ tên
+                                </th>
+
+                                <th>
+                                    Email
+                                </th>
+
+                                <th>
+                                    Số điện thoại
+                                </th>
+
+                                <th>
+                                    Vai trò
+                                </th>
+
+                                <th>
+                                    Trạng thái
+                                </th>
+
+                                <th>
+                                    Thao tác
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="accountsTableBody">
+
+                            <tr>
+
+                                <td colspan="7" class="admin-table-empty">
+                                    Đang tải dữ liệu...
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+
+                    </table>
+
+                </div>
+
+
+            </section>
+
+
+        </main>
+
+    </div>
+
+
+    <!-- ==================== FOOTER ==================== -->
+
+    <footer class="admin-footer">
+
+
+        <div class="admin-footer-container">
+
+
+            <div class="admin-footer-top">
+
+
+                <div class="admin-footer-brand">
+
+                    <div class="admin-footer-logo">
+
+                        Photography
+
+                        <span>
+                            Platform
+                        </span>
+
+                    </div>
+
+
+                    <p>
+                        Kết nối các nhiếp ảnh gia phim
+                        với các phòng tối và studio đáng tin cậy.
+                    </p>
+
+                </div>
+
+
+                <div class="admin-footer-menu">
+
+
+                    <a href="dashboard.html">
+                        Dashboard
+                    </a>
+
+
+                    <a href="accounts.html">
+                        Người dùng
+                    </a>
+
+
+
+                    <a href="transactions.html">
+                        Giao dịch
+                    </a>
+
+
+
+
+                </div>
+
+
+            </div>
+
+
+            <hr class="admin-footer-line">
+
+
+            <div class="admin-footer-bottom">
+
+
+                <span>
+                    Copyright © 2026 Photography Platform.
+                    All rights reserved.
+                </span>
+
+
+                <div class="admin-footer-links">
+
+
+                    <a href="#">
+                        Privacy Policy
+                    </a>
+
+
+                    <a href="#">
+                        Terms of Use
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </footer>
+
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+
+    <script src="../api/admin.js"></script>
+    <script>
+        let adminToastTimer = null;
+
+
+        function showAdminToast(
+            title = "Duyệt thành công",
+            message = "Provider đã được duyệt thành công."
+        ) {
+
+            const toast = document.getElementById("adminToast");
+            const titleElement = document.getElementById("adminToastTitle");
+            const messageElement = document.getElementById("adminToastMessage");
+
+            if (!toast) return;
+
+            titleElement.textContent = title;
+            messageElement.textContent = message;
+
+            toast.classList.remove("show");
+
+            // Reset animation
+            void toast.offsetWidth;
+
+            toast.classList.add("show");
+
+            clearTimeout(adminToastTimer);
+
+            adminToastTimer = setTimeout(() => {
+                hideAdminToast();
+            }, 4000);
+        }
+
+
+        function hideAdminToast() {
+
+            const toast = document.getElementById("adminToast");
+
+            if (!toast) return;
+
+            toast.classList.remove("show");
+
+            clearTimeout(adminToastTimer);
+        }
+    </script>
+
+    <!-- ==================== USER DETAIL MODAL ==================== -->
+
+    <div id="providerModal" hidden style="
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        background: rgba(0, 0, 0, 0.45);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    ">
+
+        <div style="
+            width: 100%;
+            max-width: 560px;
+            max-height: 85vh;
+            overflow-y: auto;
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 28px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        ">
+
+            <div style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 22px;
+            ">
+
+                <h2 style="
+                    margin: 0;
+                    font-size: 22px;
+                    color: #26283b;
+                ">
+                    Chi tiết người dùng
+                </h2>
+
+                <button type="button" onclick="closeProviderModal()" style="
+                    border: 0;
+                    background: transparent;
+                    font-size: 24px;
+                    color: #6f7284;
+                    cursor: pointer;
+                ">
+                    ×
+                </button>
+
+            </div>
+
+
+            <div id="providerModalBody">
+            </div>
+
+
+            <div style="
+                display: flex;
+                justify-content: flex-end;
+                gap: 10px;
+                margin-top: 24px;
+            ">
+
+                <button type="button" class="admin-view-button" onclick="closeProviderModal()">
+                    Đóng
+                </button>
+
+
+                <button type="button" id="approveProviderButton" class="admin-approve-button"
+                    onclick="approveProvider()" hidden>
+                    Duyệt Provider
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ==================== SUCCESS TOAST ==================== -->
+
+    <div id="adminToast" class="admin-toast" role="status" aria-live="polite">
+
+        <div class="admin-toast-icon">
+            ✓
+        </div>
+
+        <div class="admin-toast-content">
+
+            <div class="admin-toast-title" id="adminToastTitle">
+                Duyệt thành công
+            </div>
+
+            <p class="admin-toast-message" id="adminToastMessage">
+                Provider đã được duyệt thành công.
+            </p>
+
+        </div>
+
+        <button type="button" class="admin-toast-close" onclick="hideAdminToast()" aria-label="Đóng thông báo">
+            ×
+        </button>
+
+    </div>
+
+
+</body>
+
+</html>
