@@ -1,4 +1,5 @@
-from typing import List, Optional
+
+from typing import Optional
 
 from infrastructure.databases.factory_database import FactoryDatabase as db_factory
 from infrastructure.models.user_model import UserModel
@@ -7,7 +8,10 @@ from infrastructure.models.user_model import UserModel
 class UserRepository:
 
     def __init__(self, session=None):
-        self.session = session or db_factory.get_database('POSTGREE').session
+        self.session = (
+            session
+            or db_factory.get_database('POSTGREE').session
+        )
 
     def get_by_id(self, user_id: int) -> Optional[UserModel]:
         return (
@@ -28,7 +32,10 @@ class UserRepository:
             "full_name",
             "email",
             "phone",
-            "avatar"
+            "avatar",
+            "gender",
+            "location",
+            "bio"
         ]
 
         for field in allowed_fields:
@@ -39,3 +46,4 @@ class UserRepository:
         self.session.refresh(user)
 
         return user
+

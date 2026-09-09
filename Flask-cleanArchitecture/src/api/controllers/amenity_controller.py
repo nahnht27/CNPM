@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from services.amenity_service import AmenityService
 from infrastructure.repositories.amenity_repository import AmenityRepository
 from api.schemas.amenity import AmenityRequestSchema, AmenityResponseSchema
-from infrastructure.databases.mssql import session
+from infrastructure.databases.postgres import session
 
 bp = Blueprint('amenity', __name__, url_prefix='/amenities')
 

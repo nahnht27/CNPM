@@ -18,4 +18,4 @@ class PostService:
         return self.repository.update(data)
 
     def delete_post(self, id: int):
-        return self.repository.delete(id)
+        return self.repository.delete(id) 

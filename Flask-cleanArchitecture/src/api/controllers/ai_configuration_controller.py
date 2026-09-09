@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from services.ai_configuration_service import AIConfigurationService
 from infrastructure.repositories.ai_configuration_repository import AIConfigurationRepository
 from api.schemas.ai_configuration import AIConfigurationRequestSchema, AIConfigurationResponseSchema
-from infrastructure.databases.mssql import session
+from infrastructure.databases.postgres import session
 
 bp = Blueprint('ai_configuration', __name__, url_prefix='/ai-configurations')
 

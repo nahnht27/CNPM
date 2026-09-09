@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from services.consumable_service import ConsumableService
 from infrastructure.repositories.consumable_repository import ConsumableRepository
 from api.schemas.consumable import ConsumableRequestSchema, ConsumableResponseSchema
-from infrastructure.databases.mssql import session
+from infrastructure.databases.postgres import session
 
 bp = Blueprint('consumable', __name__, url_prefix='/consumables')
 
