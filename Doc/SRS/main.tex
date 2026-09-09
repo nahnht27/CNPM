@@ -1,19 +1,37 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% LaTeX book template                           %%
-%% Author:  Amber Jain (http://amberj.devio.us/) %%
-%% License: ISC license                          %%
+%% Author: Amber Jain                            %%
+%% Modified for Software Engineering Project     %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \documentclass[a4paper,11pt,oneside]{book}
+
+% ============================================================
+% PACKAGE
+% ============================================================
+
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-%update font tiếng Việt
+
+% Font tiếng Việt
 \usepackage[T5]{fontenc}
 \usepackage{vntex}
 \usepackage{lmodern}
+\usepackage{longtable}
+\usepackage{amssymb}
+\usepackage{array}
+
 \usepackage{hyperref}
 \usepackage{graphicx}
 \usepackage[english]{babel}
 \usepackage{float}
+\usepackage{xcolor}
+\usepackage{tikz}
+\setlength{\parindent}{0pt}
+
+% ============================================================
+% TÊN CÁC PHẦN TRONG MỤC LỤC
+% ============================================================
 
 \addto\captionsenglish{%
 	\renewcommand{\contentsname}{Mục lục}
@@ -21,114 +39,325 @@
 	\renewcommand{\listtablename}{Danh sách bảng}
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 'dedication' environment: To add a dedication paragraph at the start of book %
-% Source: http://www.tug.org/pipermail/texhax/2010-June/015184.html            %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============================================================
+% DEDICATION ENVIRONMENT
+% ============================================================
+
 \newenvironment{dedication}
 {
-   \cleardoublepage
-   \thispagestyle{empty}
-   \vspace*{\stretch{1}}
-   \hfill\begin{minipage}[t]{0.66\textwidth}
-   \raggedright
+	\cleardoublepage
+	\thispagestyle{empty}
+	\vspace*{\stretch{1}}
+	\hfill\begin{minipage}[t]{0.66\textwidth}
+		\raggedright
+	}
+	{
+	\end{minipage}
+	\vspace*{\stretch{3}}
+	\clearpage
+}
+
+% ============================================================
+% CHAPTER QUOTE
+% ============================================================
+
+\makeatletter
+
+\renewcommand{\@chapapp}{}
+
+\newenvironment{chapquote}[2][2em]
+{
+	\setlength{\@tempdima}{#1}
+	\def\chapquote@author{#2}
+	\parshape 1 \@tempdima
+	\dimexpr\textwidth-2\@tempdima\relax%
+	\itshape
 }
 {
-   \end{minipage}
-   \vspace*{\stretch{3}}
-   \clearpage
+	\par\normalfont\hfill--\ \chapquote@author
+	\hspace*{\@tempdima}\par\bigskip
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Chapter quote at the start of chapter        %
-% Source: http://tex.stackexchange.com/a/53380 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\makeatletter
-\renewcommand{\@chapapp}{}
-\newenvironment{chapquote}[2][2em]
-  {\setlength{\@tempdima}{#1}
-   \def\chapquote@author{#2}
-   \parshape 1 \@tempdima \dimexpr\textwidth-2\@tempdima\relax%
-   \itshape}
-  {\par\normalfont\hfill--\ \chapquote@author\hspace*{\@tempdima}\par\bigskip}
 \makeatother
 
-% Book's title and subtitle
-\title{\Huge \textbf{BÁO CÁO ĐỒ ÁN CÔNG NGHỆ PHẦN MỀM} \\ \huge Nền tảng kết nối cộng đồng nhiếp ảnh phim với các dịch vụ phòng tối và phòng chụp}
+% ============================================================
+% TITLE
+% ============================================================
+
+\title{
+	\Huge \textbf{BÁO CÁO ĐỒ ÁN CÔNG NGHỆ PHẦN MỀM}
+	\\
+	\huge Nền tảng kết nối cộng đồng nhiếp ảnh phim với các dịch vụ phòng tối và phòng chụp
+}
+
 \author{\textsc{Nhóm: [Tên nhóm]}}
-% =========================================================================
-% Đánh số Chapter và Section
+
+% ============================================================
+% ĐÁNH SỐ CHAPTER VÀ SECTION
+% ============================================================
+
 \renewcommand{\thechapter}{\Roman{chapter}}
 \renewcommand{\thesection}{\arabic{section}}
-% Định dạng Chapter
+% Hiển thị mục lục đến cấp 3
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+% ============================================================
+% ĐỊNH DẠNG CHAPTER
+% ============================================================
+
 \makeatletter
+
 \renewcommand{\@makechapterhead}[1]{%
 	\vspace*{30pt}
 	{\noindent\huge\bfseries \thechapter.\ #1\par}
 	\vspace{30pt}
 }
+
 \makeatother
+
+% ============================================================
+% DOCUMENT
+% ============================================================
+
 \begin{document}
-
-\frontmatter
-\maketitle
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Add a dedication paragraph to dedicate your book to someone %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{dedication}
+	
+	% ============================================================
+	% TRANG BÌA
+	% ============================================================
+	
+	\frontmatter
+	
+	\input{cover.tex}
+	
+	% ============================================================
+	% LỜI CẢM ƠN
+	% ============================================================
+	
+	\clearpage
+	
 	\chapter*{LỜI CẢM ƠN}
-Viết lời cảm ơn vào đây!
-
-\end{dedication}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Auto-generated table of contents, list of figures and list of tables %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
-\tableofcontents
-\clearpage
-\chapter*{DANH SÁCH TỪ VIẾT TẮT}
-\clearpage
-\listoffigures
-\clearpage
-\listoftables
-\clearpage
-
-\mainmatter 
-\pagestyle{plain}
-%%%%%%%%%%%%%%%%
-% NEW CHAPTER! %
-%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%
-% CHAPTER I
-%%%%%%%%%%%%%%%%
-\input{chapter/Introduction.tex}
-
-%%%%%%%%%%%%%%%%
-% CHAPTER II
-%%%%%%%%%%%%%%%%
-\input{chapter/plan.tex}
-
-%%%%%%%%%%%%%%%%
-% CHAPTER III
-%%%%%%%%%%%%%%%%
-\input{chapter/requirements.tex}
-
-%%%%%%%%%%%%%%%%
-% CHAPTER IV
-%%%%%%%%%%%%%%%%
-\input{chapter/design.tex}
-
-%%%%%%%%%%%%%%%%
-% CHAPTER V
-%%%%%%%%%%%%%%%%
-\input{chapter/testing.tex}
-
-%%%%%%%%%%%%%%%%
-% CHAPTER VI
-%%%%%%%%%%%%%%%%
-\input{chapter/release.tex}
-
+	
+	\vspace{0.8cm}
+	
+	\noindent
+	Trước hết, nhóm chúng em xin gửi lời cảm ơn chân thành đến Giảng viên bộ môn – thầy Nguyễn Văn Chiến đã tận tình giảng dạy, hướng dẫn và định hướng cho chúng em trong suốt quá trình học tập môn Công nghệ phần mềm.
+	
+	\vspace{0.4cm}
+	
+	\noindent
+	Những kiến thức và sự hỗ trợ của Thầy đã giúp nhóm có nền tảng cần thiết để thực hiện báo cáo, đồng thời có định hướng rõ ràng trong việc phân tích, thiết kế và phát triển đề tài. Nhóm cũng xin cảm ơn Thầy đã luôn tạo điều kiện thuận lợi, tận tình giải đáp những thắc mắc và hướng dẫn chúng em trong quá trình thực hiện.
+	
+	\vspace{0.4cm}
+	
+	\noindent
+	Qua quá trình học tập và thực hiện báo cáo, chúng em đã có cơ hội củng cố kiến thức về quy trình phát triển phần mềm, phân tích yêu cầu, thiết kế hệ thống và xây dựng phần mềm. Đây là những kiến thức và trải nghiệm quý giá mà nhóm sẽ ghi nhớ và vận dụng trong quá trình học tập cũng như công việc sau này.
+	
+	\vspace{0.4cm}
+	
+	\noindent
+	Một lần nữa, nhóm chúng em xin chân thành cảm ơn Thầy và mong rằng sẽ tiếp tục có cơ hội được học hỏi, nhận được sự hướng dẫn và góp ý của Thầy trong những học kỳ tiếp theo.
+	
+	\vspace{0.5cm}
+	
+	\begin{flushright}
+		\textit{Xin chân thành cảm ơn!}
+	\end{flushright}
+	
+	\clearpage
+	
+	% ============================================================
+	% MỤC LỤC
+	% ============================================================
+	
+	\tableofcontents
+	
+	\clearpage
+	\pagestyle{plain}
+	
+	% ============================================================
+	% DANH SÁCH TỪ VIẾT TẮT
+	% ============================================================
+	
+	\chapter*{DANH SÁCH TỪ VIẾT TẮT}
+	
+	\vspace{-0.7cm}
+	
+	\begin{table}[H]
+		\hspace*{-1.0cm}
+		\small
+		\renewcommand{\arraystretch}{1.3}
+		
+		\begin{tabular}{|c|p{1.3cm}|p{5.5cm}|p{5.0cm}|}
+			\hline
+			\textbf{STT} & \textbf{Từ viết tắt} & \textbf{Từ đầy đủ} & \textbf{Ý nghĩa} \\
+			\hline
+			
+			1 & API & Application Programming Interface
+			& Giao diện lập trình ứng dụng \\
+			\hline
+			
+			2 & CRUD & Create, Read, Update, Delete
+			& Tạo, đọc, cập nhật, xóa \\
+			\hline
+			
+			3 & CSS & Cascading Style Sheets
+			& Ngôn ngữ định kiểu trang web \\
+			\hline
+			
+			4 & CV & Curriculum Vitae
+			& Sơ yếu lý lịch \\
+			\hline
+			
+			5 & DB & Database
+			& Cơ sở dữ liệu \\
+			\hline
+			
+			6 & DFD & Data Flow Diagram
+			& Sơ đồ luồng dữ liệu \\
+			\hline
+			
+			7 & ERD & Entity Relationship Diagram
+			& Sơ đồ quan hệ thực thể \\
+			\hline
+			
+			8 & FR & Functional Requirement
+			& Yêu cầu chức năng \\
+			\hline
+			
+			9 & HTML & HyperText Markup Language
+			& Ngôn ngữ đánh dấu siêu văn bản \\
+			\hline
+			
+			10 & HTTP & Hypertext Transfer Protocol
+			& Giao thức truyền tải siêu văn bản \\
+			\hline
+			
+			11 & HTTPS & Hypertext Transfer Protocol Secure
+			& Giao thức truyền tải siêu văn bản an toàn \\
+			\hline
+			
+			12 & JSON & JavaScript Object Notation
+			& Định dạng trao đổi dữ liệu \\
+			\hline
+			
+			13 & JWT & JSON Web Token
+			& Chuẩn token xác thực \\
+			\hline
+			
+			14 & MySQL & My Structured Query Language
+			& Hệ quản trị cơ sở dữ liệu quan hệ \\
+			\hline
+			
+			15 & NFR & Non-functional Requirement
+			& Yêu cầu phi chức năng \\
+			\hline
+			
+			16 & OAuth & Open Authorization
+			& Giao thức ủy quyền \\
+			\hline
+			
+			17 & REST & Representational State Transfer
+			& Kiến trúc truyền trạng thái đại diện \\
+			\hline
+			
+			18 & REST API & Representational State Transfer Application Programming Interface
+			& Giao diện lập trình ứng dụng theo kiến trúc REST \\
+			\hline
+			
+			19 & SDD & Software Design Description
+			& Tài liệu mô tả thiết kế phần mềm \\
+			\hline
+			
+			20 & SDLC & Software Development Life Cycle
+			& Vòng đời phát triển phần mềm \\
+			\hline
+			
+			21 & SQL & Structured Query Language
+			& Ngôn ngữ truy vấn có cấu trúc \\
+			\hline
+			
+			22 & SRS & Software Requirements Specification
+			& Đặc tả yêu cầu phần mềm \\
+			\hline
+			
+			23 & UC & Use Case
+			& Ca sử dụng \\
+			\hline
+			
+		\end{tabular}
+	\end{table}
+	
+	\clearpage
+	
+	% ============================================================
+	% DANH SÁCH HÌNH
+	% ============================================================
+	
+	\listoffigures
+	
+	\clearpage
+	
+	% ============================================================
+	% DANH SÁCH BẢNG
+	% ============================================================
+	
+	\listoftables
+	
+	\clearpage
+	
+	% ============================================================
+	% MAIN MATTER
+	% ============================================================
+	
+	\mainmatter
+	
+	\pagestyle{plain}
+	
+	% ============================================================
+	% CHAPTER I
+	% INTRODUCTION
+	% ============================================================
+	
+	\input{Chapter/Introduction.tex}
+	
+	% ============================================================
+	% CHAPTER II
+	% PLAN
+	% ============================================================
+	
+	\input{Chapter/plan.tex}
+	
+	% ============================================================
+	% CHAPTER III
+	% REQUIREMENTS
+	% ============================================================
+	
+	\input{Chapter/requirements.tex}
+	
+	% ============================================================
+	% CHAPTER IV
+	% DESIGN
+	% ============================================================
+	
+	\input{Chapter/design.tex}
+	
+	% ============================================================
+	% CHAPTER V
+	% TESTING
+	% ============================================================
+	
+	\input{Chapter/testing.tex}
+	
+	% ============================================================
+	% CHAPTER VI
+	% RELEASE
+	% ============================================================
+	
+	\input{Chapter/release.tex}
+	
+	% ============================================================
+	% END DOCUMENT
+	% ============================================================
+	
 \end{document}
 
