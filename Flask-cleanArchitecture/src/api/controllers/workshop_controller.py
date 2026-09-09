@@ -2,11 +2,15 @@ from flask import Blueprint, request, jsonify
 from services.workshop_service import WorkshopService
 from infrastructure.repositories.workshop_repository import WorkshopRepository
 from api.schemas.workshop import WorkshopRequestSchema, WorkshopResponseSchema
-from infrastructure.databases.mssql import session
+from infrastructure.databases.factory_database import FactoryDatabase as db_factory
 
 bp = Blueprint('workshop', __name__, url_prefix='/workshops')
 
-workshop_service = WorkshopService(WorkshopRepository(session))
+workshop_service = WorkshopService(
+    WorkshopRepository(
+        db_factory.get_database('POSTGREE').session
+    )
+)
 
 request_schema = WorkshopRequestSchema()
 response_schema = WorkshopResponseSchema()
@@ -102,8 +106,12 @@ def create_workshop():
           description: Dữ liệu không hợp lệ
     """
     data = request.get_json()
+    
+    print("DATA:", data)
 
     errors = request_schema.validate(data)
+
+    print("ERRORS:", errors)
 
     if errors:
         return jsonify(errors), 400

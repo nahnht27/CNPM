@@ -1,16 +1,34 @@
+
 from flask import Blueprint, request, jsonify
 from services.payment_service import PaymentService
 from infrastructure.repositories.payment_repository import PaymentRepository
-from api.schemas.payment import PaymentRequestSchema, PaymentResponseSchema
-from infrastructure.databases.mssql import session
+from api.schemas.payment import (
+    PaymentRequestSchema,
+    PaymentUpdateSchema,
+    PaymentResponseSchema
+)
+from infrastructure.databases.factory_database import FactoryDatabase
+from infrastructure.repositories.invoice_repository import InvoiceRepository
+from infrastructure.databases.postgres import session
 
-bp = Blueprint('payment', __name__, url_prefix='/payments')
 
-payment_service = PaymentService(PaymentRepository(session))
+bp = Blueprint(
+    'payment',
+    __name__,
+    url_prefix='/payments'
+)
+
+db = FactoryDatabase.get_database('POSTGREE')
+session = db.session
+
+payment_service = PaymentService(
+    PaymentRepository(session),
+    invoice_repository=InvoiceRepository(session)
+)
 
 request_schema = PaymentRequestSchema()
+update_schema = PaymentUpdateSchema()
 response_schema = PaymentResponseSchema()
-
 
 @bp.route('/', methods=['GET'])
 def list_payments():
@@ -31,10 +49,21 @@ def list_payments():
                 items:
                   $ref: '#/components/schemas/PaymentResponse'
     """
-    items = payment_service.list_payments()
 
-    return jsonify(response_schema.dump(items, many=True)), 200
+    try:
+        items = payment_service.list_payments()
 
+        return jsonify(
+            response_schema.dump(items, many=True)
+        ), 200
+
+    except Exception as e:
+        session.rollback()
+
+        return jsonify({
+            'message': 'Không thể lấy danh sách thanh toán',
+            'error': str(e)
+        }), 500
 
 @bp.route('/<int:pay_id>', methods=['GET'])
 def get_payment(pay_id):
@@ -60,21 +89,27 @@ def get_payment(pay_id):
                 $ref: '#/components/schemas/PaymentResponse'
         404:
           description: Không tìm thấy thanh toán
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
     """
-    item = payment_service.get_payment(pay_id)
 
-    if not item:
-        return jsonify({'message': 'Payment not found'}), 404
+    try:
+        item = payment_service.get_payment(pay_id)
 
-    return jsonify(response_schema.dump(item)), 200
+        if not item:
+            return jsonify({
+                'message': 'Payment not found'
+            }), 404
 
+        return jsonify(
+            response_schema.dump(item)
+        ), 200
+
+    except Exception as e:
+        session.rollback()
+
+        return jsonify({
+            'message': 'Không thể lấy thanh toán',
+            'error': str(e)
+        }), 500
 
 @bp.route('/', methods=['POST'])
 def create_payment():
@@ -100,40 +135,135 @@ def create_payment():
                 $ref: '#/components/schemas/PaymentResponse'
         400:
           description: Dữ liệu không hợp lệ
+        500:
+          description: Lỗi server
     """
-    data = request.get_json()
+
+    data = request.get_json(silent=True)
+
+    if not isinstance(data, dict):
+        return jsonify({
+            'message': 'Request body phải là JSON object'
+        }), 400
 
     errors = request_schema.validate(data)
 
     if errors:
         return jsonify(errors), 400
 
-    item = payment_service.create_payment(**data)
+    try:
+        cleaned_data = request_schema.load(data)
 
-    return jsonify(response_schema.dump(item)), 201
+        item = payment_service.create_payment(
+            **cleaned_data
+        )
 
+        return jsonify(
+            response_schema.dump(item)
+        ), 201
 
-@bp.route('/<int:pay_id>', methods=['PUT'])
-def update_payment(pay_id):
+    except ValueError as e:
+        session.rollback()
+
+        return jsonify({
+            'message': str(e)
+        }), 400
+
+    except Exception as e:
+        session.rollback()
+
+        return jsonify({
+            'message': 'Không thể tạo thanh toán',
+            'error': str(e)
+        }), 500
+
+@bp.route('/invoice/<int:invoice_id>', methods=['GET'])
+def get_payment_by_invoice(invoice_id):
     """
-    Update payment
+    Get payment by invoice
     ---
-    put:
-      summary: Cập nhật thanh toán
+    get:
+      summary: Lấy thanh toán theo Invoice
       tags:
         - Payment
       parameters:
-        - name: pay_id
+        - name: invoice_id
           in: path
           required: true
           schema:
             type: integer
+      responses:
+        200:
+          description: Thông tin thanh toán
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentResponse'
+        404:
+          description: Không tìm thấy thanh toán
+    """
+
+    try:
+        item = payment_service.get_payment_by_invoice(
+            invoice_id
+        )
+
+        if not item:
+            return jsonify({
+                'message': 'Payment not found for this invoice'
+            }), 404
+
+        return jsonify(
+            response_schema.dump(item)
+        ), 200
+
+    except Exception as e:
+        session.rollback()
+
+        return jsonify({
+            'message': 'Không thể lấy thanh toán theo invoice',
+            'error': str(e)
+        }), 500
+
+@bp.route('/<int:pay_id>', methods=['PUT'])
+def update_payment(pay_id):
+    """
+    Update payment status
+    ---
+    put:
+      summary: Cập nhật trạng thái thanh toán
+      description: |
+        Provider sử dụng API này để xác nhận trạng thái thanh toán.
+        Không cần gửi invoice_id, amount hoặc payment_method.
+      tags:
+        - Payment
+
+      parameters:
+        - name: pay_id
+          in: path
+          required: true
+          description: ID của Payment
+          schema:
+            type: integer
+
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PaymentRequest'
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  type: string
+                  enum:
+                    - Đang chờ xử lý
+                    - Thành công
+                    - Thất bại
+                    - Đã hoàn tiền
+                  example: Thành công
+
       responses:
         200:
           description: Thanh toán đã được cập nhật
@@ -141,20 +271,64 @@ def update_payment(pay_id):
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentResponse'
+
         400:
           description: Dữ liệu không hợp lệ
-    """
-    data = request.get_json()
 
-    errors = request_schema.validate(data)
+        404:
+          description: Không tìm thấy thanh toán
+
+        500:
+          description: Lỗi server
+    """
+
+    data = request.get_json(silent=True)
+
+    # PUT bắt buộc phải nhận JSON object
+    if not isinstance(data, dict):
+        return jsonify({
+            'message': 'Request body phải là JSON object',
+            'example': {
+                'status': 'Thành công'
+            }
+        }), 400
+
+    errors = update_schema.validate(data)
 
     if errors:
         return jsonify(errors), 400
 
-    item = payment_service.update_payment(pay_id, **data)
+    try:
+        cleaned_data = update_schema.load(data)
 
-    return jsonify(response_schema.dump(item)), 200
+        item = payment_service.update_payment(
+            pay_id,
+            **cleaned_data
+        )
 
+        if not item:
+            return jsonify({
+                'message': 'Payment not found'
+            }), 404
+
+        return jsonify(
+            response_schema.dump(item)
+        ), 200
+
+    except ValueError as e:
+        session.rollback()
+
+        return jsonify({
+            'message': str(e)
+        }), 400
+
+    except Exception as e:
+        session.rollback()
+
+        return jsonify({
+            'message': 'Không thể cập nhật thanh toán',
+            'error': str(e)
+        }), 500
 
 @bp.route('/<int:pay_id>', methods=['DELETE'])
 def delete_payment(pay_id):
@@ -174,7 +348,25 @@ def delete_payment(pay_id):
       responses:
         204:
           description: Đã xóa thành công
+        404:
+          description: Không tìm thấy thanh toán
     """
-    payment_service.delete_payment(pay_id)
 
-    return '', 204
+    try:
+        result = payment_service.delete_payment(pay_id)
+
+        if not result:
+            return jsonify({
+                'message': 'Payment not found'
+            }), 404
+
+        return '', 204
+
+    except Exception as e:
+        session.rollback()
+
+        return jsonify({
+            'message': 'Không thể xóa thanh toán',
+            'error': str(e)
+        }), 500
+

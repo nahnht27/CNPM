@@ -1,22 +1,49 @@
 from flask import Blueprint, request, jsonify
-from services.creative_space_service import CreativeSpaceService
-from infrastructure.repositories.creative_space_repository import CreativeSpaceRepository
+
+from services.creative_space_service import (
+    CreativeSpaceService
+)
+
+from infrastructure.repositories.creative_space_repository import (
+    CreativeSpaceRepository
+)
+
+from infrastructure.repositories.service_provider_repository import (
+    ServiceProviderRepository
+)
+
 from api.schemas.creative_space import (
     CreativeSpaceRequestSchema,
     CreativeSpaceResponseSchema
 )
-from datetime import datetime
-from infrastructure.databases.mssql import session
 
-bp = Blueprint('creative_space', __name__, url_prefix='/creative-spaces')
+from infrastructure.databases.postgres import session
+
+
+bp = Blueprint(
+    'creative_space',
+    __name__,
+    url_prefix='/creative-spaces'
+)
+
+
+# =========================================================
+# REPOSITORIES + SERVICE
+# =========================================================
 
 creative_space_service = CreativeSpaceService(
-    CreativeSpaceRepository(session)
+    CreativeSpaceRepository(session),
+    ServiceProviderRepository(session)
 )
+
 
 request_schema = CreativeSpaceRequestSchema()
 response_schema = CreativeSpaceResponseSchema()
 
+
+# =========================================================
+# GET ALL
+# =========================================================
 
 @bp.route('/', methods=['GET'])
 def list_spaces():
@@ -27,6 +54,12 @@ def list_spaces():
       summary: Lấy danh sách không gian sáng tạo
       tags:
         - CreativeSpace
+      parameters:
+        - name: provider_id
+          in: query
+          required: false
+          schema:
+            type: integer
       responses:
         200:
           description: Danh sách không gian sáng tạo
@@ -37,10 +70,27 @@ def list_spaces():
                 items:
                   $ref: '#/components/schemas/CreativeSpaceResponse'
     """
-    items = creative_space_service.list_spaces()
 
-    return jsonify(response_schema.dump(items, many=True)), 200
+    provider_id = request.args.get(
+        'provider_id',
+        type=int
+    )
 
+    items = creative_space_service.list_spaces(
+        provider_id=provider_id
+    )
+
+    return jsonify(
+        response_schema.dump(
+            items,
+            many=True
+        )
+    ), 200
+
+
+# =========================================================
+# GET DETAIL
+# =========================================================
 
 @bp.route('/<int:space_id>', methods=['GET'])
 def get_space(space_id):
@@ -66,21 +116,25 @@ def get_space(space_id):
                 $ref: '#/components/schemas/CreativeSpaceResponse'
         404:
           description: Không tìm thấy không gian sáng tạo
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
     """
-    item = creative_space_service.get_space(space_id)
+
+    item = creative_space_service.get_space_detail(
+        space_id
+    )
 
     if not item:
-        return jsonify({'message': 'Space not found'}), 404
+        return jsonify({
+            'message': 'Space not found'
+        }), 404
 
-    return jsonify(response_schema.dump(item)), 200
+    return jsonify(
+        response_schema.dump(item)
+    ), 200
 
+
+# =========================================================
+# CREATE
+# =========================================================
 
 @bp.route('/', methods=['POST'])
 def create_space():
@@ -106,18 +160,60 @@ def create_space():
                 $ref: '#/components/schemas/CreativeSpaceResponse'
         400:
           description: Dữ liệu không hợp lệ
+        403:
+          description: Provider chưa được Admin xác minh
     """
+
     data = request.get_json()
+
+    # -----------------------------------------------------
+    # Kiểm tra body
+    # -----------------------------------------------------
+
+    if not data:
+        return jsonify({
+            'message': 'Request body is required'
+        }), 400
+
+    # -----------------------------------------------------
+    # Validate dữ liệu
+    # -----------------------------------------------------
 
     errors = request_schema.validate(data)
 
     if errors:
         return jsonify(errors), 400
 
-    item = creative_space_service.create_space(**data)
+    # -----------------------------------------------------
+    # Kiểm tra Provider verification
+    # -----------------------------------------------------
 
-    return jsonify(response_schema.dump(item)), 201
+    try:
 
+        item = creative_space_service.create_space(
+            **data
+        )
+
+        return jsonify(
+            response_schema.dump(item)
+        ), 201
+
+    except PermissionError as e:
+
+        return jsonify({
+            'message': str(e)
+        }), 403
+
+    except ValueError as e:
+
+        return jsonify({
+            'message': str(e)
+        }), 400
+
+
+# =========================================================
+# UPDATE
+# =========================================================
 
 @bp.route('/<int:space_id>', methods=['PUT'])
 def update_space(space_id):
@@ -150,17 +246,40 @@ def update_space(space_id):
         400:
           description: Dữ liệu không hợp lệ
     """
+
     data = request.get_json()
+
+    if not data:
+        return jsonify({
+            'message': 'Request body is required'
+        }), 400
 
     errors = request_schema.validate(data)
 
     if errors:
         return jsonify(errors), 400
 
-    item = creative_space_service.update_space(space_id, **data)
+    try:
 
-    return jsonify(response_schema.dump(item)), 200
+        item = creative_space_service.update_space(
+            space_id,
+            **data
+        )
 
+        return jsonify(
+            response_schema.dump(item)
+        ), 200
+
+    except ValueError as e:
+
+        return jsonify({
+            'message': str(e)
+        }), 404
+
+
+# =========================================================
+# DELETE
+# =========================================================
 
 @bp.route('/<int:space_id>', methods=['DELETE'])
 def delete_space(space_id):
@@ -181,6 +300,9 @@ def delete_space(space_id):
         204:
           description: Đã xóa thành công
     """
-    creative_space_service.delete_space(space_id)
+
+    creative_space_service.delete_space(
+        space_id
+    )
 
     return '', 204

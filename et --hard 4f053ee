@@ -1,0 +1,65 @@
+[33m49c4156[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/booking-payment[m[33m, [m[1;31morigin/feature/booking-payment[m[33m, [m[1;32mmain[m[33m)[m HEAD@{0}: checkout: moving from develop to feature/booking-payment
+[33m4f053ee[m[33m ([m[1;32mdevelop[m[33m)[m HEAD@{1}: reset: moving to HEAD
+[33m4f053ee[m[33m ([m[1;32mdevelop[m[33m)[m HEAD@{2}: commit: feat: frontend Booking photographer
+[33mb6db0d2[m[33m ([m[1;31morigin/develop[m[33m)[m HEAD@{3}: pull origin develop: Fast-forward
+[33ma30f7cc[m HEAD@{4}: checkout: moving from feature/auth-profile-search-ai to develop
+[33m0f0fb9a[m[33m ([m[1;32mfeature/auth-profile-search-ai[m[33m)[m HEAD@{5}: reset: moving to HEAD
+[33m0f0fb9a[m[33m ([m[1;32mfeature/auth-profile-search-ai[m[33m)[m HEAD@{6}: reset: moving to HEAD
+[33m0f0fb9a[m[33m ([m[1;32mfeature/auth-profile-search-ai[m[33m)[m HEAD@{7}: commit (merge): Merge develop and fix middleware conflict
+[33m49c4156[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/booking-payment[m[33m, [m[1;31morigin/feature/booking-payment[m[33m, [m[1;32mmain[m[33m)[m HEAD@{8}: reset: moving to HEAD
+[33m49c4156[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/booking-payment[m[33m, [m[1;31morigin/feature/booking-payment[m[33m, [m[1;32mmain[m[33m)[m HEAD@{9}: reset: moving to FETCH_HEAD
+[33m634785b[m HEAD@{10}: pull origin feature/auth-profile-search-ai: Fast-forward
+[33mec27e50[m HEAD@{11}: checkout: moving from feature/booking-payment to feature/auth-profile-search-ai
+[33m49c4156[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/booking-payment[m[33m, [m[1;31morigin/feature/booking-payment[m[33m, [m[1;32mmain[m[33m)[m HEAD@{12}: reset: moving to 49c4156
+[33m072f011[m HEAD@{13}: checkout: moving from main to feature/booking-payment
+[33m49c4156[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/booking-payment[m[33m, [m[1;31morigin/feature/booking-payment[m[33m, [m[1;32mmain[m[33m)[m HEAD@{14}: checkout: moving from feature/booking-payment to main
+[33m072f011[m HEAD@{15}: checkout: moving from main to feature/booking-payment
+[33m49c4156[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/booking-payment[m[33m, [m[1;31morigin/feature/booking-payment[m[33m, [m[1;32mmain[m[33m)[m HEAD@{16}: checkout: moving from feature/booking-payment to main
+[33m072f011[m HEAD@{17}: commit (merge): merge: accept remote changes for auth files
+[33m49c4156[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/booking-payment[m[33m, [m[1;31morigin/feature/booking-payment[m[33m, [m[1;32mmain[m[33m)[m HEAD@{18}: checkout: moving from main to feature/booking-payment
+[33m49c4156[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/booking-payment[m[33m, [m[1;31morigin/feature/booking-payment[m[33m, [m[1;32mmain[m[33m)[m HEAD@{19}: commit: feat: complete Booking module with backend API - unit tests
+[33mcc1e059[m HEAD@{20}: pull origin main: Fast-forward
+[33m4c2a172[m HEAD@{21}: pull origin main: Fast-forward
+[33m2a5567b[m HEAD@{22}: reset: moving to HEAD
+[33m2a5567b[m HEAD@{23}: commit: Remove Python cache files
+[33m9b8e4be[m[33m ([m[1;31morigin/feature/provider-space-package[m[33m, [m[1;31morigin/feature/admin-provider-booking-workshop[m[33m)[m HEAD@{24}: commit: Add new files and update content
+[33mb7181be[m HEAD@{25}: rebase (finish): returning to refs/heads/main
+[33mb7181be[m HEAD@{26}: rebase (pick): Create README.md
+[33m47d034a[m HEAD@{27}: rebase (pick): update main.tex
+[33m2ab2bc6[m HEAD@{28}: rebase (pick): update latex structure and formatting
+[33m8d7bada[m HEAD@{29}: rebase (pick): update introduction content
+[33m23790ea[m HEAD@{30}: rebase (pick): update Introduction.tex
+[33m2667ff2[m HEAD@{31}: rebase (pick): Remove MSSV
+[33mdcbcfbb[m HEAD@{32}: rebase (pick): Update Introduction and main tex
+[33m952cfe0[m HEAD@{33}: rebase (pick): Remove book-template.pdf
+[33mab8ab3c[m HEAD@{34}: rebase (pick): update Readme
+[33m45735cb[m HEAD@{35}: rebase (pick): Update tempalte and gitignore
+[33m5c1e090[m HEAD@{36}: rebase (pick): update .gitignore
+[33ma5273fd[m HEAD@{37}: rebase (pick): update .gitignore
+[33mf883a3e[m HEAD@{38}: rebase (pick): update .gitignore
+[33mc7c746f[m HEAD@{39}: rebase (pick): Add LaTeX book template to Doc/SRS
+[33m911caa4[m HEAD@{40}: rebase (pick): Update README content
+[33md4c7d57[m HEAD@{41}: rebase (pick): Complete project README
+[33m9326013[m HEAD@{42}: rebase (pick): Initial commit
+[33m2d94f45[m HEAD@{43}: rebase (pick): feat: prepare Flask-cleanArchitecture folder
+[33mf24be05[m HEAD@{44}: rebase (continue): feat: organize backend folder structure
+[33m9bd4203[m HEAD@{45}: rebase (continue): feat: create backend structure based on database design
+[33m810fa80[m HEAD@{46}: rebase (start): checkout 810fa809544bd32b0cf29c450883ec4403fc6660
+[33mec54ac6[m HEAD@{47}: reset: moving to HEAD
+[33mec54ac6[m HEAD@{48}: commit: update readme
+[33m8dde1c3[m HEAD@{49}: reset: moving to 8dde1c3
+[33m8dde1c3[m HEAD@{50}: rebase (abort): returning to refs/heads/main
+[33m86f1ed9[m HEAD@{51}: rebase (start): checkout 86f1ed92c38841498bd0b3c43c1e7362044a0b78
+[33m8dde1c3[m HEAD@{52}: reset: moving to 8dde1c3
+[33ma759e4f[m HEAD@{53}: Branch: renamed refs/heads/temp_branch to refs/heads/main
+[33ma759e4f[m HEAD@{55}: commit (initial): Initial commit
+[33m8dde1c3[m HEAD@{56}: commit (merge): merge Doc/SRS latex and setup Flask-CleanArchitecture folder
+[33me082e88[m HEAD@{57}: rebase (abort): returning to refs/heads/main
+[33me3609e8[m HEAD@{58}: pull origin main --rebase (start): checkout e3609e80fd58b6dbe21afab46f188171b375471b
+[33me082e88[m HEAD@{59}: commit: feat: prepare Flask-cleanArchitecture folder
+[33m832f24c[m HEAD@{60}: rebase (abort): returning to refs/heads/main
+[33me3609e8[m HEAD@{61}: pull origin main --rebase (start): checkout e3609e80fd58b6dbe21afab46f188171b375471b
+[33m832f24c[m HEAD@{62}: commit: feat: organize backend folder structure
+[33m22d9d38[m[33m ([m[1;32mbackup-before-merge[m[33m)[m HEAD@{63}: reset: moving to HEAD
+[33m22d9d38[m[33m ([m[1;32mbackup-before-merge[m[33m)[m HEAD@{64}: commit: feat: create backend structure based on database design
+[33m13b615e[m HEAD@{65}: clone: from https://github.com/ChienNguyensrdn/Flask-CleanArchitecture.git

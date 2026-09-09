@@ -1,18 +1,79 @@
 from marshmallow import Schema, fields
 
+
 class BookingRequestSchema(Schema):
     photographer_id = fields.Int(required=True)
     space_id = fields.Int(required=True)
-    start_time = fields.Raw(required=True)
-    end_time = fields.Raw(required=True)
+    package_id = fields.Int(required=False, allow_none=True)
+    start_time = fields.DateTime(required=True)
+    end_time = fields.DateTime(required=True)
+    total_price = fields.Float(required=False, load_default=0.0)
+    status = fields.Str(required=False)
+
+
+class BookingUpdateSchema(Schema):
+    photographer_id = fields.Int(required=False)
+    space_id = fields.Int(required=False)
+    package_id = fields.Int(required=False, allow_none=True)
+    start_time = fields.DateTime(required=False)
+    end_time = fields.DateTime(required=False)
+    total_price = fields.Float(required=False)
+    status = fields.Str(required=False)
+
+
+class PaymentInfoSchema(Schema):
+    """
+    Thông tin thanh toán của Service Provider
+    được lấy thông qua CreativeSpace của Booking.
+    """
+
+    bank_info = fields.Str(allow_none=True)
+
+    bank_name = fields.Str(allow_none=True)
+    account_number = fields.Str(allow_none=True)
+    account_name = fields.Str(allow_none=True)
+
+    qr_code_url = fields.Str(allow_none=True)
+
+
+class ProviderBookingResponseSchema(Schema):
+    id = fields.Int()
+    photographer_id = fields.Int()
+    space_id = fields.Int()
+    package_id = fields.Int(allow_none=True)
+
+    start_time = fields.DateTime()
+    end_time = fields.DateTime()
+
+    status = fields.Str()
+    total_price = fields.Float()
+    created_at = fields.DateTime()
+
+    # Invoice của Booking
+    invoice_id = fields.Int(allow_none=True)
+
+    provider_id = fields.Int()
+    space_name = fields.Str(allow_none=True)
+
 
 class BookingResponseSchema(Schema):
     id = fields.Int()
     photographer_id = fields.Int()
     space_id = fields.Int()
-    package_id = fields.Int()
-    start_time = fields.Raw()
-    end_time = fields.Raw()
+    package_id = fields.Int(allow_none=True)
+
+    start_time = fields.DateTime()
+    end_time = fields.DateTime()
+
     status = fields.Str()
-    total_price = fields.Raw()
-    created_at = fields.Raw()
+    total_price = fields.Float()
+    created_at = fields.DateTime()
+
+    # Invoice của Booking
+    invoice_id = fields.Int(allow_none=True)
+
+    # Thông tin thanh toán của Provider
+    payment_info = fields.Nested(
+        PaymentInfoSchema,
+        allow_none=True
+    )

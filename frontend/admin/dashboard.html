@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Admin Dashboard - FilmSpace</title>
+
+    <link
+        rel="stylesheet"
+        href="../assets/css/styles.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../assets/css/admin-dashboard.css"
+    >
+</head>
+
+<body class="admin-page">
+
+    <!-- ==================== NAVBAR ==================== -->
+    <nav class="admin-navbar">
+        <div class="admin-navbar-container">
+
+            <a
+                href="dashboard.html"
+                class="admin-logo"
+            >
+                FilmSpace
+            </a>
+
+            <div class="admin-navbar-title">
+                ADMIN PANEL
+            </div>
+
+            <div class="admin-navbar-right">
+                <span id="adminName">
+                    Admin
+                </span>
+
+                <button
+                    type="button"
+                    class="admin-logout"
+                    onclick="logout()"
+                >
+                    Đăng xuất
+                </button>
+            </div>
+
+        </div>
+    </nav>
+
+
+    <!-- ==================== MAIN LAYOUT ==================== -->
+    <div class="admin-layout">
+
+        <!-- ==================== SIDEBAR ==================== -->
+        <aside class="admin-sidebar">
+
+            <div class="admin-sidebar-menu">
+
+                <a
+                    href="dashboard.html"
+                    class="admin-sidebar-link active"
+                >
+                    <span class="sidebar-icon">
+                        ▦
+                    </span>
+
+                    <span>
+                        Dashboard
+                    </span>
+                </a>
+
+
+                <a
+                    href="accounts.html"
+                    class="admin-sidebar-link"
+                >
+                    <span class="sidebar-icon">
+                        👥
+                    </span>
+
+                    <span>
+                        Người dùng
+                    </span>
+                </a>
+
+
+                <a
+                    href="transactions.html"
+                    class="admin-sidebar-link"
+                >
+                    <span class="sidebar-icon">
+                        ₫
+                    </span>
+
+                    <span>
+                        Giao dịch
+                    </span>
+                </a>
+
+
+                <a
+                    href="settings.html"
+                    class="admin-sidebar-link"
+                >
+                    <span class="sidebar-icon">
+                        ⚙
+                    </span>
+
+                    <span>
+                        Cài đặt
+                    </span>
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ==================== CONTENT ==================== -->
+        <main class="admin-content">
+
+            <!-- ==================== WELCOME ==================== -->
+            <section class="admin-welcome-card">
+
+                <div>
+                    <p class="admin-eyebrow">
+                        ADMIN DASHBOARD
+                    </p>
+
+                    <h1>
+                        Chào mừng trở lại,
+                        <span id="welcomeAdminName">
+                            Admin
+                        </span>
+                    </h1>
+
+                    <p class="admin-welcome-description">
+                        Quản lý người dùng, nhà cung cấp
+                        và các giao dịch của FilmSpace.
+                    </p>
+                </div>
+
+            </section>
+
+
+            <!-- ==================== OVERVIEW ==================== -->
+            <section class="admin-section">
+
+                <div class="admin-section-header">
+                    <div>
+                        <p class="admin-eyebrow">
+                            OVERVIEW
+                        </p>
+
+                        <h2>
+                            Tổng quan hệ thống
+                        </h2>
+                    </div>
+                </div>
+
+
+                <div class="admin-stats-grid">
+
+                    <!-- Users -->
+                    <div class="admin-stat-card">
+
+                        <div class="admin-stat-icon">
+                            👥
+                        </div>
+
+                        <div class="admin-stat-info">
+
+                            <span class="admin-stat-label">
+                                Người dùng
+                            </span>
+
+                            <strong
+                                id="totalUsers"
+                                class="admin-stat-value"
+                            >
+                                0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Providers -->
+                    <div class="admin-stat-card">
+
+                        <div class="admin-stat-icon">
+                            ◈
+                        </div>
+
+                        <div class="admin-stat-info">
+
+                            <span class="admin-stat-label">
+                                Providers
+                            </span>
+
+                            <strong
+                                id="totalProviders"
+                                class="admin-stat-value"
+                            >
+                                0
+                            </strong>
+
+                            <small id="pendingProviders">
+                                0 đang chờ duyệt
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    
+
+                </div>
+
+            </section>
+
+
+            <!-- ==================== PROVIDER VERIFICATION ==================== -->
+            <section class="admin-section">
+
+                <div class="admin-section-header">
+
+                    <div>
+                        <p class="admin-eyebrow">
+                            PROVIDERS
+                        </p>
+
+                        <h2>
+                            Provider chờ duyệt
+                        </h2>
+                    </div>
+
+                    <a
+                        href="accounts.html"
+                        class="admin-view-all"
+                    >
+                        Xem tất cả
+                    </a>
+
+                </div>
+
+
+                <div class="admin-panel">
+
+                    <div
+                        id="pendingProvidersList"
+                        class="admin-list"
+                    >
+                        <div class="admin-empty">
+                            Đang tải dữ liệu...
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ==================== QUICK ACTIONS ==================== -->
+            <section class="admin-section">
+
+                <div class="admin-section-header">
+
+                    <div>
+                        <p class="admin-eyebrow">
+                            QUICK ACTIONS
+                        </p>
+
+                        <h2>
+                            Thao tác nhanh
+                        </h2>
+                    </div>
+
+                </div>
+
+
+                <div class="admin-actions-grid">
+
+                    <!-- Manage Users -->
+                    <a
+                        href="accounts.html"
+                        class="admin-action-card"
+                    >
+                        <strong>
+                            Quản lý người dùng
+                        </strong>
+
+                        <span>
+                            Xem và quản lý tài khoản
+                        </span>
+                    </a>
+
+
+                    <!-- Manage Transactions -->
+                    <a
+                        href="transactions.html"
+                        class="admin-action-card"
+                    >
+                        <strong>
+                            Quản lý giao dịch
+                        </strong>
+
+                        <span>
+                            Theo dõi các giao dịch của hệ thống
+                        </span>
+                    </a>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="admin-footer">
+
+        <div class="admin-footer-container">
+
+            <div class="admin-footer-top">
+
+                <div class="admin-footer-brand">
+
+                    <div class="admin-footer-logo">
+                        Photography
+                        <span>
+                            Platform
+                        </span>
+                    </div>
+
+                    <p>
+                        Kết nối các nhiếp ảnh gia phim
+                        với các phòng tối và studio đáng tin cậy.
+                    </p>
+
+                </div>
+
+
+                <div class="admin-footer-menu">
+
+                    <a href="dashboard.html">
+                        Dashboard
+                    </a>
+
+                    <a href="accounts.html">
+                        Người dùng
+                    </a>
+
+                    <a href="transactions.html">
+                        Giao dịch
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <hr class="admin-footer-line">
+
+
+            <div class="admin-footer-bottom">
+
+                <span>
+                    Copyright © 2026 Photography Platform.
+                    All rights reserved.
+                </span>
+
+                <div class="admin-footer-links">
+
+                    <a href="#">
+                        Privacy Policy
+                    </a>
+
+                    <a href="#">
+                        Terms of Use
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <script src="../api/admin.js"></script>
+
+</body>
+</html>
+
+

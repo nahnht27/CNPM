@@ -1,0 +1,4575 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title id="pageTitle">Provider Profile | FilmSpace</title>
+
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/photographer-profile.css">
+</head>
+
+<body>
+
+  <!-- =========================================================
+       NAVBAR
+       ========================================================= -->
+
+  <nav class="navbar" id="mainNavbar">
+
+    <div class="navbar-container container">
+
+      <a class="logo" href="home.html" aria-label="FilmSpace">
+        FilmSpace
+      </a>
+
+      <div class="menu" aria-label="User navigation">
+
+        <a href="dashboard.html">
+          Dashboard
+        </a>
+
+        <a href="spaces.html">
+          Spaces
+        </a>
+
+        <a href="equipment.html">
+          Equipment
+        </a>
+
+        <a href="packages.html">
+          Packages
+        </a>
+
+        <a href="bookings.html">
+          Bookings
+        </a>
+
+        <a href="profile.html" class="active">
+          Profile
+        </a>
+
+      </div>
+
+      <div class="nav-actions">
+
+        <span class="provider-nav-name" id="navProviderName">
+          User
+        </span>
+
+        <button type="button" class="provider-logout" onclick="logout()">
+          Đăng xuất
+        </button>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+
+  <!-- =========================================================
+       MAIN
+       ========================================================= -->
+
+  <main class="profile-page">
+
+    <!-- =======================================================
+         PROFILE HEADER
+         ======================================================= -->
+
+    <section class="profile-header">
+
+      <div class="container">
+
+        <div class="profile-heading">
+
+          <div>
+
+            <span class="profile-kicker" id="profileKicker">
+              PROFILE
+            </span>
+
+            <h1>
+              Hồ sơ cá nhân
+            </h1>
+
+            <p>
+              Quản lý thông tin tài khoản và hồ sơ nhà cung cấp
+              dịch vụ của bạn.
+            </p>
+
+          </div>
+
+          <button type="button" class="edit-profile-btn" id="editBtn" onclick="enableEdit()">
+            Chỉnh sửa hồ sơ
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         PROFILE CONTENT
+         ======================================================= -->
+
+    <section class="profile-content">
+
+      <div class="container">
+
+        <div class="profile-layout">
+
+          <!-- =================================================
+               PROFILE SUMMARY
+               ================================================= -->
+
+          <aside class="profile-card profile-summary-card">
+
+            <div class="avatar" id="avatar">
+              U
+            </div>
+
+            <h2 id="profileDisplayName">
+              User
+            </h2>
+
+            <span class="role-badge" id="roleBadge">
+              User
+            </span>
+
+            <p class="profile-username" id="profileUsername">
+              @user
+            </p>
+
+            <div class="summary-divider"></div>
+
+            <div class="summary-item">
+
+              <span>
+                Thành viên từ
+              </span>
+
+              <strong id="memberSince">
+                2026
+              </strong>
+
+            </div>
+
+            <div class="summary-divider"></div>
+
+            <!-- QUICK NAV (GIỮ LẠI 4 ICON Ở ĐÂY) -->
+
+            <nav class="profile-quicknav" aria-label="Điều hướng hồ sơ">
+
+              <a href="#personalCard">
+
+                <span class="quicknav-icon">
+                  👤
+                </span>
+
+                Thông tin cá nhân
+
+              </a>
+
+              <a href="#licenseCard">
+
+                <span class="quicknav-icon">
+                  🏢
+                </span>
+
+                Doanh nghiệp &amp; Thanh toán
+
+              </a>
+
+              <a href="#securityCard">
+
+                <span class="quicknav-icon">
+                  🔒
+                </span>
+
+                Bảo mật
+
+              </a>
+
+              <a href="#settingsCard">
+
+                <span class="quicknav-icon">
+                  ⚙️
+                </span>
+
+                Cài đặt tài khoản
+
+              </a>
+
+            </nav>
+
+          </aside>
+
+
+          <!-- =================================================
+               PERSONAL INFORMATION
+               ================================================= -->
+
+          <section class="profile-card profile-form-card" id="personalCard">
+
+            <div class="card-title-row">
+
+              <div>
+
+                <div>
+
+                  <h2>
+                    Thông tin cá nhân
+                  </h2>
+
+                  <p>
+                    Cập nhật thông tin liên hệ và cá nhân của bạn.
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div id="profileMessage" class="profile-message"></div>
+
+
+            <form id="profileForm">
+
+              <div class="form-grid">
+
+                <!-- HỌ TÊN -->
+
+                <div class="profile-field">
+
+                  <label for="fullName">
+                    Họ và tên
+                  </label>
+
+                  <input id="fullName" name="full_name" type="text" placeholder="Nhập họ và tên" autocomplete="name"
+                    disabled>
+
+                </div>
+
+
+                <!-- USERNAME -->
+
+                <div class="profile-field">
+
+                  <label for="username">
+                    Tên đăng nhập
+                  </label>
+
+                  <input id="username" name="username" type="text" placeholder="Username" autocomplete="username"
+                    disabled readonly>
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="profile-field">
+
+                  <label for="email">
+                    Email
+                  </label>
+
+                  <input id="email" name="email" type="email" placeholder="example@email.com" autocomplete="email"
+                    disabled>
+
+                </div>
+
+
+                <!-- PHONE -->
+
+                <div class="profile-field">
+
+                  <label for="phone">
+                    Số điện thoại
+                  </label>
+
+                  <input id="phone" name="phone" type="tel" placeholder="Nhập số điện thoại" autocomplete="tel"
+                    disabled>
+
+                </div>
+
+
+                <!-- LOCATION -->
+
+                <div class="profile-field full-width">
+
+                  <label for="location">
+                    Địa điểm
+                  </label>
+
+                  <input id="location" name="location" type="text" placeholder="TP. Hồ Chí Minh"
+                    autocomplete="address-level2" disabled>
+
+                </div>
+
+
+                <!-- BIO -->
+
+                <div class="profile-field full-width">
+
+                  <label for="bio">
+                    Giới thiệu
+                  </label>
+
+                  <textarea id="bio" name="bio" rows="4" placeholder="Viết một vài dòng giới thiệu về bạn..."
+                    disabled></textarea>
+
+                </div>
+
+              </div>
+
+
+              <!-- FORM ACTIONS -->
+
+              <div class="form-actions" id="formActions">
+
+                <button type="button" class="cancel-btn" onclick="cancelEdit()">
+                  Hủy
+                </button>
+
+                <button type="submit" class="save-btn">
+                  Lưu thay đổi
+                </button>
+
+              </div>
+
+            </form>
+
+          </section>
+
+        </div>
+
+
+        <!-- =====================================================
+             SERVICE PROVIDER / LICENSE / PAYMENT
+             ===================================================== -->
+
+        <section class="profile-card profile-form-card" id="licenseCard" style="margin-top:24px;">
+
+          <div class="card-title-row">
+
+            <div>
+
+              <div>
+
+                <h2>
+                  Giấy phép &amp; Thông tin thanh toán doanh nghiệp
+                </h2>
+
+                <p>
+                  Thông tin pháp lý và tài khoản ngân hàng
+                  nhận thanh toán dịch vụ.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="card-title-actions">
+
+              <span id="verificationBadge" class="role-badge">
+                —
+              </span>
+
+              <button type="button" class="edit-profile-btn" id="editLicenseBtn" onclick="enableLicenseEdit()">
+                Chỉnh sửa
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div id="licenseMessage" class="profile-message"></div>
+
+
+          <form id="licenseForm">
+
+            <div class="form-grid">
+
+              <!-- BUSINESS NAME -->
+
+              <div class="profile-field">
+
+                <label for="businessName">
+                  Tên doanh nghiệp / Studio
+                </label>
+
+                <input id="businessName" name="business_name" type="text" placeholder="Ví dụ: Studio Ánh Sáng" disabled>
+
+              </div>
+
+
+              <!-- TAX CODE -->
+
+              <div class="profile-field">
+
+                <label for="taxCode">
+                  Mã số thuế
+                </label>
+
+                <input id="taxCode" name="tax_code" type="text" placeholder="Nhập mã số thuế" disabled>
+
+              </div>
+
+
+              <!-- BUSINESS ADDRESS -->
+
+              <div class="profile-field full-width">
+
+                <label for="businessAddress">
+                  Địa chỉ kinh doanh
+                </label>
+
+                <input id="businessAddress" name="business_address" type="text"
+                  placeholder="Nhập địa chỉ đăng ký kinh doanh" autocomplete="street-address" disabled>
+
+              </div>
+
+
+              <!-- LICENSE FILE -->
+
+              <div class="profile-field full-width" style="
+                  border-bottom:1px dashed var(--line);
+                  padding-bottom:18px;
+                  margin-bottom:4px;
+                ">
+
+                <label for="licenseFileInput">
+                  Giấy phép kinh doanh
+                  (Hình ảnh / PDF)
+                </label>
+
+                <input id="licenseFileInput" type="file" accept="image/png,image/jpeg,image/webp,application/pdf"
+                  disabled onchange="previewLicenseFile(event)">
+
+
+                <div id="licensePreviewContainer" style="
+                    margin-top:12px;
+                    display:flex;
+                    flex-direction:column;
+                    align-items:flex-start;
+                    gap:10px;
+                  ">
+
+                  <img id="licensePreview" src="" alt="Giấy phép kinh doanh" style="
+                      max-width:260px;
+                      max-height:260px;
+                      display:none;
+                      border:1px solid var(--line);
+                      padding:6px;
+                      border-radius:10px;
+                      background:#fff;
+                      object-fit:contain;
+                    ">
+
+                  <a id="licenseFileLink" href="#" target="_blank" rel="noopener noreferrer" class="file-chip" style="
+                      display:none;
+                      text-decoration:none;
+                      cursor:pointer;
+                    ">
+                    Mở giấy phép đã tải lên
+                  </a>
+
+                  <span id="licenseFileEmpty" style="
+                      font-size:12px;
+                      color:var(--muted);
+                    ">
+                    Chưa có giấy phép nào được lưu.
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <!-- BANK NAME -->
+
+              <div class="profile-field">
+
+                <label for="bankName">
+                  Tên ngân hàng
+                </label>
+
+                <input id="bankName" type="text" placeholder="Ví dụ: Vietcombank, MBBank" autocomplete="off" disabled>
+
+              </div>
+
+
+              <!-- ACCOUNT NUMBER -->
+
+              <div class="profile-field">
+
+                <label for="accountNumber">
+                  Số tài khoản
+                </label>
+
+                <input id="accountNumber" type="text" placeholder="Nhập số tài khoản" inputmode="numeric"
+                  autocomplete="off" disabled>
+
+              </div>
+
+
+              <!-- ACCOUNT NAME -->
+
+              <div class="profile-field full-width">
+
+                <label for="accountName">
+                  Tên chủ tài khoản
+                </label>
+
+                <input id="accountName" type="text" placeholder="Nhập tên chủ tài khoản (viết hoa không dấu)"
+                  autocomplete="off" disabled>
+
+              </div>
+
+
+              <!-- BANK INFO -->
+
+              <div class="profile-field full-width">
+
+                <label for="bankInfo">
+                  Ghi chú nhận thanh toán (Tổng hợp)
+                </label>
+
+                <input id="bankInfo" name="bank_info" type="text" placeholder="Thông tin sẽ tự động tổng hợp" readonly
+                  disabled>
+
+                <small style="
+                    display:block;
+                    margin-top:6px;
+                    font-size:12px;
+                    color:var(--muted);
+                  ">
+                  Dữ liệu được tự động tổng hợp từ tên ngân hàng,
+                  số tài khoản và tên chủ tài khoản.
+                </small>
+
+              </div>
+
+
+              <!-- QR CODE -->
+
+              <div class="profile-field full-width">
+
+                <label for="qrCodeInput">
+                  Mã QR Thanh toán
+                </label>
+
+                <input id="qrCodeInput" type="file" accept="image/png,image/jpeg,image/webp" disabled
+                  onchange="previewQrCode(event)">
+
+
+                <div id="qrPreviewContainer" style="
+                    margin-top:12px;
+                    display:flex;
+                    flex-direction:column;
+                    gap:8px;
+                    align-items:flex-start;
+                  ">
+
+                  <img id="qrPreview" src="" alt="Mã QR Thanh toán" style="
+                      max-width:180px;
+                      max-height:180px;
+                      display:none;
+                      border:1px solid var(--line);
+                      padding:6px;
+                      border-radius:8px;
+                      background:#fff;
+                      object-fit:contain;
+                    ">
+
+                  <span id="qrFileEmpty" style="
+                      font-size:12px;
+                      color:var(--muted);
+                    ">
+                    Chưa có mã QR được lưu.
+                  </span>
+
+                  <a id="qrCodeLink" href="#" target="_blank" rel="noopener noreferrer" style="
+                      display:none;
+                      font-size:13px;
+                    ">
+                    Mở mã QR
+                  </a>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- LICENSE ACTIONS -->
+
+            <div class="form-actions" id="licenseFormActions">
+
+              <button type="button" class="cancel-btn" onclick="cancelLicenseEdit()">
+                Hủy
+              </button>
+
+              <button type="submit" class="save-btn">
+                Lưu thông tin doanh nghiệp
+              </button>
+
+            </div>
+
+          </form>
+
+        </section>
+
+
+        <section class="profile-card profile-form-card" id="securityCard" style="margin-top: 24px;">
+          <div class="card-title-row">
+            <div>
+              <h2>Bảo mật tài khoản</h2>
+              <p>Quản lý mật khẩu và bảo mật tài khoản.</p>
+            </div>
+          </div>
+
+          <div class="profile-security">
+            <div class="profile-security-info">
+              <strong>Đổi mật khẩu</strong>
+
+              <p>
+                Muốn đổi mật khẩu? Hãy sử dụng chức năng
+                “Quên mật khẩu” tại trang đăng nhập để
+                đặt lại mật khẩu.
+              </p>
+            </div>
+
+            <a href="../auth.html" class="profile-security-button">
+              Đổi mật khẩu
+            </a>
+          </div>
+        </section>
+
+
+        <!-- =====================================================
+             ACCOUNT SETTINGS
+             ===================================================== -->
+
+        <section class="profile-card profile-form-card" id="settingsCard" style="margin-top:24px;">
+
+          <div class="card-title-row">
+
+            <div>
+
+              <div>
+
+                <h2>
+                  Cài đặt tài khoản
+                </h2>
+
+                <p>
+                  Tùy chỉnh cách FilmSpace thông báo cho bạn.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- EMAIL NOTIFICATION -->
+
+          <div class="toggle-row">
+
+            <div class="toggle-row-label">
+
+              <strong>
+                Nhận thông báo qua Email
+              </strong>
+
+              <span>
+                Gửi email khi có booking mới hoặc cập nhật quan trọng.
+              </span>
+
+            </div>
+
+
+            <label class="switch">
+
+              <input id="notifyEmailToggle" type="checkbox" onchange="saveAccountSettings()">
+
+              <span class="switch-track"></span>
+
+            </label>
+
+          </div>
+
+
+          <!-- BOOKING NOTIFICATION -->
+
+          <div class="toggle-row">
+
+            <div class="toggle-row-label">
+
+              <strong>
+                Nhắc lịch booking sắp tới
+              </strong>
+
+              <span>
+                Hiện thông báo nhắc nhở trong mục Notifications.
+              </span>
+
+            </div>
+
+
+            <label class="switch">
+
+              <input id="notifyBookingToggle" type="checkbox" onchange="saveAccountSettings()">
+
+              <span class="switch-track"></span>
+
+            </label>
+
+          </div>
+
+
+          <!-- NOTIFICATION CENTER (GIỮ LẠI ICON CHUÔNG 🔔) -->
+
+          <div class="notif-link-card">
+
+            <div class="notif-link-icon">
+
+              🔔
+
+              <span id="settingsNotifBadge" class="notif-link-badge">
+                0
+              </span>
+
+            </div>
+
+
+            <div class="notif-link-text">
+
+              <strong>
+                Trung tâm thông báo
+              </strong>
+
+              <span id="settingsNotifSummary">
+                Đang tải số thông báo chưa đọc...
+              </span>
+
+            </div>
+
+
+            <a href="notifications.html" class="notif-link-btn">
+              Xem thông báo
+            </a>
+
+          </div>
+
+
+          <p style="
+              font-size:11px;
+              color:var(--muted);
+              margin-top:14px;
+            ">
+            * Khi tắt "Nhắc lịch booking sắp tới",
+            các thông báo loại Booking sẽ được ẩn bớt
+            ở trang Notifications.
+          </p>
+
+        </section>
+
+
+        <!-- =====================================================
+             ACCOUNT
+             ===================================================== -->
+
+        <section class="profile-card account-card">
+
+          <div class="card-title-row">
+
+            <div>
+
+              <h2>
+                Tài khoản
+              </h2>
+
+              <p>
+                Các thiết lập liên quan đến tài khoản FilmSpace.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="account-actions">
+
+            <!-- DASHBOARD -->
+
+            <a href="dashboard.html" class="account-action">
+
+              <div>
+
+                <strong>
+                  Về Dashboard
+                </strong>
+
+                <span>
+                  Quản lý hoạt động và dịch vụ của bạn.
+                </span>
+
+              </div>
+
+            </a>
+
+
+            <!-- NOTIFICATIONS (GIỮ LẠI ICON CHUÔNG 🔔) -->
+
+            <a href="notifications.html" class="account-action">
+
+              <div class="account-icon">
+                🔔
+              </div>
+
+              <div>
+
+                <strong>
+                  Thông báo
+                </strong>
+
+                <span>
+                  Xem các cập nhật booking, workshop, thanh toán.
+                </span>
+
+              </div>
+
+            </a>
+
+
+            <!-- LOGOUT -->
+
+            <button type="button" class="account-action danger-action" onclick="logout()">
+
+              <div>
+
+                <strong>
+                  Đăng xuất
+                </strong>
+
+                <span>
+                  Đăng xuất khỏi tài khoản hiện tại.
+                </span>
+
+              </div>
+
+            </button>
+
+          </div>
+
+        </section>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================================================
+       FOOTER
+       ========================================================= -->
+
+  <footer class="footer">
+
+    <div class="container">
+
+      <div class="footer-top">
+
+        <div class="footer-brand">
+
+          <div class="footer-logo">
+            Photography<span>Platform</span>
+          </div>
+
+          <p>
+            Kết nối các nhiếp ảnh gia phim với
+            các phòng tối và studio đáng tin cậy.
+          </p>
+
+        </div>
+
+
+        <div class="footer-menu">
+
+          <a href="dashboard.html">
+            Dashboard
+          </a>
+
+          <a href="spaces.html">
+            Spaces
+          </a>
+
+          <a href="equipment.html">
+            Equipment
+          </a>
+
+          <a href="packages.html">
+            Packages
+          </a>
+
+          <a href="bookings.html">
+            Bookings
+          </a>
+
+          <a href="profile.html">
+            Profile
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <hr class="footer-line">
+
+
+      <div class="footer-bottom">
+
+        <span>
+          Copyright © 2026 Photography Platform.
+          All rights reserved.
+        </span>
+
+        <div class="footer-links">
+
+          <a href="#">
+            Privacy Policy
+          </a>
+
+          <a href="#">
+            Terms of Use
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =========================================================
+       JAVASCRIPT
+       ========================================================= -->
+
+  <script>
+
+    const API_BASE_URL = "http://127.0.0.1:9999";
+
+    const MAX_FILE_SIZE = 10 * 1024 * 1024;
+
+    const ALLOWED_LICENSE_TYPES = [
+      "image/png",
+      "image/jpeg",
+      "image/webp",
+      "application/pdf"
+    ];
+
+    const ALLOWED_QR_TYPES = [
+      "image/png",
+      "image/jpeg",
+      "image/webp"
+    ];
+
+    let originalData = {};
+    let originalLicenseData = {};
+    let providerVerificationStatus = "pending";
+
+
+    /* =========================================================
+       GLOBAL ERROR HANDLING
+       ========================================================= */
+
+    window.addEventListener(
+      "error",
+      function (event) {
+
+        console.error(
+          "[GLOBAL JS ERROR]",
+          event.error || event.message,
+          event
+        );
+
+      }
+    );
+
+
+    window.addEventListener(
+      "unhandledrejection",
+      function (event) {
+
+        console.error(
+          "[UNHANDLED PROMISE REJECTION]",
+          event.reason
+        );
+
+      }
+    );
+
+
+    /* =========================================================
+       STORAGE
+       ========================================================= */
+
+    function getStorage() {
+
+      return localStorage.getItem("auth_token")
+        ? localStorage
+        : sessionStorage;
+
+    }
+
+
+    function getUserData() {
+
+      const storage = getStorage();
+
+      return {
+
+        storage: storage,
+
+        token:
+          storage.getItem("auth_token"),
+
+        userId:
+          storage.getItem("user_id"),
+
+        username:
+          storage.getItem("username") || "",
+
+        fullName:
+          storage.getItem("full_name") || "",
+
+        email:
+          storage.getItem("email") || "",
+
+        phone:
+          storage.getItem("phone") || "",
+
+        location:
+          storage.getItem("location") || "",
+
+        bio:
+          storage.getItem("bio") || ""
+
+      };
+
+    }
+
+
+    /* =========================================================
+       ROLE
+       ========================================================= */
+
+    function getRoleName(roleId) {
+
+      const role = Number(roleId);
+
+      if (role === 1) {
+        return "Admin";
+      }
+
+      if (role === 2) {
+        return "Photographer";
+      }
+
+      if (role === 3) {
+        return "Service Provider";
+      }
+
+      return "User";
+
+    }
+
+
+    /* =========================================================
+       1. LOAD PROFILE
+       ========================================================= */
+
+    async function loadProfile() {
+
+      const user = getUserData();
+
+      if (!user.token || !user.userId) {
+
+        window.location.href = "../auth.html";
+
+        return;
+
+      }
+
+
+      try {
+
+        const response = await fetch(
+          `${API_BASE_URL}/users/${user.userId}`,
+          {
+
+            method: "GET",
+
+            headers: {
+
+              "Accept":
+                "application/json",
+
+              "Authorization":
+                `Bearer ${user.token}`
+
+            }
+
+          }
+        );
+
+
+        const responseText =
+          await response.text();
+
+        let data = {};
+
+
+        try {
+
+          data =
+            responseText
+              ? JSON.parse(responseText)
+              : {};
+
+        }
+
+        catch (error) {
+
+          console.error(
+            "LOAD PROFILE JSON ERROR:",
+            error
+          );
+
+        }
+
+
+        if (!response.ok) {
+
+          showMessage(
+            data.message ||
+            "Không thể tải thông tin hồ sơ.",
+            "error"
+          );
+
+          return;
+
+        }
+
+
+        const roleName =
+          getRoleName(data.role_id);
+
+
+        /* PROFILE KICKER */
+
+        const profileKicker =
+          document.getElementById(
+            "profileKicker"
+          );
+
+
+        if (profileKicker) {
+
+          profileKicker.textContent =
+            roleName.toUpperCase() +
+            " PROFILE";
+
+        }
+
+
+        /* PAGE TITLE */
+
+        const pageTitle =
+          document.getElementById(
+            "pageTitle"
+          );
+
+
+        if (pageTitle) {
+
+          pageTitle.textContent =
+            `${roleName} - Profile | FilmSpace`;
+
+        }
+
+
+        /* ROLE BADGE */
+
+        const roleBadge =
+          document.getElementById(
+            "roleBadge"
+          );
+
+
+        if (roleBadge) {
+
+          roleBadge.textContent =
+            roleName;
+
+        }
+
+
+        /* USERNAME */
+
+        document.getElementById(
+          "username"
+        ).value =
+          data.username ||
+          user.username ||
+          "";
+
+
+        /* FULL NAME */
+
+        document.getElementById(
+          "fullName"
+        ).value =
+          data.full_name ||
+          user.fullName ||
+          "";
+
+
+        /* EMAIL */
+
+        document.getElementById(
+          "email"
+        ).value =
+          data.email ||
+          user.email ||
+          "";
+
+
+        /* PHONE */
+
+        document.getElementById(
+          "phone"
+        ).value =
+          data.phone ||
+          user.phone ||
+          "";
+
+
+        /* LOCATION */
+
+        document.getElementById(
+          "location"
+        ).value =
+          data.location ||
+          user.location ||
+          "";
+
+
+        /* BIO */
+
+        document.getElementById(
+          "bio"
+        ).value =
+          data.bio ||
+          user.bio ||
+          "";
+
+
+        /* DISPLAY */
+
+        updateProfileDisplay(
+
+          data.full_name ||
+          data.username ||
+          "User",
+
+          data.username ||
+          user.username
+
+        );
+
+
+        /* SAVE ORIGINAL */
+
+        saveOriginalData();
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "LOAD PROFILE ERROR:",
+          error
+        );
+
+
+        showMessage(
+          "Không thể kết nối đến Backend.",
+          "error"
+        );
+
+      }
+
+    }
+
+
+    /* =========================================================
+       PROFILE DISPLAY
+       ========================================================= */
+
+    function updateProfileDisplay(
+      fullName,
+      username
+    ) {
+
+      const displayName =
+        fullName ||
+        username ||
+        "User";
+
+
+      /* NAV NAME */
+
+      const navName =
+        document.getElementById(
+          "navProviderName"
+        );
+
+
+      if (navName) {
+
+        navName.textContent =
+          displayName;
+
+      }
+
+
+      /* PROFILE NAME */
+
+      const profileName =
+        document.getElementById(
+          "profileDisplayName"
+        );
+
+
+      if (profileName) {
+
+        profileName.textContent =
+          displayName;
+
+      }
+
+
+      /* USERNAME */
+
+      const profileUsername =
+        document.getElementById(
+          "profileUsername"
+        );
+
+
+      if (profileUsername) {
+
+        profileUsername.textContent =
+          username
+            ? "@" + username
+            : "@user";
+
+      }
+
+
+      /* AVATAR */
+
+      const avatar =
+        document.getElementById(
+          "avatar"
+        );
+
+
+      if (avatar) {
+
+        avatar.textContent =
+          displayName
+            .charAt(0)
+            .toUpperCase();
+
+      }
+
+    }
+
+
+    /* =========================================================
+       ORIGINAL PROFILE DATA
+       ========================================================= */
+
+    function saveOriginalData() {
+
+      originalData = {
+
+        fullName:
+          document.getElementById(
+            "fullName"
+          ).value,
+
+        username:
+          document.getElementById(
+            "username"
+          ).value,
+
+        email:
+          document.getElementById(
+            "email"
+          ).value,
+
+        phone:
+          document.getElementById(
+            "phone"
+          ).value,
+
+        location:
+          document.getElementById(
+            "location"
+          ).value,
+
+        bio:
+          document.getElementById(
+            "bio"
+          ).value
+
+      };
+
+    }
+
+
+    /* =========================================================
+       ENABLE PROFILE EDIT
+       ========================================================= */
+
+    function enableEdit() {
+
+      document
+        .querySelectorAll(
+          "#profileForm input, #profileForm textarea"
+        )
+        .forEach(field => {
+
+          if (field.id !== "username") {
+
+            field.disabled = false;
+
+          }
+
+        });
+
+
+      document
+        .getElementById(
+          "formActions"
+        )
+        .classList
+        .add("show");
+
+
+      document
+        .getElementById(
+          "editBtn"
+        )
+        .style
+        .display =
+        "none";
+
+
+      document
+        .getElementById(
+          "fullName"
+        )
+        .focus();
+
+    }
+
+
+    /* =========================================================
+       CANCEL PROFILE EDIT
+       ========================================================= */
+
+    function cancelEdit() {
+
+      document.getElementById(
+        "fullName"
+      ).value =
+        originalData.fullName || "";
+
+
+      document.getElementById(
+        "username"
+      ).value =
+        originalData.username || "";
+
+
+      document.getElementById(
+        "email"
+      ).value =
+        originalData.email || "";
+
+
+      document.getElementById(
+        "phone"
+      ).value =
+        originalData.phone || "";
+
+
+      document.getElementById(
+        "location"
+      ).value =
+        originalData.location || "";
+
+
+      document.getElementById(
+        "bio"
+      ).value =
+        originalData.bio || "";
+
+
+      document
+        .querySelectorAll(
+          "#profileForm input, #profileForm textarea"
+        )
+        .forEach(field => {
+
+          field.disabled = true;
+
+        });
+
+
+      document
+        .getElementById(
+          "formActions"
+        )
+        .classList
+        .remove("show");
+
+
+      document
+        .getElementById(
+          "editBtn"
+        )
+        .style
+        .display =
+        "inline-flex";
+
+    }
+
+
+    /* =========================================================
+       UPDATE PROFILE
+       ========================================================= */
+
+    document
+      .getElementById(
+        "profileForm"
+      )
+      .addEventListener(
+        "submit",
+        async function (event) {
+
+          event.preventDefault();
+
+
+          console.log(
+            "[profileForm] Submit event fired."
+          );
+
+
+          const user =
+            getUserData();
+
+
+          if (!user.token || !user.userId) {
+
+            showMessage(
+              "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.",
+              "error"
+            );
+
+            return;
+
+          }
+
+
+          const payload = {
+
+            full_name:
+              document
+                .getElementById(
+                  "fullName"
+                )
+                .value
+                .trim(),
+
+            email:
+              document
+                .getElementById(
+                  "email"
+                )
+                .value
+                .trim(),
+
+            phone:
+              document
+                .getElementById(
+                  "phone"
+                )
+                .value
+                .trim(),
+
+            location:
+              document
+                .getElementById(
+                  "location"
+                )
+                .value
+                .trim(),
+
+            bio:
+              document
+                .getElementById(
+                  "bio"
+                )
+                .value
+                .trim()
+
+          };
+
+
+          const saveBtn =
+            event.target.querySelector(
+              ".save-btn"
+            );
+
+
+          const cancelBtn =
+            event.target.querySelector(
+              ".cancel-btn"
+            );
+
+
+          const originalBtnText =
+            saveBtn
+              ? saveBtn.textContent
+              : "";
+
+
+          if (saveBtn) {
+
+            saveBtn.disabled = true;
+
+            saveBtn.textContent =
+              "Đang lưu...";
+
+          }
+
+
+          if (cancelBtn) {
+
+            cancelBtn.disabled = true;
+
+          }
+
+
+          try {
+
+            const response =
+              await fetch(
+                `${API_BASE_URL}/users/${user.userId}`,
+                {
+
+                  method: "PUT",
+
+                  headers: {
+
+                    "Accept":
+                      "application/json",
+
+                    "Content-Type":
+                      "application/json",
+
+                    "Authorization":
+                      `Bearer ${user.token}`
+
+                  },
+
+                  body:
+                    JSON.stringify(
+                      payload
+                    )
+
+                }
+              );
+
+
+            const responseText =
+              await response.text();
+
+
+            let data = {};
+
+
+            try {
+
+              data =
+                responseText
+                  ? JSON.parse(
+                    responseText
+                  )
+                  : {};
+
+            }
+
+            catch (error) {
+
+              console.error(
+                "[profileForm] JSON parse error:",
+                error
+              );
+
+            }
+
+
+            if (!response.ok) {
+
+              showMessage(
+                data.message ||
+                "Cập nhật hồ sơ thất bại.",
+                "error"
+              );
+
+              return;
+
+            }
+
+
+            const storage =
+              user.storage;
+
+
+            storage.setItem(
+              "full_name",
+              data.full_name ||
+              payload.full_name
+            );
+
+
+            storage.setItem(
+              "email",
+              data.email ||
+              payload.email
+            );
+
+
+            storage.setItem(
+              "phone",
+              data.phone ||
+              payload.phone
+            );
+
+
+            storage.setItem(
+              "location",
+              data.location ||
+              payload.location
+            );
+
+
+            storage.setItem(
+              "bio",
+              data.bio ||
+              payload.bio
+            );
+
+
+            updateProfileDisplay(
+
+              data.full_name ||
+              payload.full_name,
+
+              data.username ||
+              user.username
+
+            );
+
+
+            saveOriginalData();
+
+            cancelEdit();
+
+
+            showMessage(
+              "Đã lưu thông tin cá nhân thành công.",
+              "success"
+            );
+
+          }
+
+          catch (error) {
+
+            console.error(
+              "UPDATE PROFILE ERROR:",
+              error
+            );
+
+
+            showMessage(
+              "Lỗi kết nối Server. Chi tiết: " +
+              (
+                error?.message ||
+                error
+              ),
+              "error"
+            );
+
+          }
+
+          finally {
+
+            if (saveBtn) {
+
+              saveBtn.disabled = false;
+
+              saveBtn.textContent =
+                originalBtnText ||
+                "Lưu thay đổi";
+
+            }
+
+
+            if (cancelBtn) {
+
+              cancelBtn.disabled = false;
+
+            }
+
+          }
+
+        }
+      );
+
+
+    /* =========================================================
+       PROFILE MESSAGE
+       ========================================================= */
+
+    function showMessage(
+      text,
+      type = "success"
+    ) {
+
+      const box =
+        document.getElementById(
+          "profileMessage"
+        );
+
+
+      if (!box) {
+        return;
+      }
+
+
+      box.textContent =
+        text;
+
+
+      box.className =
+        text
+          ? "profile-message " + type
+          : "profile-message";
+
+
+      if (text) {
+
+        box.scrollIntoView({
+
+          behavior:
+            "smooth",
+
+          block:
+            "nearest"
+
+        });
+
+      }
+
+    }
+
+
+    /* =========================================================
+       LOGOUT
+       ========================================================= */
+
+    function logout() {
+
+      localStorage.clear();
+
+      sessionStorage.clear();
+
+
+      window.location.href =
+        "../auth.html";
+
+    }
+
+
+    /* =========================================================
+       2. SERVICE PROVIDER
+       ========================================================= */
+
+    function getProviderId() {
+
+      const storage =
+        getStorage();
+
+
+      return storage.getItem(
+        "provider_id"
+      );
+
+    }
+
+
+    /* =========================================================
+       FILE VALIDATION
+       ========================================================= */
+
+    function validateFile(
+      file,
+      allowedTypes,
+      label
+    ) {
+
+      if (!file) {
+
+        return {
+          valid: true
+        };
+
+      }
+
+
+      if (
+        !allowedTypes.includes(
+          file.type
+        )
+      ) {
+
+        return {
+
+          valid: false,
+
+          message:
+            `${label} có định dạng không được hỗ trợ.`
+
+        };
+
+      }
+
+
+      if (file.size <= 0) {
+
+        return {
+
+          valid: false,
+
+          message:
+            `${label} không thể là file rỗng.`
+
+        };
+
+      }
+
+
+      if (file.size > MAX_FILE_SIZE) {
+
+        return {
+
+          valid: false,
+
+          message:
+            `${label} quá lớn. Kích thước tối đa là 10MB.`
+
+        };
+
+      }
+
+
+      return {
+        valid: true
+      };
+
+    }
+
+
+    /* =========================================================
+       PARSE BANK INFO
+       ========================================================= */
+
+    function parseBankInfo(
+      bankInfo
+    ) {
+
+      const result = {
+
+        bankName: "",
+        accountNumber: "",
+        accountName: ""
+
+      };
+
+
+      if (!bankInfo) {
+
+        return result;
+
+      }
+
+
+      const normalized =
+        String(bankInfo).trim();
+
+
+      /* FORMAT MỚI */
+
+      if (
+        normalized.includes(
+          "Ngân hàng:"
+        ) ||
+        normalized
+          .toLowerCase()
+          .includes(
+            "ngân hàng:"
+          )
+      ) {
+
+        normalized
+          .split("|")
+          .map(
+            item => item.trim()
+          )
+          .forEach(part => {
+
+            const lower =
+              part.toLowerCase();
+
+
+            if (
+              lower.startsWith(
+                "ngân hàng:"
+              )
+            ) {
+
+              result.bankName =
+                part
+                  .substring(
+                    part.indexOf(":") + 1
+                  )
+                  .trim();
+
+            }
+
+
+            else if (
+              lower.startsWith(
+                "stk:"
+              )
+            ) {
+
+              result.accountNumber =
+                part
+                  .substring(
+                    part.indexOf(":") + 1
+                  )
+                  .trim();
+
+            }
+
+
+            else if (
+              lower.startsWith(
+                "chủ tk:"
+              )
+            ) {
+
+              result.accountName =
+                part
+                  .substring(
+                    part.indexOf(":") + 1
+                  )
+                  .trim();
+
+            }
+
+          });
+
+      }
+
+
+      /* FORMAT SEED CŨ */
+
+      if (
+        !result.bankName &&
+        !result.accountNumber &&
+        normalized.includes(
+          " - "
+        )
+      ) {
+
+        const parts =
+          normalized.split(
+            " - "
+          );
+
+
+        result.bankName =
+          parts[0]
+            ? parts[0].trim()
+            : "";
+
+
+        result.accountNumber =
+          parts
+            .slice(1)
+            .join(" - ")
+            .trim();
+
+      }
+
+
+      return result;
+
+    }
+
+
+    /* =========================================================
+       BUILD BANK INFO
+       ========================================================= */
+
+    function buildBankInfo() {
+
+      const bankName =
+        document
+          .getElementById(
+            "bankName"
+          )
+          .value
+          .trim();
+
+
+      const accountNumber =
+        document
+          .getElementById(
+            "accountNumber"
+          )
+          .value
+          .trim();
+
+
+      const accountName =
+        document
+          .getElementById(
+            "accountName"
+          )
+          .value
+          .trim();
+
+
+      return [
+
+        bankName
+          ? `Ngân hàng: ${bankName}`
+          : "",
+
+        accountNumber
+          ? `STK: ${accountNumber}`
+          : "",
+
+        accountName
+          ? `Chủ TK: ${accountName}`
+          : ""
+
+      ]
+        .filter(Boolean)
+        .join(" | ");
+
+    }
+
+
+    /* =========================================================
+       QR - RENDER SAVED URL
+       ========================================================= */
+
+    function renderQrPreview(
+      url
+    ) {
+
+      const preview =
+        document.getElementById(
+          "qrPreview"
+        );
+
+
+      const empty =
+        document.getElementById(
+          "qrFileEmpty"
+        );
+
+
+      const link =
+        document.getElementById(
+          "qrCodeLink"
+        );
+
+
+      if (
+        !preview ||
+        !empty ||
+        !link
+      ) {
+
+        return;
+
+      }
+
+
+      if (!url) {
+
+        preview.src = "";
+
+        preview.style.display =
+          "none";
+
+
+        link.href = "#";
+
+        link.style.display =
+          "none";
+
+
+        empty.textContent =
+          "Chưa có mã QR được lưu.";
+
+        empty.style.display =
+          "inline";
+
+        return;
+
+      }
+
+
+      preview.src =
+        url;
+
+
+      preview.style.display =
+        "block";
+
+
+      link.href =
+        url;
+
+
+      link.style.display =
+        "inline-block";
+
+
+      empty.style.display =
+        "none";
+
+
+      preview.onerror =
+        function () {
+
+          preview.style.display =
+            "none";
+
+
+          link.style.display =
+            "inline-block";
+
+
+          empty.textContent =
+            "Không thể hiển thị ảnh QR";
+
+
+          empty.style.display =
+            "inline";
+
+        };
+
+    }
+
+
+    /* =========================================================
+       QR - PREVIEW NEW FILE
+       ========================================================= */
+
+    function previewQrCode(
+      event
+    ) {
+
+      const file =
+        event.target.files[0];
+
+
+      if (!file) {
+
+        restoreQrPreview();
+
+        return;
+
+      }
+
+
+      const validation =
+        validateFile(
+          file,
+          ALLOWED_QR_TYPES,
+          "Mã QR"
+        );
+
+
+      if (!validation.valid) {
+
+        showLicenseMessage(
+          validation.message,
+          "error"
+        );
+
+
+        event.target.value =
+          "";
+
+
+        restoreQrPreview();
+
+        return;
+
+      }
+
+
+      const preview =
+        document.getElementById(
+          "qrPreview"
+        );
+
+
+      const empty =
+        document.getElementById(
+          "qrFileEmpty"
+        );
+
+
+      const link =
+        document.getElementById(
+          "qrCodeLink"
+        );
+
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+        function (e) {
+
+          preview.src =
+            e.target.result;
+
+
+          preview.style.display =
+            "block";
+
+
+          link.style.display =
+            "none";
+
+
+          empty.textContent =
+            `Ảnh QR mới: ${file.name}. File sẽ được upload khi bạn bấm "Lưu thông tin doanh nghiệp".`;
+
+
+          empty.style.display =
+            "inline";
+
+        };
+
+
+      reader.onerror =
+        function () {
+
+          showLicenseMessage(
+            "Không thể đọc file QR.",
+            "error"
+          );
+
+        };
+
+
+      reader.readAsDataURL(
+        file
+      );
+
+    }
+
+
+    /* =========================================================
+       QR - RESTORE
+       ========================================================= */
+
+    function restoreQrPreview() {
+
+      const url =
+        originalLicenseData.qrCodeUrl ||
+        "";
+
+
+      renderQrPreview(
+        url
+      );
+
+    }
+
+
+    /* =========================================================
+       LICENSE PREVIEW
+       ========================================================= */
+
+    function renderLicensePreview(
+      url
+    ) {
+
+      const preview =
+        document.getElementById(
+          "licensePreview"
+        );
+
+
+      const link =
+        document.getElementById(
+          "licenseFileLink"
+        );
+
+
+      const emptySpan =
+        document.getElementById(
+          "licenseFileEmpty"
+        );
+
+
+      if (
+        !preview ||
+        !link ||
+        !emptySpan
+      ) {
+
+        return;
+
+      }
+
+
+      /* KHÔNG CÓ FILE */
+
+      if (!url) {
+
+        preview.src = "";
+
+        preview.style.display =
+          "none";
+
+
+        link.href = "#";
+
+        link.style.display =
+          "none";
+
+
+        emptySpan.textContent =
+          "Chưa có giấy phép nào được lưu.";
+
+
+        emptySpan.style.display =
+          "inline";
+
+
+        return;
+
+      }
+
+
+      /* CÓ FILE */
+
+      const normalizedUrl =
+        String(url).toLowerCase();
+
+
+      const isImage =
+        /\.(jpeg|jpg|gif|png|webp)(\?.*)?$/i.test(
+          normalizedUrl
+        ) ||
+        normalizedUrl.startsWith(
+          "data:image/"
+        );
+
+
+      /* IMAGE */
+
+      if (isImage) {
+
+        preview.src =
+          url;
+
+
+        preview.style.display =
+          "block";
+
+
+        link.href =
+          url;
+
+
+        link.style.display =
+          "inline-flex";
+
+
+        link.innerHTML =
+          "Mở giấy phép đã tải lên";
+
+
+        emptySpan.style.display =
+          "none";
+
+
+        preview.onerror =
+          function () {
+
+            preview.style.display =
+              "none";
+
+
+            link.href =
+              url;
+
+
+            link.style.display =
+              "inline-flex";
+
+
+            emptySpan.textContent =
+              "Không thể hiển thị ảnh giấy phép.";
+
+
+            emptySpan.style.display =
+              "inline";
+
+          };
+
+
+        return;
+
+      }
+
+
+      /* PDF / FILE */
+
+      preview.src = "";
+
+      preview.style.display =
+        "none";
+
+
+      link.href =
+        url;
+
+
+      link.style.display =
+        "inline-flex";
+
+
+      link.innerHTML =
+        "Mở giấy phép đã tải lên";
+
+
+      emptySpan.textContent =
+        "Giấy phép đã được lưu. Nhấn nút bên dưới để mở file.";
+
+
+      emptySpan.style.display =
+        "inline";
+
+    }
+
+
+    /* =========================================================
+       LICENSE - PREVIEW FILE
+       ========================================================= */
+
+    function previewLicenseFile(
+      event
+    ) {
+
+      const file =
+        event.target.files[0];
+
+
+      if (!file) {
+
+        renderLicensePreview(
+          originalLicenseData.licenseUrl ||
+          ""
+        );
+
+        return;
+
+      }
+
+
+      const validation =
+        validateFile(
+          file,
+          ALLOWED_LICENSE_TYPES,
+          "Giấy phép kinh doanh"
+        );
+
+
+      if (!validation.valid) {
+
+        showLicenseMessage(
+          validation.message,
+          "error"
+        );
+
+
+        event.target.value =
+          "";
+
+
+        renderLicensePreview(
+          originalLicenseData.licenseUrl ||
+          ""
+        );
+
+        return;
+
+      }
+
+
+      const preview =
+        document.getElementById(
+          "licensePreview"
+        );
+
+
+      const emptySpan =
+        document.getElementById(
+          "licenseFileEmpty"
+        );
+
+
+      const link =
+        document.getElementById(
+          "licenseFileLink"
+        );
+
+
+      if (
+        file.type.startsWith(
+          "image/"
+        )
+      ) {
+
+        const reader =
+          new FileReader();
+
+
+        reader.onload =
+          function (e) {
+
+            preview.src =
+              e.target.result;
+
+
+            preview.style.display =
+              "block";
+
+
+            emptySpan.textContent =
+              `Ảnh giấy phép mới: ${file.name}. File sẽ được upload khi bạn bấm "Lưu thông tin doanh nghiệp".`;
+
+
+            emptySpan.style.display =
+              "inline";
+
+
+            link.style.display =
+              "none";
+
+          };
+
+
+        reader.onerror =
+          function () {
+
+            showLicenseMessage(
+              "Không thể đọc file giấy phép.",
+              "error"
+            );
+
+          };
+
+
+        reader.readAsDataURL(
+          file
+        );
+
+      }
+
+
+      else if (
+        file.type ===
+        "application/pdf"
+      ) {
+
+        preview.src = "";
+
+        preview.style.display =
+          "none";
+
+
+        link.style.display =
+          "none";
+
+
+        emptySpan.textContent =
+          `Đã chọn file PDF: ${file.name}. File sẽ được upload khi bạn bấm "Lưu thông tin doanh nghiệp".`;
+
+
+        emptySpan.style.display =
+          "inline";
+
+      }
+
+    }
+
+
+    /* =========================================================
+       VERIFICATION BADGE
+       ========================================================= */
+
+    function applyVerificationBadge(
+      status
+    ) {
+
+      const badge =
+        document.getElementById(
+          "verificationBadge"
+        );
+
+
+      if (!badge) {
+        return;
+      }
+
+
+      const normalizedStatus =
+        String(
+          status || "pending"
+        )
+          .toLowerCase();
+
+
+      const map = {
+
+        approved: {
+
+          label:
+            "Đã xác minh",
+
+          cls:
+            "verified"
+
+        },
+
+        pending: {
+
+          label:
+            "Chờ xác minh",
+
+          cls:
+            "pending"
+
+        },
+
+        rejected: {
+
+          label:
+            "Bị từ chối",
+
+          cls:
+            "rejected"
+
+        }
+
+      };
+
+
+      const info =
+        map[normalizedStatus] ||
+        {
+
+          label:
+            status || "—",
+
+          cls:
+            ""
+
+        };
+
+
+      badge.textContent =
+        info.label;
+
+
+      badge.className =
+        "role-badge" +
+        (
+          info.cls
+            ? " " + info.cls
+            : ""
+        );
+
+    }
+
+
+    /* =========================================================
+       LOAD SERVICE PROVIDER
+       ========================================================= */
+
+    async function loadLicenseInfo() {
+
+      const providerId =
+        getProviderId();
+
+
+      const storage =
+        getStorage();
+
+
+      const token =
+        storage.getItem(
+          "auth_token"
+        );
+
+
+      if (
+        !providerId ||
+        !token
+      ) {
+
+        console.warn(
+          "[ServiceProvider] Không có provider_id hoặc auth_token."
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        const response =
+          await fetch(
+            `${API_BASE_URL}/service-providers/${providerId}`,
+            {
+
+              method: "GET",
+
+              headers: {
+
+                "Accept":
+                  "application/json",
+
+                "Authorization":
+                  `Bearer ${token}`
+
+              }
+
+            }
+          );
+
+
+        const responseText =
+          await response.text();
+
+
+        let data = {};
+
+
+        try {
+
+          data =
+            responseText
+              ? JSON.parse(
+                responseText
+              )
+              : {};
+
+        }
+
+        catch (error) {
+
+          console.error(
+            "[ServiceProvider] JSON parse error:",
+            error
+          );
+
+        }
+
+
+        console.log(
+          "[ServiceProvider] GET:",
+          data
+        );
+
+
+        if (!response.ok) {
+
+          showLicenseMessage(
+            data.message ||
+            "Không thể tải thông tin doanh nghiệp.",
+            "error"
+          );
+
+          return;
+
+        }
+
+
+        /* BUSINESS */
+
+        const businessName =
+          data.business_name ||
+          storage.getItem(
+            "business_name"
+          ) ||
+          "";
+
+
+        const taxCode =
+          data.tax_code ||
+          storage.getItem(
+            "tax_code"
+          ) ||
+          "";
+
+
+        const businessAddress =
+          data.business_address ||
+          storage.getItem(
+            "business_address"
+          ) ||
+          "";
+
+
+        document.getElementById(
+          "businessName"
+        ).value =
+          businessName;
+
+
+        document.getElementById(
+          "taxCode"
+        ).value =
+          taxCode;
+
+
+        document.getElementById(
+          "businessAddress"
+        ).value =
+          businessAddress;
+
+
+        /* BANK INFO */
+
+        const bankInfo =
+          data.bank_info ||
+          storage.getItem(
+            "bank_info"
+          ) ||
+          "";
+
+
+        const parsedBank =
+          parseBankInfo(
+            bankInfo
+          );
+
+
+        document.getElementById(
+          "bankName"
+        ).value =
+          parsedBank.bankName;
+
+
+        document.getElementById(
+          "accountNumber"
+        ).value =
+          parsedBank.accountNumber;
+
+
+        document.getElementById(
+          "accountName"
+        ).value =
+          parsedBank.accountName;
+
+
+        document.getElementById(
+          "bankInfo"
+        ).value =
+          bankInfo;
+
+
+        /* LOCAL CACHE */
+
+        storage.setItem(
+          "business_name",
+          businessName
+        );
+
+
+        storage.setItem(
+          "tax_code",
+          taxCode
+        );
+
+
+        storage.setItem(
+          "business_address",
+          businessAddress
+        );
+
+
+        storage.setItem(
+          "bank_info",
+          bankInfo
+        );
+
+
+        /* VERIFICATION */
+
+        providerVerificationStatus =
+          String(data.verification_status || "pending").toLowerCase();
+
+        applyVerificationBadge(
+          providerVerificationStatus
+        );
+
+        applyProviderAccessControl();
+
+
+        /* LICENSE URL */
+
+        const licenseUrl =
+          data.license_url ||
+          storage.getItem(
+            "license_url"
+          ) ||
+          "";
+
+
+        if (licenseUrl) {
+
+          storage.setItem(
+            "license_url",
+            licenseUrl
+          );
+
+        }
+
+
+        renderLicensePreview(
+          licenseUrl
+        );
+
+
+        /* QR CODE */
+
+        const qrCodeUrl =
+          data.qr_code_url ||
+          storage.getItem(
+            "qr_code_url"
+          ) ||
+          "";
+
+
+        if (qrCodeUrl) {
+
+          storage.setItem(
+            "qr_code_url",
+            qrCodeUrl
+          );
+
+        }
+
+
+        /* ORIGINAL DATA */
+
+        originalLicenseData = {
+
+          businessName:
+            businessName,
+
+          taxCode:
+            taxCode,
+
+          businessAddress:
+            businessAddress,
+
+          bankName:
+            parsedBank.bankName,
+
+          accountNumber:
+            parsedBank.accountNumber,
+
+          accountName:
+            parsedBank.accountName,
+
+          bankInfo:
+            bankInfo,
+
+          licenseUrl:
+            licenseUrl,
+
+          qrCodeUrl:
+            qrCodeUrl
+
+        };
+
+
+        renderQrPreview(
+          qrCodeUrl
+        );
+
+
+        console.log(
+          "[ServiceProvider] Original data:",
+          originalLicenseData
+        );
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "LOAD LICENSE ERROR:",
+          error
+        );
+
+
+        showLicenseMessage(
+          "Không thể kết nối đến Backend.",
+          "error"
+        );
+
+      }
+
+    }
+
+    function applyProviderAccessControl() {
+
+      const status = providerVerificationStatus;
+
+      const isApproved = status === "approved";
+
+      const editLicenseBtn =
+        document.getElementById("editLicenseBtn");
+
+      if (editLicenseBtn) {
+        editLicenseBtn.disabled = false;
+      }
+
+      document
+        .querySelectorAll(
+          'a[href="spaces.html"], a[href="equipment.html"], a[href="packages.html"]'
+        )
+        .forEach(link => {
+
+          if (isApproved) {
+            link.classList.remove("verification-locked");
+            link.removeAttribute("title");
+          } else {
+            link.classList.add("verification-locked");
+            link.setAttribute(
+              "title",
+              "Cần được Admin xác minh trước khi quản lý dịch vụ."
+            );
+          }
+
+        });
+    }
+
+
+    /* =========================================================
+       ENABLE PROVIDER EDIT
+       ========================================================= */
+
+    function enableLicenseEdit() {
+
+      document
+        .querySelectorAll(
+          "#licenseForm input"
+        )
+        .forEach(field => {
+
+          field.disabled = false;
+
+        });
+
+
+      const bankInfo =
+        document.getElementById(
+          "bankInfo"
+        );
+
+
+      bankInfo.disabled = true;
+
+      bankInfo.readOnly = true;
+
+
+      document
+        .getElementById(
+          "licenseFormActions"
+        )
+        .classList
+        .add("show");
+
+
+      document
+        .getElementById(
+          "editLicenseBtn"
+        )
+        .style
+        .display =
+        "none";
+
+    }
+
+
+    /* =========================================================
+       CANCEL PROVIDER EDIT
+       ========================================================= */
+
+    function cancelLicenseEdit() {
+
+      document.getElementById(
+        "businessName"
+      ).value =
+        originalLicenseData.businessName ||
+        "";
+
+
+      document.getElementById(
+        "taxCode"
+      ).value =
+        originalLicenseData.taxCode ||
+        "";
+
+
+      document.getElementById(
+        "businessAddress"
+      ).value =
+        originalLicenseData.businessAddress ||
+        "";
+
+
+      document.getElementById(
+        "bankName"
+      ).value =
+        originalLicenseData.bankName ||
+        "";
+
+
+      document.getElementById(
+        "accountNumber"
+      ).value =
+        originalLicenseData.accountNumber ||
+        "";
+
+
+      document.getElementById(
+        "accountName"
+      ).value =
+        originalLicenseData.accountName ||
+        "";
+
+
+      document.getElementById(
+        "bankInfo"
+      ).value =
+        originalLicenseData.bankInfo ||
+        "";
+
+
+      /* QR */
+
+      document.getElementById(
+        "qrCodeInput"
+      ).value =
+        "";
+
+
+      restoreQrPreview();
+
+
+      /* LICENSE */
+
+      document.getElementById(
+        "licenseFileInput"
+      ).value =
+        "";
+
+
+      renderLicensePreview(
+        originalLicenseData.licenseUrl ||
+        ""
+      );
+
+
+      /* DISABLE */
+
+      document
+        .querySelectorAll(
+          "#licenseForm input"
+        )
+        .forEach(field => {
+
+          field.disabled = true;
+
+        });
+
+
+      document
+        .getElementById(
+          "licenseFormActions"
+        )
+        .classList
+        .remove("show");
+
+
+      document
+        .getElementById(
+          "editLicenseBtn"
+        )
+        .style
+        .display =
+        "inline-flex";
+
+    }
+
+
+    /* =========================================================
+       UPDATE SERVICE PROVIDER
+       ========================================================= */
+
+    document
+      .getElementById(
+        "licenseForm"
+      )
+      .addEventListener(
+        "submit",
+        async function (event) {
+
+          event.preventDefault();
+
+
+          console.log(
+            "[licenseForm] Submit event fired."
+          );
+
+
+          const providerId =
+            getProviderId();
+
+
+          const storage =
+            getStorage();
+
+
+          const token =
+            storage.getItem(
+              "auth_token"
+            );
+
+
+          if (
+            !providerId ||
+            !token
+          ) {
+
+            showLicenseMessage(
+              "Không tìm thấy phiên đăng nhập hoặc provider_id. Vui lòng đăng nhập lại.",
+              "error"
+            );
+
+            return;
+
+          }
+
+
+          const saveBtn =
+            event.target.querySelector(
+              ".save-btn"
+            );
+
+
+          const cancelBtn =
+            event.target.querySelector(
+              ".cancel-btn"
+            );
+
+
+          const originalBtnText =
+            saveBtn
+              ? saveBtn.textContent
+              : "";
+
+
+          if (saveBtn) {
+
+            saveBtn.disabled =
+              true;
+
+            saveBtn.textContent =
+              "Đang upload...";
+
+          }
+
+
+          if (cancelBtn) {
+
+            cancelBtn.disabled =
+              true;
+
+          }
+
+
+          try {
+
+            /* BUILD BANK INFO */
+
+            const bankInfo =
+              buildBankInfo();
+
+
+            document.getElementById(
+              "bankInfo"
+            ).value =
+              bankInfo;
+
+
+            /* FILES */
+
+            const licenseInput =
+              document.getElementById(
+                "licenseFileInput"
+              );
+
+
+            const qrInput =
+              document.getElementById(
+                "qrCodeInput"
+              );
+
+
+            const licenseFile =
+              licenseInput &&
+                licenseInput.files &&
+                licenseInput.files.length > 0
+                ? licenseInput.files[0]
+                : null;
+
+
+            const qrFile =
+              qrInput &&
+                qrInput.files &&
+                qrInput.files.length > 0
+                ? qrInput.files[0]
+                : null;
+
+
+            console.log(
+              "[licenseForm] License file:",
+              licenseFile
+                ? {
+
+                  name:
+                    licenseFile.name,
+
+                  type:
+                    licenseFile.type,
+
+                  size:
+                    licenseFile.size
+
+                }
+                : null
+            );
+
+
+            console.log(
+              "[licenseForm] QR file:",
+              qrFile
+                ? {
+
+                  name:
+                    qrFile.name,
+
+                  type:
+                    qrFile.type,
+
+                  size:
+                    qrFile.size
+
+                }
+                : null
+            );
+
+
+            /* VALIDATE LICENSE */
+
+            if (licenseFile) {
+
+              const licenseValidation =
+                validateFile(
+                  licenseFile,
+                  ALLOWED_LICENSE_TYPES,
+                  "Giấy phép kinh doanh"
+                );
+
+
+              if (
+                !licenseValidation.valid
+              ) {
+
+                showLicenseMessage(
+                  licenseValidation.message,
+                  "error"
+                );
+
+                return;
+
+              }
+
+            }
+
+
+            /* VALIDATE QR */
+
+            if (qrFile) {
+
+              const qrValidation =
+                validateFile(
+                  qrFile,
+                  ALLOWED_QR_TYPES,
+                  "Mã QR"
+                );
+
+
+              if (
+                !qrValidation.valid
+              ) {
+
+                showLicenseMessage(
+                  qrValidation.message,
+                  "error"
+                );
+
+                return;
+
+              }
+
+            }
+
+
+            /* FORMDATA */
+
+            const formData =
+              new FormData();
+
+
+            formData.append(
+              "business_name",
+              document
+                .getElementById(
+                  "businessName"
+                )
+                .value
+                .trim()
+            );
+
+
+            formData.append(
+              "tax_code",
+              document
+                .getElementById(
+                  "taxCode"
+                )
+                .value
+                .trim()
+            );
+
+
+            formData.append(
+              "business_address",
+              document
+                .getElementById(
+                  "businessAddress"
+                )
+                .value
+                .trim()
+            );
+
+
+            formData.append(
+              "bank_info",
+              bankInfo
+            );
+
+
+            /* LICENSE */
+
+            if (licenseFile) {
+
+              formData.append(
+                "license_file",
+                licenseFile
+              );
+
+            }
+
+
+            /* QR */
+
+            if (qrFile) {
+
+              formData.append(
+                "qr_code",
+                qrFile
+              );
+
+            }
+
+
+            /* DEBUG */
+
+            console.log(
+              "[licenseForm] Sending FormData..."
+            );
+
+
+            for (
+              const [
+                key,
+                value
+              ] of formData.entries()
+            ) {
+
+              if (
+                value instanceof File
+              ) {
+
+                console.log(
+                  key,
+                  "=>",
+                  value.name,
+                  value.type,
+                  value.size
+                );
+
+              }
+
+              else {
+
+                console.log(
+                  key,
+                  "=>",
+                  value
+                );
+
+              }
+
+            }
+
+
+            /* REQUEST */
+
+            const response =
+              await fetch(
+                `${API_BASE_URL}/service-providers/${providerId}`,
+                {
+
+                  method: "PUT",
+
+                  headers: {
+
+                    "Accept":
+                      "application/json",
+
+                    "Authorization":
+                      `Bearer ${token}`
+
+                  },
+
+                  body:
+                    formData
+
+                }
+              );
+
+
+            console.log(
+              "[licenseForm] Response status:",
+              response.status
+            );
+
+
+            const responseText =
+              await response.text();
+
+
+            let data = {};
+
+
+            try {
+
+              data =
+                responseText
+                  ? JSON.parse(
+                    responseText
+                  )
+                  : {};
+
+            }
+
+            catch (error) {
+
+              console.error(
+                "[licenseForm] JSON parse error:",
+                error
+              );
+
+
+              console.error(
+                "[licenseForm] Raw response:",
+                responseText
+              );
+
+            }
+
+
+            console.log(
+              "[licenseForm] Response body:",
+              data
+            );
+
+
+            /* ERROR */
+
+            if (!response.ok) {
+
+              let message =
+                data.message ||
+                "Cập nhật thông tin doanh nghiệp thất bại.";
+
+
+              if (data.errors) {
+
+                console.error(
+                  "[licenseForm] Validation errors:",
+                  data.errors
+                );
+
+
+                const validationMessages =
+                  Object.values(
+                    data.errors
+                  )
+                    .flat()
+                    .join(" ");
+
+
+                if (
+                  validationMessages
+                ) {
+
+                  message +=
+                    " " +
+                    validationMessages;
+
+                }
+
+              }
+
+
+              showLicenseMessage(
+                message,
+                "error"
+              );
+
+
+              return;
+
+            }
+
+
+            /* PROVIDER DATA */
+
+            const providerData =
+              data;
+
+
+            /* BUSINESS */
+
+            const savedBusinessName =
+              providerData.business_name ||
+              document
+                .getElementById(
+                  "businessName"
+                )
+                .value
+                .trim();
+
+
+            const savedTaxCode =
+              providerData.tax_code ||
+              document
+                .getElementById(
+                  "taxCode"
+                )
+                .value
+                .trim();
+
+
+            const savedBusinessAddress =
+              providerData.business_address ||
+              document
+                .getElementById(
+                  "businessAddress"
+                )
+                .value
+                .trim();
+
+
+            const savedBankInfo =
+              providerData.bank_info ||
+              bankInfo;
+
+
+            const savedLicenseUrl =
+              providerData.license_url ||
+              originalLicenseData.licenseUrl ||
+              storage.getItem(
+                "license_url"
+              ) ||
+              "";
+
+
+            /* QR */
+
+            const savedQrCodeUrl =
+              providerData.qr_code_url ||
+              originalLicenseData.qrCodeUrl ||
+              storage.getItem(
+                "qr_code_url"
+              ) ||
+              "";
+
+
+            console.log(
+              "[licenseForm] Saved license URL:",
+              savedLicenseUrl
+            );
+
+
+            console.log(
+              "[licenseForm] Saved QR URL:",
+              savedQrCodeUrl
+            );
+
+
+            /* LOCAL STORAGE */
+
+            storage.setItem(
+              "business_name",
+              savedBusinessName
+            );
+
+
+            storage.setItem(
+              "tax_code",
+              savedTaxCode
+            );
+
+
+            storage.setItem(
+              "business_address",
+              savedBusinessAddress
+            );
+
+
+            storage.setItem(
+              "bank_info",
+              savedBankInfo
+            );
+
+
+            if (savedLicenseUrl) {
+
+              storage.setItem(
+                "license_url",
+                savedLicenseUrl
+              );
+
+            }
+
+
+            if (savedQrCodeUrl) {
+
+              storage.setItem(
+                "qr_code_url",
+                savedQrCodeUrl
+              );
+
+            }
+
+
+            /* PARSE BANK */
+
+            const parsedBank =
+              parseBankInfo(
+                savedBankInfo
+              );
+
+
+            document.getElementById(
+              "bankName"
+            ).value =
+              parsedBank.bankName;
+
+
+            document.getElementById(
+              "accountNumber"
+            ).value =
+              parsedBank.accountNumber;
+
+
+            document.getElementById(
+              "accountName"
+            ).value =
+              parsedBank.accountName;
+
+
+            document.getElementById(
+              "bankInfo"
+            ).value =
+              savedBankInfo;
+
+
+            /* ORIGINAL LICENSE DATA */
+
+            originalLicenseData = {
+
+              businessName:
+                savedBusinessName,
+
+              taxCode:
+                savedTaxCode,
+
+              businessAddress:
+                savedBusinessAddress,
+
+              bankName:
+                parsedBank.bankName,
+
+              accountNumber:
+                parsedBank.accountNumber,
+
+              accountName:
+                parsedBank.accountName,
+
+              bankInfo:
+                savedBankInfo,
+
+              licenseUrl:
+                savedLicenseUrl,
+
+              qrCodeUrl:
+                savedQrCodeUrl
+
+            };
+
+
+            /* VERIFICATION */
+
+            applyVerificationBadge(
+              providerData.verification_status ||
+              "pending"
+            );
+
+
+            /* CLEAR FILE INPUT */
+
+            document.getElementById(
+              "licenseFileInput"
+            ).value =
+              "";
+
+
+            document.getElementById(
+              "qrCodeInput"
+            ).value =
+              "";
+
+
+            /* PREVIEW */
+
+            renderLicensePreview(
+              savedLicenseUrl
+            );
+
+
+            renderQrPreview(
+              savedQrCodeUrl
+            );
+
+
+            /* DISABLE FORM */
+
+            document
+              .querySelectorAll(
+                "#licenseForm input"
+              )
+              .forEach(field => {
+
+                field.disabled =
+                  true;
+
+              });
+
+
+            document
+              .getElementById(
+                "licenseFormActions"
+              )
+              .classList
+              .remove("show");
+
+
+            document
+              .getElementById(
+                "editLicenseBtn"
+              )
+              .style
+              .display =
+              "inline-flex";
+
+
+            /* SUCCESS MESSAGE */
+
+            let successMessage =
+              "Đã lưu thông tin doanh nghiệp và thanh toán thành công.";
+
+
+            if (
+              licenseFile &&
+              qrFile
+            ) {
+
+              successMessage +=
+                " Giấy phép và mã QR mới đã được upload.";
+
+            }
+
+            else if (
+              licenseFile
+            ) {
+
+              successMessage +=
+                " Giấy phép mới đã được upload.";
+
+            }
+
+            else if (
+              qrFile
+            ) {
+
+              successMessage +=
+                " Mã QR mới đã được upload.";
+
+            }
+
+
+            showLicenseMessage(
+              successMessage,
+              "success"
+            );
+
+          }
+
+          catch (error) {
+
+            console.error(
+              "UPDATE LICENSE ERROR:",
+              error
+            );
+
+
+            showLicenseMessage(
+              "Lỗi kết nối Server Backend. Chi tiết: " +
+              (
+                error?.message ||
+                error
+              ),
+              "error"
+            );
+
+          }
+
+          finally {
+
+            if (saveBtn) {
+
+              saveBtn.disabled =
+                false;
+
+
+              saveBtn.textContent =
+                originalBtnText ||
+                "Lưu thông tin doanh nghiệp";
+
+            }
+
+
+            if (cancelBtn) {
+
+              cancelBtn.disabled =
+                false;
+
+            }
+
+          }
+
+        }
+      );
+
+
+    /* =========================================================
+       LICENSE MESSAGE
+       ========================================================= */
+
+    function showLicenseMessage(
+      text,
+      type = "success"
+    ) {
+
+      const box =
+        document.getElementById(
+          "licenseMessage"
+        );
+
+
+      if (!box) {
+        return;
+      }
+
+
+      box.textContent =
+        text;
+
+
+      box.className =
+        text
+          ? "profile-message " + type
+          : "profile-message";
+
+
+      if (text) {
+
+        box.scrollIntoView({
+
+          behavior:
+            "smooth",
+
+          block:
+            "nearest"
+
+        });
+
+      }
+
+    }
+
+
+    /* =========================================================
+       4. ACCOUNT SETTINGS
+       ========================================================= */
+
+    function loadAccountSettings() {
+
+      const storage =
+        getStorage();
+
+
+      let settings = {
+
+        notifyEmail:
+          true,
+
+        notifyBooking:
+          true
+
+      };
+
+
+      try {
+
+        const raw =
+          storage.getItem(
+            "provider_notification_settings"
+          );
+
+
+        if (raw) {
+
+          const parsed =
+            JSON.parse(
+              raw
+            );
+
+
+          settings = {
+
+            ...settings,
+            ...parsed
+
+          };
+
+        }
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "LOAD ACCOUNT SETTINGS ERROR:",
+          error
+        );
+
+      }
+
+
+      const emailToggle =
+        document.getElementById(
+          "notifyEmailToggle"
+        );
+
+
+      const bookingToggle =
+        document.getElementById(
+          "notifyBookingToggle"
+        );
+
+
+      if (emailToggle) {
+
+        emailToggle.checked =
+          settings.notifyEmail !== false;
+
+      }
+
+
+      if (bookingToggle) {
+
+        bookingToggle.checked =
+          settings.notifyBooking !== false;
+
+      }
+
+    }
+
+
+    function saveAccountSettings() {
+
+      const storage =
+        getStorage();
+
+
+      const emailToggle =
+        document.getElementById(
+          "notifyEmailToggle"
+        );
+
+
+      const bookingToggle =
+        document.getElementById(
+          "notifyBookingToggle"
+        );
+
+
+      const settings = {
+
+        notifyEmail:
+          emailToggle
+            ? emailToggle.checked
+            : true,
+
+        notifyBooking:
+          bookingToggle
+            ? bookingToggle.checked
+            : true,
+
+        updatedAt:
+          new Date().toISOString()
+
+      };
+
+
+      storage.setItem(
+        "provider_notification_settings",
+        JSON.stringify(
+          settings
+        )
+      );
+
+    }
+
+
+    /* =========================================================
+       5. NOTIFICATION SUMMARY
+       ========================================================= */
+
+    async function loadSettingsNotifSummary() {
+
+      const user =
+        getUserData();
+
+
+      const badge =
+        document.getElementById(
+          "settingsNotifBadge"
+        );
+
+
+      const summary =
+        document.getElementById(
+          "settingsNotifSummary"
+        );
+
+
+      if (
+        !user.userId ||
+        !user.token
+      ) {
+
+        if (summary) {
+
+          summary.textContent =
+            "Chưa đăng nhập.";
+
+        }
+
+        return;
+
+      }
+
+
+      try {
+
+        const response =
+          await fetch(
+
+            `${API_BASE_URL}/notifications/user/${user.userId}/unread-count`,
+
+            {
+
+              method: "GET",
+
+              headers: {
+
+                "Authorization":
+                  `Bearer ${user.token}`,
+
+                "Accept":
+                  "application/json"
+
+              }
+
+            }
+
+          );
+
+
+        if (!response.ok) {
+
+          if (summary) {
+
+            summary.textContent =
+              "Không tải được số thông báo.";
+
+          }
+
+          return;
+
+        }
+
+
+        const responseText =
+          await response.text();
+
+
+        let data = {};
+
+
+        try {
+
+          data =
+            responseText
+              ? JSON.parse(
+                responseText
+              )
+              : {};
+
+        }
+
+        catch (error) {
+
+          console.error(
+            "NOTIFICATION JSON ERROR:",
+            error
+          );
+
+        }
+
+
+        const count =
+          Number(
+            data.count || 0
+          );
+
+
+        if (count > 0) {
+
+          if (badge) {
+
+            badge.textContent =
+              count > 99
+                ? "99+"
+                : String(count);
+
+
+            badge.style.display =
+              "block";
+
+          }
+
+
+          if (summary) {
+
+            summary.textContent =
+              `Bạn có ${count} thông báo chưa đọc.`;
+
+          }
+
+        }
+
+        else {
+
+          if (badge) {
+
+            badge.style.display =
+              "none";
+
+          }
+
+
+          if (summary) {
+
+            summary.textContent =
+              "Không có thông báo mới.";
+
+          }
+
+        }
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "LOAD SETTINGS NOTIF SUMMARY ERROR:",
+          error
+        );
+
+
+        if (summary) {
+
+          summary.textContent =
+            "Không thể kết nối đến Backend.";
+
+        }
+
+      }
+
+    }
+
+
+    /* =========================================================
+       INIT
+       ========================================================= */
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      function () {
+
+        loadProfile();
+
+        loadLicenseInfo();
+
+        loadAccountSettings();
+
+        loadSettingsNotifSummary();
+
+      }
+    );
+
+  </script>
+
+</body>
+
+</html>

@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from services.complaint_service import ComplaintService
 from infrastructure.repositories.complaint_repository import ComplaintRepository
 from api.schemas.complaint import ComplaintRequestSchema, ComplaintResponseSchema
-from infrastructure.databases.mssql import session
+from infrastructure.databases.postgres import session
 
 bp = Blueprint('complaint', __name__, url_prefix='/complaints')
 

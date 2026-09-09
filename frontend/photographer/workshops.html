@@ -1,0 +1,3329 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Photographer - Workshops | FilmSpace</title>
+
+  <!-- CSS dùng chung -->
+  <link
+    rel="stylesheet"
+    href="../assets/css/styles.css"
+  >
+
+  <!-- CSS Photographer Home -->
+  <link
+    rel="stylesheet"
+    href="../assets/css/photographer-home.css"
+  >
+
+  <style>
+
+    /* =========================================
+       WORKSHOP PAGE
+       ========================================= */
+
+    .workshop-page {
+      padding-bottom: 60px;
+    }
+
+    .workshop-hero {
+      padding: 60px 0 30px;
+    }
+
+    .workshop-hero h1 {
+      margin-bottom: 12px;
+    }
+
+    .workshop-hero p {
+      color: #666;
+      max-width: 700px;
+    }
+
+    .workshop-page-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .workshop-page-card {
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      overflow: hidden;
+
+      box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.05);
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .workshop-page-card:hover {
+      transform: translateY(-4px);
+
+      box-shadow:
+        0 8px 22px rgba(0, 0, 0, 0.08);
+    }
+
+    .workshop-page-image {
+      width: 100%;
+      height: 210px;
+      overflow: hidden;
+    }
+
+    .workshop-page-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .workshop-page-content {
+      padding: 20px;
+    }
+
+    .workshop-page-status {
+      display: inline-block;
+
+      margin-bottom: 10px;
+
+      padding: 5px 10px;
+
+      border-radius: 20px;
+
+      background: #fce4f1;
+      color: #e13493;
+
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .workshop-page-content h3 {
+      margin: 0 0 12px;
+
+      font-size: 21px;
+    }
+
+    .workshop-page-info {
+      margin-bottom: 8px;
+
+      color: #555;
+
+      font-size: 14px;
+    }
+
+    .workshop-page-description {
+      margin: 14px 0;
+
+      color: #666;
+
+      line-height: 1.5;
+
+      min-height: 45px;
+    }
+
+    .workshop-page-actions {
+      display: flex;
+
+      gap: 10px;
+
+      margin-top: 18px;
+    }
+
+    .workshop-detail-btn,
+    .workshop-register-btn {
+      flex: 1;
+
+      border: none;
+
+      border-radius: 7px;
+
+      padding: 10px 12px;
+
+      cursor: pointer;
+
+      font-size: 14px;
+
+      text-align: center;
+
+      text-decoration: none;
+    }
+
+
+    /* =========================================
+       VIEW DETAIL BUTTON
+       ========================================= */
+
+    .workshop-detail-btn {
+      background: #f1f1f1;
+
+      color: #333;
+    }
+
+    .workshop-detail-btn:hover {
+      background: #e5e5e5;
+    }
+
+
+    /* =========================================
+       REGISTER BUTTON
+       ========================================= */
+
+    .workshop-register-btn {
+      background: #e13493;
+
+      color: #fff;
+
+      font-weight: 600;
+    }
+
+    .workshop-register-btn:hover {
+      background: #c9277f;
+    }
+
+
+    .workshop-register-btn:disabled {
+      background: #aaa;
+
+      color: #fff;
+
+      cursor: not-allowed;
+
+      opacity: 1;
+    }
+
+
+    /* =========================================
+       WORKSHOP DETAIL MODAL
+       ========================================= */
+
+    .workshop-modal {
+      display: none;
+
+      position: fixed;
+
+      z-index: 1000;
+
+      inset: 0;
+
+      background: rgba(0, 0, 0, 0.55);
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 20px;
+    }
+
+    .workshop-modal.active {
+      display: flex;
+    }
+
+    .workshop-modal-content {
+      width: 100%;
+
+      max-width: 650px;
+
+      max-height: 90vh;
+
+      overflow-y: auto;
+
+      background: #fff;
+
+      border-radius: 14px;
+
+      padding: 28px;
+
+      position: relative;
+    }
+
+    .workshop-modal-close {
+      position: absolute;
+
+      top: 15px;
+
+      right: 18px;
+
+      border: none;
+
+      background: none;
+
+      font-size: 28px;
+
+      cursor: pointer;
+
+      color: #555;
+
+      z-index: 2;
+    }
+
+    .workshop-modal-close:hover {
+      color: #e13493;
+    }
+
+    .workshop-modal-image {
+      width: 100%;
+
+      height: 260px;
+
+      overflow: hidden;
+
+      border-radius: 10px;
+
+      margin-bottom: 20px;
+    }
+
+    .workshop-modal-image img {
+      width: 100%;
+
+      height: 100%;
+
+      object-fit: cover;
+    }
+
+    .workshop-modal h2 {
+      margin-bottom: 15px;
+    }
+
+    .workshop-detail-row {
+      margin: 10px 0;
+
+      color: #555;
+    }
+
+    .workshop-modal-description {
+      margin-top: 20px;
+
+      line-height: 1.6;
+
+      color: #555;
+    }
+
+
+    /* =========================================
+       REGISTER BUTTON IN DETAIL
+       ========================================= */
+
+    .modal-register-btn {
+      width: 100%;
+
+      margin-top: 22px;
+
+      padding: 12px;
+
+      border: none;
+
+      border-radius: 8px;
+
+      background: #e13493;
+
+      color: white;
+
+      cursor: pointer;
+
+      font-size: 15px;
+
+      font-weight: 600;
+    }
+
+    .modal-register-btn:hover {
+      background: #c9277f;
+    }
+
+    .modal-register-btn:disabled {
+      background: #aaa;
+
+      color: #fff;
+
+      cursor: not-allowed;
+
+      opacity: 1;
+    }
+
+
+    /* =========================================
+       CONFIRM MODAL
+       ========================================= */
+
+    .workshop-confirm-modal {
+      display: none;
+
+      position: fixed;
+
+      z-index: 2000;
+
+      inset: 0;
+
+      background: rgba(0, 0, 0, 0.55);
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 20px;
+    }
+
+    .workshop-confirm-modal.active {
+      display: flex;
+    }
+
+    .workshop-confirm-box {
+      width: 100%;
+
+      max-width: 420px;
+
+      background: #fff;
+
+      border-radius: 16px;
+
+      padding: 30px;
+
+      text-align: center;
+
+      box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.2);
+
+      animation:
+        workshopModalShow
+        0.2s ease;
+    }
+
+    .workshop-confirm-icon {
+      width: 52px;
+
+      height: 52px;
+
+      margin: 0 auto 16px;
+
+      border-radius: 50%;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      background: #fce4f1;
+
+      color: #e13493;
+
+      font-size: 25px;
+
+      font-weight: 700;
+    }
+
+    .workshop-confirm-box h3 {
+      margin: 0 0 10px;
+
+      font-size: 21px;
+
+      color: #333;
+    }
+
+    .workshop-confirm-box p {
+      margin: 0 0 24px;
+
+      color: #666;
+
+      line-height: 1.5;
+    }
+
+    .workshop-confirm-actions {
+      display: flex;
+
+      gap: 10px;
+    }
+
+    .workshop-confirm-cancel,
+    .workshop-confirm-ok {
+      flex: 1;
+
+      border: none;
+
+      border-radius: 8px;
+
+      padding: 11px 15px;
+
+      font-size: 14px;
+
+      font-weight: 600;
+
+      cursor: pointer;
+    }
+
+    .workshop-confirm-cancel {
+      background: #f1f1f1;
+
+      color: #333;
+    }
+
+    .workshop-confirm-cancel:hover {
+      background: #e4e4e4;
+    }
+
+    .workshop-confirm-ok {
+      background: #e13493;
+
+      color: #fff;
+    }
+
+    .workshop-confirm-ok:hover {
+      background: #c9277f;
+    }
+
+
+    /* =========================================
+       SUCCESS / ERROR MODAL
+       ========================================= */
+
+    .workshop-message-modal {
+      display: none;
+
+      position: fixed;
+
+      z-index: 3000;
+
+      inset: 0;
+
+      background: rgba(0, 0, 0, 0.55);
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 20px;
+    }
+
+    .workshop-message-modal.active {
+      display: flex;
+    }
+
+    .workshop-message-box {
+      width: 100%;
+
+      max-width: 420px;
+
+      background: #fff;
+
+      border-radius: 16px;
+
+      padding: 30px;
+
+      text-align: center;
+
+      box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.2);
+
+      animation:
+        workshopModalShow
+        0.2s ease;
+    }
+
+    .workshop-message-icon {
+      width: 58px;
+
+      height: 58px;
+
+      margin: 0 auto 16px;
+
+      border-radius: 50%;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      background: #fce4f1;
+
+      color: #e13493;
+
+      font-size: 30px;
+
+      font-weight: 700;
+    }
+
+    .workshop-message-box h3 {
+      margin: 0 0 10px;
+
+      font-size: 22px;
+
+      color: #333;
+    }
+
+    .workshop-message-box p {
+      margin: 0 0 24px;
+
+      color: #666;
+
+      line-height: 1.5;
+    }
+
+    .workshop-message-ok {
+      width: 100%;
+
+      border: none;
+
+      border-radius: 8px;
+
+      padding: 11px 15px;
+
+      background: #e13493;
+
+      color: #fff;
+
+      font-size: 14px;
+
+      font-weight: 600;
+
+      cursor: pointer;
+    }
+
+    .workshop-message-ok:hover {
+      background: #c9277f;
+    }
+
+
+    /* =========================================
+       MODAL ANIMATION
+       ========================================= */
+
+    @keyframes workshopModalShow {
+
+      from {
+        opacity: 0;
+
+        transform: scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+
+        transform: scale(1);
+      }
+
+    }
+
+
+    /* =========================================
+       RESPONSIVE
+       ========================================= */
+
+    @media (max-width: 900px) {
+
+      .workshop-page-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+    }
+
+    @media (max-width: 600px) {
+
+      .workshop-page-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .workshop-confirm-actions {
+        flex-direction: column;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- =====================================================
+       NAVBAR
+       ===================================================== -->
+
+  <nav
+    class="navbar"
+    id="mainNavbar"
+  >
+
+    <div class="navbar-container container">
+
+      <a
+        class="logo"
+        href="home.html"
+        aria-label="FilmSpace"
+      >
+        FilmSpace
+      </a>
+
+
+      <div
+        class="menu"
+        aria-label="Photographer navigation"
+      >
+
+        <a href="home.html">
+          Home
+        </a>
+
+        <a href="search.html">
+          Search
+        </a>
+
+        <a href="booking.html">
+          Bookings
+        </a>
+
+        <a
+          href="workshops.html"
+          class="active"
+        >
+          Workshops
+        </a>
+
+        <a href="profile.html">
+          Profile
+        </a>
+
+      </div>
+
+
+      <div class="nav-actions">
+
+        <span
+          class="photographer-nav-name"
+          id="navPhotographerName"
+        >
+          Photographer
+        </span>
+
+        <button
+          type="button"
+          class="photographer-logout"
+          onclick="logout()"
+        >
+          Đăng xuất
+        </button>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+
+  <!-- =====================================================
+       MAIN
+       ===================================================== -->
+
+  <main class="photographer-page workshop-page">
+
+
+    <!-- HERO -->
+
+    <section class="workshop-hero">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <div>
+
+            <h1>
+              Workshops
+            </h1>
+
+            <p>
+              Khám phá và đăng ký các workshop
+              dành cho cộng đồng film photographer.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- WORKSHOP LIST -->
+
+    <section class="dashboard-section">
+
+      <div class="container">
+
+        <div
+          class="workshop-page-grid"
+          id="workshopGrid"
+        >
+        </div>
+
+
+        <p
+          id="workshopLoading"
+          style="
+            text-align: center;
+            display: none;
+          "
+        >
+          Đang tải workshop...
+        </p>
+
+
+        <p
+          id="workshopEmpty"
+          style="
+            text-align: center;
+            display: none;
+          "
+        >
+          Hiện chưa có workshop nào.
+        </p>
+
+
+        <p
+          id="workshopError"
+          style="
+            text-align: center;
+            display: none;
+          "
+        >
+          Không thể tải workshop từ Backend.
+        </p>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================
+       WORKSHOP DETAIL MODAL
+       ===================================================== -->
+
+  <div
+    class="workshop-modal"
+    id="workshopModal"
+  >
+
+    <div class="workshop-modal-content">
+
+      <button
+        type="button"
+        class="workshop-modal-close"
+        onclick="closeWorkshopDetail()"
+      >
+        ×
+      </button>
+
+
+      <div id="workshopDetailContent">
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       CONFIRM MODAL
+       ===================================================== -->
+
+  <div
+    class="workshop-confirm-modal"
+    id="workshopConfirmModal"
+  >
+
+    <div class="workshop-confirm-box">
+
+      <div class="workshop-confirm-icon">
+        ?
+      </div>
+
+
+      <h3>
+        Đăng ký workshop
+      </h3>
+
+
+      <p>
+        Bạn có chắc muốn đăng ký workshop này không?
+      </p>
+
+
+      <div class="workshop-confirm-actions">
+
+        <button
+          type="button"
+          class="workshop-confirm-cancel"
+          onclick="cancelWorkshopRegistration()"
+        >
+          Hủy
+        </button>
+
+
+        <button
+          type="button"
+          class="workshop-confirm-ok"
+          id="confirmWorkshopRegisterBtn"
+          onclick="confirmWorkshopRegistration()"
+        >
+          Đăng ký
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       SUCCESS / ERROR MODAL
+       ===================================================== -->
+
+  <div
+    class="workshop-message-modal"
+    id="workshopMessageModal"
+  >
+
+    <div class="workshop-message-box">
+
+      <div
+        class="workshop-message-icon"
+        id="workshopMessageIcon"
+      >
+        ✓
+      </div>
+
+
+      <h3
+        id="workshopMessageTitle"
+      >
+        Đăng ký thành công!
+      </h3>
+
+
+      <p
+        id="workshopMessageText"
+      >
+        Bạn đã đăng ký workshop thành công.
+      </p>
+
+
+      <button
+        type="button"
+        class="workshop-message-ok"
+        onclick="closeWorkshopMessage()"
+      >
+        OK
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       FOOTER
+       ===================================================== -->
+
+  <footer class="footer">
+
+    <div class="container">
+
+      <div class="footer-top">
+
+        <div class="footer-brand">
+
+          <div class="footer-logo">
+            Photography<span>Platform</span>
+          </div>
+
+          <p>
+            Kết nối các nhiếp ảnh gia phim với các
+            phòng tối và studio đáng tin cậy.
+          </p>
+
+        </div>
+
+
+        <div class="footer-menu">
+
+          <a href="home.html">
+            Home
+          </a>
+
+          <a href="search.html">
+            Search
+          </a>
+
+          <a href="booking.html">
+            Bookings
+          </a>
+
+          <a href="workshops.html">
+            Workshops
+          </a>
+
+          <a href="profile.html">
+            Profile
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <hr class="footer-line">
+
+
+      <div class="footer-bottom">
+
+        <span>
+          Copyright © 2026 Photography Platform.
+          All rights reserved.
+        </span>
+
+
+        <div class="footer-links">
+
+          <a href="#">
+            Privacy Policy
+          </a>
+
+          <a href="#">
+            Terms of Use
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+       ===================================================== -->
+
+  <script>
+
+    const API_BASE_URL =
+      "http://127.0.0.1:9999";
+
+
+    let allWorkshops = [];
+
+
+    /*
+     * ID các workshop mà photographer hiện tại
+     * đã đăng ký.
+     */
+    let registeredWorkshopIds =
+      new Set();
+
+
+    /*
+     * Số lượng người đã đăng ký
+     * theo từng Workshop ID.
+     *
+     * Ví dụ:
+     * 1 => 5
+     * 7 => 3
+     */
+    let registrationCountByWorkshop =
+      new Map();
+
+
+    /*
+     * Workshop đang chờ xác nhận.
+     */
+    let pendingWorkshopId =
+      null;
+
+
+    /* =====================================================
+       WORKSHOP IMAGES
+       ===================================================== */
+
+    const WORKSHOP_IMAGES = {
+
+      1: "../assets/images/15.jpe",
+
+      2: "../assets/images/16.jpe",
+
+      3: "../assets/images/17.jpe",
+
+      6: "../assets/images/18.jpe",
+
+      7: "../assets/images/19.jpe",
+
+      8: "../assets/images/20.jpe",
+
+      9: "../assets/images/21.jpg",
+
+      10: "../assets/images/22.jpg",
+
+      12: "../assets/images/23.jpg"
+
+    };
+
+
+    /* =====================================================
+       USER LOGIN
+       ===================================================== */
+
+    function getLoggedInUser() {
+
+      const storage =
+        localStorage.getItem("auth_token")
+          ? localStorage
+          : sessionStorage;
+
+
+      return {
+
+        token:
+          storage.getItem("auth_token"),
+
+        userId:
+          storage.getItem("user_id"),
+
+        username:
+          storage.getItem("username"),
+
+        fullName:
+          storage.getItem("full_name")
+
+      };
+
+    }
+
+
+    function loadPhotographerInfo() {
+
+      const user =
+        getLoggedInUser();
+
+
+      if (!user.token) {
+
+        window.location.href =
+          "../auth.html";
+
+        return false;
+
+      }
+
+
+      const displayName =
+        user.fullName ||
+        user.username ||
+        "Photographer";
+
+
+      const navName =
+        document.getElementById(
+          "navPhotographerName"
+        );
+
+
+      if (navName) {
+
+        navName.textContent =
+          displayName;
+
+      }
+
+
+      return true;
+
+    }
+
+
+    /* =====================================================
+       LOAD REGISTERED WORKSHOPS
+       ===================================================== */
+
+    async function loadRegisteredWorkshops() {
+
+      const user =
+        getLoggedInUser();
+
+
+      registeredWorkshopIds =
+        new Set();
+
+
+      if (
+        !user.token ||
+        !user.userId
+      ) {
+
+        return;
+
+      }
+
+
+      try {
+
+        const response =
+          await fetch(
+            `${API_BASE_URL}/workshop-registrations/user/${user.userId}`,
+            {
+              method: "GET",
+
+              headers: {
+                "Authorization":
+                  `Bearer ${user.token}`,
+
+                "Accept":
+                  "application/json"
+              }
+            }
+          );
+
+
+        if (!response.ok) {
+
+          console.warn(
+            "Không thể lấy danh sách workshop đã đăng ký."
+          );
+
+          return;
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        const registrations =
+          Array.isArray(data)
+            ? data
+            : [];
+
+
+        registrations.forEach(
+          function(registration) {
+
+            const workshopId =
+              registration.workshop_id ??
+              registration.WorkshopID ??
+              registration.workshopId;
+
+
+            if (
+              workshopId !==
+              undefined &&
+              workshopId !== null
+            ) {
+
+              registeredWorkshopIds.add(
+                Number(
+                  workshopId
+                )
+              );
+
+            }
+
+          }
+        );
+
+
+        console.log(
+          "Registered workshop IDs:",
+          [...registeredWorkshopIds]
+        );
+
+
+      } catch (errorObject) {
+
+        console.error(
+          "LOAD REGISTERED WORKSHOPS ERROR:",
+          errorObject
+        );
+
+      }
+
+    }
+
+
+    /* =====================================================
+       LOAD REGISTRATION COUNTS
+       ===================================================== */
+
+    async function loadRegistrationCounts(
+      workshops
+    ) {
+
+      registrationCountByWorkshop =
+        new Map();
+
+
+      if (
+        !Array.isArray(workshops) ||
+        workshops.length === 0
+      ) {
+
+        return;
+
+      }
+
+
+      const results =
+        await Promise.all(
+          workshops.map(
+            async function(workshop) {
+
+              const workshopId =
+                Number(
+                  workshop.id
+                );
+
+
+              try {
+
+                const response =
+                  await fetch(
+                    `${API_BASE_URL}/workshop-registrations/workshop/${workshopId}`,
+                    {
+                      method: "GET",
+
+                      headers: {
+                        "Accept":
+                          "application/json"
+                      }
+                    }
+                  );
+
+
+                if (!response.ok) {
+
+                  return {
+                    workshopId,
+                    count: 0
+                  };
+
+                }
+
+
+                const data =
+                  await response.json();
+
+
+                const registrations =
+                  Array.isArray(data)
+                    ? data
+                    : [];
+
+
+                return {
+
+                  workshopId,
+
+                  count:
+                    registrations.length
+
+                };
+
+              } catch (errorObject) {
+
+                console.warn(
+                  `Không lấy được số lượng đăng ký của workshop ${workshopId}:`,
+                  errorObject
+                );
+
+
+                return {
+
+                  workshopId,
+
+                  count: 0
+
+                };
+
+              }
+
+            }
+          )
+        );
+
+
+      results.forEach(
+        function(result) {
+
+          registrationCountByWorkshop.set(
+            Number(
+              result.workshopId
+            ),
+            Number(
+              result.count
+            )
+          );
+
+        }
+      );
+
+
+      console.log(
+        "Registration counts:",
+        Object.fromEntries(
+          registrationCountByWorkshop
+        )
+      );
+
+    }
+
+
+    /* =====================================================
+       LOAD WORKSHOPS
+       ===================================================== */
+
+    async function loadWorkshops() {
+
+      const grid =
+        document.getElementById(
+          "workshopGrid"
+        );
+
+
+      const loading =
+        document.getElementById(
+          "workshopLoading"
+        );
+
+
+      const empty =
+        document.getElementById(
+          "workshopEmpty"
+        );
+
+
+      const error =
+        document.getElementById(
+          "workshopError"
+        );
+
+
+      try {
+
+        loading.style.display =
+          "block";
+
+
+        empty.style.display =
+          "none";
+
+
+        error.style.display =
+          "none";
+
+
+        const response =
+          await fetch(
+            `${API_BASE_URL}/workshops/`
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            `HTTP ${response.status}`
+          );
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        allWorkshops =
+          Array.isArray(data)
+            ? data
+            : [];
+
+
+        console.log(
+          "WORKSHOP DATA:",
+          allWorkshops
+        );
+
+
+        /*
+         * Load workshop mà photographer
+         * đã đăng ký.
+         */
+        await loadRegisteredWorkshops();
+
+
+        /*
+         * Chỉ lấy workshop chưa cancelled
+         * để kiểm tra số lượng đăng ký.
+         */
+        const availableWorkshops =
+          allWorkshops.filter(
+            function(workshop) {
+
+              const status =
+                String(
+                  workshop.status ||
+                  ""
+                ).toLowerCase();
+
+
+              return status !==
+                "cancelled";
+
+            }
+          );
+
+
+        /*
+         * Load số lượng người đăng ký
+         * của từng workshop.
+         */
+        await loadRegistrationCounts(
+          availableWorkshops
+        );
+
+
+        loading.style.display =
+          "none";
+
+
+        if (
+          allWorkshops.length === 0
+        ) {
+
+          grid.innerHTML =
+            "";
+
+
+          empty.style.display =
+            "block";
+
+
+          return;
+
+        }
+
+
+        renderWorkshops(
+          availableWorkshops
+        );
+
+
+        if (
+          availableWorkshops.length === 0
+        ) {
+
+          empty.style.display =
+            "block";
+
+        }
+
+      } catch (errorObject) {
+
+        console.error(
+          "LOAD WORKSHOPS ERROR:",
+          errorObject
+        );
+
+
+        loading.style.display =
+          "none";
+
+
+        error.style.display =
+          "block";
+
+      }
+
+    }
+
+
+    /* =====================================================
+       RENDER WORKSHOPS
+       ===================================================== */
+
+    function renderWorkshops(
+      workshops
+    ) {
+
+      const grid =
+        document.getElementById(
+          "workshopGrid"
+        );
+
+
+      grid.innerHTML =
+        "";
+
+
+      workshops.forEach(
+        function(workshop) {
+
+          const card =
+            document.createElement(
+              "article"
+            );
+
+
+          card.className =
+            "workshop-page-card";
+
+
+          const workshopId =
+            Number(
+              workshop.id
+            );
+
+
+          const imageUrl =
+            getWorkshopImage(
+              workshop
+            );
+
+
+          const start =
+            new Date(
+              workshop.start_time
+            );
+
+
+          const end =
+            new Date(
+              workshop.end_time
+            );
+
+
+          const status =
+            String(
+              workshop.status || ""
+            ).toLowerCase();
+
+
+          /*
+           * Số người đã đăng ký thực tế.
+           */
+          const registrationCount =
+            Number(
+              registrationCountByWorkshop.get(
+                workshopId
+              ) || 0
+            );
+
+
+          /*
+           * Sức chứa.
+           */
+          const capacity =
+            Number(
+              workshop.capacity
+            );
+
+
+          /*
+           * Full nếu:
+           *
+           * 1. Backend status = full
+           * HOẶC
+           * 2. số người đăng ký >= capacity
+           */
+          const isFull =
+            status === "full" ||
+            (
+              Number.isFinite(capacity) &&
+              capacity > 0 &&
+              registrationCount >= capacity
+            );
+
+
+          /*
+           * Photographer hiện tại đã đăng ký chưa.
+           */
+          const isRegistered =
+            registeredWorkshopIds.has(
+              workshopId
+            );
+
+
+          /*
+           * Hiển thị trạng thái.
+           */
+          const displayStatus =
+            isFull
+              ? "full"
+              : status;
+
+
+          const statusText =
+            getWorkshopStatusText(
+              displayStatus
+            );
+
+
+          const description =
+            workshop.description ||
+            "Chưa có mô tả workshop.";
+
+
+          card.innerHTML = `
+
+            <div class="workshop-page-image">
+
+              <img
+                src="${escapeHtml(imageUrl)}"
+                alt="${escapeHtml(
+                  workshop.title ||
+                  "Workshop"
+                )}"
+                onerror="this.src='../assets/images/2.webp'"
+              >
+
+            </div>
+
+
+            <div class="workshop-page-content">
+
+              <span class="workshop-page-status">
+
+                ${escapeHtml(
+                  statusText
+                )}
+
+              </span>
+
+
+              <h3>
+
+                ${escapeHtml(
+                  workshop.title ||
+                  "Chưa cập nhật"
+                )}
+
+              </h3>
+
+
+              <p class="workshop-page-info">
+
+                📅
+
+                ${escapeHtml(
+                  formatDate(start)
+                )}
+
+              </p>
+
+
+              <p class="workshop-page-info">
+
+                🕐
+
+                ${escapeHtml(
+                  formatTimeRange(
+                    start,
+                    end
+                  )
+                )}
+
+              </p>
+
+
+              <p class="workshop-page-info">
+
+                📍
+
+                ${escapeHtml(
+                  workshop.location ||
+                  "Chưa cập nhật"
+                )}
+
+              </p>
+
+
+              <p class="workshop-page-info">
+
+                👥
+
+                Sức chứa:
+
+                ${escapeHtml(
+                  workshop.capacity ??
+                  "Chưa cập nhật"
+                )}
+
+              </p>
+
+
+              <p class="workshop-page-info">
+
+                👤
+
+                Đã đăng ký:
+
+                ${registrationCount}
+
+                /
+
+                ${escapeHtml(
+                  workshop.capacity ??
+                  "?"
+                )}
+
+              </p>
+
+
+              <p class="workshop-page-description">
+
+                ${escapeHtml(
+                  description
+                )}
+
+              </p>
+
+
+              <div class="workshop-page-actions">
+
+
+                <!-- XEM CHI TIẾT -->
+
+                <button
+                  type="button"
+                  class="workshop-detail-btn"
+                  onclick="viewWorkshopDetail(
+                    ${workshopId}
+                  )"
+                >
+                  Xem chi tiết
+                </button>
+
+
+                <!-- ĐĂNG KÝ -->
+
+                <button
+                  type="button"
+                  class="workshop-register-btn"
+                  onclick="registerWorkshop(
+                    ${workshopId}
+                  )"
+
+                  ${
+                    isFull ||
+                    isRegistered
+                      ? "disabled"
+                      : ""
+                  }
+                >
+
+                  ${
+                    isRegistered
+                      ? "Đã đăng ký"
+                      : isFull
+                        ? "Đã đầy"
+                        : "Đăng ký"
+                  }
+
+                </button>
+
+
+              </div>
+
+            </div>
+
+          `;
+
+
+          grid.appendChild(
+            card
+          );
+
+        }
+      );
+
+    }
+
+
+    /* =====================================================
+       VIEW WORKSHOP DETAIL
+       ===================================================== */
+
+    async function viewWorkshopDetail(
+      workshopId
+    ) {
+
+      const modal =
+        document.getElementById(
+          "workshopModal"
+        );
+
+
+      const content =
+        document.getElementById(
+          "workshopDetailContent"
+        );
+
+
+      try {
+
+        content.innerHTML = `
+
+          <p style="text-align:center;">
+            Đang tải chi tiết...
+          </p>
+
+        `;
+
+
+        modal.classList.add(
+          "active"
+        );
+
+
+        const response =
+          await fetch(
+            `${API_BASE_URL}/workshops/${workshopId}`
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            `HTTP ${response.status}`
+          );
+
+        }
+
+
+        const workshop =
+          await response.json();
+
+
+        const start =
+          new Date(
+            workshop.start_time
+          );
+
+
+        const end =
+          new Date(
+            workshop.end_time
+          );
+
+
+        const workshopNumericId =
+          Number(
+            workshop.id
+          );
+
+
+        /*
+         * Lấy số lượng đăng ký mới nhất
+         * khi mở detail.
+         */
+        let registrationCount =
+          Number(
+            registrationCountByWorkshop.get(
+              workshopNumericId
+            ) || 0
+          );
+
+
+        try {
+
+          const registrationResponse =
+            await fetch(
+              `${API_BASE_URL}/workshop-registrations/workshop/${workshopNumericId}`,
+              {
+                method: "GET",
+
+                headers: {
+                  "Accept":
+                    "application/json"
+                }
+              }
+            );
+
+
+          if (
+            registrationResponse.ok
+          ) {
+
+            const registrations =
+              await registrationResponse.json();
+
+
+            registrationCount =
+              Array.isArray(
+                registrations
+              )
+                ? registrations.length
+                : 0;
+
+
+            registrationCountByWorkshop.set(
+              workshopNumericId,
+              registrationCount
+            );
+
+          }
+
+        } catch (registrationError) {
+
+          console.warn(
+            "Không lấy được số lượng đăng ký:",
+            registrationError
+          );
+
+        }
+
+
+        const status =
+          String(
+            workshop.status || ""
+          ).toLowerCase();
+
+
+        const capacity =
+          Number(
+            workshop.capacity
+          );
+
+
+        const isFull =
+          status === "full" ||
+          (
+            Number.isFinite(capacity) &&
+            capacity > 0 &&
+            registrationCount >= capacity
+          );
+
+
+        const isRegistered =
+          registeredWorkshopIds.has(
+            workshopNumericId
+          );
+
+
+        const displayStatus =
+          isFull
+            ? "full"
+            : status;
+
+
+        const imageUrl =
+          getWorkshopImage(
+            workshop
+          );
+
+
+        content.innerHTML = `
+
+          <div class="workshop-modal-image">
+
+            <img
+              src="${escapeHtml(imageUrl)}"
+              alt="${escapeHtml(
+                workshop.title ||
+                "Workshop"
+              )}"
+              onerror="this.src='../assets/images/2.webp'"
+            >
+
+          </div>
+
+
+          <h2>
+
+            ${escapeHtml(
+              workshop.title ||
+              "Workshop"
+            )}
+
+          </h2>
+
+
+          <p class="workshop-detail-row">
+
+            📅
+
+            <strong>
+              Ngày:
+            </strong>
+
+            ${escapeHtml(
+              formatDate(start)
+            )}
+
+          </p>
+
+
+          <p class="workshop-detail-row">
+
+            🕐
+
+            <strong>
+              Thời gian:
+            </strong>
+
+            ${escapeHtml(
+              formatTimeRange(
+                start,
+                end
+              )
+            )}
+
+          </p>
+
+
+          <p class="workshop-detail-row">
+
+            📍
+
+            <strong>
+              Địa điểm:
+            </strong>
+
+            ${escapeHtml(
+              workshop.location ||
+              "Chưa cập nhật"
+            )}
+
+          </p>
+
+
+          <p class="workshop-detail-row">
+
+            👥
+
+            <strong>
+              Sức chứa:
+            </strong>
+
+            ${escapeHtml(
+              workshop.capacity ??
+              "Chưa cập nhật"
+            )}
+
+          </p>
+
+
+          <p class="workshop-detail-row">
+
+            👤
+
+            <strong>
+              Đã đăng ký:
+            </strong>
+
+            ${registrationCount}
+            /
+            ${escapeHtml(
+              workshop.capacity ??
+              "?"
+            )}
+
+          </p>
+
+
+          <p class="workshop-detail-row">
+
+            <strong>
+              Trạng thái:
+            </strong>
+
+            ${escapeHtml(
+              getWorkshopStatusText(
+                displayStatus
+              )
+            )}
+
+          </p>
+
+
+          <div class="workshop-modal-description">
+
+            <strong>
+              Mô tả
+            </strong>
+
+            <p>
+
+              ${escapeHtml(
+                workshop.description ||
+                "Chưa có mô tả."
+              )}
+
+            </p>
+
+          </div>
+
+
+          <!-- REGISTER BUTTON -->
+
+          <button
+            type="button"
+            class="modal-register-btn"
+
+            onclick="registerWorkshop(
+              ${workshopNumericId}
+            )"
+
+            ${
+              isRegistered ||
+              isFull ||
+              status === "cancelled"
+                ? "disabled"
+                : ""
+            }
+          >
+
+            ${
+              isRegistered
+                ? "Đã đăng ký"
+                : isFull
+                  ? "Đã đầy"
+                  : status === "cancelled"
+                    ? "Đã hủy"
+                    : "Đăng ký"
+            }
+
+          </button>
+
+        `;
+
+      } catch (errorObject) {
+
+        console.error(
+          "LOAD WORKSHOP DETAIL ERROR:",
+          errorObject
+        );
+
+
+        content.innerHTML = `
+
+          <p style="text-align:center;">
+            Không thể tải chi tiết workshop.
+          </p>
+
+        `;
+
+      }
+
+    }
+
+
+    /* =====================================================
+       OPEN CONFIRM MODAL
+       ===================================================== */
+
+    async function registerWorkshop(
+      workshopId
+    ) {
+
+      const user =
+        getLoggedInUser();
+
+
+      if (!user.token) {
+
+        window.location.href =
+          "../auth.html";
+
+        return;
+
+      }
+
+
+      if (!user.userId) {
+
+        showWorkshopMessage(
+          "Không thể đăng ký",
+          "Không tìm thấy thông tin photographer.",
+          "!"
+        );
+
+        return;
+
+      }
+
+
+      const numericWorkshopId =
+        Number(
+          workshopId
+        );
+
+
+      /*
+       * Không cho đăng ký lại.
+       */
+      if (
+        registeredWorkshopIds.has(
+          numericWorkshopId
+        )
+      ) {
+
+        showWorkshopMessage(
+          "Đã đăng ký",
+          "Bạn đã đăng ký workshop này.",
+          "✓"
+        );
+
+        return;
+
+      }
+
+
+      const workshop =
+        allWorkshops.find(
+          function(item) {
+
+            return Number(
+              item.id
+            ) ===
+              numericWorkshopId;
+
+          }
+        );
+
+
+      if (!workshop) {
+
+        showWorkshopMessage(
+          "Không thể đăng ký",
+          "Không tìm thấy workshop.",
+          "!"
+        );
+
+        return;
+
+      }
+
+
+      const status =
+        String(
+          workshop.status || ""
+        ).toLowerCase();
+
+
+      /*
+       * Kiểm tra lại số lượng đăng ký
+       * mới nhất trước khi mở confirm.
+       */
+      let registrationCount =
+        Number(
+          registrationCountByWorkshop.get(
+            numericWorkshopId
+          ) || 0
+        );
+
+
+      try {
+
+        const registrationResponse =
+          await fetch(
+            `${API_BASE_URL}/workshop-registrations/workshop/${numericWorkshopId}`,
+            {
+              method: "GET",
+
+              headers: {
+                "Accept":
+                  "application/json"
+              }
+            }
+          );
+
+
+        if (
+          registrationResponse.ok
+        ) {
+
+          const registrations =
+            await registrationResponse.json();
+
+
+          registrationCount =
+            Array.isArray(
+              registrations
+            )
+              ? registrations.length
+              : 0;
+
+
+          registrationCountByWorkshop.set(
+            numericWorkshopId,
+            registrationCount
+          );
+
+        }
+
+      } catch (errorObject) {
+
+        console.warn(
+          "Không cập nhật được số lượng đăng ký:",
+          errorObject
+        );
+
+      }
+
+
+      const capacity =
+        Number(
+          workshop.capacity
+        );
+
+
+      const isFull =
+        status === "full" ||
+        (
+          Number.isFinite(capacity) &&
+          capacity > 0 &&
+          registrationCount >= capacity
+        );
+
+
+      if (isFull) {
+
+        /*
+         * Cập nhật giao diện ngay.
+         */
+        renderAvailableWorkshops();
+
+
+        showWorkshopMessage(
+          "Workshop đã đầy",
+          "Workshop này đã đủ số lượng người đăng ký.",
+          "!"
+        );
+
+        return;
+
+      }
+
+
+      if (
+        status === "cancelled"
+      ) {
+
+        showWorkshopMessage(
+          "Workshop đã hủy",
+          "Workshop này đã bị hủy.",
+          "!"
+        );
+
+        return;
+
+      }
+
+
+      pendingWorkshopId =
+        numericWorkshopId;
+
+
+      const confirmModal =
+        document.getElementById(
+          "workshopConfirmModal"
+        );
+
+
+      confirmModal.classList.add(
+        "active"
+      );
+
+    }
+
+
+    /* =====================================================
+       RENDER AVAILABLE WORKSHOPS
+       ===================================================== */
+
+    function renderAvailableWorkshops() {
+
+      const availableWorkshops =
+        allWorkshops.filter(
+          function(workshop) {
+
+            const status =
+              String(
+                workshop.status || ""
+              ).toLowerCase();
+
+
+            return status !==
+              "cancelled";
+
+          }
+        );
+
+
+      renderWorkshops(
+        availableWorkshops
+      );
+
+    }
+
+
+    /* =====================================================
+       CONFIRM REGISTRATION
+       ===================================================== */
+
+    async function confirmWorkshopRegistration() {
+
+      const user =
+        getLoggedInUser();
+
+
+      if (
+        pendingWorkshopId === null
+      ) {
+
+        closeWorkshopConfirm();
+
+        return;
+
+      }
+
+
+      const workshopId =
+        Number(
+          pendingWorkshopId
+        );
+
+
+      const confirmButton =
+        document.getElementById(
+          "confirmWorkshopRegisterBtn"
+        );
+
+
+      try {
+
+        confirmButton.disabled =
+          true;
+
+
+        confirmButton.textContent =
+          "Đang đăng ký...";
+
+
+        /*
+         * Kiểm tra capacity lần cuối trước
+         * khi POST.
+         */
+        const workshop =
+          allWorkshops.find(
+            function(item) {
+
+              return Number(
+                item.id
+              ) === workshopId;
+
+            }
+          );
+
+
+        if (workshop) {
+
+          const currentCount =
+            Number(
+              registrationCountByWorkshop.get(
+                workshopId
+              ) || 0
+            );
+
+
+          const capacity =
+            Number(
+              workshop.capacity
+            );
+
+
+          if (
+            Number.isFinite(capacity) &&
+            capacity > 0 &&
+            currentCount >= capacity
+          ) {
+
+            closeWorkshopConfirm();
+
+
+            showWorkshopMessage(
+              "Workshop đã đầy",
+              "Workshop này đã đủ số lượng người đăng ký.",
+              "!"
+            );
+
+
+            renderAvailableWorkshops();
+
+
+            return;
+
+          }
+
+        }
+
+
+        const response =
+          await fetch(
+            `${API_BASE_URL}/workshop-registrations/`,
+            {
+
+              method: "POST",
+
+
+              headers: {
+
+                "Content-Type":
+                  "application/json",
+
+                "Authorization":
+                  `Bearer ${user.token}`
+
+              },
+
+
+              body:
+                JSON.stringify({
+
+                  workshop_id:
+                    workshopId,
+
+                  user_id:
+                    Number(
+                      user.userId
+                    )
+
+                })
+
+            }
+          );
+
+
+        let data = {};
+
+
+        try {
+
+          data =
+            await response.json();
+
+        } catch {
+
+          data = {};
+
+        }
+
+
+        if (!response.ok) {
+
+          const backendMessage =
+            String(
+              data.message ||
+              data.error ||
+              ""
+            );
+
+
+          /*
+           * Backend báo đã đăng ký.
+           */
+          if (
+            backendMessage
+              .toLowerCase()
+              .includes(
+                "already registered"
+              )
+          ) {
+
+            registeredWorkshopIds.add(
+              workshopId
+            );
+
+
+            closeWorkshopConfirm();
+
+
+            showWorkshopMessage(
+              "Đã đăng ký",
+              "Bạn đã đăng ký workshop này.",
+              "✓"
+            );
+
+
+            renderAvailableWorkshops();
+
+
+            return;
+
+          }
+
+
+          /*
+           * Backend báo full / capacity.
+           */
+          const lowerMessage =
+            backendMessage.toLowerCase();
+
+
+          if (
+            lowerMessage.includes("full") ||
+            lowerMessage.includes("capacity") ||
+            lowerMessage.includes("maximum") ||
+            lowerMessage.includes("limit")
+          ) {
+
+            /*
+             * Cố gắng đồng bộ lại
+             * số lượng đăng ký.
+             */
+            await refreshWorkshopRegistrationCount(
+              workshopId
+            );
+
+
+            closeWorkshopConfirm();
+
+
+            showWorkshopMessage(
+              "Workshop đã đầy",
+              "Workshop này đã đủ số lượng người đăng ký.",
+              "!"
+            );
+
+
+            renderAvailableWorkshops();
+
+
+            return;
+
+          }
+
+
+          closeWorkshopConfirm();
+
+
+          showWorkshopMessage(
+            "Đăng ký không thành công",
+            backendMessage ||
+            "Không thể đăng ký workshop.",
+            "!"
+          );
+
+
+          return;
+
+        }
+
+
+        /* =====================================
+           ĐĂNG KÝ THÀNH CÔNG
+           ===================================== */
+
+
+        registeredWorkshopIds.add(
+          workshopId
+        );
+
+
+        /*
+         * Tăng số lượng đăng ký ngay lập tức.
+         */
+        const currentCount =
+          Number(
+            registrationCountByWorkshop.get(
+              workshopId
+            ) || 0
+          );
+
+
+        registrationCountByWorkshop.set(
+          workshopId,
+          currentCount + 1
+        );
+
+
+        closeWorkshopConfirm();
+
+
+        closeWorkshopDetail();
+
+
+        showWorkshopMessage(
+          "Đăng ký thành công!",
+          "Bạn đã đăng ký workshop thành công.",
+          "✓"
+        );
+
+
+        renderAvailableWorkshops();
+
+
+        /*
+         * Đồng bộ lại dữ liệu thật từ Backend.
+         */
+        await refreshWorkshopRegistrationCount(
+          workshopId
+        );
+
+
+        renderAvailableWorkshops();
+
+      } catch (errorObject) {
+
+        console.error(
+          "REGISTER WORKSHOP ERROR:",
+          errorObject
+        );
+
+
+        closeWorkshopConfirm();
+
+
+        showWorkshopMessage(
+          "Không thể đăng ký",
+          "Không thể kết nối đến Backend.",
+          "!"
+        );
+
+      } finally {
+
+        confirmButton.disabled =
+          false;
+
+
+        confirmButton.textContent =
+          "Đăng ký";
+
+
+        pendingWorkshopId =
+          null;
+
+      }
+
+    }
+
+
+    /* =====================================================
+       REFRESH ONE WORKSHOP COUNT
+       ===================================================== */
+
+    async function refreshWorkshopRegistrationCount(
+      workshopId
+    ) {
+
+      try {
+
+        const response =
+          await fetch(
+            `${API_BASE_URL}/workshop-registrations/workshop/${workshopId}`,
+            {
+              method: "GET",
+
+              headers: {
+                "Accept":
+                  "application/json"
+              }
+            }
+          );
+
+
+        if (!response.ok) {
+
+          return;
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        const count =
+          Array.isArray(data)
+            ? data.length
+            : 0;
+
+
+        registrationCountByWorkshop.set(
+          Number(workshopId),
+          count
+        );
+
+      } catch (errorObject) {
+
+        console.warn(
+          "REFRESH WORKSHOP COUNT ERROR:",
+          errorObject
+        );
+
+      }
+
+    }
+
+
+    /* =====================================================
+       CANCEL CONFIRM
+       ===================================================== */
+
+    function cancelWorkshopRegistration() {
+
+      pendingWorkshopId =
+        null;
+
+
+      closeWorkshopConfirm();
+
+    }
+
+
+    function closeWorkshopConfirm() {
+
+      const modal =
+        document.getElementById(
+          "workshopConfirmModal"
+        );
+
+
+      modal.classList.remove(
+        "active"
+      );
+
+    }
+
+
+    /* =====================================================
+       SUCCESS / ERROR MESSAGE
+       ===================================================== */
+
+    function showWorkshopMessage(
+      title,
+      message,
+      icon
+    ) {
+
+      const modal =
+        document.getElementById(
+          "workshopMessageModal"
+        );
+
+
+      const titleElement =
+        document.getElementById(
+          "workshopMessageTitle"
+        );
+
+
+      const messageElement =
+        document.getElementById(
+          "workshopMessageText"
+        );
+
+
+      const iconElement =
+        document.getElementById(
+          "workshopMessageIcon"
+        );
+
+
+      titleElement.textContent =
+        title;
+
+
+      messageElement.textContent =
+        message;
+
+
+      iconElement.textContent =
+        icon;
+
+
+      modal.classList.add(
+        "active"
+      );
+
+    }
+
+
+    function closeWorkshopMessage() {
+
+      const modal =
+        document.getElementById(
+          "workshopMessageModal"
+        );
+
+
+      modal.classList.remove(
+        "active"
+      );
+
+    }
+
+
+    /* =====================================================
+       CLOSE DETAIL
+       ===================================================== */
+
+    function closeWorkshopDetail() {
+
+      const modal =
+        document.getElementById(
+          "workshopModal"
+        );
+
+
+      modal.classList.remove(
+        "active"
+      );
+
+    }
+
+
+    /* =====================================================
+       CLICK OUTSIDE DETAIL MODAL
+       ===================================================== */
+
+    document
+      .getElementById(
+        "workshopModal"
+      )
+      .addEventListener(
+        "click",
+        function(event) {
+
+          if (
+            event.target === this
+          ) {
+
+            closeWorkshopDetail();
+
+          }
+
+        }
+      );
+
+
+    /* =====================================================
+       CLICK OUTSIDE CONFIRM MODAL
+       ===================================================== */
+
+    document
+      .getElementById(
+        "workshopConfirmModal"
+      )
+      .addEventListener(
+        "click",
+        function(event) {
+
+          if (
+            event.target === this
+          ) {
+
+            cancelWorkshopRegistration();
+
+          }
+
+        }
+      );
+
+
+    /* =====================================================
+       CLICK OUTSIDE MESSAGE MODAL
+       ===================================================== */
+
+    document
+      .getElementById(
+        "workshopMessageModal"
+      )
+      .addEventListener(
+        "click",
+        function(event) {
+
+          if (
+            event.target === this
+          ) {
+
+            closeWorkshopMessage();
+
+          }
+
+        }
+      );
+
+
+    /* =====================================================
+       HELPERS
+       ===================================================== */
+
+    function getWorkshopImage(
+      workshop
+    ) {
+
+      const workshopId =
+        Number(
+          workshop.id
+        );
+
+
+      return (
+        WORKSHOP_IMAGES[
+          workshopId
+        ] ||
+        "../assets/images/2.webp"
+      );
+
+    }
+
+
+    function getWorkshopStatusText(
+      status
+    ) {
+
+      const statusMap = {
+
+        open:
+          "Còn chỗ",
+
+        full:
+          "Đã đầy",
+
+        upcoming:
+          "Sắp diễn ra",
+
+        cancelled:
+          "Đã hủy",
+
+        completed:
+          "Đã hoàn thành"
+
+      };
+
+
+      return (
+        statusMap[
+          String(
+            status ||
+            ""
+          ).toLowerCase()
+        ] ||
+        status ||
+        "Sắp diễn ra"
+      );
+
+    }
+
+
+    function formatDate(
+      date
+    ) {
+
+      if (
+        !date ||
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+
+        return "Chưa cập nhật";
+
+      }
+
+
+      return date.toLocaleDateString(
+        "en-GB",
+        {
+          day: "2-digit",
+
+          month: "short",
+
+          year: "numeric"
+        }
+      );
+
+    }
+
+
+    function formatTime(
+      date
+    ) {
+
+      if (
+        !date ||
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+
+        return "--:--";
+
+      }
+
+
+      return date.toLocaleTimeString(
+        "en-GB",
+        {
+          hour: "2-digit",
+
+          minute: "2-digit",
+
+          hour12: false
+        }
+      );
+
+    }
+
+
+    function formatTimeRange(
+      start,
+      end
+    ) {
+
+      return (
+        `${formatTime(start)} - ` +
+        `${formatTime(end)}`
+      );
+
+    }
+
+
+    function escapeHtml(
+      value
+    ) {
+
+      return String(
+        value ?? ""
+      )
+
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+
+        .replace(
+          /</g,
+          "&lt;"
+        )
+
+        .replace(
+          />/g,
+          "&gt;"
+        )
+
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+
+        .replace(
+          /'/g,
+          "&#039;"
+        );
+
+    }
+
+
+    /* =====================================================
+       LOGOUT
+       ===================================================== */
+
+    function logout() {
+
+      localStorage.removeItem(
+        "auth_token"
+      );
+
+      localStorage.removeItem(
+        "user_id"
+      );
+
+      localStorage.removeItem(
+        "role_id"
+      );
+
+      localStorage.removeItem(
+        "provider_id"
+      );
+
+      localStorage.removeItem(
+        "username"
+      );
+
+      localStorage.removeItem(
+        "full_name"
+      );
+
+
+      sessionStorage.removeItem(
+        "auth_token"
+      );
+
+      sessionStorage.removeItem(
+        "user_id"
+      );
+
+      sessionStorage.removeItem(
+        "role_id"
+      );
+
+      sessionStorage.removeItem(
+        "provider_id"
+      );
+
+      sessionStorage.removeItem(
+        "username"
+      );
+
+      sessionStorage.removeItem(
+        "full_name"
+      );
+
+
+      window.location.href =
+        "../auth.html";
+
+    }
+
+
+    /* =====================================================
+       INITIALIZE
+       ===================================================== */
+
+    async function initializeWorkshops() {
+
+      if (
+        !loadPhotographerInfo()
+      ) {
+
+        return;
+
+      }
+
+
+      await loadWorkshops();
+
+    }
+
+
+    initializeWorkshops();
+
+  </script>
+
+
+</body>
+
+</html>

@@ -3,7 +3,7 @@ from services.category_service import CategoryService
 from infrastructure.repositories.category_repository import CategoryRepository
 from api.schemas.category import CategoryRequestSchema, CategoryResponseSchema
 from datetime import datetime
-from infrastructure.databases.mssql import session
+from infrastructure.databases.postgres import session
 
 bp = Blueprint('category', __name__, url_prefix='/categories')
 
