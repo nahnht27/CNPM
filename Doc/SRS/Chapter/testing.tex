@@ -1,0 +1,286 @@
+\chapter{TÀI LIỆU KIỂM THỬ PHẦN MỀM}
+
+
+\section{Phạm vi kiểm thử}
+
+Phạm vi kiểm thử tập trung vào các chức năng chính của hệ thống kết nối cộng đồng nhiếp ảnh phim với các dịch vụ Darkroom và Studio đã được triển khai đầy đủ ở cả Frontend và Backend. Mục tiêu của kiểm thử là xác định hệ thống có hoạt động đúng theo yêu cầu chức năng hay không, dữ liệu có được xử lý chính xác hay không, đồng thời đảm bảo người dùng chỉ có thể thực hiện các chức năng phù hợp với vai trò của mình.
+
+Hệ thống gồm ba tác nhân chính: Photographer, Service Provider và Administrator. Phạm vi kiểm thử được phân chia theo các nhóm chức năng của từng tác nhân.
+
+\subsection{Các chức năng được kiểm thử}
+
+Các chức năng sau được đưa vào phạm vi kiểm thử:
+
+\begin{itemize}
+	\item \textbf{Chức năng xác thực}
+	\begin{itemize}
+		\item Đăng ký tài khoản Photographer.
+		\item Đăng nhập.
+		\item Đăng xuất.
+		\item Quên mật khẩu và xác thực bằng OTP.
+		\item Đổi mật khẩu.
+	\end{itemize}
+	
+	\item \textbf{Quản lý Photographer}
+	\begin{itemize}
+		\item Xem và cập nhật hồ sơ cá nhân.
+		\item Tìm kiếm Creative Space.
+		\item Xem chi tiết Creative Space.
+		\item Đặt chỗ.
+		\item Xem chi tiết Booking.
+		\item Hủy Booking.
+		\item Xem lịch sử Booking.
+		\item Xem hóa đơn.
+		\item Thanh toán Booking.
+		\item Xem danh sách Workshop.
+		\item Xem chi tiết Workshop.
+		\item Đăng ký Workshop.
+		\item Xem thông báo.
+	\end{itemize}
+	
+	\item \textbf{Quản lý Service Provider}
+	\begin{itemize}
+		\item Xem và cập nhật hồ sơ Service Provider.
+		\item Thêm, xem, cập nhật và xóa Creative Space.
+		\item Thêm, xem, cập nhật và xóa Equipment.
+		\item Thêm, xem, cập nhật và xóa Service Package.
+		\item Xem và quản lý Booking.
+		\item Xác nhận hoặc từ chối Booking.
+		\item Thực hiện Check-in và Check-out.
+		\item Thêm, xem, cập nhật và xóa Workshop.
+		\item Xem danh sách người đăng ký Workshop.
+		\item Xem Dashboard và thống kê.
+		\item Quản lý thông tin thanh toán.
+		\item Xem thông báo của Service Provider.
+	\end{itemize}
+	
+	\item \textbf{Quản lý Administrator}
+	\begin{itemize}
+		\item Xem và quản lý người dùng.
+		\item Xem và quản lý Service Provider.
+		\item Phê duyệt hoặc từ chối Service Provider.
+		\item Xem và quản lý giao dịch.
+	\end{itemize}
+\end{itemize}
+
+\subsection{Các chức năng không thuộc phạm vi kiểm thử}
+
+Các chức năng chưa được triển khai hoặc đã được loại bỏ khỏi phạm vi của hệ thống hiện tại không được đưa vào kiểm thử. Bao gồm:
+
+\begin{itemize}
+	\item Chức năng AI Assistant và các chức năng liên quan đến AI.
+	\item Chức năng đăng bài và bình luận trong cộng đồng.
+	\item Chức năng đánh giá và nhận xét.
+	\item Chức năng quản lý khiếu nại.
+	\item Chức năng hoàn tiền.
+	\item Chức năng thay đổi lịch Booking.
+	\item Chức năng quản lý bảo trì Equipment.
+	\item Chức năng quản lý Consumable.
+	\item Chức năng quản lý Package Detail độc lập.
+\end{itemize}
+
+Các chức năng trên được loại khỏi phạm vi kiểm thử vì không thuộc phạm vi chức năng được triển khai trong phiên bản hiện tại của hệ thống.
+
+\subsection{Mức độ kiểm thử}
+
+Quá trình kiểm thử được thực hiện ở ba mức độ chính:
+
+\begin{itemize}
+	\item \textbf{Kiểm thử đơn vị (Unit Testing):} tập trung kiểm tra từng thành phần riêng lẻ của Backend như Service, Repository, các hàm kiểm tra dữ liệu, xử lý xác thực, xử lý Booking và các hàm xử lý nghiệp vụ.
+	
+	\item \textbf{Kiểm thử tích hợp (Integration Testing):} kiểm tra sự tương tác giữa Frontend, các API của Backend, Service, Repository và cơ sở dữ liệu PostgreSQL. Mục tiêu là đảm bảo dữ liệu được gửi từ Frontend được Backend xử lý và lưu trữ hoặc truy xuất chính xác.
+	
+	\item \textbf{Kiểm thử hệ thống (System Testing):} kiểm tra toàn bộ hệ thống dưới góc nhìn của người sử dụng. Các luồng chức năng chính của Photographer, Service Provider và Administrator được kiểm tra để đảm bảo các module hoạt động đúng khi kết hợp với nhau.
+\end{itemize}
+
+
+% =========================================================
+% 2. CHIẾN LƯỢC KIỂM THỬ
+% =========================================================
+
+\section{Chiến lược kiểm thử}
+
+Chiến lược kiểm thử được xây dựng nhằm đảm bảo các chức năng đã triển khai hoạt động đúng và các thành phần của hệ thống có thể phối hợp với nhau một cách chính xác. Hoạt động kiểm thử tập trung vào yêu cầu chức năng, kiểm tra dữ liệu đầu vào, phân quyền người dùng, xử lý lỗi và các luồng nghiệp vụ chính.
+
+\subsection{Các loại kiểm thử}
+
+Hệ thống áp dụng các loại kiểm thử sau:
+
+\begin{itemize}
+	\item \textbf{Kiểm thử chức năng:} kiểm tra các chức năng của hệ thống có tạo ra kết quả đúng theo yêu cầu hay không.
+	
+	\item \textbf{Kiểm thử tích hợp:} kiểm tra sự kết nối và trao đổi dữ liệu giữa Frontend, Backend, các API, Service, Repository và cơ sở dữ liệu PostgreSQL.
+	
+	\item \textbf{Kiểm thử phân quyền:} kiểm tra quyền truy cập của ba vai trò Photographer, Service Provider và Administrator. Người dùng chỉ được phép truy cập và thực hiện các chức năng được phân quyền.
+	
+	\item \textbf{Kiểm thử dữ liệu đầu vào:} kiểm tra khả năng phát hiện và xử lý các dữ liệu không hợp lệ trong các chức năng như đăng ký, đăng nhập, cập nhật hồ sơ, đặt Booking, quản lý Creative Space, Equipment, Service Package và Workshop.
+	
+	\item \textbf{Kiểm thử xử lý lỗi:} kiểm tra hệ thống có trả về thông báo phù hợp khi dữ liệu không hợp lệ, dữ liệu không tồn tại, thông tin đăng nhập không chính xác hoặc người dùng thực hiện thao tác không được phép hay không.
+	
+	\item \textbf{Kiểm thử cơ sở dữ liệu:} kiểm tra dữ liệu được thêm, truy xuất, cập nhật và xóa chính xác trong PostgreSQL, đồng thời đảm bảo các mối quan hệ giữa các bảng được duy trì.
+\end{itemize}
+
+\subsection{Các mức độ kiểm thử}
+
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.22\textwidth}|
+		>{\raggedright\arraybackslash}p{0.34\textwidth}|
+		>{\raggedright\arraybackslash}p{0.34\textwidth}|}
+	\hline
+	\textbf{Mức độ kiểm thử} &
+	\textbf{Mục tiêu} &
+	\textbf{Phạm vi chính} \\
+	\hline
+	
+	Kiểm thử đơn vị &
+	Kiểm tra từng thành phần và logic nghiệp vụ riêng lẻ của Backend. &
+	Service, Repository, các hàm kiểm tra dữ liệu, xác thực, xử lý Booking và xử lý dữ liệu. \\
+	\hline
+	
+	Kiểm thử tích hợp &
+	Kiểm tra sự tương tác giữa các thành phần của hệ thống. &
+	Frontend, API Flask, Service, Repository, PostgreSQL, xác thực, Booking, thanh toán, Workshop, Service Provider và Administrator. \\
+	\hline
+	
+	Kiểm thử hệ thống &
+	Kiểm tra toàn bộ hệ thống từ góc nhìn của người dùng. &
+	Các luồng sử dụng của Photographer, Service Provider và Administrator. \\
+	\hline
+	
+\end{longtable}
+
+\subsection{Phương pháp kiểm thử}
+
+Quá trình kiểm thử được thực hiện dựa trên các kịch bản sử dụng của từng chức năng. Đối với mỗi chức năng, dữ liệu hợp lệ và không hợp lệ được sử dụng để kiểm tra phản hồi của hệ thống.
+
+Quy trình kiểm thử gồm các bước:
+
+\begin{enumerate}
+	\item Xác định chức năng cần kiểm thử và kết quả mong đợi.
+	\item Chuẩn bị dữ liệu đầu vào hợp lệ và không hợp lệ.
+	\item Thực hiện chức năng thông qua giao diện Frontend hoặc API tương ứng.
+	\item Kiểm tra phản hồi được trả về từ Backend.
+	\item Kiểm tra kết quả hiển thị trên giao diện Frontend.
+	\item Kiểm tra dữ liệu trong cơ sở dữ liệu đối với các chức năng có thay đổi dữ liệu.
+	\item Kiểm tra quyền truy cập tương ứng với vai trò của người dùng.
+	\item Ghi nhận kết quả quan sát được để phục vụ việc tổng hợp kết quả kiểm thử.
+\end{enumerate}
+
+\subsection{Công cụ hỗ trợ kiểm thử}
+
+Các công cụ được sử dụng để hỗ trợ quá trình kiểm thử bao gồm:
+
+\begin{itemize}
+	\item \textbf{Trình duyệt Web:} sử dụng để thực hiện kiểm thử các chức năng thông qua giao diện Frontend.
+	
+	\item \textbf{Developer Tools:} sử dụng để kiểm tra hoạt động của Frontend, các request và response API, thông tin Network và các lỗi phía Client.
+	
+	\item \textbf{Postman:} sử dụng để kiểm thử trực tiếp các REST API của Backend, kiểm tra request, response, xác thực và phân quyền.
+	
+	\item \textbf{PostgreSQL / Supabase:} sử dụng để kiểm tra dữ liệu trong cơ sở dữ liệu, các bản ghi được tạo hoặc cập nhật sau khi thực hiện chức năng.
+	
+	\item \textbf{Visual Studio Code:} sử dụng để kiểm tra và hỗ trợ quá trình sửa lỗi trong mã nguồn Frontend và Backend.
+\end{itemize}
+
+
+% =========================================================
+% 3. KẾ HOẠCH KIỂM THỬ
+% =========================================================
+
+\section{Kế hoạch kiểm thử}
+
+Kế hoạch kiểm thử xác định các nguồn lực, môi trường và các giai đoạn cần thiết để kiểm tra hệ thống. Hoạt động kiểm thử được thực hiện dựa trên phạm vi chức năng và chiến lược kiểm thử đã trình bày ở các phần trước.
+
+\subsection{Nhân sự kiểm thử}
+
+Hoạt động kiểm thử được thực hiện bởi các thành viên trong nhóm phát triển. Các thành viên tham gia kiểm thử dựa trên các module và chức năng mà nhóm đã triển khai.
+
+Các công việc chính trong quá trình kiểm thử bao gồm:
+
+\begin{itemize}
+	\item Chuẩn bị dữ liệu kiểm thử cho các chức năng.
+	\item Thực hiện kiểm thử chức năng thông qua giao diện Frontend.
+	\item Kiểm thử các API của Backend và kiểm tra kết quả trả về.
+	\item Kiểm tra dữ liệu trong cơ sở dữ liệu sau các thao tác thêm, cập nhật và xóa.
+	\item Kiểm tra phân quyền giữa Photographer, Service Provider và Administrator.
+	\item Phát hiện và ghi nhận các lỗi trong quá trình kiểm thử.
+	\item Kiểm tra lại các chức năng sau khi lỗi được sửa.
+\end{itemize}
+
+\subsection{Môi trường kiểm thử}
+
+Môi trường kiểm thử bao gồm Frontend, Backend và cơ sở dữ liệu PostgreSQL của hệ thống.
+
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.25\textwidth}|
+		>{\raggedright\arraybackslash}p{0.65\textwidth}|}
+	\hline
+	\textbf{Thành phần} & \textbf{Môi trường kiểm thử} \\
+	\hline
+	
+	Frontend &
+	Ứng dụng Web được xây dựng bằng HTML, CSS và JavaScript, được truy cập thông qua trình duyệt Web. \\
+	\hline
+	
+	Backend &
+	Backend được xây dựng bằng Flask theo kiến trúc Clean Architecture, bao gồm các Controller, Service, Repository và Model. \\
+	\hline
+	
+	Cơ sở dữ liệu &
+	Sử dụng PostgreSQL để lưu trữ dữ liệu của hệ thống như Users, Roles, ServiceProviders, CreativeSpaces, Bookings, Payments, Workshops và Notifications. \\
+	\hline
+	
+	Kiểm thử API &
+	Sử dụng Postman để gửi request đến các REST API và kiểm tra request, response, xác thực, phân quyền và dữ liệu trả về. \\
+	\hline
+	
+	Kiểm thử giao diện &
+	Sử dụng trình duyệt Web và Developer Tools để kiểm tra giao diện, request API, response và các lỗi phía Client. \\
+	\hline
+	
+\end{longtable}
+
+\subsection{Các mốc kiểm thử}
+
+Hoạt động kiểm thử được chia thành các mốc chính nhằm đảm bảo các nhóm chức năng quan trọng được kiểm tra trước khi hoàn thiện hệ thống.
+
+\begin{longtable}{|>{\raggedright\arraybackslash}p{0.18\textwidth}|
+		>{\raggedright\arraybackslash}p{0.32\textwidth}|
+		>{\raggedright\arraybackslash}p{0.38\textwidth}|}
+	\hline
+	
+	\textbf{Mốc kiểm thử} &
+	\textbf{Hoạt động} &
+	\textbf{Kết quả mong đợi} \\
+	\hline
+	
+	Mốc 1 &
+	Kiểm thử chức năng xác thực &
+	Kiểm tra đăng ký, đăng nhập, đăng xuất, quên mật khẩu và đổi mật khẩu. \\
+	\hline
+	
+	Mốc 2 &
+	Kiểm thử chức năng Photographer &
+	Kiểm tra quản lý hồ sơ, tìm kiếm và xem Creative Space, Booking, hủy Booking, thanh toán, Workshop và thông báo. \\
+	\hline
+	
+	Mốc 3 &
+	Kiểm thử chức năng Service Provider &
+	Kiểm tra hồ sơ Provider, Creative Space, Equipment, Service Package, Booking, Workshop, thông tin thanh toán, Dashboard và thông báo. \\
+	\hline
+	
+	Mốc 4 &
+	Kiểm thử chức năng Administrator &
+	Kiểm tra quản lý người dùng, quản lý Service Provider, phê duyệt Service Provider và quản lý giao dịch. \\
+	\hline
+	
+	Mốc 5 &
+	Kiểm thử tích hợp và kiểm thử hệ thống &
+	Kiểm tra các luồng chức năng có sự kết hợp giữa Frontend, Backend, cơ sở dữ liệu, xác thực và phân quyền. \\
+	\hline
+	
+	Mốc 6 &
+	Kiểm tra hoàn thiện &
+	Kiểm tra lại các chức năng sau khi sửa lỗi và xác nhận hệ thống sẵn sàng cho quá trình hoàn thiện và bàn giao. \\
+	\hline
+	
+\end{longtable}
+

@@ -1,0 +1,145 @@
+\chapter{GIỚI THIỆU}
+
+\section{Tổng quan}
+
+\subsection{Thông tin đồ án}
+\begin{itemize}
+	\item\textbf{Tên đồ án:} Nền tảng kết nối cộng đồng nhiếp ảnh phim với các dịch vụ phòng tối và phòng chụp 
+	\item\textbf{Môn học:} Công nghệ phần mềm 
+	\item\textbf{Học kỳ:} Hè / Năm học: 2026
+\end{itemize}
+
+\subsection{Thông tin nhóm thực hiện}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|l|l|l|}
+		\hline
+		\textbf{Họ và tên} & \textbf{Vai trò} & \textbf{Email} \\
+		\hline
+		Phạm Thanh Nhàn & Nhóm trưởng & nahnht203@gmail.com \\
+		\hline
+		Đoàn Minh Thư & Thành viên & thu1106877@gmail.com \\
+		\hline
+		Đặng Lê Quang Cường & Thành viên & 22h1320013@ut.edu.vn  \\
+		\hline
+		Trần Sơn Lâm & Thành viên & lamts7896@ut.edu.vn\\
+		\hline
+	\end{tabular}
+	\caption{Danh sách thành viên nhóm thực hiện}
+\end{table}
+
+\section{Bối cảnh sản phẩm}
+
+Trong những năm gần đây, nhiếp ảnh phim ngày càng thu hút sự quan tâm của cộng đồng yêu thích nghệ thuật nhiếp ảnh, kéo theo nhu cầu sử dụng phòng tối, studio, thiết bị và các dịch vụ hỗ trợ ngày càng tăng. Tuy nhiên, việc tìm kiếm, đặt chỗ và quản lý các nguồn lực này vẫn còn phân tán, chủ yếu được thực hiện thủ công thông qua mạng xã hội hoặc các kênh liên lạc riêng lẻ, gây mất thời gian và dễ xảy ra sai sót.
+
+Bên cạnh đó, các nhà cung cấp dịch vụ cũng gặp nhiều khó khăn trong việc quản lý không gian, thiết bị, lịch đặt chỗ và hoạt động kinh doanh do thiếu một hệ thống quản lý tập trung. Vì vậy, việc xây dựng một nền tảng tích hợp hỗ trợ kết nối nhiếp ảnh gia với nhà cung cấp dịch vụ, đồng thời ứng dụng trí tuệ nhân tạo để nâng cao trải nghiệm người dùng và tối ưu hóa quản lý là cần thiết.
+
+\section{Các hệ thống hiện có}
+\textbf{Giggster} là một marketplace trực tuyến kết nối chủ không gian (studio, phòng chụp, phòng dựng cảnh, địa điểm quay phim...) với người thuê theo giờ hoặc theo ngày. Nền tảng có các đặc điểm đáng chú ý:
+
+\begin{itemize}
+	\item \textbf{Tìm kiếm \& lọc:} cho phép người dùng tìm studio theo thành phố, lọc theo mức giá, loại hoạt động và tính năng không gian.
+	\item \textbf{Đặt chỗ tức thời:} hỗ trợ đặt chỗ nhanh chỉ với vài thao tác, cùng chính sách hủy miễn phí trong 24 giờ nếu buổi chụp còn cách ít nhất hai ngày.
+	\item \textbf{Bảo hiểm/bảo vệ giao dịch:} cung cấp gói bảo hiểm trách nhiệm tùy chọn để bảo vệ ê-kíp và khách hàng trong quá trình sử dụng không gian.
+	\item \textbf{Mô hình doanh thu:} thu hoa hồng trên mỗi lượt đặt chỗ thành công (khoảng 19\%) để trang trải chi phí vận hành, phát triển và hỗ trợ nền tảng.
+	\item \textbf{Quy mô:} sở hữu hàng nghìn không gian cho thuê tại nhiều thành phố, phục vụ đa dạng nhu cầu từ chụp ảnh sản phẩm, thời trang đến quay phim thương mại.
+\end{itemize}
+
+\textbf{Hạn chế của Giggster:}
+
+\begin{itemize}
+	\item Không chuyên biệt cho nhiếp ảnh phim (không hỗ trợ đặt phòng tối, thuê máy phim, hóa chất tráng rửa...).
+	\item Không có lớp cộng đồng (chia sẻ kỹ thuật, bài viết, workshop).
+	\item Không có trợ lý AI hỗ trợ gợi ý hoặc tìm kiếm ngữ nghĩa.
+	\item Chưa có mặt tại thị trường Việt Nam.
+\end{itemize}
+
+Tại thị trường Việt Nam, chưa có nền tảng tương tự chuyên biệt cho nhiếp ảnh phim; việc tìm và đặt phòng tối, studio hay thuê thiết bị hiện chủ yếu diễn ra qua các hội/nhóm Facebook, trang cá nhân/fanpage của từng studio, hoặc Google Form/Zalo để nhận yêu cầu đặt chỗ và xử lý thủ công.
+
+\section{Thị trường ngách chưa được khai thác}
+ 
+
+\begin{itemize}
+	\item Nhiếp ảnh phim đang trở lại, tạo nhu cầu về studio, phòng tối và thiết bị chuyên dụng.
+	\item Phân mảnh trong quản lý phía cung cấp: Hỗ trợ nhà cung cấp quản lý không gian, thiết bị, giá, đặt chỗ và doanh thu trên một nền tảng.
+	\item Hiệu ứng mạng: Kết nối nhiếp ảnh gia và nhà cung cấp, kết hợp cộng đồng qua bài viết, đánh giá và workshop.
+	\item Lợi thế từ AI: Gợi ý và tìm kiếm thông minh giúp người dùng nhanh chóng tìm được dịch vụ phù hợp.
+	\item Khả năng mở rộng doanh thu: Thu phí từ hoa hồng đặt chỗ, gói nâng cao, workshop và vật tư nhiếp ảnh.
+\end{itemize}
+
+
+\section{Tầm nhìn sản phẩm}
+
+Mục tiêu của dự án là xây dựng một nền tảng hỗ trợ cộng đồng nhiếp ảnh phim tìm kiếm và sử dụng các nguồn tài nguyên như phòng tối, studio và thiết bị. Nền tảng giúp người dùng tìm kiếm, đặt chỗ và quản lý lịch sử sử dụng dịch vụ thuận tiện hơn, đồng thời hỗ trợ các nhà cung cấp quản lý không gian và thiết bị. Bên cạnh đó, nền tảng có thêm một số tính năng AI để hỗ trợ tìm kiếm, gợi ý và kết nối người dùng trong cộng đồng nhiếp ảnh phim.
+
+Đối với nhiếp ảnh gia phim và các nhà cung cấp phòng tối, studio, thiết bị, những người đang gặp khó khăn khi tìm kiếm và quản lý dịch vụ, Nền tảng kết nối cộng đồng nhiếp ảnh phim với các dịch vụ phòng tối và phòng chụp là một nền tảng web giúp kết nối người dùng với các dịch vụ nhiếp ảnh phim, giúp tìm kiếm, đặt chỗ và quản lý thông tin sử dụng thuận tiện hơn. Khác với các nhóm mạng xã hội hoặc nền tảng cho thuê không gian nói chung, nền tảng này tập trung vào nhu cầu của cộng đồng nhiếp ảnh phim và có thêm các tính năng AI hỗ trợ tìm kiếm, gợi ý và chia sẻ kiến thức.
+
+\section{Phạm vi và giới hạn đồ án}
+
+\subsection{Các tính năng chính}
+
+\subsubsection{Nhiếp ảnh gia}
+\begin{itemize}
+	\item FE-01: Đăng ký, đăng nhập và đăng xuất tài khoản.
+	\item FE-02: Quản lý hồ sơ cá nhân và thay đổi mật khẩu.
+	\item FE-03: Tìm kiếm và xem thông tin chi tiết về không gian sáng tạo, phòng tối và studio.
+	\item FE-04: Tạo và quản lý đặt chỗ cho không gian, gói dịch vụ và thiết bị.
+	\item FE-05: Xem chi tiết đặt chỗ, trạng thái đặt chỗ và hủy đặt chỗ.
+	\item FE-06: Xem hóa đơn và thực hiện thanh toán trực tuyến.
+	\item FE-07: Xem lịch sử đặt chỗ và thông tin giao dịch.
+	\item FE-08: Xem danh sách workshop, xem chi tiết và đăng ký tham gia workshop.
+	\item FE-09: Xem và nhận thông báo liên quan đến tài khoản và hoạt động đặt chỗ.
+\end{itemize}
+
+\subsubsection{Nhà cung cấp dịch vụ}
+\begin{itemize}
+	\item FE-01: Đăng ký, đăng nhập và đăng xuất tài khoản.
+	\item FE-02: Quản lý hồ sơ nhà cung cấp dịch vụ.
+	\item FE-03: Quản lý không gian sáng tạo, bao gồm thêm, sửa, xóa và cập nhật thông tin không gian.
+	\item FE-04: Quản lý thiết bị cho thuê, bao gồm thêm, sửa, xóa và cập nhật thông tin thiết bị.
+	\item FE-05: Quản lý gói dịch vụ, bao gồm thông tin gói, giá và các thành phần chi tiết của gói.
+	\item FE-06: Quản lý yêu cầu đặt chỗ và xử lý trạng thái đặt chỗ.
+	\item FE-07: Xác nhận hoặc từ chối đặt chỗ và thực hiện check-in/check-out cho khách hàng.
+	\item FE-08: Quản lý workshop, bao gồm tạo, chỉnh sửa, xóa và xem danh sách người đăng ký.
+	\item FE-09: Xem thông tin thanh toán và cập nhật trạng thái thanh toán của các đặt chỗ.
+	\item FE-10: Xem dashboard và các thống kê hoạt động kinh doanh.
+	\item FE-11: Xem và nhận thông báo liên quan đến hoạt động của nhà cung cấp.
+\end{itemize}
+
+\subsubsection{Quản trị viên}
+\begin{itemize}
+	\item FE-01: Đăng nhập và đăng xuất tài khoản quản trị.
+	\item FE-02: Xem và quản lý thông tin người dùng trên hệ thống.
+	\item FE-03: Xem, kiểm tra và phê duyệt nhà cung cấp dịch vụ.
+	\item FE-04: Xem và giám sát nội dung được quản lý trên nền tảng.
+	\item FE-05: Xem và giám sát các giao dịch trên hệ thống.
+	\item FE-06: Xem dashboard và các báo cáo, thống kê tổng quan của hệ thống.
+	\item FE-07: Quản lý thông tin và thiết lập tài khoản quản trị.
+\end{itemize}
+
+\subsection{Giới hạn và phạm vi không triển khai}
+
+
+\begin{itemize}
+	\item LI-01: Không triển khai ứng dụng di động native cho Android hoặc iOS; hệ thống chỉ được phát triển dưới dạng ứng dụng web.
+	
+	\item LI-02: Không triển khai hệ thống vận chuyển hoặc giao nhận thiết bị giữa nhiếp ảnh gia và nhà cung cấp.
+	
+	\item LI-03: Không triển khai hệ thống quản lý kho chuyên sâu, bao gồm nhập kho, xuất kho, kiểm kê và quản lý tồn kho tự động.
+	
+	\item LI-04: Không triển khai hệ thống kế toán và quản lý tài chính chuyên sâu cho nhà cung cấp.
+	
+	\item LI-05: Không triển khai cơ chế hoàn tiền tự động thông qua cổng thanh toán thực tế.
+	
+	\item LI-06: Không triển khai hệ thống xác thực danh tính điện tử (KYC) hoặc xác minh giấy tờ pháp lý tự động cho nhà cung cấp.
+	
+	\item LI-07: Không triển khai chức năng nhắn tin hoặc gọi điện trực tiếp giữa nhiếp ảnh gia và nhà cung cấp.
+	
+	\item LI-08: Không triển khai mạng xã hội đầy đủ với các chức năng như theo dõi người dùng, nhóm cộng đồng, livestream hoặc nhắn tin riêng.
+	
+	\item LI-09: Không triển khai mô hình AI chuyên sâu để tự động phục hồi và chỉnh sửa ảnh phim hoàn chỉnh.
+	
+	\item LI-10: Không triển khai hệ thống kế toán, thuế và báo cáo tài chính chuyên sâu.
+	
+	\item LI-11: Không triển khai khả năng mở rộng hệ thống ở quy mô thương mại lớn với hàng triệu người dùng và lượng giao dịch cao.
+\end{itemize}
