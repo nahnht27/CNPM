@@ -1,3 +1,12 @@
 frontend/photographer/booking.html linguist-vendored
 frontend/provider/profile.html linguist-vendored
 frontend/provider/workshops.html linguist-vendored
+frontend/photographer/payment.html linguist-vendored
+frontend/photographer/workshops.html linguist-vendored
+frontend/provider/spaces.html linguist-vendored
+frontend/provider/equipment.html linguist-vendored
+frontend/provider/dashboard.html linguist-vendored
+frontend/admin/settings.html linguist-vendored
+frontend/admin/accounts.html linguist-vendored
+frontend/provider/bookings.html linguist-vendored
+frontend/photographer/home.html linguist-vendored
