@@ -32,7 +32,7 @@ class Config:
 class DevelopmentConfig(Config):
     """Development configuration."""
     DEBUG = True
-    DATABASE_URI = os.environ.get('POSTGREE_DATABASE_URL')
+    DATABASE_URI = os.environ.get('POSTGREE_DATABASE_URL') or "postgresql://postgres.uhhlvlhwfxjeqgkuesoy:123NHan321N@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres"
 
 
 class TestingConfig(Config):

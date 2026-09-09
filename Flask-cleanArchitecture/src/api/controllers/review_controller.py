@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from services.review_service import ReviewService
 from infrastructure.repositories.review_repository import ReviewRepository
 from api.schemas.review import ReviewRequestSchema, ReviewResponseSchema
-from infrastructure.databases.mssql import session
+from infrastructure.databases.postgres import session
 
 bp = Blueprint('review', __name__, url_prefix='/reviews')
 

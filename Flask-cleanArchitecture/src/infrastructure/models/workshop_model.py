@@ -13,6 +13,5 @@ class WorkshopModel(Base):
     start_time = Column('StartTime', DateTime, nullable=False)
     end_time = Column('EndTime', DateTime, nullable=False)
     capacity = Column('Capacity', Integer, nullable=False)
-    fee = Column('Fee', Numeric(12,2), nullable=False)
     status = Column('Status', String(20), nullable=False)
     created_at = Column('CreatedAt', DateTime, nullable=False)

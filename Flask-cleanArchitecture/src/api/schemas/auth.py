@@ -5,6 +5,7 @@ class RigisterUserRequestSchema(Schema):
     password = fields.Str(required=True)
     passwordconfirm = fields.Str(required=True)
     email = fields.Email(required=True)
+    role_id = fields.Integer(required=True)
 class RigisterUserResponseSchema(Schema):
     username = fields.Str(required=True)
     # password = fields.Str(required=True)

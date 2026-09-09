@@ -16,7 +16,7 @@ from api.schemas.ai_interaction_log import AIInteractionLogRequestSchema, AIInte
 from api.schemas.ai_configuration import AIConfigurationRequestSchema, AIConfigurationResponseSchema
 from api.schemas.workshop import WorkshopRequestSchema, WorkshopResponseSchema
 from api.schemas.workshop_registration import WorkshopRegistrationRequestSchema, WorkshopRegistrationResponseSchema
-from api.schemas.user import UserRequestSchema, UserResponseSchema
+from api.schemas.user import UserResponseSchema, UserUpdateRequestSchema
 from api.schemas.booking import BookingRequestSchema, BookingResponseSchema
 from api.schemas.invoice import InvoiceRequestSchema, InvoiceResponseSchema
 from api.schemas.payment import PaymentRequestSchema, PaymentResponseSchema
@@ -75,11 +75,21 @@ from api.schemas.space_image import (
     SpaceImageResponseSchema
 )
 
+from api.schemas.service_session import (
+    ServiceSessionRequestSchema,
+    ServiceSessionUpdateSchema,
+    ServiceSessionResponseSchema
+)
+
 spec = APISpec(
     title="Film Photography Community Platform API",
     version="1.0.0",
     openapi_version="3.0.2",
     plugins=[FlaskPlugin(), MarshmallowPlugin()],
+)
+spec.components.schema(
+    "ServiceSessionUpdate",
+    schema=ServiceSessionUpdateSchema
 )
 
 # Đăng ký schema để tự động sinh model
@@ -115,7 +125,7 @@ spec.components.schema("WorkshopRequest", schema=WorkshopRequestSchema)
 spec.components.schema("WorkshopResponse", schema=WorkshopResponseSchema)
 spec.components.schema("WorkshopRegistrationRequest", schema=WorkshopRegistrationRequestSchema)
 spec.components.schema("WorkshopRegistrationResponse", schema=WorkshopRegistrationResponseSchema)
-spec.components.schema("UserRequest", schema=UserRequestSchema)
+spec.components.schema("UserRequest", schema=UserUpdateRequestSchema)
 spec.components.schema("UserResponse", schema=UserResponseSchema)
 spec.components.schema("BookingRequest", schema=BookingRequestSchema)
 spec.components.schema("BookingResponse", schema=BookingResponseSchema)
@@ -230,3 +240,4 @@ spec.components.schema(
     "SpaceImageResponse",
     schema=SpaceImageResponseSchema
 )
+

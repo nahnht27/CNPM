@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List, Optional
 from infrastructure.databases.factory_database import FactoryDatabase as db_factory
 from infrastructure.models.equipment_model import EquipmentModel
@@ -17,7 +18,7 @@ class EquipmentRepository:
             rental_price=data.get('rental_price'),
             status=data.get('status'),
             purchase_date=data.get('purchase_date'),
-            created_at=data.get('created_at')
+            created_at=datetime.now()
         )
         self.session.add(m)
         self.session.commit()
