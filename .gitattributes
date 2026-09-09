@@ -1,1 +1,3 @@
-frontend/**/*.html linguist-vendored
+frontend/photographer/booking.html linguist-vendored
+frontend/provider/profile.html linguist-vendored
+frontend/provider/workshops.html linguist-vendored
