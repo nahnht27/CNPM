@@ -1,6 +1,6 @@
 import traceback
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify 
 from flask_cors import CORS
 from api.swagger import spec
 from api.controllers.auth_controller import auth_bp as auth_bp
@@ -30,7 +30,7 @@ from api.controllers.admin_dashboard_controller import (
 )
 from api.controllers.admin_provider_controller import (
     bp as admin_provider_bp
-)
+) 
 from api.controllers.admin_user_controller import (
     bp as admin_user_bp
 )
