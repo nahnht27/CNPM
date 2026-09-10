@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Provider · Creative Spaces</title>
+  <style>
+    :root{--ink:#17202a;--muted:#667085;--line:#e5e7eb;--brand:#b45309;--soft:#fff7ed;--danger:#b42318;--ok:#067647}*{box-sizing:border-box}body{margin:0;font:15px/1.5 Inter,Segoe UI,sans-serif;color:var(--ink);background:#f8fafc}header{background:#fff;border-bottom:1px solid var(--line)}.nav,.page{max-width:1180px;margin:auto;padding:18px 24px}.nav{display:flex;align-items:center;gap:24px}.brand{font-weight:800;font-size:20px}.nav a{color:var(--muted);text-decoration:none}.nav a.active{color:var(--brand);font-weight:700}.spacer{flex:1}button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:10px 15px}.primary{background:var(--brand);color:#fff}.ghost{background:#fff;border:1px solid var(--line)}.danger{color:var(--danger);background:#fff}.heading{display:flex;gap:18px;align-items:center;margin:26px 0}.heading h1{margin:0;font-size:28px}.heading p{margin:3px 0;color:var(--muted)}.state{padding:50px;text-align:center;border:1px dashed #cbd5e1;border-radius:16px;background:#fff}.error{color:var(--danger)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 6px 22px #0f172a0a}.card h3{margin:8px 0}.meta{color:var(--muted);min-height:46px}.row{display:flex;justify-content:space-between;gap:12px;align-items:center}.badge{padding:4px 9px;border-radius:999px;background:#ecfdf3;color:var(--ok);font-size:12px;font-weight:700}.badge.inactive{background:#f2f4f7;color:#475467}.actions{display:flex;gap:7px;margin-top:16px;border-top:1px solid var(--line);padding-top:14px}dialog{width:min(640px,calc(100% - 24px));border:0;border-radius:18px;padding:0;box-shadow:0 24px 80px #0004}dialog::backdrop{background:#10182899}.modal{padding:24px}.modal h2{margin-top:0}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}label{font-weight:650}input,select,textarea{width:100%;padding:10px 12px;border:1px solid #d0d5dd;border-radius:9px;font:inherit}textarea{min-height:88px;resize:vertical}.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:20px}@media(max-width:650px){.form-grid{grid-template-columns:1fr}.nav{flex-wrap:wrap}.heading{align-items:flex-start}}
+  </style>
+</head>
+<body>
+  <header><nav class="nav"><span class="brand">FilmSpace Provider</span><a class="active" href="spaces.html">Spaces</a><a href="equipment.html">Equipment</a><a href="package.html">Packages</a><span class="spacer"></span><button class="ghost" onclick="logout()">Đăng xuất</button></nav></header>
+  <main class="page">
+    <section class="heading"><div><h1>Creative Spaces</h1><p>Quản lý phòng tối, studio và không gian sáng tạo của bạn.</p></div><span class="spacer"></span><button class="primary" onclick="openCreate()">+ Thêm Space</button></section>
+    <div id="loading" class="state">Đang tải dữ liệu…</div>
+    <div id="empty" class="state" hidden><h3>Chưa có Creative Space</h3><p>Tạo Space đầu tiên để bắt đầu cung cấp dịch vụ.</p><button class="primary" onclick="openCreate()">Tạo Space</button></div>
+    <div id="error" class="state error" hidden><h3>Không thể tải dữ liệu</h3><p id="errorText"></p><button class="ghost" onclick="loadSpaces()">Thử lại</button></div>
+    <section id="grid" class="grid" hidden></section>
+  </main>
+
+  <dialog id="editor">
+    <form id="spaceForm" class="modal">
+      <h2 id="modalTitle">Thêm Creative Space</h2>
+      <input id="spaceId" type="hidden">
+      <div class="form-grid">
+        <div class="field full"><label for="name">Tên Space *</label><input id="name" required maxlength="255"></div>
+        <div class="field"><label for="categoryId">Category ID *</label><input id="categoryId" type="number" min="1" required></div>
+        <div class="field"><label for="status">Trạng thái *</label><select id="status"><option value="active">Active</option><option value="inactive">Inactive</option></select></div>
+        <div class="field"><label for="sizeSqm">Diện tích (m²)</label><input id="sizeSqm" type="number" min="0.01" step="0.01"></div>
+        <div class="field"><label for="capacity">Sức chứa *</label><input id="capacity" type="number" min="1" required></div>
+        <div class="field"><label for="hours">Giờ hoạt động *</label><input id="hours" placeholder="08:00-18:00" required></div>
+        <div class="field"><label for="pricing">Mô hình giá *</label><select id="pricing"><option value="hourly">Theo giờ</option><option value="daily">Theo ngày</option><option value="session">Theo buổi</option></select></div>
+        <div class="field"><label for="price">Giá cơ bản *</label><input id="price" type="number" min="1" step="1000" required></div>
+        <div class="field full"><label for="address">Địa chỉ *</label><input id="address" required maxlength="500"></div>
+        <div class="field full"><label for="description">Mô tả</label><textarea id="description"></textarea></div>
+      </div>
+      <div class="modal-actions"><button type="button" class="ghost" onclick="editor.close()">Hủy</button><button id="saveBtn" class="primary" type="submit">Lưu Space</button></div>
+    </form>
+  </dialog>
+
+  <script>
+    const API_BASE = "http://127.0.0.1:9999";
+    const editor = document.getElementById("editor");
+    let spaces = [];
+
+    function authStorage(){return localStorage.getItem("auth_token")?localStorage:sessionStorage}
+    function logout(){localStorage.removeItem("auth_token");sessionStorage.removeItem("auth_token");location.href="../../auth.html"}
+    function esc(value){return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+    function money(value){return Number(value||0).toLocaleString("vi-VN")+" ₫"}
+    function message(data){if(data?.message)return data.message;if(data&&typeof data==="object"){const first=Object.values(data)[0];return Array.isArray(first)?first[0]:String(first)}return "Đã xảy ra lỗi"}
+    async function api(path,options={}){const token=authStorage().getItem("auth_token");if(!token){logout();throw new Error("Chưa đăng nhập")};const headers={Accept:"application/json",...(options.headers||{}),Authorization:`Bearer ${token}`};const response=await fetch(API_BASE+path,{...options,headers});if(response.status===401){logout();throw new Error("Phiên đăng nhập đã hết hạn")};if(response.status===204)return null;const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(message(data));return data}
+    function showState(name,text=""){for(const id of ["loading","empty","error","grid"])document.getElementById(id).hidden=id!==name;if(text)document.getElementById("errorText").textContent=text}
+
+    async function loadSpaces(){showState("loading");try{spaces=await api("/provider/spaces");if(!spaces.length)return showState("empty");render();showState("grid")}catch(error){showState("error",error.message)}}
+    function render(){document.getElementById("grid").innerHTML=spaces.map(space=>`<article class="card"><div class="row"><small>SPACE #${Number(space.id)}</small><span class="badge ${space.status==='active'?'':'inactive'}">${esc(space.status)}</span></div><h3>${esc(space.name)}</h3><p class="meta">${esc(space.description||"Chưa có mô tả")}</p><div><b>${money(space.base_price)}</b> · ${esc(space.pricing_model)}</div><p class="meta">${esc(space.address)}</p><div class="actions"><button class="ghost" onclick="openEdit(${Number(space.id)})">Sửa</button><button class="ghost" onclick="toggleStatus(${Number(space.id)},'${space.status==='active'?'inactive':'active'}')">${space.status==='active'?'Tạm ẩn':'Kích hoạt'}</button><button class="danger" onclick="removeSpace(${Number(space.id)})">Xóa</button></div></article>`).join("")}
+    function openCreate(){document.getElementById("spaceForm").reset();document.getElementById("spaceId").value="";document.getElementById("modalTitle").textContent="Thêm Creative Space";editor.showModal()}
+    function openEdit(id){const s=spaces.find(item=>Number(item.id)===Number(id));if(!s)return;document.getElementById("spaceId").value=s.id;document.getElementById("name").value=s.name||"";document.getElementById("categoryId").value=s.category_id||"";document.getElementById("status").value=s.status||"active";document.getElementById("sizeSqm").value=s.size_sqm??"";document.getElementById("capacity").value=s.max_capacity??"";document.getElementById("hours").value=s.operating_hours||"";document.getElementById("pricing").value=s.pricing_model||"hourly";document.getElementById("price").value=s.base_price??"";document.getElementById("address").value=s.address||"";document.getElementById("description").value=s.description||"";document.getElementById("modalTitle").textContent="Chỉnh sửa Creative Space";editor.showModal()}
+    document.getElementById("spaceForm").addEventListener("submit",async event=>{event.preventDefault();const id=document.getElementById("spaceId").value;const payload={name:document.getElementById("name").value.trim(),category_id:Number(document.getElementById("categoryId").value),description:document.getElementById("description").value.trim()||null,size_sqm:document.getElementById("sizeSqm").value?Number(document.getElementById("sizeSqm").value):null,max_capacity:Number(document.getElementById("capacity").value),operating_hours:document.getElementById("hours").value.trim(),pricing_model:document.getElementById("pricing").value,base_price:Number(document.getElementById("price").value),status:document.getElementById("status").value,address:document.getElementById("address").value.trim()};const button=document.getElementById("saveBtn");button.disabled=true;button.textContent="Đang lưu…";try{await api(`/provider/spaces${id?`/${id}`:""}`,{method:id?"PUT":"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});editor.close();await loadSpaces()}catch(error){alert(error.message)}finally{button.disabled=false;button.textContent="Lưu Space"}});
+    async function toggleStatus(id,status){try{await api(`/provider/spaces/${id}/status`,{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({status})});await loadSpaces()}catch(error){alert(error.message)}}
+    async function removeSpace(id){if(!confirm("Bạn chắc chắn muốn xóa Space này?"))return;try{await api(`/provider/spaces/${id}`,{method:"DELETE"});await loadSpaces()}catch(error){alert(error.message)}}
+    loadSpaces();
+  </script>
+</body>
+</html>

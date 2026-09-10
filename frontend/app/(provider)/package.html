@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Provider · Service Packages</title>
+  <style>
+    :root{--ink:#17202a;--muted:#667085;--line:#e5e7eb;--brand:#b45309;--danger:#b42318;--ok:#067647}*{box-sizing:border-box}body{margin:0;font:15px/1.5 Inter,Segoe UI,sans-serif;color:var(--ink);background:#f8fafc}header{background:#fff;border-bottom:1px solid var(--line)}.nav,.page{max-width:1180px;margin:auto;padding:18px 24px}.nav{display:flex;align-items:center;gap:24px}.brand{font-weight:800;font-size:20px}.nav a{color:var(--muted);text-decoration:none}.nav a.active{color:var(--brand);font-weight:700}.spacer{flex:1}button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:10px 15px}.primary{background:var(--brand);color:#fff}.ghost{background:#fff;border:1px solid var(--line)}.danger{color:var(--danger);background:#fff}.heading{display:flex;gap:18px;align-items:center;margin:26px 0}.heading h1{margin:0;font-size:28px}.heading p{margin:3px 0;color:var(--muted)}.state{padding:50px;text-align:center;border:1px dashed #cbd5e1;border-radius:16px;background:#fff}.error{color:var(--danger)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px}.card h3{font-size:20px;margin:10px 0}.description{color:var(--muted);min-height:48px}.price{font-size:24px;font-weight:800;color:var(--brand)}.row{display:flex;justify-content:space-between;gap:10px;align-items:center}.badge{padding:4px 9px;border-radius:999px;background:#ecfdf3;color:var(--ok);font-size:12px;font-weight:700}.badge.inactive{background:#f2f4f7;color:#475467}.actions{display:flex;gap:7px;margin-top:18px;border-top:1px solid var(--line);padding-top:14px}dialog{width:min(600px,calc(100% - 24px));border:0;border-radius:18px;padding:0;box-shadow:0 24px 80px #0004}dialog::backdrop{background:#10182899}.modal{padding:24px}.modal h2{margin-top:0}.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}label{font-weight:650}input,select,textarea{width:100%;padding:10px 12px;border:1px solid #d0d5dd;border-radius:9px;font:inherit}textarea{min-height:100px;resize:vertical}.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:20px}@media(max-width:650px){.nav{flex-wrap:wrap}.heading{align-items:flex-start}}
+  </style>
+</head>
+<body>
+  <header><nav class="nav"><span class="brand">FilmSpace Provider</span><a href="spaces.html">Spaces</a><a href="equipment.html">Equipment</a><a class="active" href="package.html">Packages</a><span class="spacer"></span><button class="ghost" onclick="logout()">Đăng xuất</button></nav></header>
+  <main class="page">
+    <section class="heading"><div><h1>Service Packages</h1><p>Tạo gói dịch vụ và cấu hình giá cho khách hàng.</p></div><span class="spacer"></span><button class="primary" onclick="openCreate()">+ Thêm Package</button></section>
+    <div id="loading" class="state">Đang tải dữ liệu…</div>
+    <div id="empty" class="state" hidden><h3>Chưa có gói dịch vụ</h3><p>Tạo Package đầu tiên để bán dịch vụ theo gói.</p><button class="primary" onclick="openCreate()">Tạo Package</button></div>
+    <div id="error" class="state error" hidden><h3>Không thể tải dữ liệu</h3><p id="errorText"></p><button class="ghost" onclick="loadData()">Thử lại</button></div>
+    <section id="grid" class="grid" hidden></section>
+  </main>
+
+  <dialog id="editor">
+    <form id="packageForm" class="modal">
+      <h2 id="modalTitle">Thêm Service Package</h2><input id="packageId" type="hidden">
+      <div class="field"><label for="name">Tên Package *</label><input id="name" required maxlength="255"></div>
+      <div class="field"><label for="price">Giá Package *</label><input id="price" type="number" min="1" step="1000" required></div>
+      <div class="field"><label for="status">Trạng thái *</label><select id="status"><option value="active">Active</option><option value="inactive">Inactive</option></select></div>
+      <div class="field"><label for="spaceId">Creative Space</label><select id="spaceId"><option value="">Không gắn Space</option></select></div>
+      <div class="field"><label for="description">Mô tả</label><textarea id="description"></textarea></div>
+      <div class="modal-actions"><button type="button" class="ghost" onclick="editor.close()">Hủy</button><button id="saveBtn" class="primary" type="submit">Lưu Package</button></div>
+    </form>
+  </dialog>
+
+  <script>
+    const API_BASE="http://127.0.0.1:9999";const editor=document.getElementById("editor");let packages=[];let spaces=[];
+    function authStorage(){return localStorage.getItem("auth_token")?localStorage:sessionStorage}function logout(){localStorage.removeItem("auth_token");sessionStorage.removeItem("auth_token");location.href="../../auth.html"}function esc(value){return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}function money(value){return Number(value||0).toLocaleString("vi-VN")+" ₫"}function message(data){if(data?.message)return data.message;if(data&&typeof data==="object"){const first=Object.values(data)[0];return Array.isArray(first)?first[0]:String(first)}return "Đã xảy ra lỗi"}
+    async function api(path,options={}){const token=authStorage().getItem("auth_token");if(!token){logout();throw new Error("Chưa đăng nhập")};const response=await fetch(API_BASE+path,{...options,headers:{Accept:"application/json",...(options.headers||{}),Authorization:`Bearer ${token}`}});if(response.status===401){logout();throw new Error("Phiên đăng nhập đã hết hạn")};if(response.status===204)return null;const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(message(data));return data}
+    function showState(name,text=""){for(const id of ["loading","empty","error","grid"])document.getElementById(id).hidden=id!==name;if(text)document.getElementById("errorText").textContent=text}
+    async function loadData(){showState("loading");try{[packages,spaces]=await Promise.all([api("/provider/packages"),api("/provider/spaces")]);if(!packages.length)return showState("empty");render();showState("grid")}catch(error){showState("error",error.message)}}
+    function spaceName(id){const space=spaces.find(item=>Number(item.id)===Number(id));return space?.name||(id?`Space #${id}`:"Không gắn Space")}
+    function render(){document.getElementById("grid").innerHTML=packages.map(item=>`<article class="card"><div class="row"><small>${esc(spaceName(item.space_id))}</small><span class="badge ${item.status==='active'?'':'inactive'}">${esc(item.status)}</span></div><h3>${esc(item.name)}</h3><p class="description">${esc(item.description||"Chưa có mô tả")}</p><div class="price">${money(item.price)}</div><div class="actions"><button class="ghost" onclick="openEdit(${Number(item.id)})">Sửa</button><button class="ghost" onclick="toggleStatus(${Number(item.id)},'${item.status==='active'?'inactive':'active'}')">${item.status==='active'?'Tạm ẩn':'Kích hoạt'}</button><button class="danger" onclick="removePackage(${Number(item.id)})">Xóa</button></div></article>`).join("")}
+    function fillSpaces(selected=""){document.getElementById("spaceId").innerHTML='<option value="">Không gắn Space</option>'+spaces.map(space=>`<option value="${Number(space.id)}" ${Number(space.id)===Number(selected)?"selected":""}>${esc(space.name)}</option>`).join("")}
+    async function ensureSpaces(){if(!spaces.length)spaces=await api("/provider/spaces");fillSpaces()}
+    async function openCreate(){document.getElementById("packageForm").reset();document.getElementById("packageId").value="";document.getElementById("modalTitle").textContent="Thêm Service Package";try{await ensureSpaces();editor.showModal()}catch(error){alert(error.message)}}
+    async function openEdit(id){const item=packages.find(value=>Number(value.id)===Number(id));if(!item)return;await ensureSpaces();document.getElementById("packageId").value=item.id;document.getElementById("name").value=item.name||"";document.getElementById("price").value=item.price??"";document.getElementById("status").value=item.status||"active";fillSpaces(item.space_id);document.getElementById("description").value=item.description||"";document.getElementById("modalTitle").textContent="Chỉnh sửa Service Package";editor.showModal()}
+    document.getElementById("packageForm").addEventListener("submit",async event=>{event.preventDefault();const id=document.getElementById("packageId").value;const payload={name:document.getElementById("name").value.trim(),price:Number(document.getElementById("price").value),status:document.getElementById("status").value,space_id:document.getElementById("spaceId").value?Number(document.getElementById("spaceId").value):null,description:document.getElementById("description").value.trim()||null};const button=document.getElementById("saveBtn");button.disabled=true;button.textContent="Đang lưu…";try{await api(`/provider/packages${id?`/${id}`:""}`,{method:id?"PUT":"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});editor.close();await loadData()}catch(error){alert(error.message)}finally{button.disabled=false;button.textContent="Lưu Package"}});
+    async function toggleStatus(id,status){try{await api(`/provider/packages/${id}/status`,{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({status})});await loadData()}catch(error){alert(error.message)}}
+    async function removePackage(id){if(!confirm("Bạn chắc chắn muốn xóa Package này?"))return;try{await api(`/provider/packages/${id}`,{method:"DELETE"});await loadData()}catch(error){alert(error.message)}}
+    loadData();
+  </script>
+</body>
+</html>

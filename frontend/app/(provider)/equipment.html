@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Provider · Equipment</title>
+  <style>
+    :root{--ink:#17202a;--muted:#667085;--line:#e5e7eb;--brand:#b45309;--danger:#b42318;--ok:#067647}*{box-sizing:border-box}body{margin:0;font:15px/1.5 Inter,Segoe UI,sans-serif;color:var(--ink);background:#f8fafc}header{background:#fff;border-bottom:1px solid var(--line)}.nav,.page{max-width:1180px;margin:auto;padding:18px 24px}.nav{display:flex;align-items:center;gap:24px}.brand{font-weight:800;font-size:20px}.nav a{color:var(--muted);text-decoration:none}.nav a.active{color:var(--brand);font-weight:700}.spacer{flex:1}button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:10px 15px}.primary{background:var(--brand);color:#fff}.ghost{background:#fff;border:1px solid var(--line)}.danger{color:var(--danger);background:#fff}.heading{display:flex;gap:18px;align-items:center;margin:26px 0}.heading h1{margin:0;font-size:28px}.heading p,.muted{margin:3px 0;color:var(--muted)}.state{padding:50px;text-align:center;border:1px dashed #cbd5e1;border-radius:16px;background:#fff}.error{color:var(--danger)}.table-wrap{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:auto}table{border-collapse:collapse;width:100%;min-width:820px}th,td{text-align:left;padding:14px 16px;border-bottom:1px solid var(--line)}th{font-size:12px;text-transform:uppercase;color:var(--muted);background:#fcfcfd}.badge{padding:4px 9px;border-radius:999px;background:#ecfdf3;color:var(--ok);font-size:12px;font-weight:700}.badge.maintenance{background:#fffaeb;color:#b54708}.badge.unavailable{background:#f2f4f7;color:#475467}.actions{display:flex;gap:5px}dialog{width:min(650px,calc(100% - 24px));border:0;border-radius:18px;padding:0;box-shadow:0 24px 80px #0004}dialog::backdrop{background:#10182899}.modal{padding:24px}.modal h2{margin-top:0}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}label{font-weight:650}input,select{width:100%;padding:10px 12px;border:1px solid #d0d5dd;border-radius:9px;font:inherit}.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:20px}@media(max-width:650px){.form-grid{grid-template-columns:1fr}.nav{flex-wrap:wrap}.heading{align-items:flex-start}}
+  </style>
+</head>
+<body>
+  <header><nav class="nav"><span class="brand">FilmSpace Provider</span><a href="spaces.html">Spaces</a><a class="active" href="equipment.html">Equipment</a><a href="package.html">Packages</a><span class="spacer"></span><button class="ghost" onclick="logout()">Đăng xuất</button></nav></header>
+  <main class="page">
+    <section class="heading"><div><h1>Equipment</h1><p>Quản lý thiết bị và vật tư cho thuê.</p></div><span class="spacer"></span><button class="primary" onclick="openCreate()">+ Thêm Equipment</button></section>
+    <div id="loading" class="state">Đang tải dữ liệu…</div>
+    <div id="empty" class="state" hidden><h3>Chưa có thiết bị</h3><p>Thêm thiết bị đầu tiên vào kho của bạn.</p><button class="primary" onclick="openCreate()">Thêm thiết bị</button></div>
+    <div id="error" class="state error" hidden><h3>Không thể tải dữ liệu</h3><p id="errorText"></p><button class="ghost" onclick="loadData()">Thử lại</button></div>
+    <div id="content" class="table-wrap" hidden><table><thead><tr><th>Thiết bị</th><th>Space</th><th>Tình trạng</th><th>Giá thuê</th><th>Trạng thái</th><th>Thao tác</th></tr></thead><tbody id="rows"></tbody></table></div>
+  </main>
+
+  <dialog id="editor">
+    <form id="equipmentForm" class="modal">
+      <h2 id="modalTitle">Thêm Equipment</h2><input id="equipmentId" type="hidden">
+      <div class="form-grid">
+        <div class="field full"><label for="name">Tên thiết bị *</label><input id="name" required maxlength="255"></div>
+        <div class="field"><label for="categoryId">Category ID *</label><input id="categoryId" type="number" min="1" required></div>
+        <div class="field"><label for="spaceId">Creative Space</label><select id="spaceId"><option value="">Không gắn Space</option></select></div>
+        <div class="field"><label for="brand">Thương hiệu</label><input id="brand" maxlength="100"></div>
+        <div class="field"><label for="condition">Tình trạng *</label><select id="condition"><option value="new">Mới</option><option value="good">Tốt</option><option value="fair">Khá</option><option value="poor">Cũ</option></select></div>
+        <div class="field"><label for="price">Giá thuê *</label><input id="price" type="number" min="0" step="1000" required></div>
+        <div class="field"><label for="status">Trạng thái *</label><select id="status"><option value="available">Available</option><option value="unavailable">Unavailable</option><option value="maintenance">Maintenance</option></select></div>
+        <div class="field"><label for="purchaseDate">Ngày mua *</label><input id="purchaseDate" type="date" required></div>
+      </div>
+      <div class="modal-actions"><button type="button" class="ghost" onclick="editor.close()">Hủy</button><button id="saveBtn" class="primary" type="submit">Lưu thiết bị</button></div>
+    </form>
+  </dialog>
+
+  <script>
+    const API_BASE="http://127.0.0.1:9999";const editor=document.getElementById("editor");let equipment=[];let spaces=[];
+    function authStorage(){return localStorage.getItem("auth_token")?localStorage:sessionStorage}function logout(){localStorage.removeItem("auth_token");sessionStorage.removeItem("auth_token");location.href="../../auth.html"}function esc(value){return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}function money(value){return Number(value||0).toLocaleString("vi-VN")+" ₫"}function message(data){if(data?.message)return data.message;if(data&&typeof data==="object"){const first=Object.values(data)[0];return Array.isArray(first)?first[0]:String(first)}return "Đã xảy ra lỗi"}
+    async function api(path,options={}){const token=authStorage().getItem("auth_token");if(!token){logout();throw new Error("Chưa đăng nhập")};const response=await fetch(API_BASE+path,{...options,headers:{Accept:"application/json",...(options.headers||{}),Authorization:`Bearer ${token}`}});if(response.status===401){logout();throw new Error("Phiên đăng nhập đã hết hạn")};if(response.status===204)return null;const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(message(data));return data}
+    function showState(name,text=""){for(const id of ["loading","empty","error","content"])document.getElementById(id).hidden=id!==name;if(text)document.getElementById("errorText").textContent=text}
+    async function loadData(){showState("loading");try{[equipment,spaces]=await Promise.all([api("/provider/equipment"),api("/provider/spaces")]);if(!equipment.length)return showState("empty");render();showState("content")}catch(error){showState("error",error.message)}}
+    function spaceName(id){const space=spaces.find(item=>Number(item.id)===Number(id));return space?.name||"—"}
+    function render(){document.getElementById("rows").innerHTML=equipment.map(item=>`<tr><td><b>${esc(item.name)}</b><div class="muted">${esc(item.brand||"Không thương hiệu")}</div></td><td>${esc(spaceName(item.space_id))}</td><td>${esc(item.condition)}</td><td>${money(item.rental_price)}</td><td><span class="badge ${esc(item.status)}">${esc(item.status)}</span></td><td><div class="actions"><button class="ghost" onclick="openEdit(${Number(item.id)})">Sửa</button><button class="danger" onclick="removeEquipment(${Number(item.id)})">Xóa</button></div></td></tr>`).join("")}
+    function fillSpaces(selected=""){document.getElementById("spaceId").innerHTML='<option value="">Không gắn Space</option>'+spaces.map(space=>`<option value="${Number(space.id)}" ${Number(space.id)===Number(selected)?"selected":""}>${esc(space.name)}</option>`).join("")}
+    async function ensureSpaces(){if(!spaces.length)spaces=await api("/provider/spaces");fillSpaces()}
+    async function openCreate(){document.getElementById("equipmentForm").reset();document.getElementById("equipmentId").value="";document.getElementById("modalTitle").textContent="Thêm Equipment";try{await ensureSpaces();editor.showModal()}catch(error){alert(error.message)}}
+    async function openEdit(id){const item=equipment.find(value=>Number(value.id)===Number(id));if(!item)return;await ensureSpaces();document.getElementById("equipmentId").value=item.id;document.getElementById("name").value=item.name||"";document.getElementById("categoryId").value=item.category_id||"";fillSpaces(item.space_id);document.getElementById("brand").value=item.brand||"";document.getElementById("condition").value=item.condition||"good";document.getElementById("price").value=item.rental_price??"";document.getElementById("status").value=item.status||"available";document.getElementById("purchaseDate").value=String(item.purchase_date||"").slice(0,10);document.getElementById("modalTitle").textContent="Chỉnh sửa Equipment";editor.showModal()}
+    document.getElementById("equipmentForm").addEventListener("submit",async event=>{event.preventDefault();const id=document.getElementById("equipmentId").value;const payload={category_id:Number(document.getElementById("categoryId").value),name:document.getElementById("name").value.trim(),space_id:document.getElementById("spaceId").value?Number(document.getElementById("spaceId").value):null,brand:document.getElementById("brand").value.trim()||null,condition:document.getElementById("condition").value,rental_price:Number(document.getElementById("price").value),status:document.getElementById("status").value,purchase_date:document.getElementById("purchaseDate").value};const button=document.getElementById("saveBtn");button.disabled=true;button.textContent="Đang lưu…";try{await api(`/provider/equipment${id?`/${id}`:""}`,{method:id?"PUT":"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});editor.close();await loadData()}catch(error){alert(error.message)}finally{button.disabled=false;button.textContent="Lưu thiết bị"}});
+    async function removeEquipment(id){if(!confirm("Bạn chắc chắn muốn xóa thiết bị này?"))return;try{await api(`/provider/equipment/${id}`,{method:"DELETE"});await loadData()}catch(error){alert(error.message)}}
+    loadData();
+  </script>
+</body>
+</html>
