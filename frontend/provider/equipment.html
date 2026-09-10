@@ -1281,7 +1281,7 @@
 
         const response =
           await apiFetch(
-            `${API_BASE_URL}/creative-spaces/`
+            `${API_BASE_URL}/creative-spaces/mine`
           );
 
 
@@ -1304,20 +1304,6 @@
             : [];
 
 
-        const providerSpaces =
-          spaces.filter(
-            function (space) {
-
-              return String(
-                space.provider_id
-              ) === String(
-                currentProviderId
-              );
-
-            }
-          );
-
-
         select.innerHTML = `
 
           <option value="">
@@ -1327,7 +1313,7 @@
         `;
 
 
-        providerSpaces.forEach(
+        spaces.forEach(
           function (space) {
 
             select.innerHTML += `
@@ -1406,7 +1392,7 @@
 
         const response =
           await apiFetch(
-            `${API_BASE_URL}/equipment/`
+            `${API_BASE_URL}/equipment/mine`
           );
 
 
@@ -1437,24 +1423,10 @@
         }
 
 
-        const allEquipment =
+        equipmentList =
           Array.isArray(data)
             ? data
             : [];
-
-
-        equipmentList =
-          allEquipment.filter(
-            function (equipment) {
-
-              return String(
-                equipment.provider_id
-              ) === String(
-                currentProviderId
-              );
-
-            }
-          );
 
 
         renderEquipment();
@@ -2037,9 +2009,6 @@
 
 
       const payload = {
-
-        provider_id:
-          currentProviderId,
 
         category_id:
           Number(
