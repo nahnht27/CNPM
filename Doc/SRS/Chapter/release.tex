@@ -67,39 +67,379 @@
 
 \subsubsection{Backend}
 
-\textbf{Step 1:} Cài đặt Visual Studio Code.
+\textbf{Step 1:} Download \& Install Visual Studio Code:
+\href{https://code.visualstudio.com/download}{Visual Studio Code}.
 
-\textbf{Step 2:} Cài đặt Git.
+\vspace{0.3cm}
 
-\textbf{Step 3:} Clone source code Backend từ GitHub.
+\textbf{Step 2:} Download \& Install Git:
+\href{https://git-scm.com/downloads}{Git}.
 
-\textbf{Step 4:} Mở thư mục Backend bằng Visual Studio Code.
+\vspace{0.3cm}
 
-\textbf{Step 5:} Tạo và kích hoạt môi trường ảo Python.
+\textbf{Step 3:} Download \& Install Python:
+\href{https://www.python.org/downloads/}{Python}.
 
-\textbf{Step 6:} Cài đặt các thư viện cần thiết.
+\vspace{0.3cm}
 
-\textbf{Step 7:} Cấu hình thông tin kết nối cơ sở dữ liệu PostgreSQL.
+\textbf{Step 4:} Download \& Install PostgreSQL:
+\href{https://www.postgresql.org/download/windows/}{PostgreSQL}.
 
-\textbf{Step 8:} Chạy Backend.
+\vspace{0.3cm}
+
+\textbf{Step 5:} Clone source code:
+\href{https://github.com/nahnht27/CNPM}{GitHub}.
+
+\vspace{0.3cm}
+
+\textbf{Step 6:} Cài đặt các thư viện cần thiết cho Backend.
+
+\vspace{0.3cm}
+
+\textbf{Step 7:} Cấu hình thông tin kết nối PostgreSQL trong file
+\texttt{.env} để kết nối Backend với cơ sở dữ liệu trên Supabase.
+
+\vspace{0.3cm}
+
+\textbf{Step 8:} Tạo môi trường ảo Python:
+\verb|python -m venv .venv|
+
+\vspace{0.3cm}
+
+\textbf{Step 9:} Kích hoạt môi trường ảo:
+\verb|.venv\Scripts\Activate.ps1|
+
+\vspace{0.3cm}
+
+\textbf{Step 10:} Cài đặt các thư viện cần thiết:
+\verb|pip install -r requirements.txt|
+
+\vspace{0.3cm}
+
+\textbf{Step 11:} Di chuyển đến thư mục Backend của project:
+\verb|cd D:\CNPM\Flask-cleanArchitecture\src|
+
+\vspace{0.3cm}
+
+\textbf{Step 12:} Khởi động Backend:
+\verb|python app.py|
+
+\vspace{0.3cm}
+
+\textbf{Step 13:} Sau khi Backend khởi động thành công, hệ thống được truy cập thông qua địa chỉ:
+\verb|http://127.0.0.1:9999|
 
 \subsubsection{Frontend}
 
-\textbf{Step 1:} Mở thư mục Frontend bằng Visual Studio Code.
+\textbf{Step 1:} Mở thư mục Frontend của project bằng Visual Studio Code.
 
-\textbf{Step 2:} Kiểm tra cấu hình kết nối với Backend.
+\vspace{0.3cm}
 
-\textbf{Step 3:} Mở Terminal tại thư mục Frontend.
+\textbf{Step 2:} Kiểm tra cấu hình địa chỉ Backend trong mã nguồn Frontend:
+\verb|http://127.0.0.1:9999|
 
-\textbf{Step 4:} Chạy Frontend bằng trình duyệt web.
+\vspace{0.3cm}
 
-\textbf{Step 5:} Truy cập địa chỉ của ứng dụng trên trình duyệt.
+\textbf{Step 3:} Cài đặt extension \textit{Live Server} trên Visual Studio Code.
+
+\vspace{0.3cm}
+
+\textbf{Step 4:} Mở file \texttt{index.html} hoặc trang cần chạy trong thư mục Frontend.
+
+\vspace{0.3cm}
+
+\textbf{Step 5:} Nhấn chuột phải vào file HTML và chọn
+\textit{Open with Live Server}.
+
+\vspace{0.3cm}
+
+\textbf{Step 6:} Trình duyệt web sẽ tự động mở địa chỉ Frontend. Người dùng có thể truy cập hệ thống thông qua địa chỉ được cung cấp bởi Live Server.
+
+\vspace{0.3cm}
+
+\textbf{Step 7:} Đảm bảo Backend đang được chạy tại địa chỉ
+\verb|http://127.0.0.1:9999|
+để Frontend có thể gửi request và nhận dữ liệu từ hệ thống.
+
 \section{Hướng dẫn sử dụng}
-
 \subsection{Tổng quan}
 
-% Liệt kê chức năng theo Photographer / Service Provider / Administrator
+\textbf{Photographer:}
 
+\begin{itemize}
+	\item \textbf{Quản lý xác thực:}
+	\begin{itemize}
+		\item Đăng ký
+		\item Đăng nhập
+		\item Đăng xuất
+		\item Quên mật khẩu
+	\end{itemize}
+	
+	\item \textbf{Quản lý không gian và dịch vụ:}
+	\begin{itemize}
+		\item Tìm kiếm không gian sáng tạo
+		\item Xem thông tin chi tiết không gian
+	\end{itemize}
+	
+	\item \textbf{Quản lý đặt lịch:}
+	\begin{itemize}
+		\item Tạo booking
+		\item Xem booking
+		\item Hủy booking
+		\item Xem lịch sử booking
+	\end{itemize}
+	
+	\item \textbf{Quản lý thanh toán:}
+	\begin{itemize}
+		\item Xem hóa đơn
+		\item Thực hiện thanh toán
+		\item Xem trạng thái thanh toán
+	\end{itemize}
+	
+	\item \textbf{Quản lý workshop:}
+	\begin{itemize}
+		\item Xem workshop
+		\item Đăng ký workshop
+	\end{itemize}
+	
+	\item \textbf{Quản lý thông báo:}
+	\begin{itemize}
+		\item Xem thông báo
+		\item Đánh dấu thông báo đã đọc
+	\end{itemize}
+	
+\end{itemize}
+
+\textbf{Service Provider:}
+
+\begin{itemize}
+	\item \textbf{Quản lý không gian:}
+	\begin{itemize}
+		\item Thêm không gian
+		\item Cập nhật không gian
+		\item Xóa không gian
+	\end{itemize}
+	
+	\item \textbf{Quản lý thiết bị:}
+	\begin{itemize}
+		\item Thêm thiết bị
+		\item Cập nhật thiết bị
+		\item Xóa thiết bị
+	\end{itemize}
+	
+	\item \textbf{Quản lý gói dịch vụ:}
+	\begin{itemize}
+		\item Tạo gói dịch vụ
+		\item Cập nhật gói dịch vụ
+		\item Xóa gói dịch vụ
+	\end{itemize}
+	
+	\item \textbf{Quản lý booking:}
+	\begin{itemize}
+		\item Xem booking
+		\item Xác nhận booking
+		\item Cập nhật trạng thái booking
+		\item Xem lịch sử booking
+	\end{itemize}
+	
+	\item \textbf{Quản lý workshop:}
+	\begin{itemize}
+		\item Tạo workshop
+		\item Cập nhật workshop
+		\item Xóa workshop
+		\item Quản lý đăng ký workshop
+	\end{itemize}
+	
+	\item \textbf{Quản lý hồ sơ:}
+	\begin{itemize}
+		\item Xem hồ sơ
+		\item Cập nhật hồ sơ
+		\item Cập nhật giấy phép kinh doanh và thông tin thanh toán
+	\end{itemize}
+	
+	\item \textbf{Quản lý thông báo:}
+	\begin{itemize}
+		\item Xem thông báo
+		\item Đánh dấu thông báo đã đọc
+	\end{itemize}
+	
+\end{itemize}
+
+\textbf{Administrator:}
+\begin{itemize}
+	\item \textbf{Quản lý người dùng:}
+	\begin{itemize}
+		\item Xem danh sách người dùng
+	\end{itemize}
+	
+	\item \textbf{Quản lý nhà cung cấp dịch vụ:}
+	\begin{itemize}
+		\item Xem danh sách nhà cung cấp
+		\item Xác thực nhà cung cấp
+	\end{itemize}
+	
+	\item \textbf{Quản lý giao dịch:}
+	\begin{itemize}
+		\item Xem danh sách giao dịch
+		\item Xem thông tin thanh toán
+	\end{itemize}
+	
+	\item \textbf{Quản lý hệ thống:}
+	\begin{itemize}
+		\item Quản lý cài đặt hệ thống
+		\item Xem thông tin hệ thống
+	\end{itemize}
+	\end{itemize}
+	
 \subsection{Hướng dẫn chức năng}
 
-\subsubsection{Đăng ký tài khoản}
+\subsubsection{Đăng nhập}
+
+\textbf Truy cập trang Đăng nhập của FilmSpace.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\textwidth]{images/login_input.png}
+	\caption{Giao diện đăng nhập}
+	\label{fig1}
+\end{figure}
+
+\vspace{0.2cm}
+
+\subsubsection{Đăng ký}
+
+\textbf Truy cập vào trang Đăng ký và lựa chọn vai trò 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\textwidth]{images/register.png}
+	\caption{Giao diện đăng ký}
+	\label{fig3}
+\end{figure}
+
+\vspace{0.2cm}
+
+\subsubsection{Vai trò nhiếp ảnh gia}
+\textbf Truy cập chức năng Tìm kiếm từ trang chủ.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/search.png}
+	\caption{Giao diện tìm kiếm}
+	\label{fig4}
+\end{figure}
+
+\vspace{0.2cm}
+
+\textbf Chọn không gian hoặc dịch vụ để xem thông tin chi tiết.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/space_detail.png}
+	\caption{Thông tin chi tiết không gian}
+	\label{fig5}
+\end{figure}
+
+\vspace{0.2cm}
+
+\textbf Chọn không gian và dịch vụ cần đặt.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/booking.png}
+	\caption{Lựa chọn không gian và dịch vụ}
+	\label{fig6}
+\end{figure}
+
+\vspace{0.2cm}
+
+\textbf  Truy cập chi tiết Booking cần thanh toán.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/payment.png}
+	\caption{Giao diện thanh toán}
+	\label{fig7}
+\end{figure}
+
+\vspace{0.2cm}
+
+\textbf{}  Đăng ký để tham gia workshop/
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/workshop.png}
+	\caption{Đăng ký workshop}
+	\label{fig:workshop}
+\end{figure}
+
+\vspace{0.2cm}
+
+\subsubsection{Vai trò nhà cung cấp}
+\textbf Quản lý không gian sáng tạo.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/manage_space.png}
+	\caption{Quản lý không gian }
+	\label{fig9}
+\end{figure}
+
+\vspace{0.2cm}
+
+\textbf Quản lý thiết bị vật tư.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/manage_equip.png}
+	\caption{Quản lý thiết bị vật tư }
+	\label{fig10}
+\end{figure}
+
+\vspace{0.2cm}
+
+\textbf Quản lý gói dịch vụ.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/manage_packages.png}
+	\caption{Quản lý gói dịch vụ }
+	\label{fig11}
+\end{figure}
+
+\vspace{0.2cm}
+
+\textbf Quản lý yêu cầu booking từ nhiếp ảnh gia.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/manage_booking.png}
+	\caption{Quản lý yêu cầu booking}
+	\label{fig12}
+\end{figure}
+
+\vspace{0.2cm}
+
+\textbf Cập nhật giấy phép kinh doanh và thông tin thanh toán.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/lisence.png}
+	\caption{cập nhật giấy phép kinh doanh}
+	\label{fig13}
+\end{figure}
+
+\vspace{0.2cm}
+
+\subsubsection{Vai trò nhà quản trị}
+\textbf Quản lý người dùng.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/manage_user.png}
+	\caption{Quản lý người dùng }
+	\label{fig14}
+\end{figure}
+
+\vspace{0.2cm}
+
+\textbf Xét duyệt nhà cung cấp.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/manage_provider.png}
+	\caption{Duyệt nhà cung cấp }
+	\label{fig15}
+\end{figure}
+
+\vspace{0.2cm}
+
