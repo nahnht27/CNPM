@@ -228,12 +228,12 @@ function statusClass(status) { return String(status || "active").toLowerCase() =
 async function loadSpaces() {
   const select = document.getElementById("packageSpace");
   try {
-    const response = await apiFetch(`${API_BASE_URL}/creative-spaces/mine`);
+    const response = await apiFetch(`${API_BASE_URL}/creative-spaces/`);
     if (!response.ok) throw new Error(`Space API HTTP ${response.status}`);
     const data = await response.json();
     const spaces = Array.isArray(data) ? data : [];
     select.innerHTML = '<option value="">Không gắn với space</option>';
-    spaces.forEach(space => {
+    spaces.filter(s => String(s.provider_id) === String(currentProviderId)).forEach(space => {
       select.innerHTML += `<option value="${escapeHtml(space.id)}">${escapeHtml(space.name || `Space #${space.id}`)}</option>`;
     });
   } catch (error) { console.error("LOAD SPACES ERROR:", error); }
@@ -246,11 +246,11 @@ async function loadPackages() {
   const errorState = document.getElementById("errorState");
   loading.style.display = "block"; empty.style.display = "none"; errorState.style.display = "none"; grid.innerHTML = "";
   try {
-    const response = await apiFetch(`${API_BASE_URL}/service-packages/mine`);
+    const response = await apiFetch(`${API_BASE_URL}/service-packages/`);
     if (response.status === 401 || response.status === 403) { window.location.href = "../auth.html"; return; }
     const data = await response.json();
     if (!response.ok) throw new Error(data.message || `HTTP ${response.status}`);
-    packageList = Array.isArray(data) ? data : [];
+    packageList = (Array.isArray(data) ? data : []).filter(p => String(p.provider_id) === String(currentProviderId));
     renderPackages();
   } catch (error) { console.error("LOAD PACKAGES ERROR:", error); errorState.style.display = "block"; }
   finally { loading.style.display = "none"; }
@@ -305,6 +305,7 @@ async function savePackage(event) {
   const id = document.getElementById("packageId").value;
   const btn = document.getElementById("savePackageBtn");
   const payload = {
+    provider_id: currentProviderId,
     name: document.getElementById("packageName").value.trim(),
     price: Number(document.getElementById("packagePrice").value),
     status: document.getElementById("packageStatus").value,

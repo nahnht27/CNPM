@@ -893,42 +893,6 @@
 
 
 
-    async function apiFetch(url, options = {}) {
-
-      const user =
-        getLoggedInUser();
-
-
-      const headers = {
-
-        "Accept":
-          "application/json",
-
-        ...(options.headers || {})
-
-      };
-
-
-      if (user.token) {
-
-        headers["Authorization"] =
-          `Bearer ${user.token}`;
-
-      }
-
-
-      return fetch(url, {
-
-        ...options,
-
-        headers
-
-      });
-
-    }
-
-
-
     /* =====================================================
        LOAD PROVIDER INFO
        ===================================================== */
@@ -1091,23 +1055,13 @@
          */
 
         const url =
-          `${API_BASE_URL}/creative-spaces/mine`;
+          `${API_BASE_URL}/creative-spaces/?provider_id=${encodeURIComponent(
+            user.providerId
+          )}`;
 
 
         const response =
-          await apiFetch(url);
-
-
-        if (
-          response.status === 401 ||
-          response.status === 403
-        ) {
-
-          logout();
-
-          return;
-
-        }
+          await fetch(url);
 
 
         if (!response.ok) {
@@ -1123,14 +1077,26 @@
           await response.json();
 
 
-        providerSpaces =
+        allSpaces =
           Array.isArray(data)
             ? data
             : [];
 
 
-        allSpaces =
-          providerSpaces;
+        /*
+         * Filter thêm lần nữa ở Frontend.
+         */
+
+        providerSpaces =
+          allSpaces.filter(function(space) {
+
+            return String(
+              space.provider_id
+            ) === String(
+              user.providerId
+            );
+
+          });
 
 
         loadingState.style.display =
@@ -1948,6 +1914,12 @@
 
       const payload = {
 
+        provider_id:
+          Number(
+            user.providerId
+          ),
+
+
         name:
           document.getElementById(
             "spaceName"
@@ -2086,7 +2058,7 @@
 
 
         const response =
-          await apiFetch(
+          await fetch(
             url,
             {
 
@@ -2300,7 +2272,7 @@
 
 
         const response =
-          await apiFetch(
+          await fetch(
 
             `${API_BASE_URL}/creative-spaces/${deletingSpaceId}`,
 
